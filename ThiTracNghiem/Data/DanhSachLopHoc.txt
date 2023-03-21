@@ -1,0 +1,12 @@
+D19CQCN01-N|2019 - Công nghệ thông tin 1|2019|
+D19CQCN02-N|2019 - Công nghệ thông tin 2|2019|
+D19CQCN03-N|2019 - Công nghệ thông tin 3|2019|
+D20CQAT01-N|2020 - An toàn thông tin 1|2020|
+D20CQCN01-N|2020 - Công nghệ thông tin 1|2020|
+D20CQCN02-N|2020 - Công nghệ thông tin 2|2020|
+D21CQAT01-N|2021 - An toàn thông tin 1|2021|
+D21CQCN01-N|2021 - Công nghệ thông tin 1|2021|
+D21CQCN02-N|2021 - Công nghệ thông tin 2|2021|
+D21CQPT01-N|2021 - Công nghệ Đa Phương Tiện 1|2021|
+D21CQVT01-N|2021 - Kỹ thuật điện tử - viễn thông 1|2021|
+D21CQDT01-N|2021 - Công nghệ kỹ thuật điện, điện tử 1|2021|
