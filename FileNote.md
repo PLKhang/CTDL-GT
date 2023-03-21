@@ -63,7 +63,7 @@
 # 7. file tài khoản & mật khẩu (DanhSachTaiKhoan.txt)
 ## (nằm trong folder "__Data__" chứa các tài khoản của mỗi sinh viên và tài khoản GV)
 
-	MSSV(string)|password(int)|
+	MSSV(string)|password(string)|
 
 	vd:
 	GV|GV|
