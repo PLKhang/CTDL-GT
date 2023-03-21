@@ -141,7 +141,7 @@ int counting_Score_DT(PtrDT first, float x, int types)
     return count;
 }
 
-int compare_Float_Number(float num1, float num2, int precision = 2)
+int compare_Float_Number(float num1, float num2, int precision)
 {
     float threshold = pow(0.1, precision); // calculate threshold based on precision
     float diff = num1 - num2;

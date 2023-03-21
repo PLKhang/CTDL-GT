@@ -4,6 +4,7 @@
 #pragma once
 #include <iostream>
 #include <iomanip>
+#include <math.h>
 
 struct DiemThi
 {
