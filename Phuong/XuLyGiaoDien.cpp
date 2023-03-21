@@ -78,7 +78,7 @@ int DANGNHAP(){
 	return KiemTraTK(Name,Password);
 }
 int MENUGV(){
-	char chon,to=5,len=0;
+	int chon,to=5,len=0;
 	MENU();
 	ChuGV(40,6);
 	VeKhung(5,4,35,6,2);
@@ -163,7 +163,7 @@ int MENUGV(){
 				break;
 			}
 			case 17:{
-				cout<<"        BANG DIEM            ";
+				cout<<"         BANG DIEM           ";
 				break;
 			}
 			case 21:{
@@ -178,27 +178,95 @@ int MENUGV(){
 		SetBGColor(0);
 	}
 }
-void run(){
-	int a,b;
-	a=DANGNHAP();
-	switch(a){
-		case 0:{
-			THONGBAO("TAI KHOAN SAI");
-			a=DANGNHAP();
-			break;
+int MENUSV(){
+	int chon,vitri=9;
+	MENU();
+	VeKhung(5,8,35,10,2);
+	SetBGColor(2);
+	gotoxy(6,9);
+	cout<<"          LAM BAI  THI       ";
+	SetBGColor(0);
+	VeKhung(5,12,35,14,-1,1,"            XEM DIEM         ");
+	VeKhung(5,16,35,18,-1,1,"              THOAT          ");
+	while(true){
+		chon=getch();
+		if(chon==13){
+			if(vitri==9)return 1;
+			else if(vitri==13)return 2;
+			else return 3;
 		}
-		case 1:{
-			break;
+		if(chon==80&&vitri==17||chon==72&&vitri==9)continue;
+		gotoxy(6,vitri);
+		if(chon==80){
+			vitri+=4;
 		}
-		case 2:{
-			b=MENUGV();
-			switch(b){
-				case 1:{
-					VeBangDSLop();
-					break;
-				}
+		else if(chon==72)vitri-=4;
+		switch(wherey()){
+			case 9:{
+				cout<<"             THI             ";
+				break;
 			}
-			break;
+			case 13:{
+				cout<<"            XEM DIEM         ";
+				break;
+			}
+			case 17:{
+				cout<<"              THOAT          ";
+				break;
+			}
+		}
+		gotoxy(6,vitri);
+		SetBGColor(2);
+		switch(vitri){
+			case 9:{
+				cout<<"             THI             ";
+				break;
+			}
+			case 13:{
+				cout<<"            XEM DIEM         ";
+				break;
+			}
+			case 17:{
+				cout<<"              THOAT          ";
+				break;
+			}
+		}
+		SetBGColor(0);
+	}
+}
+
+//void Thi(int time,int socau,char mon){
+//	
+//}
+void run(){
+	int a,b,stop=0;
+	a=DANGNHAP();
+	while(stop!=1){
+		switch(a){
+			case 0:{
+				THONGBAO("TAI KHOAN SAI");
+				a=DANGNHAP();
+				break;
+			}
+			case 1:{
+				MENUSV();
+				a=0;
+				break;
+				}
+			case 2:{
+				b=MENUGV();
+				switch(b){
+					case 1:{
+						VeBangDSLop();
+						break;
+					}
+					case 6:{
+						a=0;
+						break;
+					}
+				}
+				break;
+			}
 		}
 	}
 }
