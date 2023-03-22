@@ -246,45 +246,11 @@ PtrDT pos_MaMH_DT(PtrDT first, char *maMon)
         return NULL;
     PtrDT p = NULL;
 
-    while (p->next->info.maMonHoc != maMon && p->next != NULL)
+    while (p->info.maMonHoc != maMon && p != NULL)
     {
         p = p->next;
     }
-    return p->next;
-}
-int counting_Score_DT(PtrDT first, float x, int types)
-{
-    if (is_Empty_DT(first))
-        return 0;
-
-    int count = 0;
-    PtrDT p = new nodeDiemThi;
-
-    if (types > 0)
-        for (p = first; p->next != NULL; p = p->next)
-            if (p->info.diemThi > x)
-                count++;
-    if (types < 0)
-        for (p = first; p->next != NULL; p = p->next)
-            if (p->info.diemThi < x)
-                count++;
-    if (types == 0)
-        for (p = first; p->next != NULL; p = p->next)
-            if (p->info.diemThi == x)
-                count++;
-    return count;
-}
-
-void print_List_DT(PtrDT first)
-{
-    if (is_Empty_DT(first))
-        return;
-    PtrDT p = new nodeDiemThi;
-    for (p = first; p->next != NULL; p = p->next)
-    {
-        std::cout << p->info.maMonHoc << '\t';
-        std::cout << p->info.diemThi << '\n';
-    }
+    return p;
 }
 
 //---------------------------SinhVien--------------------------//
