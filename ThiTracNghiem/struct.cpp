@@ -213,7 +213,7 @@ CauHoi *GetQuestion(STreeCH &root, int number_question)
     return temp;
 }
 //---------------------------DiemThi--------------------------//
-void KhoiTao_PtrDT(PtrDT First)
+void KhoiTao_PtrDT(PtrDT &First)
 {
     First = NULL;
 }

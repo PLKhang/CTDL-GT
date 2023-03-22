@@ -132,7 +132,7 @@ CauHoi *GetQuestion(STreeCH &root, int number_question);
 
 //-------------------DiemThi------------------//
 
-void KhoiTao_PtrDT(PtrDT First);
+void KhoiTao_PtrDT(PtrDT &First);
 
 // kiem tra dsdt co node nao hay chua
 bool is_Empty_DT(PtrDT first);
