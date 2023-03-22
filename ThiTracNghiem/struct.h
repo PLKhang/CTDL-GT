@@ -2,6 +2,12 @@
 #define STRUCT_H
 
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <math.h>
+#include <string>
+#include <string.h>
+#include <vector>
 using namespace std;
 #define MaxOfSubjects 300
 #define MaxOfClasses 500
@@ -23,10 +29,14 @@ typedef DanhSachMonHoc ListMH;
 //------------------------------------------------//
 struct CauHoi
 {
-    int ID;
+    int ID = 0;
     char maMonHoc[16];
     unsigned short answer;
-    char ans1[100], ans2[100], ans3[100], ans4[100], question[200];
+    char ans1[100];
+    char ans2[100];
+    char ans3[100];
+    char ans4[100];
+    char question[200];
 };
 typedef CauHoi *ptrCauHoi;
 struct nodeCauHoi
@@ -41,7 +51,7 @@ typedef nodeCauHoi *STreeCH;
 struct DiemThi
 {
     char maMonHoc[16];
-    float diemThi;
+    float diemThi = -1;
 };
 
 struct nodeDiemThi
@@ -81,33 +91,44 @@ struct LopHoc
 struct DanhSachLopHoc // MANG CON TRO
 {
     int soLuong = 0;
-    LopHoc *nodes[MaxOfClasses];
+    LopHoc *lh[MaxOfClasses];
 };
 
 typedef DanhSachLopHoc ListLH;
 //------------------------------------------------//
 
 //-------------------MonHoc------------------//
-/*
+bool is_Empty_MH(ListMH dsmh);
+bool is_Full_MH(ListMH dsmh);
+bool is_Existed_MaMH_MH(ListMH dsmh, const char *maMH);
 
-(some functions here)
+// 0: dsmh FULL // 1: OK // -1: Trung` maMH
+int insert_MH(ListMH &dsmh, MonHoc info);
+// 0: dsmh EMPTY // 1: OK // -1: pos >= n || pos < 0
+//  0 <=  pos  < dsmh.n
+int delete_MH(ListMH &dsmh, unsigned pos);
 
-*/
+// Dung ham nay khi HIEU CHINH mon hoc
+// Vi tri duoc truyen vao tu XuLyChuongTrinh
+void set_Info_MH(ListMH &dsmh, unsigned pos, MonHoc new_MH);
+
+// Tra ve vi tri MonHoc.maMonHoc = maMH
+int pos_MaMH_MH(ListMH dsmh, const char *maMH);
 
 //-------------------CauHoi------------------//
-int CreateID(int Number[],int &i);
+int CreateID(int Number[], int &i);
 STreeCH newnode(CauHoi CH);
-int InsertQuestion(STreeCH &root,STreeCH question);
-void Delete(STreeCH&root);
-int DeleteQuestion(STreeCH&root,int ID);
-int Modify(STreeCH root,CauHoi question);
-void Store(STreeCH root,vector<STreeCH>&nodes);
-STreeCH Convert(vector<STreeCH>&nodes,int max,int min);
+int InsertQuestion(STreeCH &root, STreeCH question);
+void Delete(STreeCH &root);
+int DeleteQuestion(STreeCH &root, int ID);
+int Modify(STreeCH root, CauHoi question);
+void Store(STreeCH root, vector<STreeCH> &nodes);
+STreeCH Convert(vector<STreeCH> &nodes, int max, int min);
 STreeCH Balance(STreeCH root);
-void PreTraversal(CauHoi save[],STreeCH root,int &i);
-int InsertQuestion(STreeCH &root,STreeCH question);
-CauHoi* GetQuestion(STreeCH &root,int number_question);
-//void Read(STreeCH &root);
+void PreTraversal(CauHoi save[], STreeCH root, int &i);
+int InsertQuestion(STreeCH &root, STreeCH question);
+CauHoi *GetQuestion(STreeCH &root, int number_question);
+// void Read(STreeCH &root);
 
 //-------------------DiemThi------------------//
 
@@ -147,28 +168,48 @@ void KhoiTao_PtrSV(PtrSV &First)
 {
     First = NULL;
 }
-
+// kiem tra lop nay da co sinh vien nao hay chua
 bool is_Empty_SV(PtrSV first);
+// kiem tra neu mssv da ton tai(case : THEM SINH VIEN)
+bool is_Existed_MSSV_SV(PtrSV first, const char *mssv);
+
+void insert_First_SV(PtrSV &first, SinhVien sv);
+bool insert_After_SV(PtrSV p, SinhVien sv);
+bool insert_Order_SV(PtrSV first, SinhVien sv);
+
+//+ xoa dsDT trong cac node
+bool delete_First_SV(PtrSV &first);
+bool delete_After_SV(PtrSV p);
+void delete_List_SV(PtrSV &first);
+// tao mot sinh vien moi(case: THEM SINH VIEN)
+// da kiem tra khong trung MSSV
+SinhVien create_New_SV(const char *mssv, ListMH dsmh);
+
+bool set_MSSV_SV(PtrSV p, const char *mssv);
+bool set_ho_SV(PtrSV p, const char *ho);
+bool set_ten_SV(PtrSV p, const char *ten);
+bool set_phai_SV(PtrSV p, bool gioiTinh);
+// tao dsDT cho sv moi va cho tat ca diem thi = -1(chua thi)
+PtrDT set_Blank_dsDT_SV();
+
+// tra ve dia chi nam ngay truoc node co MSSV == mssv(kiem tra vi tri = first rieng)
+PtrSV pos_MSSV_SV(PtrSV first, const char *mssv);
 
 //-------------------LopHoc------------------//
 
-bool is_Empty_LH(ListLH &ListLH);
-bool is_Full_LH(ListLH &ListLH);
-bool is_Existed_MaLop(ListLH &ListLH, char maLop[]);
-
-// void FunctionLop(ListLH &ListLH);// HAM DO HOA
-
-void ThemLop(ListLH &ListLH, LopHoc);
-
-// void NhapLop(ListLH &ListLH, LopHoc);
-
-void XoaLop(ListLH &ListLH, int &page);
-// void NhapLopXoa(ListLH &ListLH,int &page);
-
-void SuaLop(ListLH &ListLH, int state, int page);
-void ChinhLop(ListLH &ListLH, int &page);
-// void NhapLopChinh(ListLH &ListLH , int &page);
-
-void InDSLH(ListLH ListLH);
+// kiem tra chuoi rong
+bool is_Empty_LH(ListLH ListLH);
+// kiem tra chuoi day
+bool is_Full_LH(ListLH ListLH);
+// kiem tra trung maLop
+bool is_Existed_MaLop(ListLH ListLH, char maLop[]);
+// chuong trinh thuc thi
+int ThemLop(ListLH &ListLH, LopHoc lh); // ham them lop
+// ham tim gia tri vi tri ma lop de gui vao cho ham xoa
+int pos_MaLH_LH(ListLH ListLH, int i, char maLop[]);
+// ham xoa lop va dong thoi xoa dssv thuoc lop do
+int XoaLop(ListLH &ListLH, int i, LopHoc lh);
+// cap nhat thong tin dua vao ham strcpy
+void SuaLop(ListLH &ListLH, int i, LopHoc lh);
 
 #endif // STRUCT_H
