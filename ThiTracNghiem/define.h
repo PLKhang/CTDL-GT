@@ -1,39 +1,33 @@
 // KHUNG CHUONG TRINH(2 VIEN`)
 #define HEIGHT 30
 #define WIDTH 150
-#define KHUNG_NGANG
-#define KHUNG_DOC
-#define KHUNG_LEFT_BOTTOM
-#define KHUNG_LEFT_TOP
-#define KHUNG_RIGHT_BOTTOM
-#define KHUNG_RIGHT_TOP
+#define KHUNG_NGANG 205
+#define KHUNG_DOC 186
+#define KHUNG_LEFT_BOTTOM 200
+#define KHUNG_LEFT_TOP 201
+#define KHUNG_RIGHT_BOTTOM 188
+#define KHUNG_RIGHT_TOP 187
 
 // VE KHUNG(1 VIEN`)
-#define LEFT_BOTTOM
-#define LEFT_TOP
-#define RIGHT_BOTTOM
-#define RIGHT_TOP
-#define LEFT_MIDDLE
-#define RIGHT_MIDDLE
-#define TOP_MIDDLE
-#define BOTTOM_MIDDLE
-#define CENTER
+#define NGANG 196
+#define DOC 179
+#define LEFT_BOTTOM 192
+#define LEFT_TOP 218
+#define RIGHT_BOTTOM 217
+#define RIGHT_TOP 191
+#define LEFT_MIDDLE 195
+#define RIGHT_MIDDLE 180
+#define TOP_MIDDLE 194
+#define BOTTOM_MIDDLE 193
+#define CENTER 197
 
 // PHIM DIEU HUONG
-#define UP
-#define DOWN
-#define LEFT
-#define RIGHT
-#define ESC
-#define ENTER
-#define F5
-
-// MAU NEN_CHU
-#define BLUE_BLACK
-#define BLACK_WHITE
-#define BLACK
-#define WHITE
-#define BLUE
-#define PURPLE
-#define _BLACK
-#define _WIGHT
+#define UP 72
+#define DOWN 80
+#define LEFT 75
+#define RIGHT 77
+#define ESC 27
+#define ENTER 13
+#define F1 59
+#define PAGEUP 73
+#define PAGEDOWN 81
