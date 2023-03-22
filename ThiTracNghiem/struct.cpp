@@ -4,14 +4,15 @@
 
 //---------------------------CauHoi--------------------------//
 
-                //-----TAO ID---------//
-int CreateID(int Number[],int &i){
+//-----TAO ID---------//
+int CreateID(int Number[], int &i)
+{
     int index;
     srand(time(0));
-    index=rand()%(10000-i)+i;
+    index = rand() % (10000 - i) + i;
     swap(Number[index], Number[i]);
     i++;
-    return Number[i-1];  
+    return Number[i - 1];
 }
 STreeCH newnode(CauHoi CH)
 {
@@ -130,22 +131,24 @@ void PreTraversal(CauHoi save[], STreeCH root, int &i)
         PreTraversal(save, root->right, i);
     }
 }
-
-CauHoi* GetQuestion(STreeCH &root,int number_question){
-    if(root==NULL)return NULL;
-    int index=0,count=0;
-    CauHoi* temp=new CauHoi[number_question];
-    CauHoi* save=new CauHoi[300];
-    PreTraversal(save,root,count);
+CauHoi *GetQuestion(STreeCH &root, int number_question)
+{
+    if (root == NULL)
+        return NULL;
+    int index = 0, count = 0;
+    CauHoi *temp = new CauHoi[number_question];
+    CauHoi *save = new CauHoi[300];
+    PreTraversal(save, root, count);
     srand(time(0));
-    
-    while(index<number_question){
-        count=rand()%(number_question-index)+index;
-        swap(save[count],save[index]);
-        temp[index]=save[index];
+
+    while (index < number_question)
+    {
+        count = rand() % (number_question - index) + index;
+        swap(save[count], save[index]);
+        temp[index] = save[index];
         index++;
     }
-    delete []save;
+    delete[] save;
     return temp;
 }
 //---------------------------DiemThi--------------------------//
@@ -357,7 +360,6 @@ PtrDT set_Blank_dsDT_SV(ListMH dsmh)
     }
     return first;
 }
-
 SinhVien create_New_SV(const char *mssv, ListMH dsmh)
 {
     SinhVien sv;
@@ -392,12 +394,12 @@ bool set_phai_SV(PtrSV p, bool gioiTinh)
     p->info.phai = gioiTinh;
     return 1;
 }
-PtrSV pos_MSSV_SV(PtrSV first, const char * mssv)
+PtrSV pos_MSSV_SV(PtrSV first, const char *mssv)
 {
-    if(first == NULL)
+    if (first == NULL)
         return NULL;
-    for(PtrSV cur = first; cur != NULL; cur = cur ->next)
-        if(cur->info.MSSV == mssv)
+    for (PtrSV cur = first; cur != NULL; cur = cur->next)
+        if (cur->info.MSSV == mssv)
             return cur;
     return NULL;
 }

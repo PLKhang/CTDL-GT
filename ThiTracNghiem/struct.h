@@ -101,19 +101,19 @@ typedef DanhSachLopHoc ListLH;
 */
 
 //-------------------CauHoi------------------//
-int CreateID(int Number[],int &i);
+int CreateID(int Number[], int &i);
 STreeCH newnode(CauHoi CH);
-int InsertQuestion(STreeCH &root,STreeCH question);
-void Delete(STreeCH&root);
-int DeleteQuestion(STreeCH&root,int ID);
-int Modify(STreeCH root,CauHoi question);
-void Store(STreeCH root,vector<STreeCH>&nodes);
-STreeCH Convert(vector<STreeCH>&nodes,int max,int min);
+int InsertQuestion(STreeCH &root, STreeCH question);
+void Delete(STreeCH &root);
+int DeleteQuestion(STreeCH &root, int ID);
+int Modify(STreeCH root, CauHoi question);
+void Store(STreeCH root, vector<STreeCH> &nodes);
+STreeCH Convert(vector<STreeCH> &nodes, int max, int min);
 STreeCH Balance(STreeCH root);
-void PreTraversal(CauHoi save[],STreeCH root,int &i);
-int InsertQuestion(STreeCH &root,STreeCH question);
-CauHoi* GetQuestion(STreeCH &root,int number_question);
-//void Read(STreeCH &root);
+void PreTraversal(CauHoi save[], STreeCH root, int &i);
+int InsertQuestion(STreeCH &root, STreeCH question);
+CauHoi *GetQuestion(STreeCH &root, int number_question);
+// void Read(STreeCH &root);
 
 //-------------------DiemThi------------------//
 
@@ -156,7 +156,7 @@ void KhoiTao_PtrSV(PtrSV &First)
 // kiem tra lop nay da co sinh vien nao hay chua
 bool is_Empty_SV(PtrSV first);
 // kiem tra neu mssv da ton tai(case : THEM SINH VIEN)
-bool is_Existed_MSSV_SV(PtrSV first, const char * mssv);
+bool is_Existed_MSSV_SV(PtrSV first, const char *mssv);
 
 void insert_First_SV(PtrSV &first, SinhVien sv);
 bool insert_After_SV(PtrSV p, SinhVien sv);
@@ -168,17 +168,17 @@ bool delete_After_SV(PtrSV p);
 void delete_List_SV(PtrSV &first);
 // tao mot sinh vien moi(case: THEM SINH VIEN)
 // da kiem tra khong trung MSSV
-SinhVien create_New_SV(const char * mssv, ListMH dsmh);
+SinhVien create_New_SV(const char *mssv, ListMH dsmh);
 
-bool set_MSSV_SV(PtrSV p, const char * mssv);
-bool set_ho_SV(PtrSV p, const char * ho);
-bool set_ten_SV(PtrSV p, const char * ten);
+bool set_MSSV_SV(PtrSV p, const char *mssv);
+bool set_ho_SV(PtrSV p, const char *ho);
+bool set_ten_SV(PtrSV p, const char *ten);
 bool set_phai_SV(PtrSV p, bool gioiTinh);
 // tao dsDT cho sv moi va cho tat ca diem thi = -1(chua thi)
 PtrDT set_Blank_dsDT_SV();
 
-//tra ve dia chi nam ngay truoc node co MSSV == mssv(kiem tra vi tri = first rieng)
-PtrSV pos_MSSV_SV(PtrSV first, const char * mssv);
+// tra ve dia chi nam ngay truoc node co MSSV == mssv(kiem tra vi tri = first rieng)
+PtrSV pos_MSSV_SV(PtrSV first, const char *mssv);
 
 //-------------------LopHoc------------------//
 
