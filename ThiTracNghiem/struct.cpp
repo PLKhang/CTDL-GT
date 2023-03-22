@@ -118,6 +118,8 @@ CauHoi* GetQuestion(STreeCH &root,int number_question){
         swap(save[count],save[index]);
         temp[index]=save[index];
         index++;
+
+        
     }
     delete []save;
     return temp;
