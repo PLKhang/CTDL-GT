@@ -1,4 +1,6 @@
 #include"XuLyChuongTrinh.h"
+#include "struct.h"
+
 int KiemTraTK(string Name, string Password){
 	if(Name=="GV"&&Password=="GV")return 2;
 	fstream DocFileTK("DanhSachTaiKhoan.txt");
