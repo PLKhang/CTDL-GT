@@ -5,11 +5,6 @@
 #include<string>
 #include<cctype>
 using namespace std;
-BOOL DeleteMenu(
-  HMENU hMenu,
-  UINT  uPosition,
-  UINT  uFlags
-);
 void gotoxy(int x,int y);
 void TextColor(int color) ;
 void SetBGColor(WORD color);
