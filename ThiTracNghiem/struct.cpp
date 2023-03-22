@@ -1,4 +1,5 @@
 #include "struct.h"
+using namespace std;
 
 //---------------------------MonHoc--------------------------//
 bool is_Empty_MH(ListMH dsmh)
@@ -465,3 +466,64 @@ PtrSV pos_MSSV_SV(PtrSV first, const char *mssv)
 }
 
 //---------------------------LopHoc--------------------------//
+bool is_Empty_LH(ListLH ListLH)
+{
+    return(ListLH.soLuong == 0);
+}
+bool is_Full_LH(ListLH ListLH)
+{
+    return(ListLH.soLuong == MaxOfClasses);
+}
+bool is_Existed_MaLop(ListLH ListLH, char maLop[])
+{
+    for(int i = 0; i < ListLH.soLuong; i++)
+    {
+        if(strcmp(maLop,ListLH.lh[i]->maLop) == 0) return true;
+    }
+    return false;
+}
+int ThemLop(ListLH &ListLH, LopHoc lh)
+{
+    if(is_Full_LH(ListLH)) return 0;
+    if(is_Existed_MaLop(ListLH, lh.maLop)) return 0;
+//bat dau them lop hoc
+    ListLH.lh[ListLH.soLuong] = new LopHoc; //Khoi tao vung nho cho con tro
+	*ListLH.lh[ListLH.soLuong] = lh; //Them mon hoc vao vung nho cua con tro, sau khi them vao thi tang so luong phan tu cua danh sach len 1
+	ListLH.soLuong ++;
+    return 1;
+}
+int pos_MaLH_LH(ListLH ListLH,int i, char maLop[])
+{
+    if(is_Empty_LH(ListLH)) return 0;
+    for (int vitri = i; vitri < ListLH.soLuong; vitri++)
+    {
+        if (strcmp(ListLH.lh[vitri]->maLop, maLop) == 0) 
+            return vitri;      
+    }
+    return 0;
+}
+int XoaLop(ListLH &ListLH, int i, LopHoc lh)
+{
+    if(i < 0 || i >= ListLH.soLuong || ListLH.soLuong == 0) return 0;
+    int pos = pos_MaLH_LH(ListLH, i, lh.maLop);
+    if(pos == 0) return 0;
+    for(int j = pos; j < ListLH.soLuong - 1; j++)
+        ListLH.lh[j] = ListLH.lh[j+1];
+        delete_List_SV(ListLH.lh[i]->First);
+    ListLH.soLuong--;
+    return 1;
+}
+void SuaLop(ListLH &ListLH, int i, LopHoc lh)
+{
+    if (i < 0 || i >= ListLH.soLuong || ListLH.soLuong == 0) {
+        return; // vị trí i không hợp lệ
+    }
+    for (int j = 0; j < strlen(lh.maLop); j++) {
+        if (lh.maLop[j] != ListLH.lh[i]->maLop[j]) {
+            return; // mã lớp không khớp
+        }
+    }
+    // cập nhật thông tin lớp học
+    strcpy(ListLH.lh[i]->tenLop, lh.tenLop);
+    strcpy(ListLH.lh[i]->nienKhoa, lh.nienKhoa);
+}

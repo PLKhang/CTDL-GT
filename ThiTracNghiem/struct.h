@@ -91,7 +91,7 @@ struct LopHoc
 struct DanhSachLopHoc // MANG CON TRO
 {
     int soLuong = 0;
-    LopHoc *nodes[MaxOfClasses];
+    LopHoc *lh[MaxOfClasses];
 };
 
 typedef DanhSachLopHoc ListLH;
@@ -197,23 +197,19 @@ PtrSV pos_MSSV_SV(PtrSV first, const char *mssv);
 
 //-------------------LopHoc------------------//
 
-bool is_Empty_LH(ListLH &ListLH);
-bool is_Full_LH(ListLH &ListLH);
-bool is_Existed_MaLop(ListLH &ListLH, char maLop[]);
-
-// void FunctionLop(ListLH &ListLH);// HAM DO HOA
-
-void ThemLop(ListLH &ListLH, LopHoc);
-
-// void NhapLop(ListLH &ListLH, LopHoc);
-
-void XoaLop(ListLH &ListLH, int &page);
-// void NhapLopXoa(ListLH &ListLH,int &page);
-
-void SuaLop(ListLH &ListLH, int state, int page);
-void ChinhLop(ListLH &ListLH, int &page);
-// void NhapLopChinh(ListLH &ListLH , int &page);
-
-void InDSLH(ListLH ListLH);
+// kiem tra chuoi rong
+bool is_Empty_LH(ListLH ListLH);
+// kiem tra chuoi day
+bool is_Full_LH(ListLH ListLH);
+// kiem tra trung maLop
+bool is_Existed_MaLop(ListLH ListLH, char maLop[]);
+// chuong trinh thuc thi
+int ThemLop(ListLH &ListLH, LopHoc lh); // ham them lop
+// ham tim gia tri vi tri ma lop de gui vao cho ham xoa
+int pos_MaLH_LH(ListLH ListLH,int i, char maLop[]);
+// ham xoa lop va dong thoi xoa dssv thuoc lop do
+int XoaLop(ListLH &ListLH, int i, LopHoc lh);
+// cap nhat thong tin dua vao ham strcpy
+void SuaLop(ListLH &ListLH, int i, LopHoc lh);
 
 #endif // STRUCT_H
