@@ -2,7 +2,7 @@
 #define STRUCT_H
 
 #include <iostream>
-
+using namespace std;
 #define MaxOfSubjects 300
 #define MaxOfClasses 500
 
@@ -95,12 +95,19 @@ typedef DanhSachLopHoc ListLH;
 */
 
 //-------------------CauHoi------------------//
-int CreateID(int Number[], int &i);
-void PreTraversal(CauHoi save[], STreeCH root, int &i);
-void InsertQuestion(STreeCH &root, STreeCH question);
-STreeCH balance(STreeCH root);
-CauHoi *GetQuestion(STreeCH &root, int number_question);
-// void Read(STreeCH &root);
+int CreateID(int Number[],int &i);
+STreeCH newnode(CauHoi CH);
+int InsertQuestion(STreeCH &root,STreeCH question);
+void Delete(STreeCH&root);
+int DeleteQuestion(STreeCH&root,int ID);
+int Modify(STreeCH root,CauHoi question);
+void Store(STreeCH root,vector<STreeCH>&nodes);
+STreeCH Convert(vector<STreeCH>&nodes,int max,int min);
+STreeCH Balance(STreeCH root);
+void PreTraversal(CauHoi save[],STreeCH root,int &i);
+int InsertQuestion(STreeCH &root,STreeCH question);
+CauHoi* GetQuestion(STreeCH &root,int number_question);
+//void Read(STreeCH &root);
 
 //-------------------DiemThi------------------//
 

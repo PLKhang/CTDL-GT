@@ -10,6 +10,9 @@ void TextColor(int color) ;
 void SetBGColor(WORD color);
 int wherex(void);
 int wherey(void);
+void SetWindowSize(SHORT width, SHORT height);
+void SetColor(int backgound_color, int text_color);
+void DisableCtrButton(bool Close=0, bool Min=0, bool Max=1);
 char GetKey();
 int NhapSo(int x,int y);
 string NhapChuoi(int x,int y);//xong
