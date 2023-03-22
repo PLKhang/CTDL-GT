@@ -2,6 +2,12 @@
 #define STRUCT_H
 
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <math.h>
+#include <string>
+#include <string.h>
+#include <vector>
 using namespace std;
 #define MaxOfSubjects 300
 #define MaxOfClasses 500
@@ -41,7 +47,7 @@ typedef nodeCauHoi *STreeCH;
 struct DiemThi
 {
     char maMonHoc[16];
-    float diemThi;
+    float diemThi = -1;
 };
 
 struct nodeDiemThi
@@ -147,8 +153,32 @@ void KhoiTao_PtrSV(PtrSV &First)
 {
     First = NULL;
 }
-
+// kiem tra lop nay da co sinh vien nao hay chua
 bool is_Empty_SV(PtrSV first);
+// kiem tra neu mssv da ton tai(case : THEM SINH VIEN)
+bool is_Existed_MSSV_SV(PtrSV first, const char * mssv);
+
+void insert_First_SV(PtrSV &first, SinhVien sv);
+bool insert_After_SV(PtrSV p, SinhVien sv);
+bool insert_Order_SV(PtrSV first, SinhVien sv);
+
+//+ xoa dsDT trong cac node
+bool delete_First_SV(PtrSV &first);
+bool delete_After_SV(PtrSV p);
+void delete_List_SV(PtrSV &first);
+// tao mot sinh vien moi(case: THEM SINH VIEN)
+// da kiem tra khong trung MSSV
+SinhVien create_New_SV(const char * mssv, ListMH dsmh);
+
+bool set_MSSV_SV(PtrSV p, const char * mssv);
+bool set_ho_SV(PtrSV p, const char * ho);
+bool set_ten_SV(PtrSV p, const char * ten);
+bool set_phai_SV(PtrSV p, bool gioiTinh);
+// tao dsDT cho sv moi va cho tat ca diem thi = -1(chua thi)
+PtrDT set_Blank_dsDT_SV();
+
+//tra ve dia chi nam ngay truoc node co MSSV == mssv(kiem tra vi tri = first rieng)
+PtrSV pos_MSSV_SV(PtrSV first, const char * mssv);
 
 //-------------------LopHoc------------------//
 
