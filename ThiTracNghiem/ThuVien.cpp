@@ -40,6 +40,44 @@ int wherey(void)
 	GetConsoleScreenBufferInfo(hConsoleOutput, &screen_buffer_info);
 	return screen_buffer_info.dwCursorPosition.Y;
 }
+void SetWindowSize(SHORT width, SHORT height)
+{
+    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    SMALL_RECT WindowSize;
+    WindowSize.Top = 0;
+    WindowSize.Left = 0;
+    WindowSize.Right = width;
+    WindowSize.Bottom = height;
+ 
+    SetConsoleWindowInfo(hStdout, 1, &WindowSize);
+}
+void SetColor(int backgound_color, int text_color)
+{
+    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    int color_code = backgound_color * 16 + text_color;
+    SetConsoleTextAttribute(hStdout, color_code);
+}
+
+void DisableCtrButton(bool Close, bool Min, bool Max)
+{
+    HWND hWnd = GetConsoleWindow();
+    HMENU hMenu = GetSystemMenu(hWnd, false);
+    
+    if (Close == 1)
+    {
+        DeleteMenu(hMenu, SC_CLOSE, MF_BYCOMMAND);
+    }
+    if (Min == 1)
+    {
+        DeleteMenu(hMenu, SC_MINIMIZE, MF_BYCOMMAND);
+    }
+    if (Max == 1)
+    {
+        DeleteMenu(hMenu, SC_MAXIMIZE, MF_BYCOMMAND);
+    }
+}
 //////////////////////////////////////////////////////////////////////////
 char GetKey()
 {
