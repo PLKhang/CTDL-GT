@@ -63,6 +63,7 @@ int DeleteQuestion(STreeCH&root,int ID){
             if(root->right==NULL)root=rp->left;
             else if(root->left==NULL)root=rp->right;
             else Delete(rp->right);
+            delete rp;
             return 1;
         }
     }
