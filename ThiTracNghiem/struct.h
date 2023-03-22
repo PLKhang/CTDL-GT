@@ -29,10 +29,14 @@ typedef DanhSachMonHoc ListMH;
 //------------------------------------------------//
 struct CauHoi
 {
-    int ID;
+    int ID = 0;
     char maMonHoc[16];
     unsigned short answer;
-    char ans1[100], ans2[100], ans3[100], ans4[100], question[200];
+    char ans1[100];
+    char ans2[100];
+    char ans3[100];
+    char ans4[100];
+    char question[200];
 };
 typedef CauHoi *ptrCauHoi;
 struct nodeCauHoi
@@ -94,11 +98,22 @@ typedef DanhSachLopHoc ListLH;
 //------------------------------------------------//
 
 //-------------------MonHoc------------------//
-/*
+bool is_Empty_MH(ListMH dsmh);
+bool is_Full_MH(ListMH dsmh);
+bool is_Existed_MaMH_MH(ListMH dsmh, const char * maMH);
 
-(some functions here)
+//0: dsmh FULL // 1: OK // -1: Trung` maMH
+int insert_MH(ListMH &dsmh, MonHoc info);
+//0: dsmh EMPTY // 1: OK // -1: pos >= n || pos < 0
+// 0 <=  pos  < dsmh.n
+int delete_MH(ListMH &dsmh, unsigned pos);
 
-*/
+//Dung ham nay khi HIEU CHINH mon hoc
+//Vi tri duoc truyen vao tu XuLyChuongTrinh
+void set_Info_MH(ListMH &dsmh, unsigned pos, MonHoc new_MH);
+
+//Tra ve vi tri MonHoc.maMonHoc = maMH
+int pos_MaMH_MH(ListMH dsmh, const char * maMH);
 
 //-------------------CauHoi------------------//
 int CreateID(int Number[], int &i);

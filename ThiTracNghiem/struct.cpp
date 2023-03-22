@@ -1,7 +1,67 @@
 #include "struct.h"
 
 //---------------------------MonHoc--------------------------//
-
+bool is_Empty_MH(ListMH dsmh)
+{
+    if (dsmh.n == 0)
+        return 1;
+    return 0;
+}
+bool is_Full_MH(ListMH dsmh)
+{
+    if (dsmh.n == MaxOfSubjects - 1)
+        return 1;
+    return 0;
+}
+bool is_Existed_MaMH_MH(ListMH dsmh, const char *maMH)
+{
+    if (is_Empty_MH(dsmh))
+        return 0;
+    for (int i = 0; i < dsmh.n; i++)
+        if (dsmh.nodes[i].maMonHoc == maMH)
+            return 1;
+    return 0;
+}
+int insert_MH(ListMH &dsmh, MonHoc info)
+{
+    if (is_Full_MH(dsmh))
+        return 0;
+    if (is_Existed_MaMH_MH(dsmh, info.maMonHoc))
+        return -1;
+    for (int i = dsmh.n - 1; i >= 0; i--)
+    {
+        if (dsmh.nodes[i].maMonHoc > info.maMonHoc)
+            continue;
+        for (int j = dsmh.n; j > i + 1; j--)
+            dsmh.nodes[j] = dsmh.nodes[j - 1];
+        dsmh.nodes[i + 1] = info;
+        break;
+    }
+    dsmh.n++;
+    return 1;
+}
+int delete_MH(ListMH &dsmh, unsigned pos)
+{
+    if(is_Empty_MH(dsmh))
+        return 0;
+    if(pos >= dsmh.n || pos < 0)
+        return -1;
+    for(int i = pos; i < dsmh.n; i++)
+        dsmh.nodes[i] = dsmh.nodes[i + 1];
+    dsmh.n--;
+    return 1;
+}
+void set_Info_MH(ListMH &dsmh, unsigned pos, MonHoc new_MH)
+{
+    dsmh.nodes[pos] = new_MH;
+}
+int pos_MaMH_MH(ListMH dsmh, const char *maMH)
+{
+    for(int i = 0; i < dsmh.n; i++)
+        if(dsmh.nodes[i].maMonHoc == maMH)
+            return i;
+    return -1;
+}
 //---------------------------CauHoi--------------------------//
 
 //-----TAO ID---------//
