@@ -1,6 +1,16 @@
-#include "DiemThi.h"
-#include "MonHoc.h"
+#include "struct.h"
+#include <iostream>
+#include<cstdlib>
+#include<ctime>
+#include<math.h>
+#include<string>
+#include<vector>
 
+//---------------------------MonHoc--------------------------//
+
+//---------------------------CauHoi--------------------------//
+
+//---------------------------DiemThi--------------------------//
 bool is_Empty_DT(PtrDT &first)
 {
     if (first == NULL)
@@ -170,3 +180,7 @@ void print_List_DT(PtrDT first)
         std::cout << p->info.diemThi << '\n';
     }
 }
+
+//---------------------------SinhVien--------------------------//
+
+//---------------------------LopHoc--------------------------//
