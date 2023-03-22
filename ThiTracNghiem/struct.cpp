@@ -43,11 +43,11 @@ int insert_MH(ListMH &dsmh, MonHoc info)
 }
 int delete_MH(ListMH &dsmh, unsigned pos)
 {
-    if(is_Empty_MH(dsmh))
+    if (is_Empty_MH(dsmh))
         return 0;
-    if(pos >= dsmh.n || pos < 0)
+    if (pos >= dsmh.n || pos < 0)
         return -1;
-    for(int i = pos; i < dsmh.n; i++)
+    for (int i = pos; i < dsmh.n; i++)
         dsmh.nodes[i] = dsmh.nodes[i + 1];
     dsmh.n--;
     return 1;
@@ -58,8 +58,8 @@ void set_Info_MH(ListMH &dsmh, unsigned pos, MonHoc new_MH)
 }
 int pos_MaMH_MH(ListMH dsmh, const char *maMH)
 {
-    for(int i = 0; i < dsmh.n; i++)
-        if(dsmh.nodes[i].maMonHoc == maMH)
+    for (int i = 0; i < dsmh.n; i++)
+        if (dsmh.nodes[i].maMonHoc == maMH)
             return i;
     return -1;
 }
@@ -468,58 +468,67 @@ PtrSV pos_MSSV_SV(PtrSV first, const char *mssv)
 //---------------------------LopHoc--------------------------//
 bool is_Empty_LH(ListLH ListLH)
 {
-    return(ListLH.soLuong == 0);
+    return (ListLH.soLuong == 0);
 }
 bool is_Full_LH(ListLH ListLH)
 {
-    return(ListLH.soLuong == MaxOfClasses);
+    return (ListLH.soLuong == MaxOfClasses);
 }
 bool is_Existed_MaLop(ListLH ListLH, char maLop[])
 {
-    for(int i = 0; i < ListLH.soLuong; i++)
+    for (int i = 0; i < ListLH.soLuong; i++)
     {
-        if(strcmp(maLop,ListLH.lh[i]->maLop) == 0) return true;
+        if (strcmp(maLop, ListLH.lh[i]->maLop) == 0)
+            return true;
     }
     return false;
 }
 int ThemLop(ListLH &ListLH, LopHoc lh)
 {
-    if(is_Full_LH(ListLH)) return 0;
-    if(is_Existed_MaLop(ListLH, lh.maLop)) return 0;
-//bat dau them lop hoc
-    ListLH.lh[ListLH.soLuong] = new LopHoc; //Khoi tao vung nho cho con tro
-	*ListLH.lh[ListLH.soLuong] = lh; //Them mon hoc vao vung nho cua con tro, sau khi them vao thi tang so luong phan tu cua danh sach len 1
-	ListLH.soLuong ++;
+    if (is_Full_LH(ListLH))
+        return 0;
+    if (is_Existed_MaLop(ListLH, lh.maLop))
+        return 0;
+    // bat dau them lop hoc
+    ListLH.lh[ListLH.soLuong] = new LopHoc; // Khoi tao vung nho cho con tro
+    *ListLH.lh[ListLH.soLuong] = lh;        // Them mon hoc vao vung nho cua con tro, sau khi them vao thi tang so luong phan tu cua danh sach len 1
+    ListLH.soLuong++;
     return 1;
 }
-int pos_MaLH_LH(ListLH ListLH,int i, char maLop[])
+int pos_MaLH_LH(ListLH ListLH, int i, char maLop[])
 {
-    if(is_Empty_LH(ListLH)) return 0;
+    if (is_Empty_LH(ListLH))
+        return 0;
     for (int vitri = i; vitri < ListLH.soLuong; vitri++)
     {
-        if (strcmp(ListLH.lh[vitri]->maLop, maLop) == 0) 
-            return vitri;      
+        if (strcmp(ListLH.lh[vitri]->maLop, maLop) == 0)
+            return vitri;
     }
     return 0;
 }
 int XoaLop(ListLH &ListLH, int i, LopHoc lh)
 {
-    if(i < 0 || i >= ListLH.soLuong || ListLH.soLuong == 0) return 0;
+    if (i < 0 || i >= ListLH.soLuong || ListLH.soLuong == 0)
+        return 0;
     int pos = pos_MaLH_LH(ListLH, i, lh.maLop);
-    if(pos == 0) return 0;
-    for(int j = pos; j < ListLH.soLuong - 1; j++)
-        ListLH.lh[j] = ListLH.lh[j+1];
-        delete_List_SV(ListLH.lh[i]->First);
+    if (pos == 0)
+        return 0;
+    for (int j = pos; j < ListLH.soLuong - 1; j++)
+        ListLH.lh[j] = ListLH.lh[j + 1];
+    delete_List_SV(ListLH.lh[i]->First);
     ListLH.soLuong--;
     return 1;
 }
 void SuaLop(ListLH &ListLH, int i, LopHoc lh)
 {
-    if (i < 0 || i >= ListLH.soLuong || ListLH.soLuong == 0) {
+    if (i < 0 || i >= ListLH.soLuong || ListLH.soLuong == 0)
+    {
         return; // vị trí i không hợp lệ
     }
-    for (int j = 0; j < strlen(lh.maLop); j++) {
-        if (lh.maLop[j] != ListLH.lh[i]->maLop[j]) {
+    for (int j = 0; j < strlen(lh.maLop); j++)
+    {
+        if (lh.maLop[j] != ListLH.lh[i]->maLop[j])
+        {
             return; // mã lớp không khớp
         }
     }

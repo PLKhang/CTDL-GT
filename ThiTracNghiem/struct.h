@@ -100,20 +100,20 @@ typedef DanhSachLopHoc ListLH;
 //-------------------MonHoc------------------//
 bool is_Empty_MH(ListMH dsmh);
 bool is_Full_MH(ListMH dsmh);
-bool is_Existed_MaMH_MH(ListMH dsmh, const char * maMH);
+bool is_Existed_MaMH_MH(ListMH dsmh, const char *maMH);
 
-//0: dsmh FULL // 1: OK // -1: Trung` maMH
+// 0: dsmh FULL // 1: OK // -1: Trung` maMH
 int insert_MH(ListMH &dsmh, MonHoc info);
-//0: dsmh EMPTY // 1: OK // -1: pos >= n || pos < 0
-// 0 <=  pos  < dsmh.n
+// 0: dsmh EMPTY // 1: OK // -1: pos >= n || pos < 0
+//  0 <=  pos  < dsmh.n
 int delete_MH(ListMH &dsmh, unsigned pos);
 
-//Dung ham nay khi HIEU CHINH mon hoc
-//Vi tri duoc truyen vao tu XuLyChuongTrinh
+// Dung ham nay khi HIEU CHINH mon hoc
+// Vi tri duoc truyen vao tu XuLyChuongTrinh
 void set_Info_MH(ListMH &dsmh, unsigned pos, MonHoc new_MH);
 
-//Tra ve vi tri MonHoc.maMonHoc = maMH
-int pos_MaMH_MH(ListMH dsmh, const char * maMH);
+// Tra ve vi tri MonHoc.maMonHoc = maMH
+int pos_MaMH_MH(ListMH dsmh, const char *maMH);
 
 //-------------------CauHoi------------------//
 int CreateID(int Number[], int &i);
@@ -206,7 +206,7 @@ bool is_Existed_MaLop(ListLH ListLH, char maLop[]);
 // chuong trinh thuc thi
 int ThemLop(ListLH &ListLH, LopHoc lh); // ham them lop
 // ham tim gia tri vi tri ma lop de gui vao cho ham xoa
-int pos_MaLH_LH(ListLH ListLH,int i, char maLop[]);
+int pos_MaLH_LH(ListLH ListLH, int i, char maLop[]);
 // ham xoa lop va dong thoi xoa dssv thuoc lop do
 int XoaLop(ListLH &ListLH, int i, LopHoc lh);
 // cap nhat thong tin dua vao ham strcpy
