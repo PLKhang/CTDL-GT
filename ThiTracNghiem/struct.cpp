@@ -213,6 +213,10 @@ CauHoi *GetQuestion(STreeCH &root, int number_question)
     return temp;
 }
 //---------------------------DiemThi--------------------------//
+void KhoiTao_PtrDT(PtrDT First)
+{
+    First = NULL;
+}
 bool is_Empty_DT(PtrDT first)
 {
     if (first == NULL)
@@ -334,6 +338,10 @@ PtrDT pos_MaMH_DT(PtrDT first, char *maMon)
 }
 
 //---------------------------SinhVien--------------------------//
+void KhoiTao_PtrSV(PtrSV &First)
+{
+    First = NULL;
+}
 bool is_Empty_SV(PtrSV first)
 {
     if (first == NULL)
