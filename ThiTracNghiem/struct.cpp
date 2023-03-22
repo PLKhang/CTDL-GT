@@ -11,15 +11,12 @@ using namespace std;
 //---------------------------CauHoi--------------------------//
                 //-----TAO ID---------//
 int CreateID(int Number[],int &i){
-    int temp,index;
-    if(i==299)return 0;
+    int index;
     srand(time(0));
-    index=rand()%(299-i+1)+i; 
-    temp=Number[index];
-    Number[index]=Number[i];
-    Number[i]=temp;
+    index=rand()%(10000-i)+i;
+    swap(Number[index], Number[i]);
     i++;
-    return temp;  
+    return Number[i-1];  
 }
 STreeCH newnode(CauHoi CH){
     STreeCH p=new nodeCauHoi;
@@ -111,18 +108,18 @@ void PreTraversal(CauHoi save[],STreeCH root,int &i){
 CauHoi* GetQuestion(STreeCH &root,int number_question){
     if(root==NULL)return NULL;
     int index=0,count=0;
-    STreeCH run=root;
     CauHoi* temp=new CauHoi[number_question];
-    CauHoi* save=new CauHoi[300],swap;
+    CauHoi* save=new CauHoi[300];
     PreTraversal(save,root,count);
     srand(time(0));
-    while(index!=number_question){
-        swap=temp[rand()%(number_question-index)+index];
-        temp[rand()%(number_question-index)+index]=temp[index];
-        temp[index]=swap;
-        save[index]=temp[index];
+    
+    while(index<number_question){
+        count=rand()%(number_question-index)+index;
+        swap(save[count],save[index]);
+        temp[index]=save[index];
         index++;
     }
+    delete []save;
     return temp;
 }
 //---------------------------DiemThi--------------------------//
