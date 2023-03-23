@@ -1,4 +1,8 @@
+#ifndef THU_VIEN_H
+#define THU_VIEN_H
+
 #pragma once
+
 #include<iostream>
 #include<Windows.h>
 #include<conio.h>
@@ -22,3 +26,5 @@ void VeBangDSLop(int=3 ,int=2 ,int=100 ,int=30);
 void VeBangDSSV(string="",int=3,int=2,int=100,int=30);
 void VeBangSV(string="",int=3,int=2,int=100,int=30);
 bool ThongBao(int x,int y,string noidung);
+
+#endif //THU_VIEN_H

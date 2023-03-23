@@ -69,7 +69,7 @@ struct SinhVien
     char ten[16];
     char password[21];
     bool phai; // male: 0     female: 1
-    PtrDT danhSachDiemThi;
+    PtrDT danhSachDiemThi = NULL;
 };
 
 struct nodeSinhVien
@@ -85,12 +85,12 @@ struct LopHoc
     char maLop[16];
     char tenLop[51];
     char nienKhoa[11];
-    PtrSV First = NULL;
+    PtrSV danhSachSinhVien = NULL;
 };
 
 struct DanhSachLopHoc // MANG CON TRO
 {
-    int soLuong = 0;
+    int n = 0;
     LopHoc *lh[MaxOfClasses];
 };
 
@@ -132,10 +132,7 @@ CauHoi *GetQuestion(STreeCH &root, int number_question);
 
 //-------------------DiemThi------------------//
 
-void KhoiTao_PtrDT(PtrDT First)
-{
-    First = NULL;
-}
+void KhoiTao_PtrDT(PtrDT &First);
 
 // kiem tra dsdt co node nao hay chua
 bool is_Empty_DT(PtrDT first);
@@ -164,10 +161,7 @@ PtrDT pos_MaMH_DT(PtrDT first, char *maMon);
 
 //-------------------SinhVien------------------//
 
-void KhoiTao_PtrSV(PtrSV &First)
-{
-    First = NULL;
-}
+void KhoiTao_PtrSV(PtrSV &First);
 // kiem tra lop nay da co sinh vien nao hay chua
 bool is_Empty_SV(PtrSV first);
 // kiem tra neu mssv da ton tai(case : THEM SINH VIEN)
