@@ -1,5 +1,38 @@
 #include "docGhiFile.h"
-
+template<typename T>
+struct node{
+    T info;
+    node<T>*next;
+};
+template<typename T> class Queue{
+    private:
+        node<T>* front=NULL;
+        node<T>* rear=NULL;
+    public:
+        void Push(T data)
+        {
+            node<T>* temp=new node<T>;
+            temp->info=data;
+            if(front==NULL) front=temp;
+            else rear->next=temp;
+            rear=temp;
+        }
+        T pop(){
+            if(!this->empty())
+            {
+            node<T> *run=front;
+            T data=front->info;
+            if(front==rear&&front!=NULL)front=rear=NULL;
+            else front=front->next;
+            delete run;
+            return data;
+            }
+        }
+        bool empty(){
+            if(front==NULL)return true;
+            else return false;
+        }
+};
 int doc_danhSachLopHoc(ListLH &dslh)
 {
     
@@ -100,10 +133,48 @@ int doc_danhSachDiemThi(PtrDT &dsdt, string maLH, string mssv)
     return 1;
 }
 int doc_danhSachMonHoc(ListMH &dsmh);
-int doc_danhSachCauHoi(STreeCH &dsch);
+int doc_danhSachCauHoi(STreeCH &dsch){
+    ifstream docfile("Data/DanhSachCauHoi.txt");
+    STreeCH question;
+    string temp;
+    if(!docfile)return 0;
+    while(!docfile.eof()){
+        question=new nodeCauHoi;
+        docfile.getline(question->info.maMonHoc,16);
+        docfile>>question->info.ID;
+        docfile.ignore();
+        docfile.getline(question->info.question,200);
+        docfile.getline(question->info.ans1,100);
+        docfile.getline(question->info.ans2,100);
+        docfile.getline(question->info.ans3,100);
+        docfile.getline(question->info.ans4,100);
+        docfile>>question->info.answer;
+        docfile.ignore();
+        InsertQuestion(dsch,question);
+    }
+    docfile.close();
+}
 
 int ghi_danhSachLopHoc(ListLH dslh);
 int ghi_danhSachSinhVien(PtrSV dssv);
 int ghi_danhSachDiemThi(PtrDT dsdt);
 int ghi_danhSachMonHoc(ListMH dsmh);
-int ghi_danhSachCauHoi(STreeCH dsch);
+int ghi_danhSachCauHoi(STreeCH dsch){
+    ofstream ghifile("Data/DanhSachCauHoi.txt");
+
+    Queue<STreeCH>q;
+    STreeCH temp;
+
+    if(!ghifile)return 0;
+    q.Push(dsch);
+    while(!q.empty())
+    {
+        temp=q.pop();
+        if(temp->left!=NULL)q.Push(temp->left);
+        if(temp->right!=NULL)q.Push(temp->right);
+        ghifile<<temp->info.maMonHoc<<endl<<temp->info.ID<<endl<<temp->info.question<<endl<<temp->info.ans1<<endl
+        <<temp->info.ans2<<endl<<temp->info.ans3<<endl<<temp->info.ans4<<temp->info.answer;
+        if(!q.empty())ghifile<<endl;
+    }
+    ghifile.close();
+}
