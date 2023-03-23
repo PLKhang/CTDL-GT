@@ -21,7 +21,7 @@ struct MonHoc
 
 struct DanhSachMonHoc
 {
-    int n = 0;
+    int soLuong = 0;
     MonHoc nodes[MaxOfSubjects];
 };
 
@@ -85,7 +85,7 @@ struct LopHoc
     char maLop[16];
     char tenLop[51];
     char nienKhoa[11];
-    PtrSV First = NULL;
+    PtrSV danhSachSinhVien = NULL;
 };
 
 struct DanhSachLopHoc // MANG CON TRO
