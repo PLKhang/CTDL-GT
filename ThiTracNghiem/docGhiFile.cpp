@@ -271,8 +271,6 @@ int ghi_danhSachLopHoc(ListLH dslh)
     file.close();
     return 1;
 }
-int ghi_danhSachSinhVien(PtrSV dssv);
-int ghi_danhSachDiemThi(PtrDT dsdt);
 int ghi_danhSachMonHoc(ListMH dsmh)
 {
     //Mo file
