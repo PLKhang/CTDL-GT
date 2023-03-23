@@ -21,8 +21,9 @@ return:
 -5: doc file cho dslk DiemThi bi loi~   
  */
 int doc_danhSachLopHoc(ListLH &dslh);
-int doc_danhSachSinhVien(PtrSV &dssv, string maLH);
-int doc_danhSachDiemThi(PtrDT &dsdt, string maLH, string mssv);
+int doc_danhSachSinhVien(PtrSV &dssv, string maLH); //--> doc_danhSachLopHoc
+int doc_danhSachDiemThi(PtrDT &dsdt, string maLH, string mssv); // --> doc_danhSachSinhVien
+
 int doc_danhSachMonHoc(ListMH &dsmh);
 int doc_danhSachCauHoi(STreeCH &dsch);
 int doc_CauHoiDaThi(string maLH, string mssv);
