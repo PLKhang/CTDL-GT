@@ -21,7 +21,7 @@ struct MonHoc
 
 struct DanhSachMonHoc
 {
-    int soLuong = 0;
+    int n = 0;
     MonHoc nodes[MaxOfSubjects];
 };
 
@@ -69,7 +69,7 @@ struct SinhVien
     char ten[16];
     char password[21];
     bool phai; // male: 0     female: 1
-    PtrDT danhSachDiemThi;
+    PtrDT danhSachDiemThi = NULL;
 };
 
 struct nodeSinhVien
@@ -90,7 +90,7 @@ struct LopHoc
 
 struct DanhSachLopHoc // MANG CON TRO
 {
-    int soLuong = 0;
+    int n = 0;
     LopHoc *lh[MaxOfClasses];
 };
 

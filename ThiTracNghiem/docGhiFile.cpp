@@ -196,8 +196,8 @@ int ghi_danhSachLopHoc(ListLH dslh)
     if (!file)
         return 0;
 
-    file << dslh.soLuong << endl;
-    for(int i = 0; i < dslh.soLuong; i++)
+    file << dslh.n << endl;
+    for(int i = 0; i < dslh.n; i++)
     {
         // cap du lieu
         LopHoc data;
@@ -229,9 +229,9 @@ int ghi_danhSachMonHoc(ListMH dsmh)
     if (!file)
         return 0;
 
-    file << dsmh.soLuong << endl;
+    file << dsmh.n << endl;
     
-    for(int i = 0; i < dsmh.soLuong; i++)
+    for(int i = 0; i < dsmh.n; i++)
     {
         // cap du lieu
         MonHoc data;

@@ -2,7 +2,67 @@
 using namespace std;
 
 //---------------------------MonHoc--------------------------//
-
+bool is_Empty_MH(ListMH dsmh)
+{
+    if (dsmh.n == 0)
+        return 1;
+    return 0;
+}
+bool is_Full_MH(ListMH dsmh)
+{
+    if (dsmh.n == MaxOfSubjects - 1)
+        return 1;
+    return 0;
+}
+bool is_Existed_MaMH_MH(ListMH dsmh, const char *maMH)
+{
+    if (is_Empty_MH(dsmh))
+        return 0;
+    for (int i = 0; i < dsmh.n; i++)
+        if (dsmh.nodes[i].maMonHoc == maMH)
+            return 1;
+    return 0;
+}
+int insert_MH(ListMH &dsmh, MonHoc info)
+{
+    if (is_Full_MH(dsmh))
+        return 0;
+    if (is_Existed_MaMH_MH(dsmh, info.maMonHoc))
+        return -1;
+    for (int i = dsmh.n - 1; i >= 0; i--)
+    {
+        if (dsmh.nodes[i].maMonHoc > info.maMonHoc)
+            continue;
+        for (int j = dsmh.n; j > i + 1; j--)
+            dsmh.nodes[j] = dsmh.nodes[j - 1];
+        dsmh.nodes[i + 1] = info;
+        break;
+    }
+    dsmh.n++;
+    return 1;
+}
+int delete_MH(ListMH &dsmh, unsigned pos)
+{
+    if (is_Empty_MH(dsmh))
+        return 0;
+    if (pos >= dsmh.n || pos < 0)
+        return -1;
+    for (int i = pos; i < dsmh.n; i++)
+        dsmh.nodes[i] = dsmh.nodes[i + 1];
+    dsmh.n--;
+    return 1;
+}
+void set_Info_MH(ListMH &dsmh, unsigned pos, MonHoc new_MH)
+{
+    dsmh.nodes[pos] = new_MH;
+}
+int pos_MaMH_MH(ListMH dsmh, const char *maMH)
+{
+    for (int i = 0; i < dsmh.n; i++)
+        if (dsmh.nodes[i].maMonHoc == maMH)
+            return i;
+    return -1;
+}
 //---------------------------CauHoi--------------------------//
 
 //-----TAO ID---------//
@@ -153,6 +213,10 @@ CauHoi *GetQuestion(STreeCH &root, int number_question)
     return temp;
 }
 //---------------------------DiemThi--------------------------//
+void KhoiTao_PtrDT(PtrDT &first)
+{
+    first = NULL;
+}
 bool is_Empty_DT(PtrDT first)
 {
     if (first == NULL)
@@ -274,6 +338,10 @@ PtrDT pos_MaMH_DT(PtrDT first, char *maMon)
 }
 
 //---------------------------SinhVien--------------------------//
+void KhoiTao_PtrSV(PtrSV &first)
+{
+    first = NULL;
+}
 bool is_Empty_SV(PtrSV first)
 {
     if (first == NULL)
@@ -408,79 +476,88 @@ PtrSV pos_MSSV_SV(PtrSV first, const char *mssv)
 //---------------------------LopHoc--------------------------//
 bool is_Empty_LH(ListLH ListLH)
 {
-    return(ListLH.soLuong == 0);
+    return (ListLH.n == 0);
 }
 bool is_Full_LH(ListLH ListLH)
 {
-    return(ListLH.soLuong == MaxOfClasses);
+    return (ListLH.n == MaxOfClasses);
 }
 bool is_Existed_MaLop(ListLH ListLH, char maLop[])
 {
-    for(int i = 0; i < ListLH.soLuong; i++)
+    for (int i = 0; i < ListLH.n; i++)
     {
-        if(strcmp(maLop,ListLH.lh[i]->maLop) == 0) return true;
+        if (strcmp(maLop, ListLH.lh[i]->maLop) == 0)
+            return true;
     }
     return false;
 }
 int ThemLop(ListLH &ListLH, LopHoc lh)
 {
-    if(is_Full_LH(ListLH)) return 0;
-    if(is_Existed_MaLop(ListLH, lh.maLop)) return 0;
-    //bat dau them lop hoc
-    ListLH.lh[ListLH.soLuong] = new LopHoc; //Khoi tao vung nho cho con tro
-	*ListLH.lh[ListLH.soLuong] = lh; //Them mon hoc vao vung nho cua con tro, sau khi them vao thi tang so luong phan tu cua danh sach len 1
-	ListLH.soLuong ++;
+    if (is_Full_LH(ListLH))
+        return 0;
+    if (is_Existed_MaLop(ListLH, lh.maLop))
+        return 0;
+    // bat dau them lop hoc
+    ListLH.lh[ListLH.n] = new LopHoc; // Khoi tao vung nho cho con tro
+    *ListLH.lh[ListLH.n] = lh;        // Them mon hoc vao vung nho cua con tro, sau khi them vao thi tang so luong phan tu cua danh sach len 1
+    ListLH.n++;
     return 1;
 }
-int pos_MaLH_LH(ListLH ListLH,int i, char maLop[])
+int pos_MaLH_LH(ListLH ListLH, int i, char maLop[])
 {
-    if(is_Empty_LH(ListLH)) return 0;
-    for (int vitri = i; vitri < ListLH.soLuong; vitri++)
+    if (is_Empty_LH(ListLH))
+        return 0;
+    for (int vitri = i; vitri < ListLH.n; vitri++)
     {
-        if (strcmp(ListLH.lh[vitri]->maLop, maLop) == 0) 
-            return vitri;      
+        if (strcmp(ListLH.lh[vitri]->maLop, maLop) == 0)
+            return vitri;
     }
     return 0;
 }
-int XoaLop(ListLH &ListLH, int i ,int pos, LopHoc lh)
+int XoaLop(ListLH &ListLH, int i, int pos, LopHoc lh)
 {
-    if(i < 0 || i >= ListLH.soLuong || ListLH.soLuong == 0) return 0;
-    //int pos = pos_MaLH_LH(ListLH, i, lh.maLop);
-    if(pos > 0 || pos <= ListLH.soLuong ) return -1;
-    //for(int j = pos; j < ListLH.soLuong - 1; j++)
-    //     ListLH.lh[j] = ListLH.lh[j+1];
-    //     delete_List_SV(ListLH.lh[i]->First);
+    if (i < 0 || i >= ListLH.n || ListLH.n == 0)
+        return 0;
+    // int pos = pos_MaLH_LH(ListLH, i, lh.maLop);
+    if (pos > 0 || pos <= ListLH.n)
+        return -1;
+    // for(int j = pos; j < ListLH.n - 1; j++)
+    //      ListLH.lh[j] = ListLH.lh[j+1];
+    //      delete_List_SV(ListLH.lh[i]->First);
     LopHoc *P = ListLH.lh[pos];
-    for(int i = pos; i < ListLH.soLuong; i++)
-            ListLH.lh[i] = ListLH.lh[i + 1];
+    for (int i = pos; i < ListLH.n; i++)
+        ListLH.lh[i] = ListLH.lh[i + 1];
     delete_List_SV(P->danhSachSinhVien);
     delete P;
-    ListLH.soLuong--;
+    ListLH.n--;
     return 1;
-    //ListLH.soLuong--;
-    //return 1;
+    // ListLH.n--;
+    // return 1;
 }
-//int delete_LH(ListLH &dslh, int pos)
+// int delete_LH(ListLH &dslh, int pos)
 //{
-//if(is_Empty(dslh))
-//return 0;
-//if(pos >= dslh.n || p < 0)
-//return -1;
-//LopHoc *P = &dslh.nodes[pos];
-//for(int i = p; i < n; i++)
-//dslh.nodes[i] = dslh.nodes[i + 1];
-//delete_List_SV(P.danhSachSinhVien);
-//delete P;
-//dslh.n--;
-//return 1;
-// }
+// if(is_Empty(dslh))
+// return 0;
+// if(pos >= dslh.n || p < 0)
+// return -1;
+// LopHoc *P = &dslh.nodes[pos];
+// for(int i = p; i < n; i++)
+// dslh.nodes[i] = dslh.nodes[i + 1];
+// delete_List_SV(P.danhSachSinhVien);
+// delete P;
+// dslh.n--;
+// return 1;
+//  }
 void SuaLop(ListLH &ListLH, int i, LopHoc lh)
 {
-    if (i < 0 || i >= ListLH.soLuong || ListLH.soLuong == 0) {
+    if (i < 0 || i >= ListLH.n || ListLH.n == 0)
+    {
         return; // vị trí i không hợp lệ
     }
-    for (int j = 0; j < strlen(lh.maLop); j++) {
-        if (lh.maLop[j] != ListLH.lh[i]->maLop[j]) {
+    for (int j = 0; j < strlen(lh.maLop); j++)
+    {
+        if (lh.maLop[j] != ListLH.lh[i]->maLop[j])
+        {
             return; // mã lớp không khớp
         }
     }
