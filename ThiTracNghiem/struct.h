@@ -60,8 +60,7 @@ public:
         else
             return false;
     }
-    int GetNumber();
-    return number;
+    int GetNumber(){return number;}
 };
 //------------------------------------------------//
 struct MonHoc
