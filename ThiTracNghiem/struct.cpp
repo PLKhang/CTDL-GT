@@ -183,34 +183,30 @@ STreeCH Balance(STreeCH root)
     return Convert(nodes, nodes.size() - 1, 0);
 }
 //--------LAY CAU HOI--------
-void PreTraversal(CauHoi save[], STreeCH root, int &i)
+void PreTraversal(Queue<STreeCH>&q, STreeCH root,char maMH[],int &i, int number_question)
 {
     if (root != NULL)
     {
-        save[i++] = root->info;
-        PreTraversal(save, root->left, i);
-        PreTraversal(save, root->right, i);
+            if((string(root->info.maMonHoc)==string(maMH))&&i++<number_question)q.Push(root);
+            PreTraversal(q, root->left,maMH,i,number_question);
+            PreTraversal(q, root->right,maMH,i,number_question);
     }
 }
-CauHoi *GetQuestion(STreeCH &root, int number_question)
+Queue<STreeCH> GetQuestion(STreeCH &root,char maMH[],int number_question)
 {
-    if (root == NULL)
-        return NULL;
     int index = 0, count = 0;
-    CauHoi *temp = new CauHoi[number_question];
-    CauHoi *save = new CauHoi[300];
-    PreTraversal(save, root, count);
+    Queue<STreeCH>q;
+    if (root != NULL)PreTraversal(q,root,maMH,count,number_question);
+    STreeCH Quesions[number_question];
+    while(!q.empty())Quesions[index++]=q.pop();
     srand(time(0));
-
-    while (index < number_question)
-    {
-        count = rand() % (number_question - index) + index;
-        swap(save[count], save[index]);
-        temp[index] = save[index];
-        index++;
+    for(int i=0;i<number_question;i++){
+        count=rand()%(number_question-i)+i;
+        cout<<count<<endl;
+        swap(Quesions[i],Quesions[count]);
+        q.Push(Quesions[i]);
     }
-    delete[] save;
-    return temp;
+    return q;
 }
 //---------------------------DiemThi--------------------------//
 void KhoiTao_PtrDT(PtrDT &first)

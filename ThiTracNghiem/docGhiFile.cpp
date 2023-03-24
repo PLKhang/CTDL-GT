@@ -1,38 +1,4 @@
 #include "docGhiFile.h"
-template<typename T>
-struct node{
-    T info;
-    node<T>*next;
-};
-template<typename T> class Queue{
-    private:
-        node<T>* front=NULL;
-        node<T>* rear=NULL;
-    public:
-        void Push(T data)
-        {
-            node<T>* temp=new node<T>;
-            temp->info=data;
-            if(front==NULL) front=temp;
-            else rear->next=temp;
-            rear=temp;
-        }
-        T pop(){
-            if(!this->empty())
-            {
-            node<T> *run=front;
-            T data=front->info;
-            if(front==rear&&front!=NULL)front=rear=NULL;
-            else front=front->next;
-            delete run;
-            return data;
-            }
-        }
-        bool empty(){
-            if(front==NULL)return true;
-            else return false;
-        }
-};
 int doc_danhSachLopHoc(ListLH &dslh)
 {   
     //Mo file
