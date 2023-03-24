@@ -48,7 +48,7 @@ template<typename T> class Queue{
             if(front==NULL)return true;
             else return false;
         }
-        int GetNumber()return number;
+        int GetNumber(){return number;}
 };
 //------------------------------------------------//
 struct MonHoc
