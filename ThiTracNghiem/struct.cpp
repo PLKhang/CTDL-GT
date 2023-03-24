@@ -140,13 +140,16 @@ int DeleteQuestion(STreeCH &root, int ID)
         }
     }
 }
-void DeleteAllQuestion(STreeCH &root,char maMH[]){
-    if(root!=NULL){
-        DeleteAllQuestion(root->left,maMH);
-        DeleteAllQuestion(root->right,maMH);
-        if(string(root->info.maMonHoc)==string(maMH)){
-            cout<<root->info.ID<<'|'<<root->info.maMonHoc<<endl;
-            DeleteQuestion(root,root->info.ID);
+void DeleteAllQuestion(STreeCH &root, char maMH[])
+{
+    if (root != NULL)
+    {
+        DeleteAllQuestion(root->left, maMH);
+        DeleteAllQuestion(root->right, maMH);
+        if (string(root->info.maMonHoc) == string(maMH))
+        {
+            cout << root->info.ID << '|' << root->info.maMonHoc << endl;
+            DeleteQuestion(root, root->info.ID);
         }
     }
 }
@@ -193,27 +196,31 @@ STreeCH Balance(STreeCH root)
     return Convert(nodes, nodes.size() - 1, 0);
 }
 //--------LAY CAU HOI--------
-void PreTraversal(Queue<STreeCH>&q, STreeCH root,char maMH[],int &i, int number_question)
+void PreTraversal(Queue<STreeCH> &q, STreeCH root, char maMH[], int &i, int number_question)
 {
     if (root != NULL)
     {
-            if((string(root->info.maMonHoc)==string(maMH))&&i++<number_question)q.Push(root);
-            PreTraversal(q, root->left,maMH,i,number_question);
-            PreTraversal(q, root->right,maMH,i,number_question);
+        if ((string(root->info.maMonHoc) == string(maMH)) && i++ < number_question)
+            q.Push(root);
+        PreTraversal(q, root->left, maMH, i, number_question);
+        PreTraversal(q, root->right, maMH, i, number_question);
     }
 }
-Queue<STreeCH> GetQuestion(STreeCH &root,char maMH[],int number_question)
+Queue<STreeCH> GetQuestion(STreeCH &root, char maMH[], int number_question)
 {
     int index = 0, count = 0;
-    Queue<STreeCH>q;
-    if (root != NULL)PreTraversal(q,root,maMH,count,number_question);
+    Queue<STreeCH> q;
+    if (root != NULL)
+        PreTraversal(q, root, maMH, count, number_question);
     STreeCH Quesions[number_question];
-    while(!q.empty())Quesions[index++]=q.pop();
+    while (!q.empty())
+        Quesions[index++] = q.pop();
     srand(time(0));
-    for(int i=0;i<number_question;i++){
-        count=rand()%(number_question-i)+i;
-        cout<<count<<endl;
-        swap(Quesions[i],Quesions[count]);
+    for (int i = 0; i < number_question; i++)
+    {
+        count = rand() % (number_question - i) + i;
+        cout << count << endl;
+        swap(Quesions[i], Quesions[count]);
         q.Push(Quesions[i]);
     }
     return q;
