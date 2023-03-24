@@ -140,6 +140,16 @@ int DeleteQuestion(STreeCH &root, int ID)
         }
     }
 }
+void DeleteAllQuestion(STreeCH &root,char maMH[]){
+    if(root!=NULL){
+        DeleteAllQuestion(root->left,maMH);
+        DeleteAllQuestion(root->right,maMH);
+        if(string(root->info.maMonHoc)==string(maMH)){
+            cout<<root->info.ID<<'|'<<root->info.maMonHoc<<endl;
+            DeleteQuestion(root,root->info.ID);
+        }
+    }
+}
 int Modify(STreeCH root, CauHoi question)
 {
     if (root != NULL)
