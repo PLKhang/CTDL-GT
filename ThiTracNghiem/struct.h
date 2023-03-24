@@ -12,43 +12,55 @@ using namespace std;
 #define MaxOfSubjects 300
 #define MaxOfClasses 500
 //------------------------------------------------//
-template<typename T>
-struct node{
+template <typename T>
+struct node
+{
     T info;
-    node<T>*next;
+    node<T> *next;
 };
-template<typename T> class Queue{
-    private:
-        int number=0;
-        node<T>* front=NULL;
-        node<T>* rear=NULL;
-    public:
-        void Push(T data)
+template <typename T>
+class Queue
+{
+private:
+    int number = 0;
+    node<T> *front = NULL;
+    node<T> *rear = NULL;
+
+public:
+    void Push(T data)
+    {
+        node<T> *temp = new node<T>;
+        temp->info = data;
+        if (front == NULL)
+            front = temp;
+        else
+            rear->next = temp;
+        rear = temp;
+        number++;
+    }
+    T pop()
+    {
+        if (!this->empty())
         {
-            node<T>* temp=new node<T>;
-            temp->info=data;
-            if(front==NULL) front=temp;
-            else rear->next=temp;
-            rear=temp;
-            number++;
-        }
-        T pop(){
-            if(!this->empty())
-            {
-            node<T> *run=front;
-            T data=front->info;
-            if(front==rear&&front!=NULL)front=rear=NULL;
-            else front=front->next;
+            node<T> *run = front;
+            T data = front->info;
+            if (front == rear && front != NULL)
+                front = rear = NULL;
+            else
+                front = front->next;
             delete run;
             number--;
             return data;
-            }
         }
-        bool empty(){
-            if(front==NULL)return true;
-            else return false;
-        }
-        int GetNumber(){return number;}
+    }
+    bool empty()
+    {
+        if (front == NULL)
+            return true;
+        else
+            return false;
+    }
+    int GetNumber(){return number;}
 };
 //------------------------------------------------//
 struct MonHoc
@@ -161,6 +173,7 @@ void Delete(STreeCH &root);
 int DeleteQuestion(STreeCH &root, int ID);
 void DeleteAllQuestion(STreeCH &root,char maMH[]);
 int Modify(STreeCH root, CauHoi question);
+void DeleteAllQuestion(STreeCH &root, char maMH[]);
 void Store(STreeCH root, vector<STreeCH> &nodes);
 STreeCH Convert(vector<STreeCH> &nodes, int max, int min);
 STreeCH Balance(STreeCH root);
