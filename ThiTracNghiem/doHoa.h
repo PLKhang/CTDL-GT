@@ -20,16 +20,12 @@ void VeOptions();
 
 void MENU_GV();
 void MENU_SV();
-// MaLH(C20), TenLH(C70), NienKhoa(C10)
-void VeDanhSachLopHoc(ListLH dslh);
-// MSSV(C20), Ho(C50), Ten(C20), GioiTinh(C10)
-void VeDanhSachSinhVien(PtrSV dssv);
-// MaMH(C20), DiemThi(C50)
-void VeDanhSachDiemThi(PtrDT dsdt);
-// MaMH(C20), TenMH(C50)
-void veDanhSachMonHoc(ListMH dsmh);
-// ID(C20), CauHoi(C50)( > 50 -> C47 + "...")
-void VeDanhSachCauHoi();
+//type = 1: dslh : 3cols, x1 = 25, x2 = 100
+//type = 2: dssv : 4cols, x1 = 25, x2 = 80, x3 = 100
+//type = 3: dsdt : 2cols, x1 = 90
+//type = 4: dsmh : 2cols, x1 = 35
+//type = 5: dsch : 2cols, x1 = 35
+void VeDanhSach(int types);
 
 void KhungThemSinhVien();
 void KhungThemMonHoc();
