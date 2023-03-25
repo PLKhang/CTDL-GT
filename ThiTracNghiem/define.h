@@ -21,6 +21,11 @@
 #define BOTTOM_MIDDLE 193
 #define CENTER 197
 
+// TOA DO VE KHUNG
+// TOA DO LopHoc
+#define X1 
+#define X1 
+
 // PHIM DIEU HUONG
 #define UP 72
 #define DOWN 80

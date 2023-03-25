@@ -2,7 +2,10 @@
 
 int ThongBao();
 bool XacNhan();
-void VeKhung();
+void VeKhung()
+{
+    
+}
 void VeOptions();
 
 void MENU_GV();

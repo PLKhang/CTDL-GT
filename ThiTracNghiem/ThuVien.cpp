@@ -87,6 +87,7 @@ char GetKey()
 		return -getch();
 	else return key;
 }
+		//	toa do x1 , y1 ,x2 ,y2 , ....
 void VeKhung(int x1, int y1,int x2,int y2,int mau_nen,int loai_khung,string content) {
 	int khung_ngang=196,khung_doc=179,goc1=218,goc2=191,goc3=192,goc4=217;
 	int nen=1;
