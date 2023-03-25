@@ -5,12 +5,7 @@
 
 #include"ThuVien.h"
 #include"XuLyChuongTrinh.h"
-void THONGBAO(string="");
-void MENU();
-int DANGNHAP();
 int MENUGV();
-int MENUSV();
-void run();
-
-
+int THONGBAO(int option = 0, string = "");
+int DANGNHAP();
 #endif //XU_LY_GIAO_DIEN_H
