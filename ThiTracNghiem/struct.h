@@ -101,7 +101,7 @@ typedef nodeCauHoi *STreeCH;
 struct DiemThi
 {
     char maMonHoc[16];
-    float diemThi = -1;
+    float diemThi;
 };
 
 struct nodeDiemThi

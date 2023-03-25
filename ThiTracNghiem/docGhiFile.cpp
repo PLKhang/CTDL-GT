@@ -52,7 +52,7 @@ int doc_danhSachSinhVien(PtrSV &dssv, string maLH)
     KhoiTao_PtrSV(dssv);
     string fileLocation = "Data/DanhSachSinhVien/" + maLH + ".txt";
 
-    ifstream file(fileLocation);
+    ifstream file(fileLocation.c_str());
     if (!file)
         return 0;
 
@@ -99,14 +99,15 @@ int doc_danhSachSinhVien(PtrSV &dssv, string maLH)
         doc_danhSachDiemThi(info.danhSachDiemThi, maLH, info.MSSV);
         insert_Order_SV(dssv, info);
     }
-    return 1;
+    file.close();
+	return 1;
 }
 int doc_danhSachDiemThi(PtrDT &dsdt, string maLH, string mssv)
 {
     KhoiTao_PtrDT(dsdt);
     string fileLocation = "Data/DanhSachSinhVien/DanhSachDiemThi/" + maLH + '/' + mssv + ".txt";
 
-    ifstream file(fileLocation);
+    ifstream file(fileLocation.c_str());
     if (!file)
         return 0;
 
@@ -140,6 +141,7 @@ int doc_danhSachDiemThi(PtrDT &dsdt, string maLH, string mssv)
         }
         insert_Order_DT(dsdt, info);
     }
+    file.close();
     return 1;
 }
 int doc_danhSachMonHoc(ListMH &dsmh)
@@ -243,7 +245,7 @@ int ghi_danhSachLopHoc(ListLH dslh)
 int ghi_danhSachSinhVien(PtrSV dssv, string maLH)
 {
     string fileLocation = "Data/DanhSachSinhvien/" + maLH + ".txt";
-    ofstream file(fileLocation);
+    ofstream file(fileLocation.c_str());
     if (!file)
         return 0;
     PtrSV p = dssv;
@@ -253,12 +255,13 @@ int ghi_danhSachSinhVien(PtrSV dssv, string maLH)
         ghi_danhSachDiemThi(p->info.danhSachDiemThi, maLH, p->info.MSSV);
         p = p->next;
     }
-    return 1;
+    file.close();
+	return 1;
 }
 int ghi_danhSachDiemThi(PtrDT dsdt, string maLH, string mssv)
 {
     string fileLocation = "Data/DanhSachSinhVien/DanhSachDiemThi/" + maLH + '/' + mssv + ".txt";
-    ofstream file(fileLocation);
+    ofstream file(fileLocation.c_str());
     if (!file)
         return 0;
     PtrDT p = dsdt;
@@ -267,6 +270,7 @@ int ghi_danhSachDiemThi(PtrDT dsdt, string maLH, string mssv)
         file << p->info.maMonHoc << '|' << p->info.diemThi << "|\n";
         p = p->next;
     }
+    file.close();
     return 1;
 }
 int ghi_danhSachMonHoc(ListMH dsmh)
