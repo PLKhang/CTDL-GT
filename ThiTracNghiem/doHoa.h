@@ -15,7 +15,6 @@ int ThongBao();
 bool XacNhan();
 // Tieu de cua cac bang vd(DANH SACH CAC LOP hoac DANH SACH LOP D21CQCN01-N, ...),
 void VeKhung();
-// Co the dung VeKhung thay the
 void VeOptions();
 
 void MENU_GV();
