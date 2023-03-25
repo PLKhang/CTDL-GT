@@ -171,14 +171,14 @@ STreeCH newnode(CauHoi CH);
 int InsertQuestion(STreeCH &root, STreeCH question);
 void Delete(STreeCH &root);
 int DeleteQuestion(STreeCH &root, int ID);
+void DeleteAllQuestion(STreeCH &root,char maMH[]);
 int Modify(STreeCH root, CauHoi question);
 void DeleteAllQuestion(STreeCH &root, char maMH[]);
 void Store(STreeCH root, vector<STreeCH> &nodes);
 STreeCH Convert(vector<STreeCH> &nodes, int max, int min);
 STreeCH Balance(STreeCH root);
-void PreTraversal(CauHoi save[], STreeCH root, int &i);
-int InsertQuestion(STreeCH &root, STreeCH question);
-CauHoi *GetQuestion(STreeCH &root, int number_question);
+void PreTraversal(Queue<STreeCH>&q, STreeCH root,char maMH[],int &i, int number_question);
+Queue<STreeCH> GetQuestion(STreeCH &root,char maMH[],int number_question);
 // void Read(STreeCH &root);
 
 //-------------------DiemThi------------------//
