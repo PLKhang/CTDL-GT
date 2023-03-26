@@ -22,11 +22,16 @@ template <typename T>
 class Queue
 {
 private:
-    int number = 0;
-    node<T> *front = NULL;
-    node<T> *rear = NULL;
+    int number ;
+    node<T> *front;
+    node<T> *rear;
 
 public:
+    Queue(){
+        number=0;
+        front=NULL;
+        rear=NULL;
+    }
     void Push(T data)
     {
         node<T> *temp = new node<T>;

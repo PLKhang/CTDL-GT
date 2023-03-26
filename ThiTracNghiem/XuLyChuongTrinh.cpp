@@ -5,7 +5,7 @@ int KiemTraTK(string Name, string Password)
 {
     if (Name == "GV" && Password == "GV")
         return 2;
-    fstream DocFileTK("DanhSachTaiKhoan.txt");
+    fstream DocFileTK("Data/DanhSachTaiKhoan.txt");
     if (!DocFileTK.is_open())
         return 0;
     string line;
