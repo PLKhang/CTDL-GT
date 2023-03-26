@@ -7,7 +7,6 @@ void VeHeader()
 }
 void VeOptions();
 
-void MENU_GV();
 void MENU_SV();
 
 void VeDanhSach(int types);

@@ -4,8 +4,8 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = ThuVien.o XuLyChuongTrinh.o XuLyGiaoDien.o main.o docGhiFile.o struct.o
-LINKOBJ  = ThuVien.o XuLyChuongTrinh.o XuLyGiaoDien.o main.o docGhiFile.o struct.o
+OBJ      = ThuVien.o XuLyChuongTrinh.o main.o doHoa.o struct.o
+LINKOBJ  = ThuVien.o XuLyChuongTrinh.o main.o doHoa.o struct.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -30,14 +30,11 @@ ThuVien.o: ThuVien.cpp
 XuLyChuongTrinh.o: XuLyChuongTrinh.cpp
 	$(CPP) -c XuLyChuongTrinh.cpp -o XuLyChuongTrinh.o $(CXXFLAGS)
 
-XuLyGiaoDien.o: XuLyGiaoDien.cpp
-	$(CPP) -c XuLyGiaoDien.cpp -o XuLyGiaoDien.o $(CXXFLAGS)
-
 main.o: main.cpp
 	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
 
-docGhiFile.o: docGhiFile.cpp
-	$(CPP) -c docGhiFile.cpp -o docGhiFile.o $(CXXFLAGS)
+doHoa.o: doHoa.cpp
+	$(CPP) -c doHoa.cpp -o doHoa.o $(CXXFLAGS)
 
 struct.o: struct.cpp
 	$(CPP) -c struct.cpp -o struct.o $(CXXFLAGS)

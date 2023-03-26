@@ -6,7 +6,6 @@
 #include "ThuVien.h"
 #include "doHoa.h"
 #include "struct.h"
-#include "docGhiFile.h"
 
 using namespace std;
 int KiemTraTK(string Name, string Password);

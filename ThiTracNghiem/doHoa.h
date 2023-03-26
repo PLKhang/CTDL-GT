@@ -6,6 +6,7 @@
 
 #include "struct.h"
 #include "ThuVien.h"
+#include "define.h"
 
 using namespace std;
 // Ve bang thong bao, chi xuat hien khi can thong bao
@@ -17,7 +18,6 @@ bool XacNhan();
 void VeHeader();
 void VeOptions();
 
-void MENU_GV();
 void MENU_SV();
 // type = 1: dslh : 3cols, x1 = 25, x2 = 100
 // type = 2: dssv : 4cols, x1 = 25, x2 = 80, x3 = 100
