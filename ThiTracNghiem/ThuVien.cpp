@@ -40,6 +40,44 @@ int wherey(void)
 	GetConsoleScreenBufferInfo(hConsoleOutput, &screen_buffer_info);
 	return screen_buffer_info.dwCursorPosition.Y;
 }
+void SetWindowSize(SHORT width, SHORT height)
+{
+    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    SMALL_RECT WindowSize;
+    WindowSize.Top = 0;
+    WindowSize.Left = 0;
+    WindowSize.Right = width;
+    WindowSize.Bottom = height;
+ 
+    SetConsoleWindowInfo(hStdout, 1, &WindowSize);
+}
+void SetColor(int backgound_color, int text_color)
+{
+    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    int color_code = backgound_color * 16 + text_color;
+    SetConsoleTextAttribute(hStdout, color_code);
+}
+
+void DisableCtrButton(bool Close, bool Min, bool Max)
+{
+    HWND hWnd = GetConsoleWindow();
+    HMENU hMenu = GetSystemMenu(hWnd, false);
+    
+    if (Close == 1)
+    {
+        DeleteMenu(hMenu, SC_CLOSE, MF_BYCOMMAND);
+    }
+    if (Min == 1)
+    {
+        DeleteMenu(hMenu, SC_MINIMIZE, MF_BYCOMMAND);
+    }
+    if (Max == 1)
+    {
+        DeleteMenu(hMenu, SC_MAXIMIZE, MF_BYCOMMAND);
+    }
+}
 //////////////////////////////////////////////////////////////////////////
 char GetKey()
 {
@@ -48,113 +86,6 @@ char GetKey()
 	if (key == -32 || key == 0)
 		return -getch();
 	else return key;
-}
-void VeKhung(int x1, int y1,int x2,int y2,int mau_nen,int loai_khung,string content) {
-	int khung_ngang=196,khung_doc=179,goc1=218,goc2=191,goc3=192,goc4=217;
-	int nen=1;
-	//*****************TO MAU**************************
-	if(loai_khung==0)nen=0;
-	if(mau_nen!=-1)
-	{
-		SetBGColor(mau_nen);
-		for (int ix = x1+nen; ix < x2; ix++) 
-		{
-			for (int iy = y1+nen; iy <y2; iy++)
-			{
-				gotoxy(ix,iy);
-				cout<<" ";
-			}
-		}
-	}
-	//*********IN NOI DUNG*********
-	gotoxy(x1+1,y1+1);
-	cout<<content;
-	SetBGColor(0);
-	if(loai_khung==0)return;
-	if(loai_khung==2)
-	{
-		khung_ngang=205;khung_doc=186;
-		goc1=201;goc2=187;goc3=200;goc4=188;
-	}
-	for (int ix = x1+1; ix < x2; ix++) 
-	{
-		gotoxy(ix, y1);
-		cout << char(khung_ngang);
-		gotoxy(ix, y2 );
-		cout << char(khung_ngang);
-	}
-	for (int iy = y1+1; iy < y2; iy++) 
-	{
-		gotoxy(x1, iy);
-		cout << char(khung_doc);
-		gotoxy(x2, iy);
-		cout << char(khung_doc);
-	}
-	//*****************VE GOC************************** 
-	gotoxy(x1, y1); cout << char(goc1);
-	gotoxy(x2 , y1); cout << char(goc2);
-	gotoxy(x1, y2 ); cout << char(goc3);
-	gotoxy(x2 , y2); cout << char(goc4);
-}
-void VeBangDSLop(int x1,int y1,int x2,int y2){
-	VeKhung(x1,y1,x2,y2,0);
-	gotoxy((x1+x2)/2-15,y1+1);
-	cout<<"DANH SACH CAC LOP";
-	for(int j=y1+2;j<=y2-2;j+=2){
-		for(int i=x1+1;i<x2;i++){
-			gotoxy(i,j);
-		    cout<<char(196);
-		}
-	}
-	for(int j=y1+3;j<y2;j++){
-		gotoxy(20,j);
-		cout<<char(179);
-	}
-}
-void VeBangDSSV(string content,int x1,int y1,int x2,int y2){
-	VeKhung(x1,y1,x2,y2,0);
-	gotoxy((x1+x2)/2-15,y1+1);
-	cout<<content;
-	for(int j=y1+2;j<=y2-2;j+=2){
-		for(int i=x1+1;i<x2;i++){
-			gotoxy(i,j);
-		    cout<<char(196);
-		}
-	}
-	for(int j=y1+3;j<y2;j++){
-		gotoxy(20,j);
-		cout<<char(179);
-	}
-	
-	for(int j=y1+3;j<y2;j++){
-	gotoxy(60,j);
-	cout<<char(179);
-   	}
-   	for(int j=y1+3;j<y2;j++){
-	gotoxy(80,j);
-	cout<<char(179);
-    }
-    gotoxy(x1+6,y1+3);cout<<"MSSV";
-    gotoxy(x1+35,y1+3);cout<<"HO";
-    gotoxy(x1+68,y1+3);cout<<"TEN";
-    gotoxy(x1+85,y1+3);cout<<"PHAI";
-}
-void VeBangSV(string content,int x1,int y1,int x2,int y2){
-	VeKhung(x1,y1,x2,y2,0);
-	gotoxy((x1+x2)/2-15,y1+1);
-	cout<<content;
-	for(int j=y1+2;j<=y2-2;j+=2){
-		for(int i=x1+1;i<x2;i++){
-			gotoxy(i,j);
-		    cout<<char(196);
-		}
-	}
-	for(int j=y1+3;j<y2;j++){
-		gotoxy(50,j);
-		cout<<char(179);
-	}
-    gotoxy(x1+20,y1+3);cout<<"MON HOC";
-    gotoxy(x1+70,y1+3);cout<<"DIEM THI";
 }
 int NhapSo(int x, int y)// x va y la dia chi de hien ki tu vua nhap
 {
@@ -224,48 +155,4 @@ string NhapMa(int x,int y,string loai)
 	}
 	Ma[index]='\0';
 	return Ma;
-}
-bool ThongBao(int x,int y,string noidung)
-{
-	char ki_tu,vi_tri='t';
-	VeKhung(x,y,x+30,y+3,3,1);
-	gotoxy(x+5,y+1);
-	SetBGColor(3);
-	cout<<noidung;
-	gotoxy(x+12,y+2);
-    SetBGColor(5);
-	cout<<"YES ";
-	SetBGColor(1);
-	cout<<"| NO";
-	while((ki_tu=getch())!=13)
-	{
-		gotoxy(x+12,y+2);
-		if(ki_tu==75)
-		{
-	    SetBGColor(5);
-	    cout<<"YES ";
-	    SetBGColor(1);
-	    cout<<"| NO";
-		vi_tri='t';
-		}
-		if(ki_tu==77)
-		{
-	    SetBGColor(1);
-	    cout<<"YES ";
-	    SetBGColor(5);
-	    cout<<"| NO";
-	    vi_tri='p';
-		}
-	}
-	SetBGColor(0);
-	gotoxy(x,y);
-	cout<<"                                 ";
-	gotoxy(x,y+1);
-	cout<<"                                 ";
-	gotoxy(x,y+2);
-	cout<<"                                 ";
-	gotoxy(x,y+3);
-	cout<<"                                 ";
-	if(vi_tri=='t')return true;
-	else return false;
 }

@@ -4,8 +4,8 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = CauHoi.o DiemThi.o main.o ThuVien.o XuLyChuongTrinh.o XuLyGiaoDien.o MonHoc.o
-LINKOBJ  = CauHoi.o DiemThi.o main.o ThuVien.o XuLyChuongTrinh.o XuLyGiaoDien.o MonHoc.o
+OBJ      = ThuVien.o XuLyChuongTrinh.o XuLyGiaoDien.o main.o docGhiFile.o struct.o
+LINKOBJ  = ThuVien.o XuLyChuongTrinh.o XuLyGiaoDien.o main.o docGhiFile.o struct.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -24,15 +24,6 @@ clean: clean-custom
 $(BIN): $(OBJ)
 	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
 
-CauHoi.o: CauHoi.cpp
-	$(CPP) -c CauHoi.cpp -o CauHoi.o $(CXXFLAGS)
-
-DiemThi.o: DiemThi.cpp
-	$(CPP) -c DiemThi.cpp -o DiemThi.o $(CXXFLAGS)
-
-main.o: main.cpp
-	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
-
 ThuVien.o: ThuVien.cpp
 	$(CPP) -c ThuVien.cpp -o ThuVien.o $(CXXFLAGS)
 
@@ -42,5 +33,11 @@ XuLyChuongTrinh.o: XuLyChuongTrinh.cpp
 XuLyGiaoDien.o: XuLyGiaoDien.cpp
 	$(CPP) -c XuLyGiaoDien.cpp -o XuLyGiaoDien.o $(CXXFLAGS)
 
-MonHoc.o: MonHoc.cpp
-	$(CPP) -c MonHoc.cpp -o MonHoc.o $(CXXFLAGS)
+main.o: main.cpp
+	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
+
+docGhiFile.o: docGhiFile.cpp
+	$(CPP) -c docGhiFile.cpp -o docGhiFile.o $(CXXFLAGS)
+
+struct.o: struct.cpp
+	$(CPP) -c struct.cpp -o struct.o $(CXXFLAGS)
