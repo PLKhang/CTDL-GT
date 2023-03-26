@@ -325,6 +325,8 @@ void VeBangCauHoi()
 	cout << "LUA CHON 4";
 	gotoxy(6, 25);
 	cout << "DAP AN";
+	VeKhung(125,15,150,18);
+	gotoxy(133,16);cout<<"HIEU CHINH";
 }
 void VeKhungThi()
 {

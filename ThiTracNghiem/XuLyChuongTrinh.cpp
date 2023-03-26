@@ -5,7 +5,7 @@ int KiemTraTK(string Name, string Password)
 {
     if (Name == "GV" && Password == "GV")
         return 2;
-    fstream DocFileTK("DanhSachTaiKhoan.txt");
+    fstream DocFileTK("Data/DanhSachTaiKhoan.txt");
     if (!DocFileTK.is_open())
         return 0;
     string line;
@@ -35,6 +35,10 @@ int DANGNHAP()
     gotoxy(60, 18);
     cout << "PASSWORD";
     VeKhung(68, 17, 90, 19);
+    gotoxy(69, 15);
+	cout << "                    ";
+	gotoxy(69, 18);
+	cout << "                    ";
     do
     {
         Name = NhapMa(69, 15, 21);
