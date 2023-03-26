@@ -24,12 +24,9 @@ void MENU_SV();
 // type = 3: dsdt : 2cols, x1 = 90
 // type = 4: dsmh : 2cols, x1 = 35
 // type = 5: dsch : 2cols, x1 = 35
-void VeDanhSach(int types);
+bool VeDanhSach(int types);
 void VeKhung(int x1, int y1, int x2, int y2);
-void KhungThemSinhVien();
-void KhungThemMonHoc();
-void KhungThemDiemThi();
-void KhungThemLopHoc();
+bool KhungThem(int types);
 
 void chuMenuGV(int x, int y);
 void chuThiTracNghiem(int x, int y);

@@ -9,7 +9,100 @@ void VeOptions();
 
 void MENU_SV();
 
-void VeDanhSach(int types);
+bool VeDanhSach(int types)
+{
+	int x0 = 5, y0 = 8;
+	int xn = 115, yn = 30;
+	int x1 = 200, x2 = 200, x3 = 200;
+	switch (types)
+	{
+	case 1:
+		x1 = 25;
+		x2 = 100;
+		break;
+	case 2:
+		x1 = 25;
+		x2 = 80;
+		x3 = 100;
+		break;
+	case 3:
+		xn = 90;
+		x1 = 70;
+		break;
+	case 4:
+		xn = 90;
+		x1 = 25;
+		break;
+	case 5:
+		xn = 90;
+		x1 = 25;
+		break;
+	default:
+		return 0;
+	}
+	gotoxy(x0, y0);
+	for (int i = x0; i <= xn; i++)
+	{
+		if (i == x0)
+		{
+			gotoxy(i, y0);
+			cout << LEFT_MIDDLE;
+			for (int j = y0 + 1; j <= yn; j++)
+			{
+				gotoxy(i, j);
+				if (j == yn)
+					cout << LEFT_BOTTOM;
+				else if (j % 2 == 0)
+					cout << LEFT_MIDDLE;
+				else
+					cout << DOC;
+			}
+		}
+		else if (i == xn)
+		{
+			gotoxy(xn, y0);
+			cout << RIGHT_MIDDLE;
+			for (int j = y0 + 1; j <= yn; j++)
+			{
+				gotoxy(i, j);
+				if (j == yn)
+					cout << RIGHT_BOTTOM;
+				else if (j % 2 == 0)
+					cout << RIGHT_MIDDLE;
+				else
+					cout << DOC;
+			}
+		}
+		else if (i == x1 || i == x2 || i == x3)
+		{
+			gotoxy(i, y0);
+			cout << TOP_MIDDLE;
+			for (int j = y0 + 1; j <= yn; j++)
+			{
+				gotoxy(i, j);
+				if (j == yn)
+					cout << BOTTOM_MIDDLE;
+				else if (j % 2 == 0)
+					cout << CENTER;
+				else
+					cout << DOC;
+			}
+		}
+	}
+	for (int i = y0; i <= yn; i++)
+	{
+		if (!(i & 1))
+		{
+			for (int j = x0 + 1; j < xn; j++)
+				if (!(j == x1 || j == x2 || j == x3))
+				{
+					gotoxy(j, i);
+					cout << NGANG;
+				}
+		}
+	}
+	return 1;
+}
 void VeKhung(int x1, int y1, int x2, int y2)
 {
 	int khung_ngang = 196, khung_doc = 179, goc1 = 218, goc2 = 191, goc3 = 192, goc4 = 217;
@@ -36,10 +129,97 @@ void VeKhung(int x1, int y1, int x2, int y2)
 	gotoxy(x2, y2);
 	cout << char(goc4);
 }
-void KhungThemSinhVien();
-void KhungThemMonHoc();
-void KhungThemDiemThi();
-void KhungThemLopHoc();
+bool KhungThem(int types)
+{
+	int x0 = 5, y0 = 32;
+	int xn = 115, yn = 36;
+	int x1 = 200, x2 = 200, x3 = 200;
+	switch (types)
+	{
+	case 1:
+		x1 = 25;
+		x2 = 100;
+		break;
+	case 2:
+		x1 = 25;
+		x2 = 80;
+		x3 = 100;
+		break;
+	case 3:
+		xn = 90;
+		x1 = 70;
+		break;
+	case 4:
+		xn = 90;
+		x1 = 25;
+		break;
+	case 5:
+		xn = 90;
+		x1 = 25;
+		break;
+	default:
+		return 0;
+	}
+
+	for (int i = x0; i <= xn; i++)
+	{
+		if (i == x0)
+		{
+			gotoxy(i, y0);
+			cout << LEFT_TOP;
+			for (int j = y0 + 1; j <= yn; j++)
+			{
+				gotoxy(i, j);
+				if (j == yn)
+					cout << LEFT_BOTTOM;
+				else if (!(j & 1))
+					cout << LEFT_MIDDLE;
+				else
+					cout << DOC;
+			}
+		}
+		else if (i == xn)
+		{
+			gotoxy(i, y0);
+			cout << RIGHT_TOP;
+			for (int j = y0 + 1; j <= yn; j++)
+			{
+				gotoxy(i, j);
+				if (j == yn)
+					cout << RIGHT_BOTTOM;
+				else if (!(j & 1))
+					cout << RIGHT_MIDDLE;
+				else
+					cout << DOC;
+			}
+		}
+		else if (i == x1 || i == x2 || i == x3)
+		{
+			gotoxy(i, y0);
+			cout << TOP_MIDDLE;
+			for (int j = y0 + 1; j <= yn; j++)
+			{
+				gotoxy(i, j);
+				if (j == yn)
+					cout << BOTTOM_MIDDLE;
+				else if (!(j & 1))
+					cout << CENTER;
+				else
+					cout << DOC;
+			}
+		}
+	}
+	for (int i = y0; i <= yn; i += 2)
+	{
+		for (int j = x0 + 1; j < xn; j++)
+			if (!(j == x1 || j == x2 || j == x3))
+			{
+				gotoxy(j, i);
+				cout << NGANG;
+			}
+	}
+	return 1;
+}
 
 void chuMenuGV(int x, int y)
 {
@@ -207,5 +387,5 @@ int MenuGV()
 	cout << "      THI THU               ";
 	gotoxy(65, 25);
 	cout << "      THOAT                 ";
-	TextColor(0);
+	TextColor(7);
 }
