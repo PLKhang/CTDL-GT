@@ -1,11 +1,13 @@
-#include"ThuVien.h"
-void gotoxy(int x, int y) {
+#include "ThuVien.h"
+void gotoxy(int x, int y)
+{
 	COORD coord;
 	coord.X = x;
 	coord.Y = y;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
-void TextColor(int color) {
+void TextColor(int color)
+{
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
 void SetBGColor(WORD color)
@@ -42,10 +44,10 @@ int wherey(void)
 }
 void SetColor(int backgound_color, int text_color)
 {
-    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+	HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    int color_code = backgound_color * 16 + text_color;
-    SetConsoleTextAttribute(hStdout, color_code);
+	int color_code = backgound_color * 16 + text_color;
+	SetConsoleTextAttribute(hStdout, color_code);
 }
 //////////////////////////////////////////////////////////////////////////
 char GetKey()
@@ -54,33 +56,8 @@ char GetKey()
 	key = getch();
 	if (key == -32 || key == 0)
 		return -getch();
-	else return key;
-}
-void VeKhung(int x1, int y1, int x2, int y2)
-{
-	int khung_ngang = 196, khung_doc = 179, goc1 = 218, goc2 = 191, goc3 = 192, goc4 = 217;
-	for (int ix = x1 + 1; ix < x2; ix++)
-	{
-		gotoxy(ix, y1);
-		cout << char(khung_ngang);
-		gotoxy(ix, y2);
-		cout << char(khung_ngang);
-	}
-	for (int iy = y1 + 1; iy < y2; iy++)
-	{
-		gotoxy(x1, iy);
-		cout << char(khung_doc);
-		gotoxy(x2, iy);
-		cout << char(khung_doc);
-	}
-	gotoxy(x1, y1);
-	cout << char(goc1);
-	gotoxy(x2, y1);
-	cout << char(goc2);
-	gotoxy(x1, y2);
-	cout << char(goc3);
-	gotoxy(x2, y2);
-	cout << char(goc4);
+	else
+		return key;
 }
 string NhapChuoi(int x, int y, int chieudai) // x va y la dia chi de hien ki tu vua nhap
 {

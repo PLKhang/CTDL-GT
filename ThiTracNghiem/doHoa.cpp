@@ -1,4 +1,47 @@
-#include"XuLyGiaoDien.h"
+#include "doHoa.h"
+
+int ThongBao();
+bool XacNhan();
+void VeHeader()
+{
+}
+void VeOptions();
+
+void MENU_GV();
+void MENU_SV();
+
+void VeDanhSach(int types);
+void VeKhung(int x1, int y1, int x2, int y2)
+{
+	int khung_ngang = 196, khung_doc = 179, goc1 = 218, goc2 = 191, goc3 = 192, goc4 = 217;
+	for (int ix = x1 + 1; ix < x2; ix++)
+	{
+		gotoxy(ix, y1);
+		cout << char(khung_ngang);
+		gotoxy(ix, y2);
+		cout << char(khung_ngang);
+	}
+	for (int iy = y1 + 1; iy < y2; iy++)
+	{
+		gotoxy(x1, iy);
+		cout << char(khung_doc);
+		gotoxy(x2, iy);
+		cout << char(khung_doc);
+	}
+	gotoxy(x1, y1);
+	cout << char(goc1);
+	gotoxy(x2, y1);
+	cout << char(goc2);
+	gotoxy(x1, y2);
+	cout << char(goc3);
+	gotoxy(x2, y2);
+	cout << char(goc4);
+}
+void KhungThemSinhVien();
+void KhungThemMonHoc();
+void KhungThemDiemThi();
+void KhungThemLopHoc();
+
 void chuMenuGV(int x, int y)
 {
 	TextColor(4);
@@ -52,109 +95,7 @@ void chuMenuSV(int x, int y)
 	gotoxy(x, y++);
 	cout << "|_|  |_|______|_| \\_|\\____/  |_____/|_____|_| \\_|_|  |_|     \\/   |_____|______|_| \\_|";
 }
-int THONGBAO(int option,string thongbao){
-	VeKhung(125,0,155,10);
-	gotoxy(126,1);
-	cout<<"         THONG BAO           ";
-	gotoxy(126,2);
-	cout<<"-----------------------------";
-	gotoxy(126,3);
-	cout<<thongbao;
-	if(option==1)//clear thanh thong bao
-	{
-		Sleep(600);
-		for(int i=0;i<=10;i++){
-			gotoxy(125,i);
-			cout<<"                               ";
-		}
-	}
-	else if(option==2)//xoa noi dung vua thong bao
-	{
-		for(int i=3;i<=9;i++){
-			gotoxy(126,i);
-			cout<<"                              ";
-		}
-	}
-	else if(option==3)//hien yes no
-	{
-		int yes_no=0,option=0;
-		do{
-			if(option==224)
-			{
-				option=getch();
-				if(option==77)
-				{
-					gotoxy(135,8);
-					TextColor(16);
-					cout<<"  YES  ";
-					TextColor(64);
-					gotoxy(142,8);
-					cout<<"   NO  ";
-					yes_no=0;
-					"aaa";
-					continue;
-				}
-			}
-			
-				{
-				gotoxy(135,8);
-				TextColor(64);
-				cout<<"  YES  ";
-				TextColor(16);
-				gotoxy(142,8);
-				cout<<"   NO  ";
-				yes_no=1;
-				}
-		}while((option=getch())!=13);
-		TextColor(7);
-		return yes_no;
-	}
-}
-int DANGNHAP()
-{
-	string Name, Password;
-	chuThiTracNghiem(18, 2);
-	gotoxy(60, 15);
-	cout << "ACCOUNT";
-	VeKhung(68, 14, 90, 16);
-	gotoxy(60, 18);
-	cout << "PASSWORD";
-	VeKhung(68, 17, 90, 19);
-	do
-	{
-		Name = NhapMa(69, 15, 21);
-		if (Name == "")
-			THONGBAO(1, "NAME RONG!");
-	} while (Name == "");
-	do
-	{
-		Password = NhapMa(69, 18, 21, "MATKHAU");
-		if (Password == "")
-			THONGBAO(1, "PASSWORD RONG!");
-	} while (Password == "");
-	return KiemTraTK(Name, Password);
-}
-int MENUGV()
-{
-	int chon, to = 5, len = 0;
-	chuMenuGV(30, 1);
-	gotoxy(65, 15);
-	TextColor(20);
-	cout << "      DANH SACH CAC LOP     ";
-	TextColor(112);
-	gotoxy(65, 17);
-	cout << "      THEM SINH VIEN        ";
-	gotoxy(65, 19);
-	cout << "      DANH SACH MON HOC     ";
-	gotoxy(65, 21);
-	cout << "      BANG DIEM             ";
-	gotoxy(65, 23);
-	cout << "      THI THU               ";
-	gotoxy(65, 25);
-	cout << "      THOAT                 ";
-	TextColor(0);
-}
-void VEBANGCAUHOI()
+void VeBangCauHoi()
 {
 	VeKhung(5, 5, 115, 27);
 	int x = 5, y = 7;
@@ -206,7 +147,7 @@ void VEBANGCAUHOI()
 	gotoxy(6, 25);
 	cout << "DAP AN";
 }
-void VEKHUNGTHI()
+void VeKhungThi()
 {
 	VeKhung(5, 5, 115, 25);
 	int x = 5, y = 9;
@@ -248,4 +189,24 @@ void VEKHUNGTHI()
 	cout << "C";
 	gotoxy(10, 22);
 	cout << "D";
+}
+int MenuGV()
+{
+	int chon, to = 5, len = 0;
+	chuMenuGV(30, 1);
+	gotoxy(65, 15);
+	TextColor(20);
+	cout << "      DANH SACH CAC LOP     ";
+	TextColor(112);
+	gotoxy(65, 17);
+	cout << "      THEM SINH VIEN        ";
+	gotoxy(65, 19);
+	cout << "      DANH SACH MON HOC     ";
+	gotoxy(65, 21);
+	cout << "      BANG DIEM             ";
+	gotoxy(65, 23);
+	cout << "      THI THU               ";
+	gotoxy(65, 25);
+	cout << "      THOAT                 ";
+	TextColor(0);
 }

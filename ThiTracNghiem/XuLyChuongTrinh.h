@@ -3,12 +3,14 @@
 
 #pragma once
 
-#include<fstream>
-#include<iostream>
-#include<string>
+#include "ThuVien.h"
+#include "doHoa.h"
+#include "struct.h"
+#include "docGhiFile.h"
+
 using namespace std;
 int KiemTraTK(string Name, string Password);
+int DANGNHAP();
+int THONGBAO(int option,string thongbao);
 
-
-
-#endif //XU_LY_CHUONG_TRINH_H
+#endif // XU_LY_CHUONG_TRINH_H
