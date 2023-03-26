@@ -1,1 +1,1 @@
-# PULL, PUSH file thẳng lên lên subBranch
+# PULL, PUSH file thẳng lên lên master
