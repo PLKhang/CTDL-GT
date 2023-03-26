@@ -1,1 +1,1 @@
-# PULL file từ branch master, PUSH file lên subBranch
+# PULL, PUSH file thẳng lên lên subBranch
