@@ -5,6 +5,7 @@
         "string": "cpp",
         "xstring": "cpp",
         "xiosbase": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "thread": "cpp"
     }
 }
