@@ -30,7 +30,9 @@ return:
 0:  khong mo duoc file dslh
 1:  ok
 -1: doc file dslh loi~
--2: khong doc duoc file cho dslk SinhVienm
+-2: khong doc duoc file cho dslk SinhVien
+-3: doc file cho dslk SinhVien bi loi~
+-4: khong doc duoc file cho dslk DiemThi
 -5: doc file cho dslk DiemThi bi loi~
  */
 int doc_danhSachLopHoc(ListLH &dslh);

@@ -137,6 +137,7 @@ int doc_danhSachLopHoc(ListLH &dslh)
     int pos = 0;
     int field_Num = 1;
     string field;
+    int check = 0;
 
     // vong lap de doc cac dong trong file
     while (getline(file, line))
@@ -163,11 +164,28 @@ int doc_danhSachLopHoc(ListLH &dslh)
             }
             field_Num++;
         }
-        doc_danhSachSinhVien(data.danhSachSinhVien, data.maLop);
+        check = doc_danhSachSinhVien(data.danhSachSinhVien, data.maLop);
+        if(check != 1)
+        {
+            switch(check)
+            {
+                case 0:
+                    return -2;
+                case -1:
+                    return -3;
+                case -2:
+                    return -4;
+                case -3:
+                    return -5;
+                default:
+                    return 0;
+            }
+        }
     }
 
     // Dong file
     file.close();
+    return 1;
 }
 int doc_danhSachSinhVien(PtrSV &dssv, string maLH)
 {
@@ -184,6 +202,7 @@ int doc_danhSachSinhVien(PtrSV &dssv, string maLH)
     int pos = 0;
     int field_Num = 1;
     string field;
+    int check = 0;
 
     while (getline(file, line))
     {
@@ -218,7 +237,19 @@ int doc_danhSachSinhVien(PtrSV &dssv, string maLH)
             }
             field_Num++;
         }
-        doc_danhSachDiemThi(info.danhSachDiemThi, maLH, info.MSSV);
+        check = doc_danhSachDiemThi(info.danhSachDiemThi, maLH, info.MSSV);
+        if(check != 1)
+        {
+            switch(check)
+            {
+                case 0:
+                    return -2;
+                case -1:
+                    return -3;
+                default:
+                    return 0;
+            }
+        }
         insert_Order_SV(dssv, info);
     }
     file.close();

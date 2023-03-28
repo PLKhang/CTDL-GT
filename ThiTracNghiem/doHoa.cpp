@@ -1,11 +1,7 @@
 #include "doHoa.h"
 
 int ThongBao();
-bool XacNhan();
-void VeHeader()
-{
-}
-void VeOptions();
+void VeHeader();
 
 void MENU_SV();
 
@@ -325,8 +321,6 @@ void VeBangCauHoi()
 	cout << "LUA CHON 4";
 	gotoxy(6, 25);
 	cout << "DAP AN";
-	VeKhung(125,15,150,18);
-	gotoxy(133,16);cout<<"HIEU CHINH";
 }
 void VeKhungThi()
 {
