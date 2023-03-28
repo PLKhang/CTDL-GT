@@ -26,6 +26,8 @@ float BatDauLamBai(CauHoi list[], int soLuongCau, int phut);
 bool HienCauHoi(CauHoi info);
 
 // Login: GV
+// line: 1->6 tuong ung 6 option(lop, them sv, monhoc, bang diem, thi thu, thoat)
+void HienOptionGiangVien(int line = 1);
 //  types = 0: sap xep theo dslh, 1: sap xep theo ma lop, 2: sap xep theo nien khoa
 bool HienDanhSachLop(ListLH dslh, int start, int line, int types = 0);
 
