@@ -23,8 +23,8 @@ int wherey(void);
 void SetColor(int backgound_color, int text_color);
 char GetKey();
 string NhapChuoi(int x, int y, int chieudai);
-string NhapMa(int x, int y, int chieudai = 21, string = "");
-
+string NhapMa(int x, int y, int chieudai = 20, string = "");
+int NhapSo(int x, int y, int soluong);
 /*
 return:
 0:  khong mo duoc file dslh

@@ -181,9 +181,9 @@ void DeleteAllQuestion(STreeCH &root, char maMH[]);
 void Store(STreeCH root, vector<STreeCH> &nodes);
 STreeCH Convert(vector<STreeCH> &nodes, int max, int min);
 STreeCH Balance(STreeCH root);
-void PreTraversal(Queue<STreeCH> &q, STreeCH root, char maMH[], int &i, int number_question);
-Queue<STreeCH> GetQuestion(STreeCH &root, char maMH[], int number_question);
-// void Read(STreeCH &root);
+void PreTraversal(STreeCH * AllQuestions, STreeCH root, char maMH[], int &count);
+STreeCH* GetQuestion(STreeCH &root, char maMH[], int number_question,int tong_so_cau_hoi);
+int DemSoCauHoi(STreeCH root,char maMH[]);
 
 //-------------------DiemThi------------------//
 

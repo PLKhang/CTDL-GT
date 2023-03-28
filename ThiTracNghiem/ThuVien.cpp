@@ -62,20 +62,26 @@ char GetKey()
 string NhapChuoi(int x, int y, int chieudai) // x va y la dia chi de hien ki tu vua nhap
 {
 	gotoxy(x, y);
-	char chuoi[chieudai];
+	char chuoi[chieudai+1];
 	int index = 0;
 	char ki_tu;
-	while ((ki_tu = GetKey()) != 13)
+	while ((ki_tu = getch()) != 13)
 	{
-		if ((index == chieudai) || (ki_tu == 32 && index > 0 && chuoi[index - 1] == 32) || (ki_tu == ' ' && index == 0))
-			continue;
-		if ((ki_tu >= 'A' && ki_tu <= 'Z') || (ki_tu >= 'a' && ki_tu <= 'z') || ki_tu == '-' || ki_tu == '_' || (ki_tu >= '0' && ki_tu <= '9'))
+		//bat phim dat biec
+		if(ki_tu==27)return "ESC";
+		if(ki_tu==0||ki_tu==224)
 		{
-			chuoi[index] = toupper(ki_tu);
-			gotoxy(x + index, y);
-			cout << ki_tu;
-			index++;
+			ki_tu=getch();
+			switch(ki_tu)
+			{
+				case 59:return "F1";
+            	case 60:return "F2";
+            	case 63:return "F5";
+			}
+            continue;
 		}
+		
+		// xoa ki tu
 		if (ki_tu == 8 && index > 0)
 		{
 			index--;
@@ -84,21 +90,49 @@ string NhapChuoi(int x, int y, int chieudai) // x va y la dia chi de hien ki tu 
 			cout << " ";
 			gotoxy(x + index, y);
 		}
+		//kiem tra neu lon hon chieu dai hoac ki tu dau bang ' ' thi khong cho vao mang
+		if ((index ==chieudai) || (ki_tu == ' ' && index == 0))continue;
+		
+		if ((ki_tu >= 'A' && ki_tu <= 'Z') || (ki_tu >= 'a' && ki_tu <= 'z') || ki_tu == '-' || ki_tu == '_' || (ki_tu >= '0' && ki_tu <= '9') || ki_tu == ' ')
+		{
+			chuoi[index] = toupper(ki_tu);
+			gotoxy(x + index, y);
+			cout << chuoi[index];
+			index++;
+		}
 	}
 	chuoi[index] = '\0';
-	return string(chuoi);
+	return chuoi;
 }
 string NhapMa(int x, int y, int chieudai, string loai)
 {
 	gotoxy(x, y);
-	char Ma[chieudai], ki_tu;
+	char Ma[chieudai+1]={'\0'}, ki_tu;
 	int index = 0;
-	while ((ki_tu = GetKey()) != 13)
+	while ((ki_tu = getch()) != 13)
 	{
-		if (index == chieudai)
-			continue;
-		if ((index == 0 && (ki_tu == ' ')) || ki_tu == -32 || ki_tu == 0)
-			continue;
+		if(ki_tu==27)return "ESC";
+		if(ki_tu==0||ki_tu==224)
+		{
+			ki_tu=getch();// bat ki tu con khi nhap phim mo rong
+			switch(ki_tu)
+			{
+				case 59:return "F1";
+            	case 60:return "F2";
+            	case 63:return "F5";
+			}
+			continue;//tiep tuc de khong nhap ki tu du
+		}
+		
+		if (ki_tu == 8 && index > 0)
+		{
+			index--;
+			Ma[index] = '\0';
+			gotoxy(x + index, y);
+			cout << " ";
+			gotoxy(x + index, y);
+		}
+		if ((index == 0 && (ki_tu == ' ')) ||index == chieudai)continue;
 		if ((ki_tu >= 'A' && ki_tu <= 'Z') || (ki_tu >= 'a' && ki_tu <= 'z') || (ki_tu >= '0' && ki_tu <= '9') || ki_tu == '_' || ki_tu == '-')
 		{
 			Ma[index] = toupper(ki_tu);
@@ -109,18 +143,34 @@ string NhapMa(int x, int y, int chieudai, string loai)
 				cout << Ma[index];
 			index++;
 		}
-		if (ki_tu == 8 && index > 0)
+	}
+	return Ma;
+}
+int NhapSo(int x, int y, int soluong)
+{
+	gotoxy(x, y);
+	int number, sum = 0, index = 0;
+	while ((number = GetKey()) != 13)
+	{
+		if (number >= '0' && number <= '9'&&soluong!=0)
 		{
-			index--;
-			Ma[index] = '\0';
-			gotoxy(x + index, y);
+			sum = sum * 10 + (number - '0');
+			soluong--;
+			gotoxy(x + index++, y);
+			cout << (number - '0');
+		}
+		if (number == 8 && index > 0)
+		{
+			soluong++;
+			gotoxy(x + --index, y);
 			cout << " ";
-			gotoxy(x + index, y);
+			gotoxy(x+index,y);
+			sum /= 10;
 		}
 	}
-	Ma[index] = '\0';
-	return string(Ma);
+	return sum;
 }
+////////////////////////////////////////////////////
 int doc_danhSachLopHoc(ListLH &dslh)
 {
     // Mo file

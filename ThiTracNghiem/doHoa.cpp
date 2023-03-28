@@ -324,6 +324,7 @@ void VeBangCauHoi()
 }
 void VeKhungThi()
 {
+		system("cls");
 	VeKhung(5, 5, 115, 25);
 	int x = 5, y = 9;
 	while (y <= 21)
@@ -356,8 +357,12 @@ void VeKhungThi()
 			cout << char(179);
 		y++;
 	}
-	gotoxy(10, 10);
-	cout << "A";
+	SetColor(2,0);
+	gotoxy(6,10);cout<<"         ";
+	gotoxy(6,11);cout<<"         ";
+	gotoxy(6,12);cout<<"         ";
+	gotoxy(10, 10);cout << "A";
+	SetColor(0,7);
 	gotoxy(10, 14);
 	cout << "B";
 	gotoxy(10, 18);

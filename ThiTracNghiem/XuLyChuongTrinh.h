@@ -8,6 +8,9 @@
 #include "struct.h"
 
 using namespace std;
+
+int stop=0;// stop=1 thi dung thi
+
 int KiemTraTK(string Name, string Password);
 int DANGNHAP();
 int THONGBAO(int option, string thongbao = "");
@@ -68,4 +71,5 @@ void HienOptionCauHoi(bool line = 0);
 void ThemCauHoi();
 void XoaCauHoi();
 void HieuChinhCauHoi();
+void Thi(STreeCH &root,PtrDT& score);//THI
 #endif // XU_LY_CHUONG_TRINH_H

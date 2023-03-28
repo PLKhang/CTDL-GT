@@ -196,34 +196,43 @@ STreeCH Balance(STreeCH root)
     return Convert(nodes, nodes.size() - 1, 0);
 }
 //--------LAY CAU HOI--------
-void PreTraversal(Queue<STreeCH> &q, STreeCH root, char maMH[], int &i, int number_question)
+void PreTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count)
 {
     if (root != NULL)
     {
-        if ((string(root->info.maMonHoc) == string(maMH)) && i++ < number_question)
-            q.Push(root);
-        PreTraversal(q, root->left, maMH, i, number_question);
-        PreTraversal(q, root->right, maMH, i, number_question);
+        if ((string(root->info.maMonHoc) == string(maMH)))AllQuestions[count++]=root;
+        PreTraversal(AllQuestions, root->left, maMH, count);
+        PreTraversal(AllQuestions, root->right, maMH, count);
     }
 }
-Queue<STreeCH> GetQuestion(STreeCH &root, char maMH[], int number_question)
+STreeCH* GetQuestion(STreeCH &root, char maMH[], int number_question,int tong_so_cau_hoi)
 {
-    int index = 0, count = 0;
-    Queue<STreeCH> q;
-    if (root != NULL)
-        PreTraversal(q, root, maMH, count, number_question);
-    STreeCH Quesions[number_question];
-    while (!q.empty())
-        Quesions[index++] = q.pop();
+    int index, count = 0;
+    STreeCH *AllQuestions=new STreeCH[tong_so_cau_hoi];//con tro all tro toi mang cac con tro STreeCH
+    STreeCH *Questions=new STreeCH[number_question];
+    
+    PreTraversal(AllQuestions,root,maMH,count);
     srand(time(0));
     for (int i = 0; i < number_question; i++)
     {
-        count = rand() % (number_question - i) + i;
-        cout << count << endl;
-        swap(Quesions[i], Quesions[count]);
-        q.Push(Quesions[i]);
+        index = rand() % (count - i) + i;
+        swap(AllQuestions[i],AllQuestions[index]);
+        Questions[i]=AllQuestions[i];
     }
-    return q;
+    delete []AllQuestions;//xoa vung nho chua cac con tro 
+    return Questions;
+}
+int DemSoCauHoi(STreeCH root,char maMH[])
+{
+    if (root != NULL)
+    {
+        if(string(root->info.maMonHoc) == string(maMH))
+        {
+           return 1+DemSoCauHoi(root->left,maMH)+DemSoCauHoi(root->right,maMH);
+        }
+        else return DemSoCauHoi(root->left,maMH)+DemSoCauHoi(root->right,maMH);
+    }
+    else return 0;
 }
 //---------------------------DiemThi--------------------------//
 void KhoiTao_PtrDT(PtrDT &first)
