@@ -11,14 +11,13 @@
 using namespace std;
 // Ve bang thong bao, chi xuat hien khi can thong bao
 // nhung van chua` khoang trong tai vi tri bangThongBao khi ve cac bang khac
-int ThongBao();
+int THONGBAO(int option, string thongbao = "");
 // Hien thong bao xac nhan YES / NO de xac nhan khi thuc hien 1 cong viec
 bool XacNhan();
 // Tieu de cua cac bang vd(DANH SACH CAC LOP hoac DANH SACH LOP D21CQCN01-N, ...),
-void VeHeader();
-void VeOptions();
+void VeHeader(int types, string text1 = "", string text2 = "");
 
-void MENU_SV();
+int MENU_SV();
 // type = 1: dslh : 3cols, x1 = 25, x2 = 100
 // type = 2: dssv : 4cols, x1 = 25, x2 = 80, x3 = 100
 // type = 3: dsdt : 2cols, x1 = 90
@@ -33,6 +32,6 @@ void chuThiTracNghiem(int x, int y);
 void chuMenuSV(int x, int y);
 void VeBangCauHoi();
 void VeKhungThi();
-int MenuGV();
+int MENU_GV();
 
 #endif // DO_HOA_H

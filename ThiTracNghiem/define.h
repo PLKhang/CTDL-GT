@@ -1,3 +1,6 @@
+#ifndef DEFINE_H
+#define DEFINE_H
+
 // KHUNG CHUONG TRINH(2 VIEN`)
 #define MAX_HEIGHT 40
 #define MAX_WIDTH 150
@@ -23,5 +26,11 @@
 #define ESC 27
 #define ENTER 13
 #define F1 59
+#define F2 60
+#define F5 63
 #define PAGEUP 73
 #define PAGEDOWN 81
+#define BACKSPACE 8
+#define SPACEBAR
+
+#endif

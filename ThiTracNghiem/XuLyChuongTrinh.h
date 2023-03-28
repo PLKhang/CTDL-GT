@@ -6,14 +6,11 @@
 #include "ThuVien.h"
 #include "doHoa.h"
 #include "struct.h"
-
+#include <thread>
 using namespace std;
-
-int stop=0;// stop=1 thi dung thi
 
 int KiemTraTK(string Name, string Password);
 int DANGNHAP();
-int THONGBAO(int option, string thongbao = "");
 
 // login: SV
 int HienThiThongTinSinhVien(string mssv);
@@ -24,7 +21,7 @@ void NhapMaMonVaThoiGianThi();
 // 1: lay de thanh cong, 0: khong du so luong cau hoi, -1, -2 ...
 int LayDeThi(STreeCH dsch, CauHoi list[], int soLuongCau);
 // tra ve diem thi cua sv
-float BatDauLamBai(CauHoi list[], int soLuongCau, int phut);
+float BatDauLamBai(CauHoi *list[], int soLuongCau, int phut);
 // tra ve ket qua dung hoac sai cua dap an;
 bool HienCauHoi(CauHoi info);
 
@@ -51,7 +48,7 @@ bool ThemSinhVien(PtrSV &dssv);
 bool XoaSinhVien(PtrSV &dssv);
 bool HieuChinhSinhVien(PtrSV &dssv);
 bool InCauHoiDaThi(string maLH, string mssv);
- 
+
 void HienDanhSachDiemThi(PtrDT dsdt, int start, int line);
 void HienOptionDiemThi(int line = 1);
 void ThemDiemThi(PtrDT dsdt);
@@ -71,5 +68,5 @@ void HienOptionCauHoi(bool line = 0);
 void ThemCauHoi();
 void XoaCauHoi();
 void HieuChinhCauHoi();
-void Thi(STreeCH &root,PtrDT& score);//THI
-#endif // XU_LY_CHUONG_TRINH_H
+void Thi(STreeCH &root, PtrDT &score); // THI
+#endif                                 // XU_LY_CHUONG_TRINH_H

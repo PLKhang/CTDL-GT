@@ -12,6 +12,7 @@
 #include <cstring>
 
 #include "struct.h"
+#include "define.h"
 
 using namespace std;
 

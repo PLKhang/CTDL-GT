@@ -1,174 +1,184 @@
 #include "ThuVien.h"
 void gotoxy(int x, int y)
 {
-	COORD coord;
-	coord.X = x;
-	coord.Y = y;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+    COORD coord;
+    coord.X = x;
+    coord.Y = y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 void TextColor(int color)
 {
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
 void SetBGColor(WORD color)
 {
-	HANDLE hConsoleOutput;
-	hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+    HANDLE hConsoleOutput;
+    hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	CONSOLE_SCREEN_BUFFER_INFO screen_buffer_info;
-	GetConsoleScreenBufferInfo(hConsoleOutput, &screen_buffer_info);
+    CONSOLE_SCREEN_BUFFER_INFO screen_buffer_info;
+    GetConsoleScreenBufferInfo(hConsoleOutput, &screen_buffer_info);
 
-	WORD wAttributes = screen_buffer_info.wAttributes;
-	color &= 0x000f;
-	color <<= 4;
-	wAttributes &= 0xff0f;
-	wAttributes |= color;
+    WORD wAttributes = screen_buffer_info.wAttributes;
+    color &= 0x000f;
+    color <<= 4;
+    wAttributes &= 0xff0f;
+    wAttributes |= color;
 
-	SetConsoleTextAttribute(hConsoleOutput, wAttributes);
+    SetConsoleTextAttribute(hConsoleOutput, wAttributes);
 }
 int wherex()
 {
-	HANDLE hConsoleOutput;
-	hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-	CONSOLE_SCREEN_BUFFER_INFO screen_buffer_info;
-	GetConsoleScreenBufferInfo(hConsoleOutput, &screen_buffer_info);
-	return screen_buffer_info.dwCursorPosition.X;
+    HANDLE hConsoleOutput;
+    hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO screen_buffer_info;
+    GetConsoleScreenBufferInfo(hConsoleOutput, &screen_buffer_info);
+    return screen_buffer_info.dwCursorPosition.X;
 }
 int wherey(void)
 {
-	HANDLE hConsoleOutput;
-	hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-	CONSOLE_SCREEN_BUFFER_INFO screen_buffer_info;
-	GetConsoleScreenBufferInfo(hConsoleOutput, &screen_buffer_info);
-	return screen_buffer_info.dwCursorPosition.Y;
+    HANDLE hConsoleOutput;
+    hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO screen_buffer_info;
+    GetConsoleScreenBufferInfo(hConsoleOutput, &screen_buffer_info);
+    return screen_buffer_info.dwCursorPosition.Y;
 }
 void SetColor(int backgound_color, int text_color)
 {
-	HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	int color_code = backgound_color * 16 + text_color;
-	SetConsoleTextAttribute(hStdout, color_code);
+    int color_code = backgound_color * 16 + text_color;
+    SetConsoleTextAttribute(hStdout, color_code);
 }
 //////////////////////////////////////////////////////////////////////////
 char GetKey()
 {
-	char key;
-	key = getch();
-	if (key == -32 || key == 0)
-		return -getch();
-	else
-		return key;
+    char key;
+    key = getch();
+    if (key == -32 || key == 0)
+        return -getch();
+    else
+        return key;
 }
 string NhapChuoi(int x, int y, int chieudai) // x va y la dia chi de hien ki tu vua nhap
 {
-	gotoxy(x, y);
-	char chuoi[chieudai+1];
-	int index = 0;
-	char ki_tu;
-	while ((ki_tu = getch()) != 13)
-	{
-		//bat phim dat biec
-		if(ki_tu==27)return "ESC";
-		if(ki_tu==0||ki_tu==224)
-		{
-			ki_tu=getch();
-			switch(ki_tu)
-			{
-				case 59:return "F1";
-            	case 60:return "F2";
-            	case 63:return "F5";
-			}
+    gotoxy(x, y);
+    char chuoi[chieudai + 1];
+    int index = 0;
+    char ki_tu;
+    while ((ki_tu = getch()) != ENTER)
+    {
+        // bat phim dac biet
+        if (ki_tu == ESC)
+            return "ESC";
+        if (ki_tu == 0 || ki_tu == 224)
+        {
+            ki_tu = getch();
+            switch (ki_tu)
+            {
+            case F1:
+                return "F1";
+            case F2:
+                return "F2";
+            case F5:
+                return "F5";
+            }
             continue;
-		}
-		
-		// xoa ki tu
-		if (ki_tu == 8 && index > 0)
-		{
-			index--;
-			chuoi[index] = '\0';
-			gotoxy(x + index, y);
-			cout << " ";
-			gotoxy(x + index, y);
-		}
-		//kiem tra neu lon hon chieu dai hoac ki tu dau bang ' ' thi khong cho vao mang
-		if ((index ==chieudai) || (ki_tu == ' ' && index == 0))continue;
-		
-		if ((ki_tu >= 'A' && ki_tu <= 'Z') || (ki_tu >= 'a' && ki_tu <= 'z') || ki_tu == '-' || ki_tu == '_' || (ki_tu >= '0' && ki_tu <= '9') || ki_tu == ' ')
-		{
-			chuoi[index] = toupper(ki_tu);
-			gotoxy(x + index, y);
-			cout << chuoi[index];
-			index++;
-		}
-	}
-	chuoi[index] = '\0';
-	return chuoi;
+        }
+
+        // xoa ki tu
+        if (ki_tu == BACKSPACE && index > 0)
+        {
+            index--;
+            chuoi[index] = '\0';
+            gotoxy(x + index, y);
+            cout << " ";
+            gotoxy(x + index, y);
+        }
+        // kiem tra neu lon hon chieu dai hoac ki tu dau bang ' ' thi khong cho vao mang
+        if ((index == chieudai) || (ki_tu == ' ' && index == 0))
+            continue;
+
+        if ((ki_tu >= 'A' && ki_tu <= 'Z') || (ki_tu >= 'a' && ki_tu <= 'z') || ki_tu == '-' || ki_tu == '_' || (ki_tu >= '0' && ki_tu <= '9') || ki_tu == ' ')
+        {
+            chuoi[index] = toupper(ki_tu);
+            gotoxy(x + index, y);
+            cout << chuoi[index];
+            index++;
+        }
+    }
+    chuoi[index] = '\0';
+    return chuoi;
 }
 string NhapMa(int x, int y, int chieudai, string loai)
 {
-	gotoxy(x, y);
-	char Ma[chieudai+1]={'\0'}, ki_tu;
-	int index = 0;
-	while ((ki_tu = getch()) != 13)
-	{
-		if(ki_tu==27)return "ESC";
-		if(ki_tu==0||ki_tu==224)
-		{
-			ki_tu=getch();// bat ki tu con khi nhap phim mo rong
-			switch(ki_tu)
-			{
-				case 59:return "F1";
-            	case 60:return "F2";
-            	case 63:return "F5";
-			}
-			continue;//tiep tuc de khong nhap ki tu du
-		}
-		
-		if (ki_tu == 8 && index > 0)
-		{
-			index--;
-			Ma[index] = '\0';
-			gotoxy(x + index, y);
-			cout << " ";
-			gotoxy(x + index, y);
-		}
-		if ((index == 0 && (ki_tu == ' ')) ||index == chieudai)continue;
-		if ((ki_tu >= 'A' && ki_tu <= 'Z') || (ki_tu >= 'a' && ki_tu <= 'z') || (ki_tu >= '0' && ki_tu <= '9') || ki_tu == '_' || ki_tu == '-')
-		{
-			Ma[index] = toupper(ki_tu);
-			gotoxy(x + index, y);
-			if (loai == "MATKHAU")
-				cout << '*';
-			else
-				cout << Ma[index];
-			index++;
-		}
-	}
-	return Ma;
+    gotoxy(x, y);
+    char Ma[chieudai + 1] = {'\0'}, ki_tu;
+    int index = 0;
+    while ((ki_tu = getch()) != ENTER)
+    {
+        if (ki_tu == ESC)
+            return "ESC";
+        if (ki_tu == 0 || ki_tu == 224)
+        {
+            ki_tu = getch(); // bat ki tu con khi nhap phim mo rong
+            switch (ki_tu)
+            {
+            case F1:
+                return "F1";
+            case F2:
+                return "F2";
+            case F5:
+                return "F5";
+            }
+            continue; // tiep tuc de khong nhap ki tu du
+        }
+
+        if (ki_tu == BACKSPACE && index > 0)
+        {
+            index--;
+            Ma[index] = '\0';
+            gotoxy(x + index, y);
+            cout << " ";
+            gotoxy(x + index, y);
+        }
+        if ((index == 0 && (ki_tu == ' ')) || index == chieudai)
+            continue;
+        if ((ki_tu >= 'A' && ki_tu <= 'Z') || (ki_tu >= 'a' && ki_tu <= 'z') || (ki_tu >= '0' && ki_tu <= '9') || ki_tu == '_' || ki_tu == '-')
+        {
+            Ma[index] = toupper(ki_tu);
+            gotoxy(x + index, y);
+            if (loai == "MATKHAU")
+                cout << '*';
+            else
+                cout << Ma[index];
+            index++;
+        }
+    }
+    return Ma;
 }
 int NhapSo(int x, int y, int soluong)
 {
-	gotoxy(x, y);
-	int number, sum = 0, index = 0;
-	while ((number = GetKey()) != 13)
-	{
-		if (number >= '0' && number <= '9'&&soluong!=0)
-		{
-			sum = sum * 10 + (number - '0');
-			soluong--;
-			gotoxy(x + index++, y);
-			cout << (number - '0');
-		}
-		if (number == 8 && index > 0)
-		{
-			soluong++;
-			gotoxy(x + --index, y);
-			cout << " ";
-			gotoxy(x+index,y);
-			sum /= 10;
-		}
-	}
-	return sum;
+    gotoxy(x, y);
+    int number, sum = 0, index = 0;
+    while ((number = GetKey()) != ENTER)
+    {
+        if (number >= '0' && number <= '9' && soluong != 0)
+        {
+            sum = sum * 10 + (number - '0');
+            soluong--;
+            gotoxy(x + index++, y);
+            cout << (number - '0');
+        }
+        if (number == 8 && index > 0)
+        {
+            soluong++;
+            gotoxy(x + --index, y);
+            cout << " ";
+            gotoxy(x + index, y);
+            sum /= 10;
+        }
+    }
+    return sum;
 }
 ////////////////////////////////////////////////////
 int doc_danhSachLopHoc(ListLH &dslh)
@@ -215,20 +225,20 @@ int doc_danhSachLopHoc(ListLH &dslh)
             field_Num++;
         }
         check = doc_danhSachSinhVien(data.danhSachSinhVien, data.maLop);
-        if(check != 1)
+        if (check != 1)
         {
-            switch(check)
+            switch (check)
             {
-                case 0:
-                    return -2;
-                case -1:
-                    return -3;
-                case -2:
-                    return -4;
-                case -3:
-                    return -5;
-                default:
-                    return 0;
+            case 0:
+                return -2;
+            case -1:
+                return -3;
+            case -2:
+                return -4;
+            case -3:
+                return -5;
+            default:
+                return 0;
             }
         }
     }
@@ -288,22 +298,22 @@ int doc_danhSachSinhVien(PtrSV &dssv, string maLH)
             field_Num++;
         }
         check = doc_danhSachDiemThi(info.danhSachDiemThi, maLH, info.MSSV);
-        if(check != 1)
+        if (check != 1)
         {
-            switch(check)
+            switch (check)
             {
-                case 0:
-                    return -2;
-                case -1:
-                    return -3;
-                default:
-                    return 0;
+            case 0:
+                return -2;
+            case -1:
+                return -3;
+            default:
+                return 0;
             }
         }
         insert_Order_SV(dssv, info);
     }
     file.close();
-	return 1;
+    return 1;
 }
 int doc_danhSachDiemThi(PtrDT &dsdt, string maLH, string mssv)
 {
@@ -459,7 +469,7 @@ int ghi_danhSachSinhVien(PtrSV dssv, string maLH)
         p = p->next;
     }
     file.close();
-	return 1;
+    return 1;
 }
 int ghi_danhSachDiemThi(PtrDT dsdt, string maLH, string mssv)
 {

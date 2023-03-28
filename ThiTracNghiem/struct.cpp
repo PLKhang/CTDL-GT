@@ -1,5 +1,4 @@
 #include "struct.h"
-using namespace std;
 
 //---------------------------MonHoc--------------------------//
 bool is_Empty_MH(ListMH dsmh)

@@ -1,9 +1,235 @@
 #include "doHoa.h"
 
-int ThongBao();
-void VeHeader();
+int THONGBAO(int option, string thongbao)
+{
+	VeKhung(125, 0, 155, 10);
+	gotoxy(126, 1);
+	cout << "         THONG BAO           ";
+	gotoxy(126, 2);
+	cout << "-----------------------------";
+	gotoxy(126, 3);
+	cout << thongbao;
+	if (option == 1) // clear thanh thong bao
+	{
+		Sleep(600);
+		for (int i = 0; i <= 10; i++)
+		{
+			gotoxy(125, i);
+			cout << "                               ";
+		}
+	}
+	else if (option == 2) // xoa noi dung vua thong bao
+	{
+		for (int i = 3; i <= 9; i++)
+		{
+			gotoxy(126, i);
+			cout << "                              ";
+		}
+	}
+	else if (option == 3) // hien yes no
+	{
+		int yes_no = 0, option = 0;
+		do
+		{
+			if (option == 224)
+			{
+				option = getch();
+				if (option == 77)
+				{
+					gotoxy(135, 8);
+					TextColor(16);
+					cout << "  YES  ";
+					TextColor(64);
+					gotoxy(142, 8);
+					cout << "   NO  ";
+					yes_no = 0;
+					"aaa";
+					continue;
+				}
+			}
 
-void MENU_SV();
+			{
+				gotoxy(135, 8);
+				TextColor(64);
+				cout << "  YES  ";
+				TextColor(16);
+				gotoxy(142, 8);
+				cout << "   NO  ";
+				yes_no = 1;
+			}
+		} while ((option = getch()) != 13);
+		TextColor(7);
+		return yes_no;
+	}
+}
+void VeHeader(int types, string text1, string text2)
+{
+	int x = 5, y = 5;
+	switch (types)
+	{
+	case 1:
+	case 2:
+		while (x <= 115)
+		{
+			gotoxy(x, y);
+			if (x == 5)
+				cout << LEFT_TOP;
+			else if (x == 115)
+				cout << RIGHT_TOP;
+			else
+				cout << NGANG;
+			x++;
+		}
+		gotoxy(55 - text1.length() / 2, 6);
+		cout << text1;
+		gotoxy(55 - text2.length() / 2, 7);
+		cout << text2;
+		gotoxy(5, 6);
+		cout << DOC;
+		gotoxy(5, 7);
+		cout << DOC;
+		gotoxy(115, 6);
+		cout << DOC;
+		gotoxy(115, 7);
+		cout << DOC;
+		break;
+	case 3:
+	case 4:
+	case 5:
+		while (x <= 90)
+		{
+			gotoxy(x, y);
+			if (x == 5)
+				cout << LEFT_TOP;
+			else if (x == 90)
+				cout << RIGHT_TOP;
+			else
+				cout << NGANG;
+			x++;
+		}
+		gotoxy(42 - text1.length() / 2, 6);
+		cout << text1;
+		gotoxy(42 - text2.length() / 2, 7);
+		cout << text2;
+		gotoxy(5, 6);
+		cout << DOC;
+		gotoxy(5, 7);
+		cout << DOC;
+		gotoxy(90, 6);
+		cout << DOC;
+		gotoxy(90, 7);
+		cout << DOC;
+		break;
+	}
+}
+
+int MENU_SV()
+{
+	system("cls");
+	chuMenuSV(30, 2);
+	gotoxy(65, 15);
+	TextColor(20); //
+	cout << "      THI                   ";
+	TextColor(112);
+	gotoxy(65, 17);
+	cout << "      XEM DIEM              ";
+	gotoxy(65, 19);
+	cout << "      THOAT                 ";
+	TextColor(7);
+	//
+	int chon, vi_tri_contro = 15;
+	while (1)
+	{
+		chon = getch();
+		switch (chon)
+		{
+			/////////////////////////
+		case ENTER:
+		{
+			switch (vi_tri_contro)
+			{
+			case 15:
+				return 1;
+			case 17:
+				return 2;
+			case 19:
+				return 3;
+			}
+		}
+			///////////////////////////////
+		case ESC:
+		{
+			if (THONGBAO(3, "BAN CO MUON THOAT KHONG") == 1)
+				return 0;
+		}
+			//////////////////////////////////
+		case 224:
+		{
+			chon = getch();
+			switch (chon)
+			{
+			case UP:
+			{
+				if (vi_tri_contro != 15)
+				{
+					if (vi_tri_contro == 17)
+					{
+						vi_tri_contro = 15;
+						gotoxy(65, 15);
+						TextColor(20);
+						cout << "      THI                   ";
+						TextColor(112);
+						gotoxy(65, 17);
+						cout << "      XEM DIEM              ";
+					}
+					else
+					{
+						vi_tri_contro = 17;
+						TextColor(20);
+						gotoxy(65, 17);
+						cout << "      XEM DIEM              ";
+						TextColor(112);
+						gotoxy(65, 19);
+						cout << "      THOAT                 ";
+					}
+					TextColor(7);
+				}
+				break;
+			}
+			case DOWN:
+			{
+				if (vi_tri_contro != 19)
+				{
+					if (vi_tri_contro == 15)
+					{
+						vi_tri_contro = 17;
+						gotoxy(65, 15);
+						TextColor(112);
+						cout << "      THI                   ";
+						TextColor(20);
+						gotoxy(65, 17);
+						cout << "      XEM DIEM              ";
+					}
+					else
+					{
+						vi_tri_contro = 19;
+						TextColor(112);
+						gotoxy(65, 17);
+						cout << "      XEM DIEM              ";
+						TextColor(20);
+						gotoxy(65, 19);
+						cout << "      THOAT                 ";
+					}
+					TextColor(7);
+				}
+				break;
+			}
+			}
+			break;
+		}
+		}
+	}
+}
 
 bool VeDanhSach(int types)
 {
@@ -101,29 +327,28 @@ bool VeDanhSach(int types)
 }
 void VeKhung(int x1, int y1, int x2, int y2)
 {
-	int khung_ngang = 196, khung_doc = 179, goc1 = 218, goc2 = 191, goc3 = 192, goc4 = 217;
 	for (int ix = x1 + 1; ix < x2; ix++)
 	{
 		gotoxy(ix, y1);
-		cout << char(khung_ngang);
+		cout << NGANG;
 		gotoxy(ix, y2);
-		cout << char(khung_ngang);
+		cout << NGANG;
 	}
 	for (int iy = y1 + 1; iy < y2; iy++)
 	{
 		gotoxy(x1, iy);
-		cout << char(khung_doc);
+		cout << DOC;
 		gotoxy(x2, iy);
-		cout << char(khung_doc);
+		cout << DOC;
 	}
 	gotoxy(x1, y1);
-	cout << char(goc1);
+	cout << LEFT_TOP;
 	gotoxy(x2, y1);
-	cout << char(goc2);
+	cout << RIGHT_TOP;
 	gotoxy(x1, y2);
-	cout << char(goc3);
+	cout << LEFT_BOTTOM;
 	gotoxy(x2, y2);
-	cout << char(goc4);
+	cout << RIGHT_BOTTOM;
 }
 bool KhungThem(int types)
 {
@@ -281,11 +506,11 @@ void VeBangCauHoi()
 		{
 			gotoxy(x, y);
 			if (x == 5)
-				cout << char(195);
+				cout << LEFT_MIDDLE;
 			else if (x == 115)
-				cout << char(180);
+				cout << RIGHT_MIDDLE;
 			else
-				cout << char(196);
+				cout << NGANG;
 			x++;
 		}
 		if (y == 7)
@@ -298,13 +523,13 @@ void VeBangCauHoi()
 	{
 		gotoxy(x, y);
 		if (y == 7)
-			cout << char(194);
+			cout << TOP_MIDDLE;
 		else if (y == 27)
-			cout << char(193);
+			cout << BOTTOM_MIDDLE;
 		else if (y == 9 || y == 12 || y == 15 || y == 18 || y == 21 || y == 24)
-			cout << char(197);
+			cout << CENTER;
 		else
-			cout << char(179);
+			cout << DOC;
 		y++;
 	}
 	gotoxy(6, 8);
@@ -324,7 +549,7 @@ void VeBangCauHoi()
 }
 void VeKhungThi()
 {
-		system("cls");
+	system("cls");
 	VeKhung(5, 5, 115, 25);
 	int x = 5, y = 9;
 	while (y <= 21)
@@ -334,11 +559,11 @@ void VeKhungThi()
 		{
 			gotoxy(x, y);
 			if (x == 5)
-				cout << char(195);
+				cout << LEFT_MIDDLE;
 			else if (x == 115)
-				cout << char(180);
+				cout << RIGHT_MIDDLE;
 			else
-				cout << char(196);
+				cout << NGANG;
 			x++;
 		}
 		y = y + 4;
@@ -348,21 +573,25 @@ void VeKhungThi()
 	{
 		gotoxy(x, y);
 		if (y == 9)
-			cout << char(194);
+			cout << TOP_MIDDLE;
 		else if (y == 25)
-			cout << char(193);
+			cout << BOTTOM_MIDDLE;
 		else if (y == 9 || y == 13 || y == 17 || y == 21)
-			cout << char(197);
+			cout << CENTER;
 		else
-			cout << char(179);
+			cout << DOC;
 		y++;
 	}
-	SetColor(2,0);
-	gotoxy(6,10);cout<<"         ";
-	gotoxy(6,11);cout<<"         ";
-	gotoxy(6,12);cout<<"         ";
-	gotoxy(10, 10);cout << "A";
-	SetColor(0,7);
+	SetColor(2, 0);
+	gotoxy(6, 10);
+	cout << "         ";
+	gotoxy(6, 11);
+	cout << "         ";
+	gotoxy(6, 12);
+	cout << "         ";
+	gotoxy(10, 10);
+	cout << "A";
+	SetColor(0, 7);
 	gotoxy(10, 14);
 	cout << "B";
 	gotoxy(10, 18);
@@ -370,9 +599,9 @@ void VeKhungThi()
 	gotoxy(10, 22);
 	cout << "D";
 }
-int MenuGV()
+int MENU_GV()
 {
-	int chon, to = 5, len = 0;
+	system("cls");
 	chuMenuGV(30, 1);
 	gotoxy(65, 15);
 	TextColor(20);
@@ -389,4 +618,135 @@ int MenuGV()
 	gotoxy(65, 25);
 	cout << "      THOAT                 ";
 	TextColor(7);
+
+	int chon, vi_tri_contro = 15, wherey = 15;
+
+	while (1)
+	{
+		chon = getch();
+		switch (chon)
+		{
+		case ENTER:
+		{
+			switch (vi_tri_contro)
+			{
+			case 15:
+				return 1;
+			case 17:
+				return 2;
+			case 19:
+				return 3;
+			case 21:
+				return 4;
+			case 23:
+				return 5;
+			case 25:
+				return 6;
+			}
+			break;
+		}
+		case ESC:
+			if (THONGBAO(3, "BAN CO MUON THOAT KHONG"))
+				return 0;
+		case 224:
+		{
+			chon = getch();
+			if (chon == UP && vi_tri_contro != 15)
+			{
+				wherey = vi_tri_contro;
+				vi_tri_contro -= 2;
+			}
+			else if (chon == DOWN && vi_tri_contro != 25)
+			{
+				wherey = vi_tri_contro;
+				vi_tri_contro += 2;
+			}
+			else
+				continue;
+
+			TextColor(112);
+			switch (wherey) // wherey la vi tri cu cua vi_tri_contro de to lai
+			{
+			case 15:
+			{
+				gotoxy(65, 15);
+				cout << "      DANH SACH CAC LOP     ";
+				break;
+			}
+			case 17:
+			{
+				gotoxy(65, 17);
+				cout << "      THEM SINH VIEN        ";
+				break;
+			}
+			case 19:
+			{
+				gotoxy(65, 19);
+				cout << "      DANH SACH MON HOC     ";
+				break;
+			}
+			case 21:
+			{
+				gotoxy(65, 21);
+				cout << "      BANG DIEM             ";
+				break;
+			}
+			case 23:
+			{
+				gotoxy(65, 23);
+				cout << "      THI THU               ";
+				break;
+			}
+			case 25:
+			{
+				gotoxy(65, 25);
+				cout << "      THOAT                 ";
+				break;
+			}
+			}
+
+			TextColor(20);
+			switch (vi_tri_contro) // to vi tri moi
+			{
+			case 15:
+			{
+				gotoxy(65, 15);
+				cout << "      DANH SACH CAC LOP     ";
+				break;
+			}
+			case 17:
+			{
+				gotoxy(65, 17);
+				cout << "      THEM SINH VIEN        ";
+				break;
+			}
+			case 19:
+			{
+				gotoxy(65, 19);
+				cout << "      DANH SACH MON HOC     ";
+				break;
+			}
+			case 21:
+			{
+				gotoxy(65, 21);
+				cout << "      BANG DIEM             ";
+				break;
+			}
+			case 23:
+			{
+				gotoxy(65, 23);
+				cout << "      THI THU               ";
+				break;
+			}
+			case 25:
+			{
+				gotoxy(65, 25);
+				cout << "      THOAT                 ";
+				break;
+			}
+			}
+			TextColor(7);
+		}
+		}
+	}
 }
