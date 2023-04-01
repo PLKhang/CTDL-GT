@@ -61,13 +61,16 @@ int HienOptionDiemThi(bool check = 0);
 void SortDSDT(PtrDT *data, int n, int &check);
 
 //--------------------------MON HOC---------------------------
-void HienDanhSachMonHoc(ListMH dsmh, int start, int line);
+void MENU_DSMH_GV(STreeCH &root, ListMH dsmh);
+void HienDanhSachMonHoc(ListMH dsmh, int start);
 // line: 1-> 4 tuong ung 4 option cua MonHoc
-void HienOptionMonHoc(int line = 1);
-void ThemMonHoc();
-void XoaMonHoc();
+int HienOptionMonHoc(bool check = 0);
+void ThemMonHoc(ListMH &dsmh);
+bool XoaMonHoc(ListMH &dsmh, int index);
 void HieuChinhMonHoc();
 
+//--------------------------CAU HOI-------------------------
+int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc);
 void HienDanhSachCauHoi(STreeCH dsch, const char *maMH, int start, int line);
 // line: 1-> 4 tuong ung 4 option cua CauHoi
 void HienOptionCauHoi(bool line = 0);

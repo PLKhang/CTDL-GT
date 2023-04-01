@@ -13,13 +13,10 @@ int main()
 	ListMH dsmh;
 	doc_danhSachLopHoc(dslh);
 	doc_danhSachMonHoc(dsmh);
-	for(int i = 0; i < dsmh.n; i++){
-	cout << "\nID :" << dsmh.nodes[i].maMonHoc << '\n';
-	cout << "ten: " << dsmh.nodes[i].tenMonHoc << '\n';
-}
-	system("pause");
-	MENU_DSLH_GV(dslh, dsmh);
-	// MENU_DSSV_GV(dslh.lh[2], dsmh);
+//	system("pause");
+//	MENU_DSMH_GV(dsmh);
+//	MENU_DSLH_GV(dslh, dsmh);
+	 MENU_DSSV_GV(dslh.lh[2], dsmh);
 ////	STreeCH root=NULL;
 ////	doc_danhSachCauHoi(root);
 ////	CauHoi(root,a,b);	

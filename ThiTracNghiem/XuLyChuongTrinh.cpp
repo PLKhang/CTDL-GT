@@ -530,9 +530,8 @@ void MENU_DSSV_GV(LopHoc *data, ListMH dsmh)
 					HienDanhSachSinhVien(temp, data->tenLop, start);
 					gotoxy(2, 9 + line * 2);
 					cout << ">>";
-					page--;
 					gotoxy(116, 29);
-					cout << "Page " << page << '/' << maxPage;
+					cout << "Page " << --page << '/' << maxPage;
 				}
 				break;
 			case PAGEDOWN:
@@ -545,9 +544,8 @@ void MENU_DSSV_GV(LopHoc *data, ListMH dsmh)
 					HienDanhSachSinhVien(temp, data->tenLop, start);
 					gotoxy(2, 9 + line * 2);
 					cout << ">>";
-					page++;
 					gotoxy(116, 29);
-					cout << "Page " << page << '/' << maxPage;
+					cout << "Page " << ++page << '/' << maxPage;
 				}
 				break;
 			}
@@ -631,29 +629,9 @@ int HienOptionSinhVien(bool check)
 	string option4 = "   IN DANH SACH DIEM    ";
 	string option5 = "   IN CAU HOI DA THI    ";
 
-	if (check)
-	{
-		TextColor(112);
-		gotoxy(120, 15);
-		cout << option1;
-		gotoxy(120, 17);
-		cout << option2;
-		gotoxy(120, 19);
-		cout << option3;
-		gotoxy(120, 21);
-		cout << option4;
-		gotoxy(120, 23);
-		cout << option5;
-		TextColor(7);
-		return 0;
-	}
-
-	int pos_Y = 15, conTro = 15;
-
-	gotoxy(120, 15);
-	TextColor(20);
-	cout << option1;
 	TextColor(112);
+	gotoxy(120, 15);
+	cout << option1;
 	gotoxy(120, 17);
 	cout << option2;
 	gotoxy(120, 19);
@@ -662,6 +640,17 @@ int HienOptionSinhVien(bool check)
 	cout << option4;
 	gotoxy(120, 23);
 	cout << option5;
+	TextColor(7);
+
+	if (check)
+		return 0;
+
+	int pos_Y = 15, conTro = 15;
+
+	gotoxy(120, 15);
+	TextColor(20);
+	cout << option1;
+	TextColor(112);
 
 	char ch;
 	while (1)
@@ -1626,7 +1615,7 @@ void VeBangDanhSachCauHoi(char maMH[], int MaxPage, int Page)
 	cout << "Page " << Page << '/' << MaxPage;
 	SetColor(0, 7);
 }
-int CauHoi1(STreeCH &root, char maMH[], char tenMH[])
+int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc)
 {
 	int NumberQuestion = 0, vi_tri_contro, wherey, chon, MaxPage, Page, stop;
 	char chuoi[90];
@@ -1638,9 +1627,9 @@ int CauHoi1(STreeCH &root, char maMH[], char tenMH[])
 
 		stop = 0, vi_tri_contro = 16;
 		NumberQuestion = 0;
-		PreTraversal(ListQuestion, root, maMH, NumberQuestion);
+		PreTraversal(ListQuestion, root, monHoc.maMonHoc, NumberQuestion);
 		MaxPage = NumberQuestion / 11 + 1;
-		VeBangDanhSachCauHoi(maMH, MaxPage, Page);
+		VeBangDanhSachCauHoi(monHoc.maMonHoc, MaxPage, Page);
 		if (NumberQuestion == 0)
 			THONGBAO(2, "KHONG CO CAU HOI");
 		else
@@ -1673,7 +1662,7 @@ int CauHoi1(STreeCH &root, char maMH[], char tenMH[])
 				{
 				case 16:
 				{
-					ThemCauHoi(root, maMH, tenMH);
+					ThemCauHoi(root, monHoc.maMonHoc, monHoc.tenMonHoc);
 					NumberQuestion = 0;
 					// PreTraversal(ListQuestion,root, maMH,NumberQuestion);
 					stop = 1;
@@ -1689,7 +1678,7 @@ int CauHoi1(STreeCH &root, char maMH[], char tenMH[])
 						chon = getch();
 						if (chon == 13)
 						{
-							XemCauHoi(root, ListQuestion[i], tenMH);
+							XemCauHoi(root, ListQuestion[i], monHoc.tenMonHoc);
 							NumberQuestion = 0;
 							// PreTraversal(ListQuestion,root, maMH,NumberQuestion);
 							stop = 1;
@@ -2148,4 +2137,331 @@ void MENU_DSLH_GV(ListLH dslh, ListMH dsmh)
 			}
 		}
 	}
+}
+void MENU_DSMH_GV(STreeCH &root, ListMH dsmh)
+{
+	int numOfSubjects = dsmh.n;
+
+	int line = 1, start = 1, count = 1, page = 1;
+	int maxPage = (numOfSubjects - 1) / 10 + 1;
+
+	// kiem tra co phai dang o che do XOA MON HOC
+	bool check_Delete = 0;
+	// Kiem tra co phai dang o che do HIEU CHINH
+	bool check_Edit = 0;
+
+	HienDanhSachMonHoc(dsmh, start);
+	gotoxy(2, 9 + line * 2);
+	cout << ">>";
+	gotoxy(116, 29);
+	cout << "Page" << page << '/' << maxPage;
+	HienOptionMonHoc(1);
+
+	char ch;
+	while ((ch = getch()) != ESC)
+	{
+		if (ch == -32)
+		{
+			ch = getch();
+			switch (ch)
+			{
+			case UP:
+				if (line == 1 && start > 10)
+				{
+					delete_LineOnScreen(2, 9 + line * 2, 2);
+					line = 10;
+					start -= 10;
+					count--;
+
+					HienDanhSachMonHoc(dsmh, start);
+					gotoxy(2, 9 + line * 2);
+					cout << ">>";
+					gotoxy(116, 29);
+					cout << "Page " << --page << '/' << maxPage;
+				}
+				else if (line > 1 && count > 1)
+				{
+					delete_LineOnScreen(2, 9 + line * 2, 2);
+					line--;
+					count--;
+					gotoxy(2, 9 + line * 2);
+					cout << ">>";
+				}
+				break;
+			case DOWN:
+				if (line == 10 && count < dsmh.n)
+				{
+					delete_LineOnScreen(2, 9 + line * 2, 2);
+					line = 1;
+					start += 10;
+					count++;
+
+					HienDanhSachMonHoc(dsmh, start);
+					gotoxy(2, 9 + line * 2);
+					cout << ">>";
+					gotoxy(116, 29);
+					cout << "Page " << ++page << '/' << maxPage;
+				}
+				else if (line < 10 && count < dsmh.n)
+				{
+					delete_LineOnScreen(2, 9 + line * 2, 2);
+					line++;
+					count++;
+					gotoxy(2, 9 + line * 2);
+					cout << ">>";
+				}
+				break;
+			case PAGEUP:
+				if (page > 1)
+				{
+					delete_LineOnScreen(2, 9 + line * 2, 2);
+					line = 10;
+					start -= 10;
+					count = (count / 10) * 10;
+
+					HienDanhSachMonHoc(dsmh, start);
+					gotoxy(2, 9 + line * 2);
+					cout << ">>";
+					gotoxy(116, 29);
+					cout << "Page " << --page << '/' << maxPage;
+				}
+				break;
+			case PAGEDOWN:
+				if (page < maxPage)
+				{
+					delete_LineOnScreen(2, 9 + line * 2, 2);
+					line = 1;
+					start += 10;
+					count = ((count - 1) / 10 + 1) * 10 + 1;
+
+					HienDanhSachMonHoc(dsmh, start);
+					gotoxy(2, 9 + line * 2);
+					cout << ">>";
+					gotoxy(116, 29);
+					cout << "Page " << ++page << '/' << maxPage;
+				}
+				break;
+			case RIGHT:
+				if (check_Delete || check_Edit)
+					break;
+
+				delete_LineOnScreen(2, 9 + line * 2, 2);
+				switch (HienOptionMonHoc())
+				{
+				case 0:
+					break;
+				case 1:
+					ThemMonHoc(dsmh);
+					maxPage = (dsmh.n - 1) / 10 + 1;
+					start = count = line = page = 1;
+					HienDanhSachMonHoc(dsmh, start);
+					gotoxy(2, 9 + line * 2);
+					cout << ">>";
+					gotoxy(116, 29);
+					cout << "Page " << page << '/' << maxPage;
+					HienOptionMonHoc(1);
+					break;
+				case 2:
+					THONGBAO(1, "CHON MON HOC MUON XOA");
+					check_Delete = 1;
+					break;
+				case 3:
+					THONGBAO(1, "CHON MON HOC MUON HIEU CHINH");
+					check_Edit = 1;
+					break;
+				case 4:
+					THONGBAO(1, "CHON MON HOC DE XEM DANH SACH CAU HOI");
+					break;
+				}
+			}
+		}
+		else if (ch == ENTER)
+		{
+			if (check_Delete)
+			{
+				if (THONGBAO(3, "XOA MON HOC?"))
+				{
+					if (XoaMonHoc(dsmh, count - 1))
+					{
+						maxPage = (dsmh.n - 1) / 10 + 1;
+						line = page = count = start = 1;
+					}
+					check_Delete = 0;
+				}
+				break;
+			}
+			else if (check_Edit)
+			{
+				break;
+			}
+			else
+				MENU_DSCH_GV(root, dsmh.nodes[count - 1]);
+		}
+	}
+}
+void HienDanhSachMonHoc(ListMH dsmh, int start)
+{
+	system("cls");
+	SetColor(0, 7);
+	VeHeader(4, "DANH SACH MON HOC");
+	VeDanhSach(4);
+	HienOptionMonHoc(1);
+	int count = 0;
+	for (int i = start - 1; i < start + 9 && i < dsmh.n; i++)
+	{
+		gotoxy(12, 11 + count * 2);
+		cout << dsmh.nodes[i].maMonHoc;
+		gotoxy(36, 11 + count * 2);
+		cout << dsmh.nodes[i].tenMonHoc;
+		count++;
+	}
+	gotoxy(0, 40);
+}
+int HienOptionMonHoc(bool check)
+{
+	string option1 = "    THEM MON HOC        ";
+	string option2 = "    XOA MON HOC         ";
+	string option3 = "    HIEU CHINH MON HOC  ";
+	string option4 = "    XEM DS CAU HOI      ";
+
+	TextColor(112);
+	gotoxy(120, 15);
+	cout << option1;
+	gotoxy(120, 17);
+	cout << option2;
+	gotoxy(120, 19);
+	cout << option3;
+	gotoxy(120, 21);
+	cout << option4;
+	TextColor(7);
+
+	if (check)
+		return -1;
+
+	int pos_Y = 15, conTro = 15;
+
+	gotoxy(120, 15);
+	TextColor(20);
+	cout << option1;
+	TextColor(112);
+
+	char ch;
+	while (1)
+	{
+		while ((ch = getch()) == -32)
+		{
+			ch = getch();
+			switch (ch)
+			{
+			case UP:
+				if (pos_Y > 15)
+				{
+					conTro -= 2;
+					TextColor(20);
+					gotoxy(120, conTro);
+					switch (conTro)
+					{
+					case 15:
+						cout << option1;
+						break;
+					case 17:
+						cout << option2;
+						break;
+					case 19:
+						cout << option3;
+						break;
+					}
+					TextColor(112);
+					gotoxy(120, pos_Y);
+					switch (pos_Y)
+					{
+					case 17:
+						cout << option2;
+						break;
+					case 19:
+						cout << option3;
+						break;
+					case 21:
+						cout << option4;
+						break;
+					}
+				}
+			case DOWN:
+				if (pos_Y < 21)
+				{
+					conTro += 2;
+					TextColor(20);
+					gotoxy(120, conTro);
+					switch (conTro)
+					{
+					case 17:
+						cout << option2;
+						break;
+					case 19:
+						cout << option3;
+						break;
+					case 21:
+						cout << option4;
+						break;
+					}
+					TextColor(112);
+					gotoxy(120, pos_Y);
+					switch (pos_Y)
+					{
+					case 15:
+						cout << option1;
+						break;
+					case 17:
+						cout << option2;
+						break;
+					case 19:
+						cout << option3;
+						break;
+					}
+					pos_Y += 2;
+				}
+				break;
+			case LEFT:
+				return 0;
+			}
+		}
+		if (ch == ENTER)
+			switch (conTro)
+			{
+			case 15:
+				return 1;
+			case 17:
+				return 2;
+			case 19:
+				return 3;
+			case 21:
+				return 4;
+			}
+		else if (ch == ESC)
+			return 0;
+	}
+}
+bool XoaMonHoc(ListMH &dsmh, int index)
+{
+	if (is_Empty_MH(dsmh) || index >= dsmh.n)
+		return 0;
+	for (int i = index; i < MaxOfSubjects; i++)
+		dsmh.nodes[i] = dsmh.nodes[i + 1];
+	dsmh.n--;
+	return 1;
+}
+void ThemMonHoc(ListMH &dsmh)
+{
+	KhungThem(4);
+	MonHoc newMH;
+	do
+	{
+		strcpy(newMH.maMonHoc, NhapMa(6, 33, 15).c_str());
+		if (is_Empty_CArray(newMH.maMonHoc))
+			THONGBAO(1, "NHAP MA MON HOC MOI");
+		else
+			break;
+	} while (1);
+	
+	str
 }
