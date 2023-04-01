@@ -65,9 +65,10 @@ void MENU_DSMH_GV(STreeCH &root, ListMH dsmh);
 void HienDanhSachMonHoc(ListMH dsmh, int start);
 // line: 1-> 4 tuong ung 4 option cua MonHoc
 int HienOptionMonHoc(bool check = 0);
-void ThemMonHoc(ListMH &dsmh);
-bool XoaMonHoc(ListMH &dsmh, int index);
-void HieuChinhMonHoc();
+bool ThemMonHoc(ListMH dsmh);
+bool XoaMonHoc(ListMH dsmh, int index);
+// index: vi tri HIEU CHINH trong dsmh, line: vi tri hieu chinh tren man hinh
+bool HieuChinhMonHoc(ListMH dsmh, int index, int line);
 
 //--------------------------CAU HOI-------------------------
 int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc);

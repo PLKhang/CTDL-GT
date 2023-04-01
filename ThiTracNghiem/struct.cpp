@@ -13,12 +13,12 @@ bool is_Full_MH(ListMH dsmh)
         return 1;
     return 0;
 }
-bool is_Existed_MaMH_MH(ListMH dsmh, const char *maMH)
+bool is_Existed_MaMH_MH(ListMH dsmh, string maMH)
 {
     if (is_Empty_MH(dsmh))
         return 0;
     for (int i = 0; i < dsmh.n; i++)
-        if (dsmh.nodes[i].maMonHoc == maMH)
+        if (strcmp(dsmh.nodes[i].maMonHoc, maMH.c_str()) == 0)
             return 1;
     return 0;
 }
@@ -263,24 +263,24 @@ bool is_Full_DT(PtrDT first)
             return 0;
     return 1;
 }
-bool is_Existed_DT(PtrDT first, char *maMon)
+bool is_Existed_DT(PtrDT first, string maMon)
 {
     if (is_Empty_DT(first))
         return 0;
     PtrDT p;
     for (p = first; p != NULL; p = p->next)
-        if (p->info.maMonHoc == maMon)
+        if (strcmp(p->info.maMonHoc, maMon.c_str()) == 0)
             if (p->info.diemThi >= 0)
                 return 1;
     return 0;
 }
-bool is_Existed_MaMH_DT(PtrDT first, char *maMon)
+bool is_Existed_MaMH_DT(PtrDT first, string maMon)
 {
     if (is_Empty_DT(first))
         return 0;
     PtrDT p;
     for (p = first; p != NULL; p = p->next)
-        if (p->info.maMonHoc == maMon)
+        if (strcmp(p->info.maMonHoc, maMon.c_str()) == 0)
             return 1;
     return 0;
 }
@@ -334,7 +334,7 @@ bool delete_After_DT(PtrDT p)
     delete q;
     return 1;
 }
-bool delete_Pos_DT(PtrDT &first, char *maMon)
+bool delete_Pos_DT(PtrDT &first, string maMon)
 {
     if (is_Empty_DT(first) || !is_Existed_MaMH_DT(first, maMon))
         return 0;
@@ -356,13 +356,13 @@ bool set_DiemThi_DT(PtrDT &p, float x)
     p->info.diemThi = x;
     return 1;
 }
-PtrDT pos_MaMH_DT(PtrDT first, char *maMon)
+PtrDT pos_MaMH_DT(PtrDT first, string maMon)
 {
     if (is_Empty_DT(first))
         return NULL;
     PtrDT p = NULL;
 
-    while (p->info.maMonHoc != maMon && p != NULL)
+    while (strcmp(p->info.maMonHoc, maMon.c_str()) != 0 && p != NULL)
     {
         p = p->next;
     }
@@ -459,40 +459,6 @@ PtrDT set_Blank_dsDT_SV(ListMH dsmh)
         insert_Order_DT(first, info);
     }
     return first;
-}
-SinhVien create_New_SV(const char *mssv, ListMH dsmh)
-{
-    SinhVien sv;
-    strcpy(sv.MSSV, mssv);
-    sv.danhSachDiemThi = set_Blank_dsDT_SV(dsmh);
-}
-bool set_MSSV_SV(PtrSV p, const char *mssv)
-{
-    if (p == NULL)
-        return 0;
-    strcpy(p->info.MSSV, mssv);
-    return 1;
-}
-bool set_ho_SV(PtrSV p, const char *ho)
-{
-    if (p == NULL)
-        return 0;
-    strcpy(p->info.ho, ho);
-    return 1;
-}
-bool set_ten_SV(PtrSV p, const char *ten)
-{
-    if (p == NULL)
-        return 0;
-    strcpy(p->info.ten, ten);
-    return 1;
-}
-bool set_phai_SV(PtrSV p, bool gioiTinh)
-{
-    if (p == NULL)
-        return 0;
-    p->info.phai = gioiTinh;
-    return 1;
 }
 PtrSV pos_MSSV_SV(PtrSV first, const char *mssv)
 {

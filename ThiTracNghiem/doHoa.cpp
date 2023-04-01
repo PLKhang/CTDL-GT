@@ -123,10 +123,23 @@ void VeHeader(int types, string text1, string text2)
 	}
 }
 
-int MENU_SV()
+int MENU_SV(string maLop, SinhVien &data)
 {
 	system("cls");
-	chuMenuSV(30, 2);
+	VeKhung(25, 7, 125, 10);
+	chuMenuSV(32, 2);
+	// cho nay them vao maLop sao khi doc va tro toi ma lop cua TKSV
+	gotoxy(30, 9);
+	cout << maLop;
+	// cho nay them vao maSSV sao khi doc va tro toi ma lop cua TKSV
+	gotoxy(50, 9);
+	cout << data.MSSV;
+	// cho nay them vao tenSV sao khi doc va tro toi ma lop cua TKSV
+	gotoxy(73, 9);
+	cout << data.ho << " " << data.ten;
+	// cho nay them vao gioiTinh sao khi doc va tro toi ma lop cua TKSV
+	gotoxy(110, 9);
+	cout << data.phai;
 	gotoxy(65, 15);
 	TextColor(20); //
 	cout << "      THI                   ";

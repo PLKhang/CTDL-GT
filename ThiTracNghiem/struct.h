@@ -156,7 +156,7 @@ typedef DanhSachLopHoc ListLH;
 //-------------------MonHoc------------------//
 bool is_Empty_MH(ListMH dsmh);
 bool is_Full_MH(ListMH dsmh);
-bool is_Existed_MaMH_MH(ListMH dsmh, const char *maMH);
+bool is_Existed_MaMH_MH(ListMH dsmh, string maMH);
 
 // 0: dsmh FULL // 1: OK // -1: Trung` maMH
 int insert_MH(ListMH &dsmh, MonHoc info);
@@ -169,7 +169,7 @@ int delete_MH(ListMH &dsmh, unsigned pos);
 void set_Info_MH(ListMH &dsmh, unsigned pos, MonHoc new_MH);
 
 // Tra ve vi tri MonHoc.maMonHoc = maMH
-int pos_MaMH_MH(ListMH dsmh, const char *maMH);
+int pos_MaMH_MH(ListMH dsmh, string maMH);
 
 //-------------------CauHoi------------------//
 int CreateID(int Number[], int &i);
@@ -195,9 +195,9 @@ bool is_Empty_DT(PtrDT first);
 // kiem tra neu tat ca cac mon hoc deu co diem(sai neu ton tai diem < 0)
 bool is_Full_DT(PtrDT first);
 // kiem tra neu MonHoc da co diem (diem >= 0)
-bool is_Existed_DT(PtrDT first, char *maMon);
+bool is_Existed_DT(PtrDT first, string maMon);
 // kiem tra MonHoc co trong ds hay chua(truong hop: THEM MON HOC)
-bool is_Existed_MaMH_DT(PtrDT first, char *maMon);
+bool is_Existed_MaMH_DT(PtrDT first, string maMon);
 bool insert_First_DT(PtrDT &first, DiemThi x);
 bool insert_After_DT(PtrDT p, DiemThi x);
 // them vao sap xep theo ma mon (truong hop: THEM MON HOC)
@@ -205,7 +205,7 @@ bool insert_Order_DT(PtrDT &first, DiemThi x);
 
 bool delete_DiemThi_First_DT(PtrDT &first);
 bool delete_DiemThi_After_DT(PtrDT p);
-bool delete_Pos_DT(PtrDT &first, char *maMon);
+bool delete_Pos_DT(PtrDT &first, string maMon);
 // Xoa danh sach diem thi cua sinh vien
 bool delete_List_DT(PtrDT &first);
 // void delete_Info_DT(PtrDT &first, DiemThi x);
@@ -213,7 +213,7 @@ bool delete_List_DT(PtrDT &first);
 // Dung ham pos_MaMH_DT() truyen vao de lay vi tri sua diemThi
 bool set_DiemThi_DT(PtrDT &p, float x);
 // Tra ve vi tri node chua MaMH
-PtrDT pos_MaMH_DT(PtrDT first, char *maMon);
+PtrDT pos_MaMH_DT(PtrDT first, string maMon);
 //-------------------SinhVien------------------//
 
 void KhoiTao_PtrSV(PtrSV &First);
@@ -230,19 +230,11 @@ bool insert_Order_SV(PtrSV &first, SinhVien sv);
 bool delete_First_SV(PtrSV &first);
 bool delete_After_SV(PtrSV p);
 void delete_List_SV(PtrSV &first);
-// tao mot sinh vien moi(case: THEM SINH VIEN)
-// da kiem tra khong trung MSSV
-SinhVien create_New_SV(const char *mssv, ListMH dsmh);
-
-bool set_MSSV_SV(PtrSV p, const char *mssv);
-bool set_ho_SV(PtrSV p, const char *ho);
-bool set_ten_SV(PtrSV p, const char *ten);
-bool set_phai_SV(PtrSV p, bool gioiTinh);
 // tao dsDT cho sv moi va cho tat ca diem thi = -1(chua thi)
 PtrDT set_Blank_dsDT_SV(ListMH dsmh);
 
 // tra ve dia chi nam ngay truoc node co MSSV == mssv(kiem tra vi tri = first rieng)
-PtrSV pos_MSSV_SV(PtrSV first, const char *mssv);
+PtrSV pos_MSSV_SV(PtrSV first, string mssv);
 void changeInfoByPtrArray_SV(PtrSV *nodePtrArray, int index, SinhVien newData);
 
 //-------------------LopHoc------------------//
