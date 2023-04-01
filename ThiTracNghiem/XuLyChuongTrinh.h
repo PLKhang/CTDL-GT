@@ -29,32 +29,38 @@ bool HienCauHoi(CauHoi info);
 // line: 1->6 tuong ung 6 option(lop, them sv, monhoc, bang diem, thi thu, thoat)
 void HienOptionGiangVien(int line = 1);
 //  types = 0: sap xep theo dslh, 1: sap xep theo ma lop, 2: sap xep theo nien khoa
-bool HienDanhSachLop(ListLH dslh, int start, int line, int types = 0);
+//------------------------LOP HOC----------------------------
+void MENU_DSLH_GV(ListLH dslh, ListMH dsmh);
+
+void HienDanhSachLopHoc(LopHoc **data, int start);
 
 bool HienBangDiemTheoMon(PtrSV dssv, const char maMon[], int start, int end, int line);
 // line: 1->5 tuong ung voi 5 option cua LopHoc, line = 0: chua chon option nao nen khong to mau`
-bool HienOptionLopHoc(int line = 0);
+int HienOptionLopHoc(bool &check);
 // tao folder moi trong function nay`
-bool ThemLopHoc();
+bool ThemLopHoc(ListLH &dslh);
 // xoa folder trong function nay`
 bool XoaLopHoc();
 bool HieuChinhLopHoc();
 
-// types = 0: sap xep theo mssv, 1: sap xep theo ten
-void HienDanhSachSinhVien(PtrSV dssv, int start, int line, int types = 0);
-// line: 1->4 tuong ung voi 4 option cua SinhVien
-bool HienOptionSinhVien(int line = 0);
-bool ThemSinhVien(PtrSV &dssv);
-bool XoaSinhVien(PtrSV &dssv);
-bool HieuChinhSinhVien(PtrSV &dssv);
-bool InCauHoiDaThi(string maLH, string mssv);
+//-------------------------SINH VIEN-------------------------
+void MENU_DSSV_GV(LopHoc *data, ListMH dsmh);
+void HienDanhSachSinhVien(PtrSV *data, string tenLop, int start);
+int HienOptionSinhVien(bool check = 0);
+bool ThemSinhVien(PtrSV &dssv, ListMH dsmh);
+int XoaSinhVien(PtrSV &dssv, PtrSV *data, int count);
+bool HieuChinhSinhVien(PtrSV dssv, PtrSV *data, int index, int line, bool &check);
+// sap xep theo mssv <-> sap xep theo ho
+void SortDSSV(PtrSV *data, int n, bool &check);
 
-void HienDanhSachDiemThi(PtrDT dsdt, int start, int line);
-void HienOptionDiemThi(int line = 1);
-void ThemDiemThi(PtrDT dsdt);
-void XoaDiemThi(PtrDT dsdt);
-void HieuChinhDiemThi(PtrDT dsdt);
+//-------------------------DIEM THI--------------------------
+void MENU_DSDT_GV(SinhVien data, ListMH dsmh);
+void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, string ten, int start);
+int HienOptionDiemThi(bool check = 0);
+// sap xep theo mon <-> sap xep theo diem(cao xuong thap)
+void SortDSDT(PtrDT *data, int n, int &check);
 
+//--------------------------MON HOC---------------------------
 void HienDanhSachMonHoc(ListMH dsmh, int start, int line);
 // line: 1-> 4 tuong ung 4 option cua MonHoc
 void HienOptionMonHoc(int line = 1);
@@ -69,4 +75,7 @@ void ThemCauHoi();
 void XoaCauHoi();
 void HieuChinhCauHoi();
 void Thi(STreeCH &root, PtrDT &score); // THI
-#endif                                 // XU_LY_CHUONG_TRINH_H
+
+int CauHoi1(STreeCH &root, char maMH[], char tenMH[]);
+
+#endif // XU_LY_CHUONG_TRINH_H

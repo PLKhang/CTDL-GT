@@ -3,17 +3,31 @@ using namespace std;
 
 int main()
 {
-	MENU_GV();
-	MENU_SV();
-	system("cls");
-	VeHeader(2, "DANH SACH SINH VIEN", "D21CQCN01-N CONG NGHE 1 KHOA 2021");
-	VeDanhSach(2);
-	gotoxy(6, 9); cout << "  MA SO SINH VIEN  ";
-	gotoxy(26, 9); cout << "                       HO                        ";
-	gotoxy(81, 9); cout << "     TEN      ";
-	gotoxy(101, 9); cout << "  GIOI TINH  ";
-	gotoxy(0,40); 
-	
-	
-	return 0;
+//char a[]="INT1339";
+//	char b[]="c++";
+//	STreeCH root=NULL;
+//	doc_danhSachCauHoi(root);
+//	CauHoi1(root,a,b);	
+//	cin.ignore();	
+	ListLH dslh;
+	ListMH dsmh;
+	doc_danhSachLopHoc(dslh);
+	doc_danhSachMonHoc(dsmh);
+	for(int i = 0; i < dsmh.n; i++){
+	cout << "\nID :" << dsmh.nodes[i].maMonHoc << '\n';
+	cout << "ten: " << dsmh.nodes[i].tenMonHoc << '\n';
 }
+	system("pause");
+	MENU_DSLH_GV(dslh, dsmh);
+	// MENU_DSSV_GV(dslh.lh[2], dsmh);
+////	STreeCH root=NULL;
+////	doc_danhSachCauHoi(root);
+////	CauHoi(root,a,b);	
+////	cin.ignore();
+////	//ThemCauHoi(root,a,a);
+////	PtrDT score=new nodeDiemThi;
+////	Thi(root,score);
+	gotoxy(0, 40);
+	cout << "End of program\n";
+	return 0;
+} 

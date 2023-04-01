@@ -29,8 +29,8 @@
 #define F2 60
 #define F5 63
 #define PAGEUP 73
-#define PAGEDOWN 81
+#define PAGEDOWN 81	
 #define BACKSPACE 8
-#define SPACEBAR
+#define SPACEBAR 32
 
 #endif

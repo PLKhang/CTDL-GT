@@ -22,15 +22,16 @@ template <typename T>
 class Queue
 {
 private:
-    int number ;
+    int number;
     node<T> *front;
     node<T> *rear;
 
 public:
-    Queue(){
-        number=0;
-        front=NULL;
-        rear=NULL;
+    Queue()
+    {
+        number = 0;
+        front = NULL;
+        rear = NULL;
     }
     void Push(T data)
     {
@@ -106,7 +107,7 @@ typedef nodeCauHoi *STreeCH;
 struct DiemThi
 {
     char maMonHoc[16];
-    float diemThi;
+    float diemThi = -1;
 };
 
 struct nodeDiemThi
@@ -122,7 +123,7 @@ struct SinhVien
     char MSSV[11];
     char ho[51];
     char ten[16];
-    char password[21];
+    char password[12];
     bool phai; // male: 0     female: 1
     PtrDT danhSachDiemThi = NULL;
 };
@@ -139,7 +140,7 @@ struct LopHoc
 {
     char maLop[16];
     char tenLop[51];
-    char nienKhoa[11];
+    int nienKhoa;
     PtrSV danhSachSinhVien = NULL;
 };
 
@@ -181,9 +182,9 @@ void DeleteAllQuestion(STreeCH &root, char maMH[]);
 void Store(STreeCH root, vector<STreeCH> &nodes);
 STreeCH Convert(vector<STreeCH> &nodes, int max, int min);
 STreeCH Balance(STreeCH root);
-void PreTraversal(STreeCH * AllQuestions, STreeCH root, char maMH[], int &count);
-STreeCH* GetQuestion(STreeCH &root, char maMH[], int number_question,int tong_so_cau_hoi);
-int DemSoCauHoi(STreeCH root,char maMH[]);
+void PreTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count);
+STreeCH *GetQuestion(STreeCH &root, char maMH[], int number_question, int tong_so_cau_hoi);
+int DemSoCauHoi(STreeCH root, char maMH[]);
 
 //-------------------DiemThi------------------//
 
@@ -213,18 +214,17 @@ bool delete_List_DT(PtrDT &first);
 bool set_DiemThi_DT(PtrDT &p, float x);
 // Tra ve vi tri node chua MaMH
 PtrDT pos_MaMH_DT(PtrDT first, char *maMon);
-
 //-------------------SinhVien------------------//
 
 void KhoiTao_PtrSV(PtrSV &First);
 // kiem tra lop nay da co sinh vien nao hay chua
 bool is_Empty_SV(PtrSV first);
 // kiem tra neu mssv da ton tai(case : THEM SINH VIEN)
-bool is_Existed_MSSV_SV(PtrSV first, const char *mssv);
+bool is_Existed_MSSV_SV(PtrSV first, string mssv);
 
 void insert_First_SV(PtrSV &first, SinhVien sv);
 bool insert_After_SV(PtrSV p, SinhVien sv);
-bool insert_Order_SV(PtrSV first, SinhVien sv);
+bool insert_Order_SV(PtrSV &first, SinhVien sv);
 
 //+ xoa dsDT trong cac node
 bool delete_First_SV(PtrSV &first);
@@ -239,10 +239,11 @@ bool set_ho_SV(PtrSV p, const char *ho);
 bool set_ten_SV(PtrSV p, const char *ten);
 bool set_phai_SV(PtrSV p, bool gioiTinh);
 // tao dsDT cho sv moi va cho tat ca diem thi = -1(chua thi)
-PtrDT set_Blank_dsDT_SV();
+PtrDT set_Blank_dsDT_SV(ListMH dsmh);
 
 // tra ve dia chi nam ngay truoc node co MSSV == mssv(kiem tra vi tri = first rieng)
 PtrSV pos_MSSV_SV(PtrSV first, const char *mssv);
+void changeInfoByPtrArray_SV(PtrSV *nodePtrArray, int index, SinhVien newData);
 
 //-------------------LopHoc------------------//
 
@@ -251,7 +252,7 @@ bool is_Empty_LH(ListLH ListLH);
 // kiem tra chuoi day
 bool is_Full_LH(ListLH ListLH);
 // kiem tra trung maLop
-bool is_Existed_MaLop(ListLH ListLH, char maLop[]);
+bool is_Existed_MaLop(ListLH ListLH, const char *maLop);
 // chuong trinh thuc thi
 int ThemLop(ListLH &ListLH, LopHoc lh); // ham them lop
 // ham tim gia tri vi tri ma lop de gui vao cho ham xoa

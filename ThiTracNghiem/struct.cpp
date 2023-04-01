@@ -22,21 +22,26 @@ bool is_Existed_MaMH_MH(ListMH dsmh, const char *maMH)
             return 1;
     return 0;
 }
-int insert_MH(ListMH &dsmh, MonHoc info)
+int insert_MH(ListMH &dsmh, MonHoc info) // ~ insert_Order
 {
     if (is_Full_MH(dsmh))
         return 0;
     if (is_Existed_MaMH_MH(dsmh, info.maMonHoc))
         return -1;
-    for (int i = dsmh.n - 1; i >= 0; i--)
+    if (is_Empty_MH(dsmh))
     {
-        if (dsmh.nodes[i].maMonHoc > info.maMonHoc)
-            continue;
-        for (int j = dsmh.n; j > i + 1; j--)
-            dsmh.nodes[j] = dsmh.nodes[j - 1];
-        dsmh.nodes[i + 1] = info;
-        break;
+        dsmh.nodes[0] = info;
+        dsmh.n = 1;
+        return 1;
     }
+
+    int i = dsmh.n - 1;
+    while (i >= 0 && strcmp(dsmh.nodes[i].maMonHoc, info.maMonHoc) > 0)
+    {
+        dsmh.nodes[i + 1] = dsmh.nodes[i];
+        --i;
+    }
+    dsmh.nodes[i + 1] = info;
     dsmh.n++;
     return 1;
 }
@@ -199,39 +204,42 @@ void PreTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count)
 {
     if (root != NULL)
     {
-        if ((string(root->info.maMonHoc) == string(maMH)))AllQuestions[count++]=root;
+        if ((string(root->info.maMonHoc) == string(maMH)))
+            AllQuestions[count++] = root;
         PreTraversal(AllQuestions, root->left, maMH, count);
         PreTraversal(AllQuestions, root->right, maMH, count);
     }
 }
-STreeCH* GetQuestion(STreeCH &root, char maMH[], int number_question,int tong_so_cau_hoi)
+STreeCH *GetQuestion(STreeCH &root, char maMH[], int number_question, int tong_so_cau_hoi)
 {
     int index, count = 0;
-    STreeCH *AllQuestions=new STreeCH[tong_so_cau_hoi];//con tro all tro toi mang cac con tro STreeCH
-    STreeCH *Questions=new STreeCH[number_question];
-    
-    PreTraversal(AllQuestions,root,maMH,count);
+    STreeCH *AllQuestions = new STreeCH[tong_so_cau_hoi]; // con tro all tro toi mang cac con tro STreeCH
+    STreeCH *Questions = new STreeCH[number_question];
+
+    PreTraversal(AllQuestions, root, maMH, count);
     srand(time(0));
     for (int i = 0; i < number_question; i++)
     {
         index = rand() % (count - i) + i;
-        swap(AllQuestions[i],AllQuestions[index]);
-        Questions[i]=AllQuestions[i];
+        swap(AllQuestions[i], AllQuestions[index]);
+        Questions[i] = AllQuestions[i];
     }
-    delete []AllQuestions;//xoa vung nho chua cac con tro 
+    delete[] AllQuestions; // xoa vung nho chua cac con tro
     return Questions;
 }
-int DemSoCauHoi(STreeCH root,char maMH[])
+int DemSoCauHoi(STreeCH root, char maMH[])
 {
     if (root != NULL)
     {
-        if(string(root->info.maMonHoc) == string(maMH))
+        if (string(root->info.maMonHoc) == string(maMH))
         {
-           return 1+DemSoCauHoi(root->left,maMH)+DemSoCauHoi(root->right,maMH);
+            return 1 + DemSoCauHoi(root->left, maMH) + DemSoCauHoi(root->right, maMH);
         }
-        else return DemSoCauHoi(root->left,maMH)+DemSoCauHoi(root->right,maMH);
+        else
+            return DemSoCauHoi(root->left, maMH) + DemSoCauHoi(root->right, maMH);
     }
-    else return 0;
+    else
+        return 0;
 }
 //---------------------------DiemThi--------------------------//
 void KhoiTao_PtrDT(PtrDT &first)
@@ -296,14 +304,17 @@ bool insert_After_DT(PtrDT p, DiemThi x)
 }
 bool insert_Order_DT(PtrDT &first, DiemThi x)
 {
-    PtrDT u, v;
-    for (u = first; u->info.maMonHoc > x.maMonHoc; v = u, u = u->next)
-        ;
+    PtrDT u = first, v = NULL;
+    while (u != NULL && strcmp(u->info.maMonHoc, x.maMonHoc) < 0)
+    {
+        v = u;
+        u = u->next;
+    }
     if (u == first)
         insert_First_DT(first, x);
-    else
-        insert_After_DT(v, x);
-    return 1;
+    else if (!insert_After_DT(v, x))
+        return false;
+    return true;
 }
 bool delete_First_DT(PtrDT &first)
 {
@@ -357,7 +368,6 @@ PtrDT pos_MaMH_DT(PtrDT first, char *maMon)
     }
     return p;
 }
-
 //---------------------------SinhVien--------------------------//
 void KhoiTao_PtrSV(PtrSV &first)
 {
@@ -369,13 +379,13 @@ bool is_Empty_SV(PtrSV first)
         return 1;
     return 0;
 }
-bool is_Existed_MSSV_SV(PtrSV first, const char *mssv)
+bool is_Existed_MSSV_SV(PtrSV first, string mssv)
 {
     if (is_Empty_SV(first))
         return 0;
     PtrSV p = NULL;
     for (p = first; p != NULL; p = p->next)
-        if (p->info.MSSV == mssv)
+        if (strcmp(p->info.MSSV, mssv.c_str()) == 0)
             return 1;
     return 0;
 }
@@ -389,23 +399,26 @@ void insert_First_SV(PtrSV &first, SinhVien sv)
 bool insert_After_SV(PtrSV p, SinhVien sv)
 {
     if (p == NULL)
-        return 0;
+        return false;
     PtrSV q = new nodeSinhVien;
     q->info = sv;
     q->next = p->next;
     p->next = q;
-    return 1;
+    return true;
 }
-bool insert_Order_SV(PtrSV first, SinhVien sv)
+bool insert_Order_SV(PtrSV &first, SinhVien sv)
 {
-    PtrSV u, v;
-    for (u = first; u->info.MSSV < sv.MSSV; v = u, u = u->next)
-        ;
+    PtrSV u = first, v = NULL;
+    while (u != NULL && strcmp(u->info.MSSV, sv.MSSV) < 0)
+    {
+        v = u;
+        u = u->next;
+    }
     if (u == first)
         insert_First_SV(first, sv);
     else if (!insert_After_SV(v, sv))
-        return 0;
-    return 1;
+        return false;
+    return true;
 }
 bool delete_First_SV(PtrSV &first)
 {
@@ -439,14 +452,11 @@ PtrDT set_Blank_dsDT_SV(ListMH dsmh)
     PtrDT first, cur;
     KhoiTao_PtrDT(first);
     DiemThi info;
-    strcpy(info.maMonHoc, dsmh.nodes[0].maMonHoc);
-    insert_First_DT(first, info);
-    cur = first;
-    for (int i = 1; i < dsmh.n; i++)
+    info.diemThi = -1;
+    for (int i = 0; i < dsmh.n; i++)
     {
         strcpy(info.maMonHoc, dsmh.nodes[i].maMonHoc);
-        insert_After_DT(cur, info);
-        cur = cur->next;
+        insert_Order_DT(first, info);
     }
     return first;
 }
@@ -493,6 +503,13 @@ PtrSV pos_MSSV_SV(PtrSV first, const char *mssv)
             return cur;
     return NULL;
 }
+// thay doi thong tin cua node thong qua mang con tro(HIEU CHINH SINH VIEN)
+void changeInfoByPtrArray_SV(PtrSV *nodePtrArray, int index, SinhVien newData)
+{
+    PtrSV cur = nodePtrArray[index];
+
+    cur->info = newData;
+}
 
 //---------------------------LopHoc--------------------------//
 bool is_Empty_LH(ListLH ListLH)
@@ -503,7 +520,7 @@ bool is_Full_LH(ListLH ListLH)
 {
     return (ListLH.n == MaxOfClasses);
 }
-bool is_Existed_MaLop(ListLH ListLH, char maLop[])
+bool is_Existed_MaLop(ListLH ListLH, const char *maLop)
 {
     for (int i = 0; i < ListLH.n; i++)
     {
@@ -584,5 +601,5 @@ void SuaLop(ListLH &ListLH, int i, LopHoc lh)
     }
     // cập nhật thông tin lớp học
     strcpy(ListLH.lh[i]->tenLop, lh.tenLop);
-    strcpy(ListLH.lh[i]->nienKhoa, lh.nienKhoa);
+    ListLH.lh[i]->nienKhoa = lh.nienKhoa;
 }

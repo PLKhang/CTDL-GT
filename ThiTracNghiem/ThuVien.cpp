@@ -62,14 +62,14 @@ char GetKey()
 string NhapChuoi(int x, int y, int chieudai) // x va y la dia chi de hien ki tu vua nhap
 {
     gotoxy(x, y);
-    char chuoi[chieudai + 1];
+    char chuoi[chieudai + 1] = {'\0'};
     int index = 0;
     char ki_tu;
-    while ((ki_tu = getch()) != ENTER)
+    while ((ki_tu = getch()) != ENTER && ki_tu != ESC)
     {
         // bat phim dac biet
-        if (ki_tu == ESC)
-            return "ESC";
+        // if (ki_tu == ESC)
+        //     return "ESC";
         if (ki_tu == 0 || ki_tu == 224)
         {
             ki_tu = getch();
@@ -114,10 +114,10 @@ string NhapMa(int x, int y, int chieudai, string loai)
     gotoxy(x, y);
     char Ma[chieudai + 1] = {'\0'}, ki_tu;
     int index = 0;
-    while ((ki_tu = getch()) != ENTER)
+    while ((ki_tu = getch()) != ENTER && ki_tu != ESC)
     {
-        if (ki_tu == ESC)
-            return "ESC";
+        // if (ki_tu == ESC)
+        //     return "ESC";
         if (ki_tu == 0 || ki_tu == 224)
         {
             ki_tu = getch(); // bat ki tu con khi nhap phim mo rong
@@ -154,6 +154,7 @@ string NhapMa(int x, int y, int chieudai, string loai)
             index++;
         }
     }
+    Ma[index] = '\0';
     return Ma;
 }
 int NhapSo(int x, int y, int soluong)
@@ -179,6 +180,17 @@ int NhapSo(int x, int y, int soluong)
         }
     }
     return sum;
+}
+bool is_Empty_CArray(char *a)
+{
+    return a[0] == '\0' || a == "ESC";
+}
+void delete_LineOnScreen(int x, int y, int length)
+{
+    gotoxy(x, y);
+    SetColor(0, 7);
+    for(int i = 0; i < length; i++)
+        cout << " ";
 }
 ////////////////////////////////////////////////////
 int doc_danhSachLopHoc(ListLH &dslh)
@@ -217,7 +229,7 @@ int doc_danhSachLopHoc(ListLH &dslh)
                 strcpy(data.tenLop, field.c_str());
                 break;
             case 3:
-                strcpy(data.nienKhoa, field.c_str());
+                data.nienKhoa = atoi(field.c_str());
                 break;
             default:
                 return -1;
@@ -241,6 +253,7 @@ int doc_danhSachLopHoc(ListLH &dslh)
                 return 0;
             }
         }
+        ThemLop(dslh, data);
     }
 
     // Dong file
@@ -263,7 +276,6 @@ int doc_danhSachSinhVien(PtrSV &dssv, string maLH)
     int field_Num = 1;
     string field;
     int check = 0;
-
     while (getline(file, line))
     {
         pos = 0;
@@ -396,6 +408,7 @@ int doc_danhSachMonHoc(ListMH &dsmh)
             }
             field_Num++;
         }
+        insert_MH(dsmh, data);
     }
     // Dong file
     file.close();

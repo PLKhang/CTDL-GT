@@ -241,23 +241,49 @@ bool VeDanhSach(int types)
 	case 1:
 		x1 = 25;
 		x2 = 100;
+		gotoxy(12, 9);
+		cout << "MA LOP";
+		gotoxy(59, 9);
+		cout << "TEN LOP";
+		gotoxy(103, 9);
+		cout << "NIEN KHOA";
 		break;
 	case 2:
 		x1 = 25;
 		x2 = 80;
 		x3 = 100;
+		gotoxy(8, 9);
+		cout << "MA SO SINH VIEN";
+		gotoxy(50, 9);
+		cout << "HO";
+		gotoxy(89, 9);
+		cout << "TEN";
+		gotoxy(101, 9);
+		cout << "  GIOI TINH  ";
 		break;
 	case 3:
 		xn = 90;
 		x1 = 70;
+		gotoxy(30, 9);
+		cout << "TEN MON HOC";
+		gotoxy(78, 9);
+		cout << "DIEM";
 		break;
 	case 4:
 		xn = 90;
 		x1 = 25;
+		gotoxy(12, 9);
+		cout << "MA MON";
+		gotoxy(52, 9);
+		cout << "TEN MON HOC";
 		break;
 	case 5:
 		xn = 90;
 		x1 = 25;
+		gotoxy(13, 9);
+		cout << "ID";
+		gotoxy(53, 9);
+		cout << "NOI DUNG";
 		break;
 	default:
 		return 0;
@@ -360,23 +386,33 @@ bool KhungThem(int types)
 	case 1:
 		x1 = 25;
 		x2 = 100;
+		gotoxy(6, 33);
+		cout << "NHAP MA LOP";
+		gotoxy(26, 33);
+		cout << "NHAP TEN LOP";
+		gotoxy(101, 33);
+		cout << "NHAP NIEN KHOA";
 		break;
 	case 2:
 		x1 = 25;
 		x2 = 80;
 		x3 = 100;
-		break;
-	case 3:
-		xn = 90;
-		x1 = 70;
+		gotoxy(6, 33);
+		cout << "NHAP MSSV";
+		gotoxy(26, 33);
+		cout << "NHAP HO";
+		gotoxy(81, 33);
+		cout << "NHAP TEN";
+		gotoxy(101, 33);
+		cout << "NHAP MAT KHAU";
 		break;
 	case 4:
 		xn = 90;
 		x1 = 25;
-		break;
-	case 5:
-		xn = 90;
-		x1 = 25;
+		gotoxy(6, 33);
+		cout << "NHAP MA MON";
+		gotoxy(26, 33);
+		cout << "NHAP TEN MON HOC";
 		break;
 	default:
 		return 0;
