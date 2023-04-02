@@ -189,7 +189,7 @@ void delete_LineOnScreen(int x, int y, int length)
 {
     gotoxy(x, y);
     SetColor(0, 7);
-    for(int i = 0; i < length; i++)
+    for (int i = 0; i < length; i++)
         cout << " ";
 }
 ////////////////////////////////////////////////////
@@ -548,4 +548,53 @@ int ghi_danhSachCauHoi(STreeCH dsch)
             ghifile << endl;
     }
     ghifile.close();
+}
+
+void GhiCauHoiDaThi(char MSSV[], STreeCH *ListQuestion, int YourAnswer[], int numberQuestion)
+{
+    ifstream doc_CauHoiDaThi(("Data/DanhSachSinhVien/DanhSachCauHoiThi/" + string(MSSV) + ".txt").data());
+    ptrCauHoi TatCaCauHoiDaThi = new CauHoi[500];
+    string a;
+    int i = 0;
+    if (doc_CauHoiDaThi.is_open())
+        while (!doc_CauHoiDaThi.eof())
+        {
+            getline(doc_CauHoiDaThi, a, '|');
+            if (a == "")
+                break;
+            strcpy(TatCaCauHoiDaThi[i].maMonHoc, a.data());
+            doc_CauHoiDaThi >> TatCaCauHoiDaThi[i].ID;
+            doc_CauHoiDaThi.ignore();
+            doc_CauHoiDaThi >> TatCaCauHoiDaThi[i++].answer;
+            doc_CauHoiDaThi.ignore();
+            doc_CauHoiDaThi.ignore();
+        }
+    for (int k = i, j = 0; k < i + numberQuestion; k++, j++)
+    {
+        strcpy(TatCaCauHoiDaThi[k].maMonHoc, ListQuestion[j]->info.maMonHoc);
+        TatCaCauHoiDaThi[k].ID = ListQuestion[j]->info.ID;
+        TatCaCauHoiDaThi[k].answer = YourAnswer[j];
+    }
+    numberQuestion += i;
+    for (int j = 0; j <= numberQuestion - 2; j++)
+    {
+        for (int k = j + 1; k <= numberQuestion - 1;)
+        {
+            if (TatCaCauHoiDaThi[j].ID == TatCaCauHoiDaThi[k].ID)
+            {
+                swap(TatCaCauHoiDaThi[j], TatCaCauHoiDaThi[k]);
+                swap(TatCaCauHoiDaThi[k], TatCaCauHoiDaThi[--numberQuestion]);
+            }
+            else
+                k++;
+        }
+    }
+    doc_CauHoiDaThi.close();
+    ofstream ghiCauHoiDaThi(("Data/DanhSachSinhVien/DanhSachCauHoiThi/" + string(MSSV) + ".txt").data());
+    for (int k = 0; k < numberQuestion; k++)
+    {
+        ghiCauHoiDaThi << TatCaCauHoiDaThi[k].maMonHoc << '|' << TatCaCauHoiDaThi[k].ID << '|' << TatCaCauHoiDaThi[k].answer << '|' << endl;
+    }
+    ghiCauHoiDaThi.close();
+    delete[] TatCaCauHoiDaThi;
 }

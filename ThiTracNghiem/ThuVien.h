@@ -55,5 +55,6 @@ int ghi_danhSachDiemThi(PtrDT dsdt, string maLH, string mssv);
 int ghi_danhSachTaiKhoan(ListLH dslh); // ios::app
 int ghi_danhSachMonHoc(ListMH dsmh);
 int ghi_danhSachCauHoi(STreeCH dsch);
+void GhiCauHoiDaThi(char MSSV[], STreeCH *ListQuestion, int YourAnswer[], int numberQuestion);
 
 #endif // THU_VIEN_H

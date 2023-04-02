@@ -1,6 +1,5 @@
 #include "XuLyChuongTrinh.h"
 
-int stop = 0; // stop=1 thi dung thi
 int KiemTraTK(string Name, string Password)
 {
 	if (Name == "GV" && Password == "GV")
@@ -53,41 +52,53 @@ int DANGNHAP()
 	} while (Password == "");
 	return KiemTraTK(Name, Password);
 }
+
+//*********************************PHUONG*********************//
+int stopThi = 0; // stop=1 thi dung thi
 void DongHo(int time)
 {
-
 	int giay;
 	while (time > 0)
 	{
-		gotoxy(131, 6);
+		gotoxy(62, 2);
 		cout << time;
-		gotoxy(135, 6);
+		gotoxy(65, 2);
+		cout << ":phut";
+		gotoxy(71, 2);
 		cout << "00";
-		VeKhung(130, 5, 140, 7);
-		gotoxy(131, 6);
-		cout << time;
+		gotoxy(74, 2);
+		cout << ":giay";
+		VeKhung(60, 1, 80, 3);
 		Sleep(980);
-		time--;
+
+		gotoxy(62, 2);
+		cout << time--;
 		giay = 59;
+
 		while (giay >= 0)
 		{
-			VeKhung(130, 5, 140, 7);
-			gotoxy(131, 6);
+			SetColor(0, 7);
+			VeKhung(60, 1, 80, 3);
+			gotoxy(62, 2);
 			cout << "   ";
-			gotoxy(131, 6);
+			gotoxy(62, 2);
 			cout << time;
-			gotoxy(135, 6);
+			gotoxy(65, 2);
+			cout << ":phut";
+			gotoxy(71, 2);
 			cout << "   ";
-			gotoxy(135, 6);
+			gotoxy(71, 2);
 			cout << giay--;
+			gotoxy(74, 2);
+			cout << ":giay";
 			Sleep(980);
 			if (stop == 1)
 				return;
 		}
 	}
-	stop = 1;
+	stopThi = 1;
 }
-void Thi(STreeCH &root, PtrDT &score)
+void Thi(STreeCH &root, PtrSV &SV)
 {
 	int so_cau, thoi_gian, soluongcauhoi;
 	char mon[51];
@@ -145,9 +156,10 @@ void Thi(STreeCH &root, PtrDT &score)
 	timer = thread(DongHo, thoi_gian);
 	STreeCH *Questions = GetQuestion(root, mon, so_cau, soluongcauhoi);
 	int so_cau_dung[so_cau], chon, index, wherey; // 10=A 14=B 18=C 22=D
-	so_cau_dung[so_cau] = {0};					  // LUU CAU DA TRA LOI: DUNG = 1,  sai = -1 / -2 / -3 / -4,  chua chon =0
-	for (int i = 0; i < so_cau; i++)
+	char temp[90];
+	for (int i = 0; i < so_cau; i++) // LUU CAU DA TRA LOI: DUNG = 1,  sai = -1 / -2 / -3 / -4,  chua chon =0
 		so_cau_dung[i] = 0;
+
 	for (int i = 0; stop != 1;)
 	{
 		if (i == so_cau)
@@ -156,17 +168,24 @@ void Thi(STreeCH &root, PtrDT &score)
 			if (stop == 0)
 			{
 				i--;
-				continue;
 			}
+			else
+				break;
 		}
 		index = wherey = 10; // GAN TAI VI TRI CAU A
-		system("cls");
+
 		VeKhungThi();
-		gotoxy(5, 27);
+
 		if (so_cau_dung[i] == 0)
+		{
+			VeKhung(5, 27, 20, 29); // ve khung dap an ban chon
+			gotoxy(6, 28);
 			cout << "BAN CHUA CHON";
+		}
 		else if (so_cau_dung[i] == 1)
 		{
+			VeKhung(5, 27, 20, 29);
+			gotoxy(6, 28);
 			switch (Questions[i]->info.answer)
 			{
 			case 1:
@@ -193,6 +212,8 @@ void Thi(STreeCH &root, PtrDT &score)
 		}
 		else
 		{
+			VeKhung(5, 27, 20, 29);
+			gotoxy(6, 28);
 			switch (so_cau_dung[i])
 			{
 			case -1:
@@ -218,7 +239,15 @@ void Thi(STreeCH &root, PtrDT &score)
 			}
 		}
 		gotoxy(6, 6);
-		cout << Questions[i]->info.question; // IN CAU HOI
+		if (strlen(Questions[i]->info.question) < 94)
+			cout << Questions[i]->info.question; // IN CAU HOI
+		else
+		{
+			strncpy(temp, Questions[i]->info.question, 90); // copy 89 ki tu
+			cout << temp;
+			gotoxy(6, 7);
+			cout << &Questions[i]->info.question[90];
+		}
 		gotoxy(16, 10);
 		cout << Questions[i]->info.ans1; // IN CAU A
 		gotoxy(16, 14);
@@ -230,13 +259,13 @@ void Thi(STreeCH &root, PtrDT &score)
 		// XEM LUA CHON
 		while (stop != 1)
 		{
-			chon = getch(); // LAY KI TU TU BAN PHIM
-			if (chon == 27) // NHAN ESC
+			chon = getch();	 // LAY KI TU TU BAN PHIM
+			if (chon == ESC) // NHAN ESC
 			{
 				stop = THONGBAO(3, "BAN CO MUON THOAT KHONG"); // NEU THOAT THI STOP=1 VA THOAT
 				THONGBAO(1);
 			}
-			else if (chon == 13) // PHAT HIEN NHAN ENTER VA KIEM TRA DAP AN
+			else if (chon == ENTER) // PHAT HIEN NHAN ENTER VA KIEM TRA DAP AN
 			{
 				if ((Questions[i]->info.answer == 1 && index == 10) || (Questions[i]->info.answer == 2 && index == 14) || (Questions[i]->info.answer == 3 && index == 18) || (Questions[i]->info.answer == 4 && index == 22))
 					so_cau_dung[i] = 1;
@@ -270,7 +299,7 @@ void Thi(STreeCH &root, PtrDT &score)
 				break;
 			}
 			else if (chon == 224)
-				chon = getch(); // NUT MO Rï¿½NG Nï¿½N Lï¿½Y THï¿½M Mï¿½T LAN NUA
+				chon = getch(); // NUT MO RÃ¯Â¿Â½NG NÃ¯Â¿Â½N LÃ¯Â¿Â½Y THÃ¯Â¿Â½M MÃ¯Â¿Â½T LAN NUA
 			// XU LY DI CHUYEN
 			if (chon == 72 && index != 10) // KIEM TRA CO NHAN NUT LEN HAY KHONG VA INDEX KHONG O TAI CAU A
 			{
@@ -366,17 +395,13 @@ void Thi(STreeCH &root, PtrDT &score)
 				break;
 			}
 			}
-			SetColor(0, 7); // DAT LAI MAU CHU VA Nï¿½N
+			SetColor(0, 7); // DAT LAI MAU CHU VA NÃ¯Â¿Â½N
 		}
 	}
-
+	GhiCauHoiDaThi(SV->info.MSSV, Questions, so_cau_dung, so_cau);
 	// TINH DIEM
-	for (int i = 0; i < so_cau; i++)
-		if (so_cau_dung[i] == 1)
-			score->info.diemThi += 1; // DEM SO CAU DUNG
 
-	score->info.diemThi = (score->info.diemThi / so_cau) * 10; // TINH DIEM
-	stop = 1;
+	stopThi = 1;
 	timer.join();
 }
 /////////////////////////GV->DANH SACH SINH VIEN/////////////////////
@@ -1213,66 +1238,6 @@ void SortDSDT(PtrDT *data, int n, int &check)
 	}
 }
 //////////////////////////GV->DANH SACH CAU HOI/////////////////////
-void VeBangCauHoi(char tenMH[], int ID)
-{
-	system("cls");
-	VeKhung(5, 5, 115, 27);
-	int x = 5, y = 7;
-	while (y <= 25)
-	{
-		x = 5;
-		while (x <= 115)
-		{
-			gotoxy(x, y);
-			if (x == 5)
-				cout << char(195);
-			else if (x == 115)
-				cout << char(180);
-			else
-				cout << char(196);
-			x++;
-		}
-		if (y == 7)
-			y += 2;
-		else
-			y += 3;
-	}
-	x = 20, y = 7;
-	while (y <= 27)
-	{
-		gotoxy(x, y);
-		if (y == 7)
-			cout << char(194);
-		else if (y == 27)
-			cout << char(193);
-		else if (y == 9 || y == 12 || y == 15 || y == 18 || y == 21 || y == 24)
-			cout << char(197);
-		else
-			cout << char(179);
-		y++;
-	}
-	gotoxy(45, 6);
-	cout << "NOI DUNG CAU HOI-" << ID;
-	gotoxy(45, 8);
-	cout << tenMH;
-	gotoxy(6, 8);
-	cout << "TEN MON HOC";
-	gotoxy(6, 10);
-	cout << "NOI DUNG";
-	gotoxy(6, 13);
-	cout << "LUA CHON 1";
-	gotoxy(6, 16);
-	cout << "LUA CHON 2";
-	gotoxy(6, 19);
-	cout << "LUA CHON 3";
-	gotoxy(6, 22);
-	cout << "LUA CHON 4";
-	gotoxy(6, 25);
-	cout << "DAP AN";
-	//	VeKhung(125, 15, 150, 18);
-	//	gotoxy(133, 16);
-	//	cout << "HIEU CHINH";
-}
 void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 {
 	VeBangCauHoi(tenMH, 1);
@@ -1359,6 +1324,7 @@ void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 {
 	int chon, vi_tri_contro = 16, stop = 0;
+	char temp[90];
 	VeBangCauHoi(tenMH, ExsistQuestion->info.ID);
 	//	VEKHUNG_OPTION(2);
 	TextColor(20);
@@ -1370,7 +1336,13 @@ void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 	TextColor(7);
 
 	gotoxy(21, 10);
-	cout << ExsistQuestion->info.question;
+	if (strlen(ExsistQuestion->info.question) < 94)
+		cout << ExsistQuestion->info.question;
+	else
+	{
+		strncpy(temp, ExsistQuestion->info.question, 90);
+		cout << temp << "...";
+	}
 	gotoxy(21, 13);
 	cout << ExsistQuestion->info.ans1;
 	gotoxy(21, 16);
@@ -1519,7 +1491,7 @@ void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 			{
 				if (THONGBAO(3, "BAN CO MUON XOA"))
 				{
-					DeleteQuestion(root, ExsistQuestion->info.ID);
+					DeleteQuestion(root, ExsistQuestion);
 					return;
 				}
 			}
@@ -1561,64 +1533,7 @@ void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 		}
 	}
 }
-void VeBangDanhSachCauHoi(char maMH[], int MaxPage, int Page)
-{
-	system("cls");
-	VeKhung(5, 5, 115, 29);
-	int x = 5, y = 7;
-	while (y <= 27)
-	{
-		x = 5;
-		while (x <= 115)
-		{
-			gotoxy(x, y);
-			if (x == 5)
-				cout << char(195);
-			else if (x == 115)
-				cout << char(180);
-			else
-				cout << char(196);
-			x++;
-		}
-		y += 2;
-	}
-	x = 20, y = 7;
-	while (y <= 29)
-	{
-		gotoxy(x, y);
-		if (y == 7)
-			cout << char(194);
-		else if (y == 29)
-			cout << char(193);
-		else if (y == 9 || y == 11 || y == 13 || y == 15 || y == 17 || y == 19 || y == 21 || y == 23 || y == 25 || y == 27)
-			cout << char(197);
-		else
-			cout << char(179);
-		y++;
-	}
-	gotoxy(12, 8);
-	cout << "ID";
-	gotoxy(55, 8);
-	cout << "NOI DUNG";
-	gotoxy(45, 6);
-	cout << "DANH SACH CAU HOI - ";
-	gotoxy(65, 6);
-	cout << maMH;
-
-	//	VEKHUNG_OPTION(2);
-	TextColor(20);
-	gotoxy(120, 16);
-	cout << "     THEM CAU HOI       ";
-	TextColor(112);
-	gotoxy(120, 19);
-	cout << "     XEM CAU HOI        ";
-
-	gotoxy(116, 28);
-	SetColor(5, 6);
-	cout << "Page " << Page << '/' << MaxPage;
-	SetColor(0, 7);
-}
-int CauHoi(STreeCH &root, char maMH[], char tenMH[])
+int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc) // thi
 {
 	int NumberQuestion = 0, vi_tri_contro, wherey, chon, MaxPage, Page, stop;
 	char chuoi[90];
@@ -1627,173 +1542,19 @@ int CauHoi(STreeCH &root, char maMH[], char tenMH[])
 	while (1)
 	{
 		// XUAT NOI DUNG
-
 		stop = 0, vi_tri_contro = 16;
 		NumberQuestion = 0;
-		PreTraversal(ListQuestion, root, maMH, NumberQuestion);
-		MaxPage = NumberQuestion / 11 + 1;
-		VeBangDanhSachCauHoi(maMH, MaxPage, Page);
-		if (NumberQuestion == 0)
-			THONGBAO(2, "KHONG CO CAU HOI");
-		else
-		{
-			wherey = 10; // muon tam wherey de in cau hoi
-			for (int i = (Page - 1) * 10; i < (Page * 10 < NumberQuestion ? Page * 10 : NumberQuestion); i++)
-			{
-				gotoxy(6, wherey);
-				cout << ListQuestion[i]->info.ID;
-				gotoxy(21, wherey);
-				if (strlen(ListQuestion[i]->info.question) < 94)
-					cout << ListQuestion[i]->info.question;
-				else
-				{
-					strncpy(chuoi, ListQuestion[i]->info.question, 91);
-					cout << chuoi << "...";
-				}
-				wherey += 2;
-			}
-		}
-		// CHON LUA
-		while (stop != 1)
-		{
-			chon = getch();
-			switch (chon)
-			{
-			case ENTER:
-			{
-				switch (vi_tri_contro)
-				{
-				case 16:
-				{
-					ThemCauHoi(root, maMH, tenMH);
-					NumberQuestion = 0;
-					// PreTraversal(ListQuestion,root, maMH,NumberQuestion);
-					stop = 1;
-					break;
-				}
-				case 19: // XEM CAU HOI
-				{
-					wherey = 10;																			  // muon wherey
-					for (int i = (Page - 1) * 10; (Page * 10 < NumberQuestion ? Page * 10 : NumberQuestion);) // truong hop khong co cau hoi thi khong co con tro
-					{
-						gotoxy(3, wherey);
-						cout << ">>";
-						chon = getch();
-						if (chon == 13)
-						{
-							XemCauHoi(root, ListQuestion[i], tenMH);
-							NumberQuestion = 0;
-							// PreTraversal(ListQuestion,root, maMH,NumberQuestion);
-							stop = 1;
-							break;
-						}
-						if (chon == 27)
-						{
-							if (THONGBAO(3, "BAN CO MUON THOAT KHONG"))
-								break;
-						}
-						if (chon == 224)
-						{
-							chon = getch();
-							if (chon == UP && wherey != 10)
-							{
-								gotoxy(3, wherey);
-								cout << "  ";
-								wherey -= 2;
-								gotoxy(3, wherey);
-								i--;
-							}
-							if (chon == DOWN && wherey != 28 && i < (Page * 10 < NumberQuestion ? Page * 10 : NumberQuestion) - 1)
-							{
-								gotoxy(3, wherey);
-								cout << "  ";
-								wherey += 2;
-								gotoxy(3, wherey);
-								i++;
-							}
-						}
-					}
-					break;
-				}
-				}
-				// stop=1;
-				break;
-			}
-			case 224:
-			{
-				chon = getch();
-				switch (chon)
-				{
-				case UP:
-				{
-					if (vi_tri_contro != 16)
-					{
-						gotoxy(120, 16);
-						TextColor(20);
-						cout << "     THEM CAU HOI       ";
-						gotoxy(120, 19);
-						TextColor(112);
-						cout << "     XEM CAU HOI        ";
-						vi_tri_contro = 16;
-					}
-					break;
-				}
-				case DOWN:
-				{
-					if (vi_tri_contro != 19)
-					{
-						gotoxy(120, 16);
-						TextColor(112);
-						cout << "     THEM CAU HOI       ";
-						gotoxy(120, 19);
-						TextColor(20);
-						cout << "     XEM CAU HOI        ";
-						vi_tri_contro = 19;
-					}
-					break;
-				}
-				case LEFT:
-				{
-					if (Page != 1)
-					{
-						Page--;
-						stop = 1;
-					}
-					break;
-				}
-				case RIGHT:
-				{
-					if (Page != MaxPage)
-					{
-						Page++;
-						stop = 1;
-					}
-					break;
-				}
-				}
-				TextColor(7);
-			}
-			}
-		}
-	}
-}
-int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc)
-{
-	int NumberQuestion = 0, vi_tri_contro, wherey, chon, MaxPage, Page, stop;
-	char chuoi[90];
-	STreeCH *ListQuestion = new STreeCH[300];
-	Page = 1;
-	while (1)
-	{
-		// XUAT NOI DUNG
-
-		stop = 0, vi_tri_contro = 16;
-		NumberQuestion = 0;
-		PreTraversal(ListQuestion, root, monHoc.maMonHoc, NumberQuestion);
-		MaxPage = NumberQuestion / 11 + 1;
+		PreTraversal(ListQuestion, root, monHoc.maMonHoc, NumberQuestion); // tim cau hoi
+		MaxPage = (NumberQuestion - 1) / 10 + 1;
 		VeBangDanhSachCauHoi(monHoc.maMonHoc, MaxPage, Page);
+		TextColor(20);
+		gotoxy(120, 16);
+		cout << "     THEM CAU HOI       ";
+		TextColor(112);
+		gotoxy(120, 19);
+		cout << "     XEM CAU HOI        ";
 		if (NumberQuestion == 0)
-			THONGBAO(2, "KHONG CO CAU HOI");
+			THONGBAO(0, "KHONG CO CAU HOI");
 		else
 		{
 			wherey = 10; // muon tam wherey de in cau hoi
@@ -1826,30 +1587,26 @@ int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc)
 				{
 					ThemCauHoi(root, monHoc.maMonHoc, monHoc.tenMonHoc);
 					NumberQuestion = 0;
-					// PreTraversal(ListQuestion,root, maMH,NumberQuestion);
 					stop = 1;
 					break;
 				}
 				case 19: // XEM CAU HOI
 				{
-					wherey = 10;																			  // muon wherey
-					for (int i = (Page - 1) * 10; (Page * 10 < NumberQuestion ? Page * 10 : NumberQuestion);) // truong hop khong co cau hoi thi khong co con tro
+					wherey = 10;																				  // muon wherey
+					for (int i = (Page - 1) * 10; i < (Page * 10 < NumberQuestion ? Page * 10 : NumberQuestion);) // truong hop khong co cau hoi thi khong co con tro
 					{
 						gotoxy(3, wherey);
 						cout << ">>";
 						chon = getch();
-						if (chon == 13)
+						if (chon == ENTER)
 						{
 							XemCauHoi(root, ListQuestion[i], monHoc.tenMonHoc);
-							NumberQuestion = 0;
-							// PreTraversal(ListQuestion,root, maMH,NumberQuestion);
 							stop = 1;
 							break;
 						}
-						if (chon == 27)
+						if (chon == ESC)
 						{
-							if (THONGBAO(3, "BAN CO MUON THOAT KHONG"))
-								break;
+							break;
 						}
 						if (chon == 224)
 						{
@@ -1936,6 +1693,206 @@ int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc)
 		}
 	}
 }
+void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[])
+{
+	STreeCH list[100]; // chua cau hoi
+	int ID[100], DapAn[100], NumberQuestion = 0, stop = 0, MaxPage, Page, chon, count = 0, wherey = 10;
+	string MaMH;
+	char chuoi[90];
+	ifstream docfile(("Data/DanhSachSinhVien/DanhSachCauHoiThi/" + string(MSSV) + ".txt").data());
+
+	if (docfile.is_open())
+	{
+		while (!docfile.eof() && stop != 1)
+		{
+			getline(docfile, MaMH, '|');
+			if (MaMH.compare(string(monHoc.maMonHoc)) == 0)
+			{
+				docfile >> ID[NumberQuestion];
+				docfile.ignore();
+				docfile >> DapAn[NumberQuestion++];
+				docfile.ignore();
+				docfile.ignore();
+			}
+			else
+				getline(docfile, MaMH);
+		}
+	}
+	for (int i = 0; i < NumberQuestion; i++)
+	{
+		TimCauHoiDaThi(root, list, ID[i], count);
+	}
+	MaxPage = (NumberQuestion - 1) / 10 + 1, Page = 1;
+	while (1)
+	{
+		// XUAT NOI DUNG
+
+		stop = 0;
+		VeBangDanhSachCauHoi(monHoc.maMonHoc, MaxPage, Page);
+		if (NumberQuestion == 0)
+			THONGBAO(2, "KHONG CO CAU HOI");
+		else
+		{
+			wherey = 10; // muon tam wherey de in cau hoi
+			for (int i = (Page - 1) * 10; i < (Page * 10 < NumberQuestion ? Page * 10 : NumberQuestion); i++)
+			{
+				gotoxy(6, wherey);
+				cout << list[i]->info.ID;
+				gotoxy(21, wherey);
+				if (strlen(list[i]->info.question) < 94)
+					cout << list[i]->info.question;
+				else
+				{
+					strncpy(chuoi, list[i]->info.question, 90);
+					cout << chuoi << "...";
+				}
+				wherey += 2;
+			}
+		}
+		// CHON LUA;
+		int i = (Page - 1) * 10;
+		wherey = 10;
+		gotoxy(3, 10);
+		cout << ">>";
+		while (stop != 1)
+		{
+			chon = getch();
+			switch (chon)
+			{
+			case ESC:
+			{
+				if (3, "BAN CO MUON THOAT KHONG")
+					return;
+				break;
+			}
+			case ENTER:
+			{
+				VeBangCauHoi(monHoc.tenMonHoc, list[i]->info.ID);
+				gotoxy(21, 10);
+				if (strlen(list[i]->info.question) < 94)
+					cout << list[i]->info.question;
+				else
+				{
+					strncpy(chuoi, list[i]->info.question, 90);
+					cout << chuoi << "...";
+				} // IN CAU HOI
+				gotoxy(21, 13);
+				cout << list[i]->info.ans1; // IN CAU A
+				gotoxy(21, 16);
+				cout << list[i]->info.ans2; // IN CAU B
+				gotoxy(21, 19);
+				cout << list[i]->info.ans3; // IN CAU C
+				gotoxy(21, 22);
+				cout << list[i]->info.ans4; // IN CAU D
+				gotoxy(21, 25);
+				cout << (list[i]->info.answer == 1 ? 'A' : list[i]->info.answer == 2 ? 'B'
+													   : list[i]->info.answer == 3	 ? 'C'
+													   : list[i]->info.answer == 4	 ? 'D'
+																					 : 'E');
+				VeKhung(5, 30, 115, 32);
+				gotoxy(6, 31);
+				cout << "DAP AN BAN CHON LA:";
+				if (DapAn[i] == 1)
+				{
+					switch (list[i]->info.answer)
+					{
+					case 1:
+					{
+						cout << 'A';
+						break;
+					}
+					case 2:
+					{
+						cout << 'B';
+						break;
+					}
+					case 3:
+					{
+						cout << 'C';
+						break;
+					}
+					case 4:
+					{
+						cout << 'D';
+						break;
+					}
+					}
+				}
+				else
+					cout << (DapAn[i] == -1 ? "A" : DapAn[i] == -2 ? "B"
+												: DapAn[i] == -3   ? "C"
+												: DapAn[i] == -4   ? "D"
+																   : "chua chon");
+				THONGBAO(0, "NHAN ESC DE THOAT");
+				while (1)
+				{
+					chon = getch();
+					if (chon == 27)
+					{
+						stop = 1;
+						break;
+					}
+					else if (chon == 224 || chon == 0)
+						getch();
+				}
+				break;
+			}
+			case 224:
+			{
+				chon = getch();
+				switch (chon)
+				{
+				case UP:
+				{
+					if (wherey != 10)
+					{
+						gotoxy(3, wherey);
+						cout << "  ";
+						wherey -= 2;
+						gotoxy(3, wherey);
+						cout << ">>";
+						i--;
+					}
+
+					break;
+				}
+				case DOWN:
+				{
+					if (wherey != 28)
+					{
+
+						gotoxy(3, wherey);
+						cout << "  ";
+						wherey += 2;
+						gotoxy(3, wherey);
+						cout << ">>";
+						i++;
+					}
+					break;
+				}
+				case LEFT:
+				{
+					if (Page != 1)
+					{
+						Page--;
+						break;
+					}
+				}
+				case RIGHT:
+				{
+					if (Page != MaxPage)
+					{
+						Page++;
+						break;
+					}
+				}
+				}
+			}
+			}
+		}
+	}
+}
+
 ///////////////////////////GV->DANH SACH LOP HOC/////////////////////
 int HienOptionLopHoc(bool check = 0)
 {
