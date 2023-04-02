@@ -30,26 +30,27 @@ bool HienCauHoi(CauHoi info);
 void HienOptionGiangVien(int line = 1);
 //  types = 0: sap xep theo dslh, 1: sap xep theo ma lop, 2: sap xep theo nien khoa
 //------------------------LOP HOC----------------------------
-void MENU_DSLH_GV(ListLH dslh, ListMH dsmh);
+void MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root);
 
 void HienDanhSachLopHoc(LopHoc **data, int start);
 
 bool HienBangDiemTheoMon(PtrSV dssv, const char maMon[], int start, int end, int line);
 // line: 1->5 tuong ung voi 5 option cua LopHoc, line = 0: chua chon option nao nen khong to mau`
-int HienOptionLopHoc(bool &check);
+int HienOptionLopHoc(bool check = 0);
 // tao folder moi trong function nay`
 bool ThemLopHoc(ListLH &dslh);
 // xoa folder trong function nay`
-bool XoaLopHoc();
-bool HieuChinhLopHoc();
-
+bool XoaLopHoc(ListLH &dslh, LopHoc lh, int count);
+bool HieuChinhLopHoc(ListLH dslh, LopHoc **data, int index, int line);
+void sortDSLH(ListLH &dslh, int index);
+void InDSLH_NienKhoa(ListLH dslh, LopHoc lh, int nienKhoa);
 //-------------------------SINH VIEN-------------------------
 void MENU_DSSV_GV(LopHoc *data, ListMH dsmh);
 void HienDanhSachSinhVien(PtrSV *data, string tenLop, int start);
 int HienOptionSinhVien(bool check = 0);
 bool ThemSinhVien(PtrSV &dssv, ListMH dsmh);
 int XoaSinhVien(PtrSV &dssv, PtrSV *data, int count);
-bool HieuChinhSinhVien(PtrSV dssv, PtrSV *data, int index, int line, bool &check);
+bool HieuChinhSinhVien(PtrSV dssv, PtrSV *data, int index, int line);
 // sap xep theo mssv <-> sap xep theo ho
 void SortDSSV(PtrSV *data, int n, bool &check);
 

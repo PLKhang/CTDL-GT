@@ -504,6 +504,7 @@ int ThemLop(ListLH &ListLH, LopHoc lh)
     // bat dau them lop hoc
     ListLH.lh[ListLH.n] = new LopHoc; // Khoi tao vung nho cho con tro
     *ListLH.lh[ListLH.n] = lh;        // Them mon hoc vao vung nho cua con tro, sau khi them vao thi tang so luong phan tu cua danh sach len 1
+    KhoiTao_PtrSV(lh.danhSachSinhVien);
     ListLH.n++;
     return 1;
 }
