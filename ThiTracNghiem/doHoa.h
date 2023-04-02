@@ -31,8 +31,9 @@ bool KhungThem(int types);
 void chuMenuGV(int x, int y);
 void chuThiTracNghiem(int x, int y);
 void chuMenuSV(int x, int y);
-void VeBangCauHoi();
+void VeBangCauHoi(char tenMH[], int ID);
 void VeKhungThi();
+void VeBangDanhSachCauHoi(char maMH[], int MaxPage, int Page);
 int MENU_GV();
 
 #endif // DO_HOA_H

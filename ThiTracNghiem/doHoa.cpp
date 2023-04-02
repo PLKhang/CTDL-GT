@@ -544,8 +544,9 @@ void chuMenuSV(int x, int y)
 	gotoxy(x, y++);
 	cout << "|_|  |_|______|_| \\_|\\____/  |_____/|_____|_| \\_|_|  |_|     \\/   |_____|______|_| \\_|";
 }
-void VeBangCauHoi()
+void VeBangCauHoi(char tenMH[], int ID)
 {
+	system("cls");
 	VeKhung(5, 5, 115, 27);
 	int x = 5, y = 7;
 	while (y <= 25)
@@ -555,11 +556,11 @@ void VeBangCauHoi()
 		{
 			gotoxy(x, y);
 			if (x == 5)
-				cout << LEFT_MIDDLE;
+				cout << char(195);
 			else if (x == 115)
-				cout << RIGHT_MIDDLE;
+				cout << char(180);
 			else
-				cout << NGANG;
+				cout << char(196);
 			x++;
 		}
 		if (y == 7)
@@ -572,15 +573,19 @@ void VeBangCauHoi()
 	{
 		gotoxy(x, y);
 		if (y == 7)
-			cout << TOP_MIDDLE;
+			cout << char(194);
 		else if (y == 27)
-			cout << BOTTOM_MIDDLE;
+			cout << char(193);
 		else if (y == 9 || y == 12 || y == 15 || y == 18 || y == 21 || y == 24)
-			cout << CENTER;
+			cout << char(197);
 		else
-			cout << DOC;
+			cout << char(179);
 		y++;
 	}
+	gotoxy(45, 6);
+	cout << "NOI DUNG CAU HOI-" << ID;
+	gotoxy(45, 8);
+	cout << tenMH;
 	gotoxy(6, 8);
 	cout << "TEN MON HOC";
 	gotoxy(6, 10);
@@ -647,6 +652,55 @@ void VeKhungThi()
 	cout << "C";
 	gotoxy(10, 22);
 	cout << "D";
+}
+void VeBangDanhSachCauHoi(char maMH[], int MaxPage, int Page)
+{
+	system("cls");
+	VeKhung(5, 5, 115, 29);
+	int x = 5, y = 7;
+	while (y <= 27)
+	{
+		x = 5;
+		while (x <= 115)
+		{
+			gotoxy(x, y);
+			if (x == 5)
+				cout << char(195);
+			else if (x == 115)
+				cout << char(180);
+			else
+				cout << char(196);
+			x++;
+		}
+		y += 2;
+	}
+	x = 20, y = 7;
+	while (y <= 29)
+	{
+		gotoxy(x, y);
+		if (y == 7)
+			cout << char(194);
+		else if (y == 29)
+			cout << char(193);
+		else if (y == 9 || y == 11 || y == 13 || y == 15 || y == 17 || y == 19 || y == 21 || y == 23 || y == 25 || y == 27)
+			cout << char(197);
+		else
+			cout << char(179);
+		y++;
+	}
+	gotoxy(12, 8);
+	cout << "ID";
+	gotoxy(55, 8);
+	cout << "NOI DUNG";
+	gotoxy(45, 6);
+	cout << "DANH SACH CAU HOI - ";
+	gotoxy(65, 6);
+	cout << maMH;
+
+	gotoxy(116, 28);
+	SetColor(5, 6);
+	cout << "Page " << Page << '/' << MaxPage;
+	SetColor(0, 7);
 }
 int MENU_GV()
 {

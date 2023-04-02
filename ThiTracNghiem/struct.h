@@ -87,7 +87,7 @@ struct CauHoi
 {
     int ID = 0;
     char maMonHoc[16];
-    unsigned short answer;
+    int answer;
     char ans1[100];
     char ans2[100];
     char ans3[100];
@@ -172,20 +172,15 @@ void set_Info_MH(ListMH &dsmh, unsigned pos, MonHoc new_MH);
 int pos_MaMH_MH(ListMH dsmh, string maMH);
 
 //-------------------CauHoi------------------//
-int CreateID(int Number[], int &i);
+int ReadID();
 STreeCH newnode(CauHoi CH);
 int InsertQuestion(STreeCH &root, STreeCH question);
-void Delete(STreeCH &root);
-int DeleteQuestion(STreeCH &root, int ID);
-int Modify(STreeCH root, CauHoi question);
-void DeleteAllQuestion(STreeCH &root, char maMH[]);
-void Store(STreeCH root, vector<STreeCH> &nodes);
-STreeCH Convert(vector<STreeCH> &nodes, int max, int min);
-STreeCH Balance(STreeCH root);
+int DeleteQuestion(STreeCH &root, STreeCH &Quetion);
+int Repare(STreeCH root, CauHoi question);
 void PreTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count);
 STreeCH *GetQuestion(STreeCH &root, char maMH[], int number_question, int tong_so_cau_hoi);
 int DemSoCauHoi(STreeCH root, char maMH[]);
-
+void TimCauHoiDaThi(STreeCH root, STreeCH list[], int ID, int &count);
 //-------------------DiemThi------------------//
 
 void KhoiTao_PtrDT(PtrDT &First);
