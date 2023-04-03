@@ -174,6 +174,7 @@ int pos_MaMH_MH(ListMH dsmh, string maMH);
 
 //-------------------CauHoi------------------//
 int ReadID();
+void RestoreID();
 STreeCH newnode(CauHoi CH);
 int InsertQuestion(STreeCH &root, STreeCH question);
 int DeleteQuestion(STreeCH &root, STreeCH &Quetion);

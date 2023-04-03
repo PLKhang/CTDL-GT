@@ -153,6 +153,15 @@ int ReadID()
     docID << ++number;
     return temp;
 }
+void RestoreID()
+{
+	int number;
+    fstream docID("Data/KeyID.txt",ios::in|ios::out);
+    docID.seekp(ios::beg);
+    docID>>number;
+    docID<<--number;
+    docID.close();
+}
 STreeCH newnode(CauHoi CH)
 {
     STreeCH p = new nodeCauHoi;
