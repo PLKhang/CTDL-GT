@@ -70,14 +70,88 @@ int pos_MaMH_MH(ListMH dsmh, const char *maMH)
 //---------------------------CauHoi--------------------------//
 
 //-----TAO ID---------//
-int CreateID(int Number[], int &i)
+struct ID
 {
-    int index;
-    srand(time(0));
-    index = rand() % (10000 - i) + i;
-    swap(Number[index], Number[i]);
-    i++;
-    return Number[i - 1];
+    int id;
+    ID *left = NULL;
+    ID *right = NULL;
+};
+typedef ID *createID;
+
+int numNode(ID *root)
+{
+    if (root == NULL)
+        return 0;
+    else
+        return 1 + numNode(root->left) + numNode(root->right);
+}
+void Insert(ID *&tree, int data)
+{
+    if (tree == NULL)
+    {
+        createID p = new ID;
+        p->id = data;
+        tree = p;
+        return;
+    }
+    else if (tree->id < data)
+    {
+        Insert(tree->right, data);
+    }
+    else if (tree->id > data)
+    {
+        Insert(tree->left, data);
+    }
+    else
+        return;
+}
+int InsertToBalance(ID *&root, int min, int max, ofstream &file)
+{
+    if (root == NULL)
+    {
+        Insert(root, (min + max) / 2);
+        file << (min + max) / 2 << endl;
+    }
+    else
+    {
+        if (numNode(root->left) == numNode(root->right))
+        {
+            max = root->id;
+            InsertToBalance(root->left, min, max, file);
+        }
+        else
+        {
+            min = root->id;
+            InsertToBalance(root->right, min, max, file);
+        }
+    }
+}
+void TaoFileID()
+{
+    createID root = NULL;
+    int n = 3;
+    ofstream file("Data/KeyID.txt");
+    file << 1 << endl;
+    for (int i = 1; i <= pow(2, n) - 1; i++)
+        InsertToBalance(root, 1, pow(2, n), file); // lay can duoi
+    file.close();
+}
+int ReadID()
+{
+    int number, temp;
+    fstream docID("Data/KeyID.txt", ios::in | ios::out);
+    if (!docID.is_open())
+    {
+        TaoFileID();
+    }
+    docID >> number;
+    for (int i = 1; i <= number; i++)
+    {
+        docID >> temp;
+    }
+    docID.seekp(ios::beg);
+    docID << ++number;
+    return temp;
 }
 STreeCH newnode(CauHoi CH)
 {
@@ -105,6 +179,12 @@ int InsertQuestion(STreeCH &root, STreeCH question)
             return 0;
     }
 }
+int SoNode(STreeCH root)
+{
+    if (root == NULL)
+         return 0;
+             return 1 + SoNode(root->left) + SoNode(root->right);
+}
 void Delete(STreeCH &root)
 {
     if (root->left != NULL)
@@ -117,45 +197,33 @@ void Delete(STreeCH &root)
         rp = root;
         root = rp->right;
     }
-}
-int DeleteQuestion(STreeCH &root, int ID)
+}   
+int DeleteQuestion(STreeCH &root, STreeCH &Question)
 {
-    if (root == NULL)
+    int ID = Question->info.ID;
+    if (root->left == NULL && root->right == NULL)
     {
-        return 0;
+        STreeCH temp;
+        if (root == Question) // truong hop nut Question la nut cuoi
+        {
+            temp = root;
+            Question = NULL;
+            root = NULL;
+            delete temp;
+        }
+        else // truong hop Question khong phai la nut cuoi
+        {
+            temp = root;
+            Question->info = root->info;
+            Question->info.ID = ID;
+            root = NULL;
+            delete temp;
+        }
     }
+    else if (SoNode(root->left) > SoNode(root->right))
+        DeleteQuestion(root->left, Question);
     else
-    {
-        if (root->info.ID > ID)
-            return DeleteQuestion(root->left, ID);
-        else if (root->info.ID < ID)
-            return DeleteQuestion(root->right, ID);
-        else
-        {
-            rp = root;
-            if (root->right == NULL)
-                root = rp->left;
-            else if (root->left == NULL)
-                root = rp->right;
-            else
-                Delete(rp->right);
-            delete rp;
-            return 1;
-        }
-    }
-}
-void DeleteAllQuestion(STreeCH &root, char maMH[])
-{
-    if (root != NULL)
-    {
-        DeleteAllQuestion(root->left, maMH);
-        DeleteAllQuestion(root->right, maMH);
-        if (string(root->info.maMonHoc) == string(maMH))
-        {
-            cout << root->info.ID << '|' << root->info.maMonHoc << endl;
-            DeleteQuestion(root, root->info.ID);
-        }
-    }
+        DeleteQuestion(root->right, Question);
 }
 int Modify(STreeCH root, CauHoi question)
 {
@@ -240,6 +308,18 @@ int DemSoCauHoi(STreeCH root, char maMH[])
     }
     else
         return 0;
+}
+void TimCauHoiDaThi(STreeCH root, STreeCH list[], int ID, int &count)
+{
+    if (root != NULL)
+    {
+        if (root->info.ID == ID)
+            list[count++] = root;
+        else if (root->info.ID > ID)
+            TimCauHoiDaThi(root->left, list, ID, count);
+        else
+            TimCauHoiDaThi(root->right, list, ID, count);
+    }
 }
 //---------------------------DiemThi--------------------------//
 void KhoiTao_PtrDT(PtrDT &first)
@@ -486,11 +566,11 @@ bool is_Full_LH(ListLH ListLH)
 {
     return (ListLH.n == MaxOfClasses);
 }
-bool is_Existed_MaLop(ListLH ListLH, string maLop)
+bool is_Existed_MaLop(ListLH ListLH, const char * maLop)
 {
     for (int i = 0; i < ListLH.n; i++)
     {
-        if (strcmp(ListLH.lh[i]->maLop, maLop.c_str()) == 0)
+        if (strcmp(ListLH.lh[i]->maLop, maLop) == 0)
             return true;
     }
     return false;
@@ -518,13 +598,10 @@ int pos_MaLH_LH(ListLH ListLH, int i, char maLop[])
     }
     return 0;
 }
-int XoaLop(ListLH &ListLH, int i, int pos, LopHoc lh)
+int XoaLop(ListLH &ListLH, int pos)
 {
-    if (i < 0 || i >= ListLH.n || ListLH.n == 0)
+    if (pos < 0 || pos >= ListLH.n || ListLH.n == 0)
         return 0;
-    // int pos = pos_MaLH_LH(ListLH, i, lh.maLop);
-    if (pos > 0 || pos <= ListLH.n)
-        return -1;
     // for(int j = pos; j < ListLH.n - 1; j++)
     //      ListLH.lh[j] = ListLH.lh[j+1];
     //      delete_List_SV(ListLH.lh[i]->First);
@@ -535,8 +612,6 @@ int XoaLop(ListLH &ListLH, int i, int pos, LopHoc lh)
     delete P;
     ListLH.n--;
     return 1;
-    // ListLH.n--;
-    // return 1;
 }
 // int delete_LH(ListLH &dslh, int pos)
 //{

@@ -27,7 +27,7 @@ string NhapChuoi(int x, int y, int chieudai);
 string NhapMa(int x, int y, int chieudai = 20, string = "");
 int NhapSo(int x, int y, int soluong);
 // kiem tra neu mang ky tu rong
-bool is_Empty_CArray(char *a);
+bool is_Empty_CArray(const char *a);
 // xoa 1 dong dang hien thi tren man hinh de tao khoang trong dien thong tin moi
 void delete_LineOnScreen(int x, int y, int length);
 /*

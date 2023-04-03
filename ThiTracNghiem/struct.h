@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <math.h>
+#include <fstream>
 #include <string>
 #include <string.h>
 #include <vector>
@@ -245,7 +246,7 @@ int ThemLop(ListLH &ListLH, LopHoc lh); // ham them lop
 // ham tim gia tri vi tri ma lop de gui vao cho ham xoa
 int pos_MaLH_LH(ListLH ListLH, int i, char maLop[]);
 // ham xoa lop va dong thoi xoa dssv thuoc lop do
-int XoaLop(ListLH &ListLH, int i, LopHoc lh);
+int XoaLop(ListLH &ListLH, int pos);
 // cap nhat thong tin dua vao ham strcpy
 void SuaLop(ListLH &ListLH, int i, LopHoc lh);
 

@@ -9,8 +9,10 @@
 #include <thread>
 using namespace std;
 
+void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root);
+
 int KiemTraTK(string Name, string Password);
-int DANGNHAP();
+string DANGNHAP();
 
 // login: SV
 int HienThiThongTinSinhVien(string mssv);
@@ -40,10 +42,12 @@ int HienOptionLopHoc(bool check = 0);
 // tao folder moi trong function nay`
 bool ThemLopHoc(ListLH &dslh);
 // xoa folder trong function nay`
-bool XoaLopHoc(ListLH &dslh, LopHoc lh, int count);
+bool XoaLopHoc(ListLH &dslh, LopHoc **lh, int count);
 bool HieuChinhLopHoc(ListLH dslh, LopHoc **data, int index, int line);
-void sortDSLH(ListLH &dslh, int index);
-void InDSLH_NienKhoa(ListLH dslh, LopHoc lh, int nienKhoa);
+void sortDSLH(LopHoc **dslh, int numOfClass, int &index);
+void InDSLH_NienKhoa(ListLH dslh, int nienKhoa);
+void HienDanhSachDiemThiTheoMon_LopHoc(PtrSV *data, string maLop, string maMon, int numOfStudents, int start, bool check_return = false);
+void THEMSINHVIEN(ListLH &dslh, ListMH dsmh);
 //-------------------------SINH VIEN-------------------------
 void MENU_DSSV_GV(LopHoc *data, ListMH dsmh);
 void HienDanhSachSinhVien(PtrSV *data, string tenLop, int start);
@@ -82,5 +86,6 @@ void HieuChinhCauHoi();
 void Thi(STreeCH &root, PtrDT &score); // THI
 
 int CauHoi1(STreeCH &root, char maMH[], char tenMH[]);
+
 
 #endif // XU_LY_CHUONG_TRINH_H

@@ -181,7 +181,7 @@ int NhapSo(int x, int y, int soluong)
     }
     return sum;
 }
-bool is_Empty_CArray(char *a)
+bool is_Empty_CArray(const char *a)
 {
     return a[0] == '\0' || a == "ESC";
 }
