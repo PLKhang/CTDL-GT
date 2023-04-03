@@ -108,6 +108,7 @@ int MENU_GV(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 			case 21:
 				break; // chua lam`
 			case 23:
+			{
 				SinhVien giangVien;
 				strcpy(giangVien.ho, "gv");
 				strcpy(giangVien.ten, "gv");
@@ -121,12 +122,15 @@ int MENU_GV(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 				PtrSV p = new nodeSinhVien;
 				p = &temp;
 				Thi(root, p);
-				return 5; 
+				return 5;
+			}
 			case 25:
+			{
 				if (THONGBAO(3, "DANH XUAT?"))
 					return 0;
 				else
 					break;
+			}
 			}
 			break;
 		}
@@ -235,7 +239,7 @@ int MENU_GV(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 		}
 	}
 }
-int MENU_SV(string maLop, SinhVien &data)
+int MENU_SV(STreeCH root, ListMH dsmh, string maLop, PtrSV &p)
 {
 	system("cls");
 	VeKhung(25, 7, 125, 10);
@@ -245,13 +249,13 @@ int MENU_SV(string maLop, SinhVien &data)
 	cout << maLop;
 	// cho nay them vao maSSV sao khi doc va tro toi ma lop cua TKSV
 	gotoxy(50, 9);
-	cout << data.MSSV;
+	cout << p->info.MSSV;
 	// cho nay them vao tenSV sao khi doc va tro toi ma lop cua TKSV
 	gotoxy(73, 9);
-	cout << data.ho << " " << data.ten;
+	cout << p->info.ho << " " << p->info.ten;
 	// cho nay them vao gioiTinh sao khi doc va tro toi ma lop cua TKSV
 	gotoxy(110, 9);
-	cout << data.phai;
+	cout << (p->info.phai ? "NU" : "NAM");
 	gotoxy(65, 15);
 	TextColor(20); //
 	cout << "      THI                   ";
@@ -274,9 +278,20 @@ int MENU_SV(string maLop, SinhVien &data)
 			switch (vi_tri_contro)
 			{
 			case 15:
-				return 1;
+				Thi(root, p);
+				break;
 			case 17:
-				return 2;
+			{
+				PtrDT temp[MaxOfSubjects] = {NULL};
+				PtrDT pDT = p->info.danhSachDiemThi;
+				for (int i = 0; pDT != NULL; i++)
+				{
+					temp[i] = pDT;
+					pDT = pDT->next;
+				}
+				HienDanhSachDiemThi(dsmh, temp, p->info.MSSV, p->info.ho, p->info.ten, 1);
+				break;
+			}
 			case 19:
 				return 3;
 			}
@@ -3440,7 +3455,7 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 					break;
 			}
 			// p = dslh.lh[1]->danhSachSinhVien;
-			MENU_SV(dslh.lh[index]->maLop, p->info);
+			MENU_SV(root, dsmh, dslh.lh[index]->maLop, p);
 		}
 		if ((ch = getch()) == ESC)
 			if (THONGBAO(3, "KET THUC CHUONG TRINH?"))
