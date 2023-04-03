@@ -26,6 +26,7 @@ int KiemTraTK(string Name, string Password)
 }
 string DANGNHAP()
 {
+	system("cls");
 	string Name, Password;
 	chuThiTracNghiem(18, 2);
 	gotoxy(60, 15);
@@ -51,15 +52,307 @@ string DANGNHAP()
 	switch (KiemTraTK(Name, Password))
 	{
 	case -1:
+		THONGBAO(1, "KHONG CO TAI KHOAN");
 		return "NONE";
 	case 0:
+		THONGBAO(1, "KHONG DOC DUOC FILE");
 		return "READ FILE ERROR";
 	case 1:
-		return "GV";
-	case 2:
+		THONGBAO(1, "LOGIN SV");
 		return Name;
-	default:
-		return "ERROR";
+	case 2:
+		THONGBAO(1, "LOGIN GV");
+		return "GV";
+	}
+}
+int MENU_GV(ListMH &dsmh, ListLH &dslh, STreeCH &root)
+{
+	system("cls");
+	chuMenuGV(30, 1);
+	gotoxy(65, 15);
+	TextColor(20);
+	cout << "      DANH SACH CAC LOP     ";
+	TextColor(112);
+	gotoxy(65, 17);
+	cout << "      THEM SINH VIEN        ";
+	gotoxy(65, 19);
+	cout << "      DANH SACH MON HOC     ";
+	gotoxy(65, 21);
+	cout << "      BANG DIEM             ";
+	gotoxy(65, 23);
+	cout << "      THI THU               ";
+	gotoxy(65, 25);
+	cout << "      THOAT                 ";
+	TextColor(7);
+
+	int chon, vi_tri_contro = 15, wherey = 15;
+
+	while (1)
+	{
+		chon = getch();
+		switch (chon)
+		{
+		case ENTER:
+		{
+			switch (vi_tri_contro)
+			{
+			case 15:
+				MENU_DSLH_GV(dslh, dsmh, root);
+				break;
+			case 17:
+				THEMSINHVIEN(dslh, dsmh);
+				break;
+			case 19:
+				MENU_DSMH_GV(root, dsmh);
+				break;
+			case 21:
+				break; // chua lam`
+			case 23:
+				SinhVien giangVien;
+				strcpy(giangVien.ho, "gv");
+				strcpy(giangVien.ten, "gv");
+				strcpy(giangVien.MSSV, "GV");
+				strcpy(giangVien.password, "gv");
+				giangVien.phai = 0;
+				KhoiTao_PtrDT(giangVien.danhSachDiemThi);
+				nodeSinhVien temp;
+				temp.info = giangVien;
+				temp.next = NULL;
+				PtrSV p = new nodeSinhVien;
+				p = &temp;
+				Thi(root, p);
+				return 5; 
+			case 25:
+				if (THONGBAO(3, "DANH XUAT?"))
+					return 0;
+				else
+					break;
+			}
+			break;
+		}
+		case ESC:
+			if (THONGBAO(3, "BAN CO MUON THOAT KHONG"))
+				return 0;
+		case 224:
+		{
+			chon = getch();
+			if (chon == UP && vi_tri_contro != 15)
+			{
+				wherey = vi_tri_contro;
+				vi_tri_contro -= 2;
+			}
+			else if (chon == DOWN && vi_tri_contro != 25)
+			{
+				wherey = vi_tri_contro;
+				vi_tri_contro += 2;
+			}
+			else
+				continue;
+
+			TextColor(112);
+			switch (wherey) // wherey la vi tri cu cua vi_tri_contro de to lai
+			{
+			case 15:
+			{
+				gotoxy(65, 15);
+				cout << "      DANH SACH CAC LOP     ";
+				break;
+			}
+			case 17:
+			{
+				gotoxy(65, 17);
+				cout << "      THEM SINH VIEN        ";
+				break;
+			}
+			case 19:
+			{
+				gotoxy(65, 19);
+				cout << "      DANH SACH MON HOC     ";
+				break;
+			}
+			case 21:
+			{
+				gotoxy(65, 21);
+				cout << "      BANG DIEM             ";
+				break;
+			}
+			case 23:
+			{
+				gotoxy(65, 23);
+				cout << "      THI THU               ";
+				break;
+			}
+			case 25:
+			{
+				gotoxy(65, 25);
+				cout << "      THOAT                 ";
+				break;
+			}
+			}
+
+			TextColor(20);
+			switch (vi_tri_contro) // to vi tri moi
+			{
+			case 15:
+			{
+				gotoxy(65, 15);
+				cout << "      DANH SACH CAC LOP     ";
+				break;
+			}
+			case 17:
+			{
+				gotoxy(65, 17);
+				cout << "      THEM SINH VIEN        ";
+				break;
+			}
+			case 19:
+			{
+				gotoxy(65, 19);
+				cout << "      DANH SACH MON HOC     ";
+				break;
+			}
+			case 21:
+			{
+				gotoxy(65, 21);
+				cout << "      BANG DIEM             ";
+				break;
+			}
+			case 23:
+			{
+				gotoxy(65, 23);
+				cout << "      THI THU               ";
+				break;
+			}
+			case 25:
+			{
+				gotoxy(65, 25);
+				cout << "      THOAT                 ";
+				break;
+			}
+			}
+			TextColor(7);
+		}
+		}
+	}
+}
+int MENU_SV(string maLop, SinhVien &data)
+{
+	system("cls");
+	VeKhung(25, 7, 125, 10);
+	chuMenuSV(32, 2);
+	// cho nay them vao maLop sao khi doc va tro toi ma lop cua TKSV
+	gotoxy(30, 9);
+	cout << maLop;
+	// cho nay them vao maSSV sao khi doc va tro toi ma lop cua TKSV
+	gotoxy(50, 9);
+	cout << data.MSSV;
+	// cho nay them vao tenSV sao khi doc va tro toi ma lop cua TKSV
+	gotoxy(73, 9);
+	cout << data.ho << " " << data.ten;
+	// cho nay them vao gioiTinh sao khi doc va tro toi ma lop cua TKSV
+	gotoxy(110, 9);
+	cout << data.phai;
+	gotoxy(65, 15);
+	TextColor(20); //
+	cout << "      THI                   ";
+	TextColor(112);
+	gotoxy(65, 17);
+	cout << "      XEM DIEM              ";
+	gotoxy(65, 19);
+	cout << "      THOAT                 ";
+	TextColor(7);
+	//
+	int chon, vi_tri_contro = 15;
+	while (1)
+	{
+		chon = getch();
+		switch (chon)
+		{
+			/////////////////////////
+		case ENTER:
+		{
+			switch (vi_tri_contro)
+			{
+			case 15:
+				return 1;
+			case 17:
+				return 2;
+			case 19:
+				return 3;
+			}
+		}
+			///////////////////////////////
+		case ESC:
+		{
+			if (THONGBAO(3, "BAN CO MUON THOAT KHONG") == 1)
+				return 0;
+		}
+			//////////////////////////////////
+		case 224:
+		{
+			chon = getch();
+			switch (chon)
+			{
+			case UP:
+			{
+				if (vi_tri_contro != 15)
+				{
+					if (vi_tri_contro == 17)
+					{
+						vi_tri_contro = 15;
+						gotoxy(65, 15);
+						TextColor(20);
+						cout << "      THI                   ";
+						TextColor(112);
+						gotoxy(65, 17);
+						cout << "      XEM DIEM              ";
+					}
+					else
+					{
+						vi_tri_contro = 17;
+						TextColor(20);
+						gotoxy(65, 17);
+						cout << "      XEM DIEM              ";
+						TextColor(112);
+						gotoxy(65, 19);
+						cout << "      THOAT                 ";
+					}
+					TextColor(7);
+				}
+				break;
+			}
+			case DOWN:
+			{
+				if (vi_tri_contro != 19)
+				{
+					if (vi_tri_contro == 15)
+					{
+						vi_tri_contro = 17;
+						gotoxy(65, 15);
+						TextColor(112);
+						cout << "      THI                   ";
+						TextColor(20);
+						gotoxy(65, 17);
+						cout << "      XEM DIEM              ";
+					}
+					else
+					{
+						vi_tri_contro = 19;
+						TextColor(112);
+						gotoxy(65, 17);
+						cout << "      XEM DIEM              ";
+						TextColor(20);
+						gotoxy(65, 19);
+						cout << "      THOAT                 ";
+					}
+					TextColor(7);
+				}
+				break;
+			}
+			}
+			break;
+		}
+		}
 	}
 }
 
@@ -1944,7 +2237,7 @@ void sortDSLH(LopHoc **dslh, int numOfClass, int &index)
 }
 int HienOptionLopHoc(bool check)
 {
-	for(int i = 0; i < 11; i++)
+	for (int i = 0; i < 11; i++)
 		delete_LineOnScreen(120, 15 + i, 40);
 	string option1 = "   THEM LOP HOC         ";
 	string option2 = "   XOA LOP HOC          ";
@@ -2454,7 +2747,7 @@ void MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root)
 					}
 
 					HienDanhSachDiemThiTheoMon_LopHoc(quanLy, maLop4, maMon4, numOfStudents4, 1, 0);
-					
+
 					page = line = start = count = 1;
 					HienDanhSachLopHoc(temp, start);
 					gotoxy(2, 9 + line * 2);
@@ -3108,4 +3401,49 @@ void THEMSINHVIEN(ListLH &dslh, ListMH dsmh)
 }
 void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 {
+	doc_danhSachLopHoc(dslh);
+	doc_danhSachMonHoc(dsmh);
+	doc_danhSachCauHoi(root);
+	// MENU_DSSV_GV(dslh.lh[2], dsmh);
+
+	char ch;
+	while (1)
+	{
+		string login = DANGNHAP();
+		if (login == "NONE")
+		{
+		}
+		else if (login == "READ FILE ERROR")
+		{
+		}
+		else if (login == "GV")
+		{
+			MENU_GV(dsmh, dslh, root);
+		}
+		else
+		{
+			PtrSV p = NULL;
+			int index;
+			bool check = 0;
+			for (index = 0; index < dslh.n; index++) // kiem tra tung lop
+			{
+				// kiem tra so sanh tung sinh vien voi Login
+				for (p = dslh.lh[index]->danhSachSinhVien; p != NULL; p = p->next)
+				{
+					if (strcmp(p->info.MSSV, login.c_str()) == 0)
+					{
+						check = 1;
+						break;
+					}
+				}
+				if (check)
+					break;
+			}
+			// p = dslh.lh[1]->danhSachSinhVien;
+			MENU_SV(dslh.lh[index]->maLop, p->info);
+		}
+		if ((ch = getch()) == ESC)
+			if (THONGBAO(3, "KET THUC CHUONG TRINH?"))
+				return;
+	}
 }
