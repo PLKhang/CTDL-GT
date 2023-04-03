@@ -438,24 +438,38 @@ bool delete_List_DT(PtrDT &first)
             return 0;
     return 1;
 }
-bool set_DiemThi_DT(PtrDT &p, float x)
+bool set_DiemThi_DT(PtrDT p, float x)
 {
     if (p == NULL)
         return 0;
     p->info.diemThi = x;
     return 1;
 }
+bool set_DiemThi(PtrDT first,char maMH[],float x)
+{
+	while(first!=NULL)
+	{
+		if(strcmp(first->info.maMonHoc,maMH)==0)
+		{
+			first->info.diemThi=x;
+			return 1;
+		}
+		else first=first->next;
+	}
+	return 0;
+}
 PtrDT pos_MaMH_DT(PtrDT first, string maMon)
 {
     if (is_Empty_DT(first))
         return NULL;
-    PtrDT p = NULL;
+    PtrDT p = first;
 
     while (strcmp(p->info.maMonHoc, maMon.c_str()) != 0 && p != NULL)
     {
         p = p->next;
     }
     return p;
+	
 }
 //---------------------------SinhVien--------------------------//
 void KhoiTao_PtrSV(PtrSV &first)

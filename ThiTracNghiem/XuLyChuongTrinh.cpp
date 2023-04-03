@@ -683,8 +683,10 @@ void Thi(STreeCH &root, PtrSV &SV)
 	system("cls");
 	gotoxy(60,15);cout<<"DIEM THI CUA BAN LA:"<<diem;
 	THONGBAO(0,"NHAN PHIM BAT KY DE THOAT");
+	set_DiemThi_DT(pos_MaMH_DT(SV->info.danhSachDiemThi,mon),diem);//mon la ma mon
 	cin.ignore();
-	set_DiemThi_DT(SV->info.danhSachDiemThi,diem);
+	
+	//set_DiemThi(SV->info.danhSachDiemThi,mon,diem);
 }
 /////////////////////////GV->DANH SACH SINH VIEN/////////////////////
 // Menu chuc nang voi danh sach sinh vien(role: GV)
@@ -3454,8 +3456,8 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 				}
 			}
 		}
-		if ((ch = getch()) == ESC)
-			if (THONGBAO(3, "KET THUC CHUONG TRINH?"))
-				return;
+//		if ((ch = getch()) == ESC)
+//			if (THONGBAO(3, "KET THUC CHUONG TRINH?"))
+//				return;
 	}
 }

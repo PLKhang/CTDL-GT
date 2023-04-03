@@ -208,7 +208,9 @@ bool delete_List_DT(PtrDT &first);
 // void delete_Info_DT(PtrDT &first, DiemThi x);
 
 // Dung ham pos_MaMH_DT() truyen vao de lay vi tri sua diemThi
-bool set_DiemThi_DT(PtrDT &p, float x);
+bool set_DiemThi_DT(PtrDT p, float x);
+//tim theo ma mon va sua diem
+bool set_DiemThi(PtrDT first,char maMH[],float x);
 // Tra ve vi tri node chua MaMH
 PtrDT pos_MaMH_DT(PtrDT first, string maMon);
 //-------------------SinhVien------------------//

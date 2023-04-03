@@ -2,6 +2,7 @@
 
 int THONGBAO(int option, string thongbao)
 {
+	SetColor(0,7);
 	VeKhung(125, 0, 155, 10);
 	gotoxy(126, 1);
 	cout << "         THONG BAO           ";
@@ -58,6 +59,13 @@ int THONGBAO(int option, string thongbao)
 				yes_no = 1;
 			}
 		} while ((option = getch()) != 13);
+		// xoa thanh thong bao
+		SetColor(0,7);
+		for (int i = 0; i <= 10; i++)
+		{
+			gotoxy(125, i);
+			cout << "                               ";
+		}
 		TextColor(7);
 		return yes_no;
 	}
