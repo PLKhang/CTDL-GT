@@ -112,12 +112,10 @@ string NhapChuoi(int x, int y, int chieudai) // x va y la dia chi de hien ki tu 
 string NhapMa(int x, int y, int chieudai, string loai)
 {
     gotoxy(x, y);
-    char Ma[chieudai + 1] = {'\0'}, ki_tu;
-    int index = 0;
+    char Ma[chieudai + 1] = {'\0'};
+	int ki_tu,index = 0;
     while ((ki_tu = getch()) != ENTER && ki_tu != ESC)
     {
-        // if (ki_tu == ESC)
-        //     return "ESC";
         if (ki_tu == 0 || ki_tu == 224)
         {
             ki_tu = getch(); // bat ki tu con khi nhap phim mo rong

@@ -157,8 +157,8 @@ void RestoreID()
 {
 	int number;
     fstream docID("Data/KeyID.txt",ios::in|ios::out);
-    docID.seekp(ios::beg);
     docID>>number;
+    docID.seekp(ios::beg);
     docID<<--number;
     docID.close();
 }
