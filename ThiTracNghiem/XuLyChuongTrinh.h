@@ -13,8 +13,8 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root);
 
 int KiemTraTK(string Name, string Password);
 string DANGNHAP();
-int MENU_GV();
-int MENU_SV(string maLop, PtrSV &p);
+int MENU_GV(ListMH &dsmh, ListLH &dslh, STreeCH &root);
+int MENU_SV(STreeCH root, ListMH dsmh, string maLop, PtrSV &p);
 // login: SV
 int HienThiThongTinSinhVien(string mssv);
 // line: 1->3 tuong ung 3 option cho nguoi dang nhap la sinh vien

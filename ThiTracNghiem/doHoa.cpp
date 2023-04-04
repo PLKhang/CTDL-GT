@@ -62,10 +62,7 @@ int THONGBAO(int option, string thongbao)
 		// xoa thanh thong bao
 		SetColor(0,7);
 		for (int i = 0; i <= 10; i++)
-		{
-			gotoxy(125, i);
-			cout << "                               ";
-		}
+			delete_LineOnScreen(125, i, 32);
 		TextColor(7);
 		return yes_no;
 	}
