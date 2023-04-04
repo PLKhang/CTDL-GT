@@ -3315,7 +3315,7 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 				break;
 				case 5:
 				{
-					Thi(root, p, dsmh);
+					Thi(root, p,dsmh);
 					break;
 				}
 				case 6:
@@ -3352,7 +3352,7 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 				switch (option)
 				{
 				case 1:
-					Thi(root, p, dsmh);
+					Thi(root, p,dsmh);
 					break;
 				case 2:
 				{
