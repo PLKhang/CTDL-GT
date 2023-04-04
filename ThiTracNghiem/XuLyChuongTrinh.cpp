@@ -381,17 +381,20 @@ void DongHo(int time)
 	}
 	stopThi = 1;
 }
-void Thi(STreeCH &root, PtrSV &SV)
+void Thi(STreeCH &root, PtrSV &SV,ListMH &dsmh)
 {
 	stopThi = 0;
 	int so_cau, thoi_gian, soluongcauhoi;
-	char mon[51];
+	char maMH[51];
 	thread timer;
 
+	do{
+		strcpy(maMH,MENU_DSMH_GV(root,dsmh,1).data());
+		soluongcauhoi = DemSoCauHoi(root, maMH);	
+		if(soluongcauhoi==0)THONGBAO(1,"KHONG CO CAU HOI");
+	}while(soluongcauhoi==0);
 	system("cls");
-	gotoxy(12, 11);
-	cout << "MA MON THI:";
-	VeKhung(24, 10, 40, 12);
+	
 	gotoxy(12, 15);
 	cout << "SO CAU HOI:";
 	VeKhung(24, 14, 28, 16);
@@ -399,25 +402,8 @@ void Thi(STreeCH &root, PtrSV &SV)
 	cout << "THOI GIAN:";
 	VeKhung(24, 18, 28, 20);
 
-	// nhap va kiem tra xem co mon do khong
-	do
-	{
-		gotoxy(25, 11);
-		cout << "               "; // xoa vung nhap de nhap
-		strcpy(mon, NhapMa(25, 11, 15).data());
-		if (strcmp(mon, "ESC") == 0)
-		{
-			if (THONGBAO(3, "BAN MUON THOAT KHONG"))
-				return;
-		}
-		else
-		{
-			soluongcauhoi = DemSoCauHoi(root, mon);
-			if (soluongcauhoi == 0)
-				THONGBAO(1, "KHONG CO CAU HOI");
-		}
-	} while (soluongcauhoi == 0);
-
+	gotoxy(50,24);
+	cout<<"SO CAU TOI THIEU: 1| SO CAU TOI DA:"<<soluongcauhoi;
 	do
 	{
 		gotoxy(25, 15);
@@ -438,7 +424,7 @@ void Thi(STreeCH &root, PtrSV &SV)
 	} while (thoi_gian == 0);
 
 	timer = thread(DongHo, thoi_gian);
-	STreeCH *Questions = GetQuestion(root, mon, so_cau, soluongcauhoi);
+	STreeCH *Questions = GetQuestion(root, maMH, so_cau, soluongcauhoi);
 	int so_cau_dung[so_cau], chon, index, wherey; // 10=A 14=B 18=C 22=D
 	char temp[90];
 	for (int i = 0; i < so_cau; i++) // LUU CAU DA TRA LOI: DUNG = 1,  sai = -1 / -2 / -3 / -4,  chua chon =0
@@ -538,6 +524,8 @@ void Thi(STreeCH &root, PtrSV &SV)
 		cout << Questions[i]->info.ans3; // IN CAU C
 		gotoxy(16, 22);
 		cout << Questions[i]->info.ans4; // IN CAU D
+		
+		gotoxy(110,26);cout<<i+1<<'/'<<so_cau;
 		// XEM LUA CHON
 		while (stopThi != 1)
 		{
@@ -694,7 +682,7 @@ void Thi(STreeCH &root, PtrSV &SV)
 	gotoxy(60, 15);
 	cout << "DIEM THI CUA BAN LA:" << diem;
 	THONGBAO(0, "NHAN PHIM BAT KY DE THOAT");
-	set_DiemThi_DT(pos_MaMH_DT(SV->info.danhSachDiemThi, mon), diem); // mon la ma mon
+	set_DiemThi_DT(pos_MaMH_DT(SV->info.danhSachDiemThi, maMH), diem); // mon la ma mon
 	cin.ignore();
 
 	// set_DiemThi(SV->info.danhSachDiemThi,mon,diem);
@@ -3403,7 +3391,7 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 					break; // chua lam`
 				case 5:
 				{
-					Thi(root, p);
+					Thi(root, p,dsmh);
 					break;
 				}
 				case 6:
@@ -3440,7 +3428,7 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 				switch (option)
 				{
 				case 1:
-					Thi(root, p);
+					Thi(root, p,dsmh);
 					break;
 				case 2:
 				{
