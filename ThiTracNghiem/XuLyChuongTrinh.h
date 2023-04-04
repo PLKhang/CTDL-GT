@@ -67,8 +67,9 @@ int HienOptionDiemThi(bool check = 0);
 void SortDSDT(PtrDT *data, int n, int &check);
 
 //--------------------------MON HOC---------------------------
-void MENU_DSMH_GV(STreeCH &root, ListMH dsmh);
-void HienDanhSachMonHoc(ListMH dsmh, int start);
+//types: 0-> chuc nang quan ly mon hoc, 1-> chon ma mon hoc de thi
+string MENU_DSMH_GV(STreeCH &root, ListMH dsmh, bool types = 0);
+void HienDanhSachMonHoc(ListMH dsmh, int page, int maxPage, bool types);
 // line: 1-> 4 tuong ung 4 option cua MonHoc
 int HienOptionMonHoc(bool check = 0);
 bool ThemMonHoc(ListMH dsmh);

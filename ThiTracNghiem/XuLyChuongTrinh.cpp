@@ -96,12 +96,18 @@ int MENU_GV()
 		{
 			switch (vi_tri_contro)
 			{
-			case 15:return 1;
-			case 17:return 2;
-			case 19:return 3;
-			case 21:return 4;
-			case 23:return 5;
-			case 25:return 6;
+			case 15:
+				return 1;
+			case 17:
+				return 2;
+			case 19:
+				return 3;
+			case 21:
+				return 4;
+			case 23:
+				return 5;
+			case 25:
+				return 6;
 			}
 		}
 		case ESC:
@@ -209,7 +215,7 @@ int MENU_GV()
 		}
 	}
 }
-int MENU_SV( string maLop, PtrSV &p)
+int MENU_SV(string maLop, PtrSV &p)
 {
 	system("cls");
 	VeKhung(25, 7, 125, 10);
@@ -247,9 +253,12 @@ int MENU_SV( string maLop, PtrSV &p)
 		{
 			switch (vi_tri_contro)
 			{
-			case 15:return 1;
-			case 17:return 2;
-			case 19:return 3;
+			case 15:
+				return 1;
+			case 17:
+				return 2;
+			case 19:
+				return 3;
 			}
 		}
 			///////////////////////////////
@@ -374,7 +383,7 @@ void DongHo(int time)
 }
 void Thi(STreeCH &root, PtrSV &SV)
 {
-	stopThi=0;
+	stopThi = 0;
 	int so_cau, thoi_gian, soluongcauhoi;
 	char mon[51];
 	thread timer;
@@ -674,19 +683,21 @@ void Thi(STreeCH &root, PtrSV &SV)
 	stopThi = 1;
 	timer.join();
 	GhiCauHoiDaThi(SV->info.MSSV, Questions, so_cau_dung, so_cau);
-	float diem=0;
-	for(int i=0;i<so_cau;i++)
+	float diem = 0;
+	for (int i = 0; i < so_cau; i++)
 	{
-		if(so_cau_dung[i]==1)diem++;
+		if (so_cau_dung[i] == 1)
+			diem++;
 	}
-	diem=(diem/so_cau)*10;
+	diem = (diem / so_cau) * 10;
 	system("cls");
-	gotoxy(60,15);cout<<"DIEM THI CUA BAN LA:"<<diem;
-	THONGBAO(0,"NHAN PHIM BAT KY DE THOAT");
-	set_DiemThi_DT(pos_MaMH_DT(SV->info.danhSachDiemThi,mon),diem);//mon la ma mon
+	gotoxy(60, 15);
+	cout << "DIEM THI CUA BAN LA:" << diem;
+	THONGBAO(0, "NHAN PHIM BAT KY DE THOAT");
+	set_DiemThi_DT(pos_MaMH_DT(SV->info.danhSachDiemThi, mon), diem); // mon la ma mon
 	cin.ignore();
-	
-	//set_DiemThi(SV->info.danhSachDiemThi,mon,diem);
+
+	// set_DiemThi(SV->info.danhSachDiemThi,mon,diem);
 }
 /////////////////////////GV->DANH SACH SINH VIEN/////////////////////
 // Menu chuc nang voi danh sach sinh vien(role: GV)
@@ -1517,7 +1528,7 @@ void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 	VeBangCauHoi(tenMH, 1);
 	STreeCH NewQuestion = new nodeCauHoi;
 	NewQuestion->info.ID = ReadID();
-	char answer,option;
+	char answer, option;
 	strcpy(NewQuestion->info.maMonHoc, maMH);
 
 	do
@@ -1554,7 +1565,7 @@ void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 	while (1)
 	{
 		option = toupper(GetKey());
-		if (option == ENTER&&answer>='A'&&answer<='D')
+		if (option == ENTER && answer >= 'A' && answer <= 'D')
 			break;
 		if (answer == 8)
 		{
@@ -1565,7 +1576,7 @@ void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 		}
 		if (option >= 'A' && option <= 'D')
 		{
-			answer=option;
+			answer = option;
 			cout << answer;
 		}
 	}
@@ -1681,19 +1692,21 @@ void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 						case 25:
 						{
 							int answer;
-							while(1)
+							while (1)
 							{
-								answer=NhapSo(21,25,1);
-								if(answer>=1&&answer<=4)break;
+								answer = NhapSo(21, 25, 1);
+								if (answer >= 1 && answer <= 4)
+									break;
 							}
-							ExsistQuestion->info.answer=answer;
+							ExsistQuestion->info.answer = answer;
 						}
 						break;
 						}
 					}
 					case ESC:
 					{
-						gotoxy(3, contro);cout<<"  ";
+						gotoxy(3, contro);
+						cout << "  ";
 						stop = 1;
 						break;
 					}
@@ -1790,7 +1803,7 @@ int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc) // thi
 		TextColor(112);
 		gotoxy(120, 19);
 		cout << "     XEM CAU HOI        ";
-		SetColor(0,7);
+		SetColor(0, 7);
 		if (NumberQuestion == 0)
 			THONGBAO(0, "KHONG CO CAU HOI");
 		else
@@ -1844,7 +1857,8 @@ int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc) // thi
 						}
 						if (chon == ESC)
 						{
-							gotoxy(3,wherey);cout<<"  ";
+							gotoxy(3, wherey);
+							cout << "  ";
 							break;
 						}
 						if (chon == 224)
@@ -1927,7 +1941,7 @@ int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc) // thi
 				}
 				}
 				TextColor(7);
-			break;
+				break;
 			}
 			case ESC:
 			{
@@ -2814,11 +2828,11 @@ void MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root)
 	}
 }
 ///////////////////////////GV->DANH SACH MON HOC/////////////////////
-void MENU_DSMH_GV(STreeCH &root, ListMH dsmh)
+string MENU_DSMH_GV(STreeCH &root, ListMH dsmh, bool types)
 {
 	int numOfSubjects = dsmh.n;
 
-	int line = 1, start = 1, count = 1, page = 1;
+	int line = 1, count = 1, page = 1;
 	int maxPage = (numOfSubjects - 1) / 10 + 1;
 
 	// kiem tra co phai dang o che do XOA MON HOC
@@ -2826,12 +2840,9 @@ void MENU_DSMH_GV(STreeCH &root, ListMH dsmh)
 	// Kiem tra co phai dang o che do HIEU CHINH
 	bool check_Edit = 0;
 
-	HienDanhSachMonHoc(dsmh, start);
+	HienDanhSachMonHoc(dsmh, page, maxPage, types);
 	gotoxy(2, 9 + line * 2);
 	cout << ">>";
-	gotoxy(116, 29);
-	cout << "Page" << page << '/' << maxPage;
-	HienOptionMonHoc(1);
 
 	char ch;
 	while ((ch = getch()) != ESC)
@@ -2842,18 +2853,16 @@ void MENU_DSMH_GV(STreeCH &root, ListMH dsmh)
 			switch (ch)
 			{
 			case UP:
-				if (line == 1 && start > 10)
+				if (line == 1 && page > 1)
 				{
 					delete_LineOnScreen(2, 9 + line * 2, 2);
 					line = 10;
-					start -= 10;
+					page--;
 					count--;
 
-					HienDanhSachMonHoc(dsmh, start);
+					HienDanhSachMonHoc(dsmh, page, maxPage, types);
 					gotoxy(2, 9 + line * 2);
 					cout << ">>";
-					gotoxy(116, 29);
-					cout << "Page " << --page << '/' << maxPage;
 				}
 				else if (line > 1 && count > 1)
 				{
@@ -2869,14 +2878,12 @@ void MENU_DSMH_GV(STreeCH &root, ListMH dsmh)
 				{
 					delete_LineOnScreen(2, 9 + line * 2, 2);
 					line = 1;
-					start += 10;
+					page++;
 					count++;
 
-					HienDanhSachMonHoc(dsmh, start);
+					HienDanhSachMonHoc(dsmh, page, maxPage, types);
 					gotoxy(2, 9 + line * 2);
 					cout << ">>";
-					gotoxy(116, 29);
-					cout << "Page " << ++page << '/' << maxPage;
 				}
 				else if (line < 10 && count < dsmh.n)
 				{
@@ -2892,14 +2899,12 @@ void MENU_DSMH_GV(STreeCH &root, ListMH dsmh)
 				{
 					delete_LineOnScreen(2, 9 + line * 2, 2);
 					line = 10;
-					start -= 10;
+					page--;
 					count = (count / 10) * 10;
 
-					HienDanhSachMonHoc(dsmh, start);
+					HienDanhSachMonHoc(dsmh, page, maxPage, types);
 					gotoxy(2, 9 + line * 2);
 					cout << ">>";
-					gotoxy(116, 29);
-					cout << "Page " << --page << '/' << maxPage;
 				}
 				break;
 			case PAGEDOWN:
@@ -2907,18 +2912,16 @@ void MENU_DSMH_GV(STreeCH &root, ListMH dsmh)
 				{
 					delete_LineOnScreen(2, 9 + line * 2, 2);
 					line = 1;
-					start += 10;
+					page++;
 					count = ((count - 1) / 10 + 1) * 10 + 1;
 
-					HienDanhSachMonHoc(dsmh, start);
+					HienDanhSachMonHoc(dsmh, page, maxPage, types);
 					gotoxy(2, 9 + line * 2);
 					cout << ">>";
-					gotoxy(116, 29);
-					cout << "Page " << ++page << '/' << maxPage;
 				}
 				break;
 			case RIGHT:
-				if (check_Delete || check_Edit)
+				if (check_Delete || check_Edit || types)
 					break;
 
 				delete_LineOnScreen(2, 9 + line * 2, 2);
@@ -2931,12 +2934,10 @@ void MENU_DSMH_GV(STreeCH &root, ListMH dsmh)
 						maxPage = (dsmh.n - 1) / 10 + 1;
 					else
 						THONGBAO(1, "DA HUY THAO TAC THEM");
-					start = count = line = page = 1;
-					HienDanhSachMonHoc(dsmh, start);
+					count = line = page = 1;
+					HienDanhSachMonHoc(dsmh, page, maxPage, types);
 					gotoxy(2, 9 + line * 2);
 					cout << ">>";
-					gotoxy(116, 29);
-					cout << "Page " << page << '/' << maxPage;
 					HienOptionMonHoc(1);
 					break;
 				case 2:
@@ -2955,6 +2956,10 @@ void MENU_DSMH_GV(STreeCH &root, ListMH dsmh)
 		}
 		else if (ch == ENTER)
 		{
+			if (types)
+			{
+				return dsmh.nodes[count - 1].maMonHoc;
+			}
 			if (check_Delete)
 			{
 				if (THONGBAO(3, "XOA MON HOC?"))
@@ -2962,7 +2967,7 @@ void MENU_DSMH_GV(STreeCH &root, ListMH dsmh)
 					if (XoaMonHoc(dsmh, count - 1))
 					{
 						maxPage = (dsmh.n - 1) / 10 + 1;
-						line = page = count = start = 1;
+						line = page = count = 1;
 					}
 					check_Delete = 0;
 				}
@@ -2979,23 +2984,22 @@ void MENU_DSMH_GV(STreeCH &root, ListMH dsmh)
 			else
 				MENU_DSCH_GV(root, dsmh.nodes[count - 1]);
 
-			HienDanhSachMonHoc(dsmh, start);
+			HienDanhSachMonHoc(dsmh, page, maxPage, types);
 			gotoxy(2, 9 + line * 2);
 			cout << ">>";
-			gotoxy(116, 29);
-			cout << "Page " << --page << '/' << maxPage;
 		}
 	}
 }
-void HienDanhSachMonHoc(ListMH dsmh, int start)
+void HienDanhSachMonHoc(ListMH dsmh, int page, int maxPage, bool types)
 {
 	system("cls");
 	SetColor(0, 7);
 	VeHeader(4, "DANH SACH MON HOC");
 	VeDanhSach(4);
-	HienOptionMonHoc(1);
+	if (!types)
+		HienOptionMonHoc(1);
 	int count = 0;
-	for (int i = start - 1; i < start + 9 && i < dsmh.n; i++)
+	for (int i = (page - 1) * 10; i <= (page - 1) * 10 + 9 && i < dsmh.n; i++)
 	{
 		gotoxy(12, 11 + count * 2);
 		cout << dsmh.nodes[i].maMonHoc;
@@ -3003,7 +3007,8 @@ void HienDanhSachMonHoc(ListMH dsmh, int start)
 		cout << dsmh.nodes[i].tenMonHoc;
 		count++;
 	}
-	gotoxy(0, 40);
+	gotoxy(116, 29);
+	cout << "Page " << page << '/' << maxPage;
 }
 int HienOptionMonHoc(bool check)
 {
@@ -3355,10 +3360,10 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 	// MENU_DSSV_GV(dslh.lh[2], dsmh);
 
 	char ch;
-	int option,stop=0;
+	int option, stop = 0;
 	while (1)
 	{
-		stop=0;
+		stop = 0;
 		string login = DANGNHAP();
 		if (login == "NONE")
 		{
@@ -3380,32 +3385,33 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 			temp.next = NULL;
 			PtrSV p = new nodeSinhVien;
 			p = &temp;
-			while(stop!=1)
+			while (stop != 1)
 			{
-				option=MENU_GV();	
-				switch(option)
+				option = MENU_GV();
+				switch (option)
 				{
-					case 1:
-						MENU_DSLH_GV(dslh, dsmh, root);
+				case 1:
+					MENU_DSLH_GV(dslh, dsmh, root);
 					break;
-					case 2:
-						THEMSINHVIEN(dslh, dsmh);
-						break;
-					case 3:
-						MENU_DSMH_GV(root, dsmh);
-						break;
-					case 4:
-						break; // chua lam`
-					case 5:
-					{
-						Thi(root, p);
-						break;
-					}
-					case 6:
-					{
-						if (THONGBAO(3, "DANH XUAT?"))stop=1;
-						break;
-					}
+				case 2:
+					THEMSINHVIEN(dslh, dsmh);
+					break;
+				case 3:
+					MENU_DSMH_GV(root, dsmh);
+					break;
+				case 4:
+					break; // chua lam`
+				case 5:
+				{
+					Thi(root, p);
+					break;
+				}
+				case 6:
+				{
+					if (THONGBAO(3, "DANH XUAT?"))
+						stop = 1;
+					break;
+				}
 				}
 			}
 		}
@@ -3428,36 +3434,38 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 				if (check)
 					break;
 			}
-			while(stop!=1)
+			while (stop != 1)
 			{
 				option = MENU_SV(dslh.lh[index]->maLop, p);
-				switch(option)
+				switch (option)
 				{
-					case 1:
+				case 1:
 					Thi(root, p);
 					break;
-					case 2:
+				case 2:
+				{
+					PtrDT temp[MaxOfSubjects] = {NULL};
+					PtrDT pDT = p->info.danhSachDiemThi;
+					for (int i = 0; pDT != NULL; i++)
 					{
-						PtrDT temp[MaxOfSubjects] = {NULL};
-						PtrDT pDT = p->info.danhSachDiemThi;
-						for (int i = 0; pDT != NULL; i++)
-						{
-							temp[i] = pDT;
-							pDT = pDT->next;
-						}
-						HienDanhSachDiemThi(dsmh, temp, p->info.MSSV, p->info.ho, p->info.ten, 1);
-						cin.ignore();
-						break;
+						temp[i] = pDT;
+						pDT = pDT->next;
 					}
-					case 3:{
-						if(THONGBAO(3,"DANG XUAT?"))stop=1;
-						break;
-					}
+					HienDanhSachDiemThi(dsmh, temp, p->info.MSSV, p->info.ho, p->info.ten, 1);
+					cin.ignore();
+					break;
+				}
+				case 3:
+				{
+					if (THONGBAO(3, "DANG XUAT?"))
+						stop = 1;
+					break;
+				}
 				}
 			}
 		}
-//		if ((ch = getch()) == ESC)
-//			if (THONGBAO(3, "KET THUC CHUONG TRINH?"))
-//				return;
+		//		if ((ch = getch()) == ESC)
+		//			if (THONGBAO(3, "KET THUC CHUONG TRINH?"))
+		//				return;
 	}
 }
