@@ -14,17 +14,8 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root);
 int KiemTraTK(string Name, string Password);
 string DANGNHAP();
 int MENU_GV(ListMH &dsmh, ListLH &dslh, STreeCH &root);
-int MENU_SV(STreeCH root, ListMH dsmh, string maLop, PtrSV &p);
 // login: SV
-int HienThiThongTinSinhVien(string mssv);
-// line: 1->3 tuong ung 3 option cho nguoi dang nhap la sinh vien
-void HienOptionChoSinhVien(int line = 1);
-// Kiem tra ma mon, so luong cau hoi truoc khi lay de va bat dau lam bai thi
-void NhapMaMonVaThoiGianThi();
-// 1: lay de thanh cong, 0: khong du so luong cau hoi, -1, -2 ...
-int LayDeThi(STreeCH dsch, CauHoi list[], int soLuongCau);
-// tra ve diem thi cua sv
-float BatDauLamBai(CauHoi *list[], int soLuongCau, int phut);
+int MENU_SV(STreeCH root, ListMH dsmh, string maLop, PtrSV &p);
 // tra ve ket qua dung hoac sai cua dap an;
 bool HienCauHoi(CauHoi info);
 
@@ -65,14 +56,14 @@ void SortDSDT(PtrDT *data, int n, int &check);
 
 //--------------------------MON HOC---------------------------
 // types: 0-> chuc nang quan ly mon hoc, 1-> chon ma mon hoc de thi
-string MENU_DSMH_GV(STreeCH &root, ListMH dsmh, bool types = 0);
+string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, bool types = 0);
 void HienDanhSachMonHoc(ListMH dsmh, int page, int maxPage, bool types);
 // line: 1-> 4 tuong ung 4 option cua MonHoc
 int HienOptionMonHoc(bool check = 0);
-bool ThemMonHoc(ListMH dsmh);
-bool XoaMonHoc(ListMH dsmh, int index);
+bool ThemMonHoc(ListMH &dsmh);
+bool XoaMonHoc(ListMH &dsmh, int index);
 // index: vi tri HIEU CHINH trong dsmh, line: vi tri hieu chinh tren man hinh
-bool HieuChinhMonHoc(ListMH dsmh, int index, int line);
+bool HieuChinhMonHoc(ListMH &dsmh, int index, int line);
 
 //--------------------------CAU HOI-------------------------
 int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc);
@@ -84,6 +75,6 @@ void XoaCauHoi();
 void HieuChinhCauHoi();
 
 int CauHoi1(STreeCH &root, char maMH[], char tenMH[]);
-void Thi(STreeCH &root, PtrSV &SV);
+void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh);
 
 #endif // XU_LY_CHUONG_TRINH_H

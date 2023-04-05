@@ -1,12 +1,10 @@
 #include "struct.h"
 
 //---------------------------MonHoc--------------------------//
-bool is_Empty_MH(ListMH dsmh)
-{
-    if (dsmh.n == 0)
-        return 1;
-    return 0;
-}
+    bool is_Empty_MH(ListMH dsmh)
+    {
+        return dsmh.n == 0;
+    }
 bool is_Full_MH(ListMH dsmh)
 {
     if (dsmh.n == MaxOfSubjects - 1)

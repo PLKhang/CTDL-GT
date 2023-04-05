@@ -381,20 +381,22 @@ void DongHo(int time)
 	}
 	stopThi = 1;
 }
-void Thi(STreeCH &root, PtrSV &SV,ListMH &dsmh)
+void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 {
 	stopThi = 0;
 	int so_cau, thoi_gian, soluongcauhoi;
 	char maMH[51];
 	thread timer;
 
-	do{
-		strcpy(maMH,MENU_DSMH_GV(root,dsmh,1).data());
-		soluongcauhoi = DemSoCauHoi(root, maMH);	
-		if(soluongcauhoi==0)THONGBAO(1,"KHONG CO CAU HOI");
-	}while(soluongcauhoi==0);
+	do
+	{
+		strcpy(maMH, MENU_DSMH_GV(root, dsmh, 1).data());
+		soluongcauhoi = DemSoCauHoi(root, maMH);
+		if (soluongcauhoi == 0)
+			THONGBAO(1, "KHONG CO CAU HOI");
+	} while (soluongcauhoi == 0);
 	system("cls");
-	
+
 	gotoxy(12, 15);
 	cout << "SO CAU HOI:";
 	VeKhung(24, 14, 28, 16);
@@ -402,8 +404,8 @@ void Thi(STreeCH &root, PtrSV &SV,ListMH &dsmh)
 	cout << "THOI GIAN:";
 	VeKhung(24, 18, 28, 20);
 
-	gotoxy(50,24);
-	cout<<"SO CAU TOI THIEU: 1| SO CAU TOI DA:"<<soluongcauhoi;
+	gotoxy(50, 24);
+	cout << "SO CAU TOI THIEU: 1| SO CAU TOI DA:" << soluongcauhoi;
 	do
 	{
 		gotoxy(25, 15);
@@ -524,8 +526,9 @@ void Thi(STreeCH &root, PtrSV &SV,ListMH &dsmh)
 		cout << Questions[i]->info.ans3; // IN CAU C
 		gotoxy(16, 22);
 		cout << Questions[i]->info.ans4; // IN CAU D
-		
-		gotoxy(110,26);cout<<i+1<<'/'<<so_cau;
+
+		gotoxy(110, 26);
+		cout << i + 1 << '/' << so_cau;
 		// XEM LUA CHON
 		while (stopThi != 1)
 		{
@@ -931,10 +934,10 @@ void HienDanhSachSinhVien(PtrSV *data, string tenLop, int page, int maxPage, boo
 				if (strcmp(p->info.maMonHoc, maMon.c_str()) == 0)
 				{
 					gotoxy(105, 11 + 2 * count);
-					if (p->info.diemThi < 0)
-						cout << "Chua thi";
-					else
+					if (p->info.diemThi >= 0)
 						cout << setprecision(2) << fixed << p->info.diemThi;
+					else
+						cout << "Chua thi";
 					break;
 				}
 				p = p->next;
@@ -1304,10 +1307,19 @@ void MENU_DSDT_GV(SinhVien data, ListMH dsmh, bool types)
 	int numOfSubs = dsmh.n;
 	PtrDT temp[MaxOfSubjects] = {NULL};
 
-	PtrDT p = data.danhSachDiemThi;
+	PtrDT firstDT = data.danhSachDiemThi;
+	DiemThi info;
+	PtrDT p = firstDT;
 
 	for (int i = 0; p != NULL && i < dsmh.n; i++)
 	{
+		if (strcmp(p->info.maMonHoc, dsmh.nodes[i].maMonHoc) != 0)
+		{
+			strcpy(info.maMonHoc, dsmh.nodes[i].maMonHoc);
+			insert_Order_DT(firstDT, info);
+			continue;
+		}
+
 		temp[i] = p;
 		p = p->next;
 	}
@@ -1437,19 +1449,10 @@ void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, strin
 	VeHeader(3, "DANH SACH DIEM THI", MSSV + " - " + ho + ' ' + ten);
 	VeDanhSach(3);
 	int count = 1;
-
-	string tenMonHoc;
 	for (int i = (page - 1) * 10; i <= page * 10 && data[i] != NULL; i++)
 	{
-		for (int j = 0; j < dsmh.n; j++)
-			if (strcmp(data[i]->info.maMonHoc, dsmh.nodes[j].maMonHoc) == 0)
-			{
-				tenMonHoc = dsmh.nodes[j].tenMonHoc;
-				break;
-			}
 		gotoxy(6, 9 + count * 2);
-		cout << tenMonHoc;
-		// cout << data[i]->maMonHoc;
+		cout << dsmh.nodes[i].tenMonHoc;
 		gotoxy(78, 9 + count * 2);
 		if (data[i]->info.diemThi < 0)
 			cout << "Chua thi";
@@ -2718,7 +2721,7 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 	}
 }
 ///////////////////////////GV->DANH SACH MON HOC/////////////////////
-string MENU_DSMH_GV(STreeCH &root, ListMH dsmh, bool types)
+string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, bool types)
 {
 	int numOfSubjects = dsmh.n;
 
@@ -2736,7 +2739,7 @@ string MENU_DSMH_GV(STreeCH &root, ListMH dsmh, bool types)
 
 	char ch;
 	while ((ch = getch()) != ESC)
-	{	
+	{
 		if (ch == -32)
 		{
 			ch = getch();
@@ -2824,11 +2827,11 @@ string MENU_DSMH_GV(STreeCH &root, ListMH dsmh, bool types)
 						maxPage = (dsmh.n - 1) / 10 + 1;
 					else
 						THONGBAO(1, "DA HUY THAO TAC THEM");
+
 					count = line = page = 1;
 					HienDanhSachMonHoc(dsmh, page, maxPage, types);
 					gotoxy(2, 9 + line * 2);
 					cout << ">>";
-					HienOptionMonHoc(1);
 					break;
 				case 2:
 					THONGBAO(1, "CHON MON HOC MUON XOA");
@@ -2842,6 +2845,8 @@ string MENU_DSMH_GV(STreeCH &root, ListMH dsmh, bool types)
 					THONGBAO(1, "CHON MON HOC DE XEM DANH SACH CAU HOI");
 					break;
 				}
+				gotoxy(2, 9 + line * 2);
+				cout << ">>";
 			}
 		}
 		else if (ch == ENTER)
@@ -2861,15 +2866,11 @@ string MENU_DSMH_GV(STreeCH &root, ListMH dsmh, bool types)
 					}
 					check_Delete = 0;
 				}
-				break;
 			}
 			else if (check_Edit)
 			{
 				if (!ThemMonHoc(dsmh))
-				{
 					THONGBAO(1, "DA HUY THAO TAC HIEU CHINH");
-					break;
-				}
 			}
 			else
 				MENU_DSCH_GV(root, dsmh.nodes[count - 1]);
@@ -3025,16 +3026,16 @@ int HienOptionMonHoc(bool check)
 			return 0;
 	}
 }
-bool XoaMonHoc(ListMH dsmh, int index)
+bool XoaMonHoc(ListMH &dsmh, int index)
 {
-	if (is_Empty_MH(dsmh) || index >= dsmh.n)
-		return 0;
-	for (int i = index; i < MaxOfSubjects; i++)
+	if (is_Empty_MH(dsmh) || index < 0 || index >= dsmh.n)
+		return false;
+	for (int i = index; i < dsmh.n - 1; i++)
 		dsmh.nodes[i] = dsmh.nodes[i + 1];
 	dsmh.n--;
-	return 1;
+	return true;
 }
-bool ThemMonHoc(ListMH dsmh)
+bool ThemMonHoc(ListMH &dsmh)
 {
 	KhungThem(4);
 	MonHoc newMH;
@@ -3044,20 +3045,22 @@ bool ThemMonHoc(ListMH dsmh)
 	while (1)
 	{
 		if ((ch = getch()) == ESC)
+		{
 			if (THONGBAO(3, "HUY QUA TRINH?"))
 				return 0;
-			else if (ch == ENTER)
-			{
-				if (check == 2)
-					if (THONGBAO(3, "LUU THONG TIN?"))
-					{
-						insert_MH(dsmh, newMH);
-						THONGBAO(1, "DA THEM MON HOC");
-						return 1;
-					}
-					else
-						THONGBAO(1, "HAY NHAP DU THONG TIN");
-			}
+		}
+		else if (ch == ENTER)
+		{
+			if (check == 2)
+				if (THONGBAO(3, "LUU THONG TIN?"))
+				{
+					insert_MH(dsmh, newMH);
+					THONGBAO(1, "DA THEM MON HOC");
+					return 1;
+				}
+				else
+					THONGBAO(1, "HAY NHAP DU THONG TIN");
+		}
 		while (check == 0)
 		{
 			delete_LineOnScreen(6, 35, 15);
@@ -3244,7 +3247,7 @@ void THEMSINHVIEN(ListLH &dslh, ListMH dsmh)
 		}
 	}
 	THONGBAO(1, "DA XONG");
-	for(int i = 0; i < 5; i++)
+	for (int i = 0; i < 5; i++)
 		delete_LineOnScreen(5, 32 + i, 120);
 }
 void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
@@ -3315,7 +3318,7 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 				break;
 				case 5:
 				{
-					Thi(root, p,dsmh);
+					Thi(root, p, dsmh);
 					break;
 				}
 				case 6:
@@ -3352,7 +3355,7 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 				switch (option)
 				{
 				case 1:
-					Thi(root, p,dsmh);
+					Thi(root, p, dsmh);
 					break;
 				case 2:
 				{
