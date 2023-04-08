@@ -75,14 +75,6 @@ string FindName(ListMH dsmh,char maMH[])
 //---------------------------CauHoi--------------------------//
 
 //-----TAO ID---------//
-struct ID
-{
-    int id;
-    ID *left = NULL;
-    ID *right = NULL;
-};
-typedef ID *createID;
-
 int numNode(ID *root)
 {
     if (root == NULL)
@@ -167,15 +159,13 @@ void RestoreID()
     docID<<--number;
     docID.close();
 }
-STreeCH newnode(CauHoi CH)
+STreeCH newnode()
 {
     STreeCH p = new nodeCauHoi;
-    p->info = CH;
     p->left = NULL;
     p->right = NULL;
 }
 // ---------them, xoa,sua cau hoi-----//
-STreeCH rp;
 int InsertQuestion(STreeCH &root, STreeCH question)
 {
     if (root == NULL)
@@ -196,22 +186,9 @@ int InsertQuestion(STreeCH &root, STreeCH question)
 int SoNode(STreeCH root)
 {
     if (root == NULL)
-         return 0;
-             return 1 + SoNode(root->left) + SoNode(root->right);
+        return 0;
+    return 1 + SoNode(root->left) + SoNode(root->right);
 }
-void Delete(STreeCH &root)
-{
-    if (root->left != NULL)
-    {
-        Delete(root->left);
-    }
-    else
-    {
-        rp->info = root->info;
-        rp = root;
-        root = rp->right;
-    }
-}   
 int DeleteQuestion(STreeCH &root, STreeCH &Question)
 {
     int ID = Question->info.ID;
@@ -239,14 +216,14 @@ int DeleteQuestion(STreeCH &root, STreeCH &Question)
     else
         DeleteQuestion(root->right, Question);
 }
-int Modify(STreeCH root, CauHoi question)
+int Repare(STreeCH root, CauHoi question)
 {
     if (root != NULL)
     {
         if (root->info.ID > question.ID)
-            return Modify(root->left, question);
+            return Repare(root->left, question);
         else if (root->info.ID < question.ID)
-            return Modify(root->right, question);
+            return Repare(root->right, question);
         else
         {
             root->info = question;
@@ -254,32 +231,6 @@ int Modify(STreeCH root, CauHoi question)
         }
     }
     return 0;
-}
-//---------can bang cay------
-void Store(STreeCH root, vector<STreeCH> &nodes)
-{
-    if (root != NULL)
-    {
-        Store(root->left, nodes);
-        nodes.push_back(root);
-        Store(root->right, nodes);
-    }
-}
-STreeCH Convert(vector<STreeCH> &nodes, int max, int min)
-{
-    if (max < min)
-        return NULL;
-    int mid = (max + min) / 2;
-    STreeCH root = nodes[mid];
-    root->left = Convert(nodes, mid - 1, min);
-    root->right = Convert(nodes, max, mid + 1);
-    return root;
-}
-STreeCH Balance(STreeCH root)
-{
-    vector<STreeCH> nodes;
-    Store(root, nodes);
-    return Convert(nodes, nodes.size() - 1, 0);
 }
 //--------LAY CAU HOI--------
 void PreTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count)
