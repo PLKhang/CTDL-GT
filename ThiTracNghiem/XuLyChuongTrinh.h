@@ -39,7 +39,7 @@ void THEMSINHVIEN(ListLH &dslh, ListMH dsmh);
 //-------------------------SINH VIEN-------------------------
 // types: 0->chuc nang quan ly sinh vien, 1->xem dsdt theo mon, 2->lay mssv
 PtrSV MENU_DSSV_GV(LopHoc *data, ListMH dsmh, int types = 0, string maMon = "");
-void HienDanhSachSinhVien(PtrSV *data, string tenLop, int page, int maxPage, bool types = 0, string maMon = "");
+void HienDanhSachSinhVien(PtrSV *data, string tenLop, int page, int maxPage, int types = 0, string maMon = "");
 int HienOptionSinhVien(bool check = 0);
 bool ThemSinhVien(PtrSV &dssv, ListMH dsmh);
 int XoaSinhVien(PtrSV &dssv, PtrSV *data, int count);
@@ -48,6 +48,7 @@ bool HieuChinhSinhVien(PtrSV dssv, PtrSV *data, int index, int line);
 void SortDSSV(PtrSV *data, int n, bool &check);
 
 //-------------------------DIEM THI--------------------------
+// types: 1->read only, 0->manage
 void MENU_DSDT_GV(SinhVien data, ListMH dsmh, bool types = 0);
 void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, string ten, int page, int maxPage);
 int HienOptionDiemThi(bool check = 0);

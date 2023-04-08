@@ -895,13 +895,13 @@ PtrSV MENU_DSSV_GV(LopHoc *data, ListMH dsmh, int types, string maMon)
 	}
 }
 // types: 0-> hien dssv, 1->hien dsDT theo mon
-void HienDanhSachSinhVien(PtrSV *data, string tenLop, int page, int maxPage, bool types, string maMon)
+void HienDanhSachSinhVien(PtrSV *data, string tenLop, int page, int maxPage, int types, string maMon)
 {
 	system("cls");
 	SetColor(0, 7);
 	VeHeader(2, "DANH SACH SINH VIEN", tenLop);
 	VeDanhSach(2);
-	if (!types)
+	if (types != 1)
 		HienOptionSinhVien(1);
 	else
 	{
@@ -921,7 +921,7 @@ void HienDanhSachSinhVien(PtrSV *data, string tenLop, int page, int maxPage, boo
 		cout << data[i]->info.ho;
 		gotoxy(81, 11 + 2 * count);
 		cout << data[i]->info.ten;
-		if (!types)
+		if (types != 1)
 		{
 			gotoxy(107, 11 + 2 * count);
 			cout << (data[i]->info.phai ? "NU" : "NAM");
@@ -1306,20 +1306,10 @@ void MENU_DSDT_GV(SinhVien data, ListMH dsmh, bool types)
 {
 	int numOfSubs = dsmh.n;
 	PtrDT temp[MaxOfSubjects] = {NULL};
-
-	PtrDT firstDT = data.danhSachDiemThi;
-	DiemThi info;
-	PtrDT p = firstDT;
+	PtrDT p = data.danhSachDiemThi;
 
 	for (int i = 0; p != NULL && i < dsmh.n; i++)
 	{
-		if (strcmp(p->info.maMonHoc, dsmh.nodes[i].maMonHoc) != 0)
-		{
-			strcpy(info.maMonHoc, dsmh.nodes[i].maMonHoc);
-			insert_Order_DT(firstDT, info);
-			continue;
-		}
-
 		temp[i] = p;
 		p = p->next;
 	}
@@ -3300,20 +3290,15 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 				case 4:
 				{
 					// chon lop
+					THONGBAO(1, "CHON LOP");
 					string maLop = MENU_DSLH_GV(dslh, dsmh, root, 1);
-					LopHoc *pLH = NULL;
 					int index;
 					for (index = 0; index < dslh.n; index++)
 						if (strcmp(dslh.lh[index]->maLop, maLop.c_str()) == 0)
-						{
-							pLH = dslh.lh[index];
 							break;
-						}
-					// chon sinh vien
-					// string mssv = MENU_DSSV_GV(pLH, dsmh, 2); // chua lam`
-					PtrSV pSV = NULL;
-					pSV = MENU_DSSV_GV(pLH, dsmh, 2);
-					MENU_DSDT_GV(p->info, dsmh);
+					THONGBAO(1, "CHON SINH VIEN");
+					PtrSV pSV = MENU_DSSV_GV(dslh.lh[index], dsmh, 2);
+					MENU_DSDT_GV(pSV->info, dsmh, 0);
 				}
 				break;
 				case 5:
