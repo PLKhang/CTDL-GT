@@ -692,7 +692,7 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 }
 /////////////////////////GV->DANH SACH SINH VIEN/////////////////////
 // Menu chuc nang voi danh sach sinh vien(role: GV)
-PtrSV MENU_DSSV_GV(LopHoc *data, ListMH dsmh, int types, string maMon)
+PtrSV MENU_DSSV_GV(LopHoc *data, ListMH dsmh, STreeCH root, int types, string maMon)
 {
 	// system("cls");
 
@@ -725,6 +725,8 @@ PtrSV MENU_DSSV_GV(LopHoc *data, ListMH dsmh, int types, string maMon)
 	bool check_Delete = 0;
 	// kiem tra co phai dang o che do HIEU CHINH
 	bool check_Edit = 0;
+	
+	bool check_Question=0;
 	char ch;
 	while ((ch = getch()) != ESC)
 	{
@@ -815,6 +817,7 @@ PtrSV MENU_DSSV_GV(LopHoc *data, ListMH dsmh, int types, string maMon)
 					break;
 				case 5: // option5: thuc hien chuc nang in ds CAUHOI da thi cua 1 sinh vien
 					THONGBAO(1, "HIEN DSCH DA THI");
+					check_Question=1;
 					break;
 				default:
 					THONGBAO(1, "CO LOI TRONG OPTION SINH VIEN");
@@ -883,6 +886,13 @@ PtrSV MENU_DSSV_GV(LopHoc *data, ListMH dsmh, int types, string maMon)
 				{
 					HieuChinhSinhVien(data->danhSachSinhVien, temp, count - 1, line);
 					check_Edit = 0;
+				}
+				else if(check_Question)
+				{
+					MonHoc mh;
+					strcpy(mh.maMonHoc,MENU_DSMH_GV(root, dsmh, 1).data());
+					strcpy(mh.tenMonHoc,FindName(dsmh,mh.maMonHoc).data());
+					InCauHoiDaThi(root,mh,temp[count-1]->info.MSSV);
 				}
 				else // ENTER khi chua bat thao tac(Xoa, Hieu chinh) -> truy cap vao dsDT
 					MENU_DSDT_GV(temp[count - 1]->info, dsmh, 0);
@@ -1754,6 +1764,25 @@ void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 		}
 	}
 }
+void InDanhSachCH(STreeCH *ListQuestion,int start,int end)
+{
+	int wherey=10;
+	char chuoi[90];
+	for (int i = start ; i < end; i++)
+		{
+			gotoxy(6, wherey);
+			cout << ListQuestion[i]->info.ID;
+			gotoxy(21, wherey);
+			if (strlen(ListQuestion[i]->info.question) < 94)
+				cout << ListQuestion[i]->info.question;
+			else
+			{
+				strncpy(chuoi, ListQuestion[i]->info.question, 91);
+				cout << chuoi << "...";
+			}
+			wherey += 2;
+		}		
+}
 int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc) // thi
 {
 	int NumberQuestion = 0, vi_tri_contro, wherey, chon, MaxPage, Page, stop;
@@ -1779,21 +1808,7 @@ int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc) // thi
 			THONGBAO(0, "KHONG CO CAU HOI");
 		else
 		{
-			wherey = 10; // muon tam wherey de in cau hoi
-			for (int i = (Page - 1) * 10; i < (Page * 10 < NumberQuestion ? Page * 10 : NumberQuestion); i++)
-			{
-				gotoxy(6, wherey);
-				cout << ListQuestion[i]->info.ID;
-				gotoxy(21, wherey);
-				if (strlen(ListQuestion[i]->info.question) < 94)
-					cout << ListQuestion[i]->info.question;
-				else
-				{
-					strncpy(chuoi, ListQuestion[i]->info.question, 91);
-					cout << chuoi << "...";
-				}
-				wherey += 2;
-			}
+				InDanhSachCH(ListQuestion,(Page - 1) * 10,(Page * 10 < NumberQuestion ? Page * 10 : NumberQuestion));
 		}
 		// CHON LUA
 		while (stop != 1)
@@ -2629,7 +2644,7 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 							p = temp[i];
 							break;
 						}
-					MENU_DSSV_GV(p, dsmh, 1, maMon);
+					MENU_DSSV_GV(p, dsmh,root, 1, maMon);
 					HienDanhSachLopHoc(temp, page, maxPage, 1);
 					gotoxy(2, 9 + line * 2);
 					cout << ">>";
@@ -2701,7 +2716,7 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 					check_Edit = 0;
 				}
 				else
-					MENU_DSSV_GV(temp[count - 1], dsmh);
+					MENU_DSSV_GV(temp[count - 1], dsmh,root);
 			}
 			}
 			HienDanhSachLopHoc(temp, page, maxPage, types);
@@ -3297,7 +3312,7 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 						if (strcmp(dslh.lh[index]->maLop, maLop.c_str()) == 0)
 							break;
 					THONGBAO(1, "CHON SINH VIEN");
-					PtrSV pSV = MENU_DSSV_GV(dslh.lh[index], dsmh, 2);
+					PtrSV pSV = MENU_DSSV_GV(dslh.lh[index], dsmh,root, 2);
 					MENU_DSDT_GV(pSV->info, dsmh, 0);
 				}
 				break;

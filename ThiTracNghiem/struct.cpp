@@ -65,6 +65,13 @@ int pos_MaMH_MH(ListMH dsmh, const char *maMH)
             return i;
     return -1;
 }
+string FindName(ListMH dsmh,char maMH[])
+{
+	for(int i=0;i<dsmh.n;i++)
+	{
+		if(strcmp(dsmh.nodes[i].maMonHoc,maMH)==0)return dsmh.nodes[i].tenMonHoc;
+	}
+}
 //---------------------------CauHoi--------------------------//
 
 //-----TAO ID---------//

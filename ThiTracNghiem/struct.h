@@ -172,6 +172,7 @@ void set_Info_MH(ListMH &dsmh, unsigned pos, MonHoc new_MH);
 // Tra ve vi tri MonHoc.maMonHoc = maMH
 int pos_MaMH_MH(ListMH dsmh, string maMH);
 
+string FindName(ListMH dsmh,char maMH[]);
 //-------------------CauHoi------------------//
 int ReadID();
 void RestoreID();

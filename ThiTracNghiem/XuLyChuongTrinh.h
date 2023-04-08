@@ -38,7 +38,7 @@ void InDSLH_NienKhoa(ListLH dslh, int nienKhoa);
 void THEMSINHVIEN(ListLH &dslh, ListMH dsmh);
 //-------------------------SINH VIEN-------------------------
 // types: 0->chuc nang quan ly sinh vien, 1->xem dsdt theo mon, 2->lay mssv
-PtrSV MENU_DSSV_GV(LopHoc *data, ListMH dsmh, int types = 0, string maMon = "");
+PtrSV MENU_DSSV_GV(LopHoc *data, ListMH dsmh,STreeCH root, int types = 0, string maMon = "");
 void HienDanhSachSinhVien(PtrSV *data, string tenLop, int page, int maxPage, int types = 0, string maMon = "");
 int HienOptionSinhVien(bool check = 0);
 bool ThemSinhVien(PtrSV &dssv, ListMH dsmh);
@@ -57,7 +57,7 @@ void SortDSDT(PtrDT *data, int n, int &check);
 
 //--------------------------MON HOC---------------------------
 // types: 0-> chuc nang quan ly mon hoc, 1-> chon ma mon hoc de thi
-string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, bool types = 0);
+string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh,bool types = 0);
 void HienDanhSachMonHoc(ListMH dsmh, int page, int maxPage, bool types);
 // line: 1-> 4 tuong ung 4 option cua MonHoc
 int HienOptionMonHoc(bool check = 0);
@@ -74,7 +74,7 @@ void HienOptionCauHoi(bool line = 0);
 void ThemCauHoi();
 void XoaCauHoi();
 void HieuChinhCauHoi();
-
+void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[]);
 int CauHoi1(STreeCH &root, char maMH[], char tenMH[]);
 void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh);
 
