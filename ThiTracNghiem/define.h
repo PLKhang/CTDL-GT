@@ -7,7 +7,7 @@
 
 // VE KHUNG(1 VIEN`)
 #define NGANG (char)196
-#define DOC (char)179 1297
+#define DOC (char)179 
 #define LEFT_BOTTOM (char)192
 #define LEFT_TOP (char)218
 #define RIGHT_BOTTOM (char)217
