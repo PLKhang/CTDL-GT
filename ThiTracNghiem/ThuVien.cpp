@@ -64,12 +64,9 @@ string NhapChuoi(int x, int y, int chieudai) // x va y la dia chi de hien ki tu 
     gotoxy(x, y);
     char chuoi[chieudai + 1] = {'\0'};
     int index = 0;
-    char ki_tu;
+    int ki_tu;
     while ((ki_tu = getch()) != ENTER && ki_tu != ESC)
     {
-        // bat phim dac biet
-        // if (ki_tu == ESC)
-        //     return "ESC";
         if (ki_tu == 0 || ki_tu == 224)
         {
             ki_tu = getch();
@@ -90,18 +87,32 @@ string NhapChuoi(int x, int y, int chieudai) // x va y la dia chi de hien ki tu 
         {
             index--;
             chuoi[index] = '\0';
-            gotoxy(x + index, y);
-            cout << " ";
-            gotoxy(x + index, y);
+            if(index<=93){
+                gotoxy(x + index, y);
+                cout << " ";
+                gotoxy(x + index, y);
+            }
+            else {
+                gotoxy(x-94+index,y+1);
+                cout<<" ";
+                gotoxy(x-94+index,y+1);
+            }
+            
         }
         // kiem tra neu lon hon chieu dai hoac ki tu dau bang ' ' thi khong cho vao mang
-        if ((index == chieudai) || (ki_tu == ' ' && index == 0))
+        if ((index == chieudai) || (ki_tu == ' ' && index == 0)||(ki_tu==' '&&chuoi[index-1]==' '))
             continue;
 
         if ((ki_tu >= 'A' && ki_tu <= 'Z') || (ki_tu >= 'a' && ki_tu <= 'z') || ki_tu == '-' || ki_tu == '_' || (ki_tu >= '0' && ki_tu <= '9') || ki_tu == ' ')
         {
             chuoi[index] = toupper(ki_tu);
-            gotoxy(x + index, y);
+            if(index<=93){
+                gotoxy(x + index, y);
+            }
+            else
+            {
+                gotoxy(x-94+index,y+1);
+            }
             cout << chuoi[index];
             index++;
         }
