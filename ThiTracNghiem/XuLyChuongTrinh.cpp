@@ -885,7 +885,6 @@ void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 				if (THONGBAO(3, "BAN CO MUON XOA"))
 				{
 					DeleteQuestion(root, ExsistQuestion);
-					RestoreID();
 					return;
 				}
 			}
