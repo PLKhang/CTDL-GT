@@ -385,73 +385,11 @@ void DongHo(int time)
 	}
 	stopThi = 1;
 }
-void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
+void InCauHoiThi(STreeCH&Question,int so_cau_dung[],int i,int so_cau)
 {
-	stopThi = 0;
-	int so_cau, thoi_gian, soluongcauhoi;
-	char maMH[51];
-	thread timer;
-
-	do
-	{
-		strcpy(maMH, MENU_DSMH_GV(root, dsmh, 1).data());
-		soluongcauhoi = DemSoCauHoi(root, maMH);
-		if (soluongcauhoi == 0)
-			THONGBAO(1, "KHONG CO CAU HOI");
-	} while (soluongcauhoi == 0);
-	system("cls");
-
-	gotoxy(12, 15);
-	cout << "SO CAU HOI:";
-	VeKhung(24, 14, 28, 16);
-	gotoxy(12, 19);
-	cout << "THOI GIAN:";
-	VeKhung(24, 18, 28, 20);
-
-	gotoxy(50, 24);
-	cout << "SO CAU TOI THIEU: 1| SO CAU TOI DA:" << soluongcauhoi;
-
-	do
-	{
-		gotoxy(25, 15);
-		cout << "   ";
-		so_cau = NhapSo(25, 15, 3);
-		if (so_cau > soluongcauhoi)
-			THONGBAO(1, "NHAP NHIEU HON SO CAU CO SAN"); // in so cau ra nua
-		if (so_cau == 0)
-			THONGBAO(1, "SO CAU =0 KHONG HOP LE");
-	} while (so_cau > soluongcauhoi || so_cau == 0);
-	do
-	{
-		thoi_gian = NhapSo(25, 19, 3);
-		if (thoi_gian == 0)
-		{
-			THONGBAO(1, "THOI GIAN PHAI LON HON 0");
-		}
-	} while (thoi_gian == 0);
-
-	timer = thread(DongHo, thoi_gian);
-	STreeCH *Questions = GetQuestion(root, maMH, so_cau, soluongcauhoi);
-	int so_cau_dung[so_cau], chon, index, wherey; // 10=A 14=B 18=C 22=D
 	char temp[95];
-	for (int i = 0; i < so_cau; i++) // LUU CAU DA TRA LOI: DUNG = 1,  sai = -1 / -2 / -3 / -4,  chua chon =0
-		so_cau_dung[i] = 0;
-
-	for (int i = 0; stopThi != 1;)
-	{
-		if (i == so_cau)
-		{
-			stopThi = THONGBAO(3, "BAN CO MUON THOAT KHONG");
-			if (stopThi == 0)
-				i--;
-			else
-				break;
-		}
-		index = wherey = 10; // GAN TAI VI TRI CAU A
-
-		VeKhungThi();
-
-		if (so_cau_dung[i] == 0)
+	VeKhungThi();
+	if (so_cau_dung[i] == 0)
 		{
 			VeKhung(5, 27, 20, 29); // ve khung dap an ban chon
 			gotoxy(6, 28);
@@ -461,7 +399,7 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 		{
 			VeKhung(5, 27, 20, 29);
 			gotoxy(6, 28);
-			switch (Questions[i]->info.answer)
+			switch (Question->info.answer)
 			{
 			case 1:
 			{
@@ -514,26 +452,97 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 			}
 		}
 		gotoxy(6, 6);
-		if (strlen(Questions[i]->info.question) <= 94)
-			cout << Questions[i]->info.question; // IN CAU HOI
+		if (strlen(Question->info.question) <= 94)
+			cout << Question->info.question; // IN CAU HOI
 		else
 		{
-			strncpy(temp, Questions[i]->info.question, 94); // copy 94 ki tu 0->93
+			strncpy(temp, Question->info.question, 94); // copy 94 ki tu 0->93
 			cout << temp;
 			gotoxy(6, 7);
-			cout << &Questions[i]->info.question[94];
+			cout << &Question->info.question[94];
 		}
 		gotoxy(16, 10);
-		cout << Questions[i]->info.ans1; // IN CAU A
+		cout << Question->info.ans1; // IN CAU A
 		gotoxy(16, 14);
-		cout << Questions[i]->info.ans2; // IN CAU B
+		cout << Question->info.ans2; // IN CAU B
 		gotoxy(16, 18);
-		cout << Questions[i]->info.ans3; // IN CAU C
+		cout << Question->info.ans3; // IN CAU C
 		gotoxy(16, 22);
-		cout << Questions[i]->info.ans4; // IN CAU D
+		cout << Question->info.ans4; // IN CAU D
 
 		gotoxy(110, 26);
 		cout << i + 1 << '/' << so_cau;
+}
+void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
+{
+	stopThi = 0;
+	int so_cau, thoi_gian, soluongcauhoi;
+	char maMH[51];
+	thread timer;
+
+	do
+	{
+		strcpy(maMH, MENU_DSMH_GV(root, dsmh, 1).data());
+		soluongcauhoi = DemSoCauHoi(root, maMH);
+		if (soluongcauhoi == 0)
+			THONGBAO(1, "KHONG CO CAU HOI");
+	} while (soluongcauhoi == 0);
+	system("cls");
+
+	gotoxy(12, 15);
+	cout << "SO CAU HOI:";
+	VeKhung(24, 14, 28, 16);
+	gotoxy(12, 19);
+	cout << "THOI GIAN:";
+	VeKhung(24, 18, 28, 20);
+
+	gotoxy(50, 24);
+	cout << "SO CAU TOI THIEU: 1| SO CAU TOI DA:" << soluongcauhoi;
+
+	do
+	{
+		gotoxy(25, 15);
+		cout << "   ";
+		so_cau = NhapSo(25, 15, 3);
+		if (so_cau > soluongcauhoi)
+			THONGBAO(1, "NHAP NHIEU HON SO CAU CO SAN"); // in so cau ra nua
+		if (so_cau == 0)
+			THONGBAO(1, "SO CAU =0 KHONG HOP LE");
+		if(so_cau==-1){
+			if(THONGBAO(3,"BAN MUON THOAT KHONG"))return;
+		}
+	} while (so_cau > soluongcauhoi || so_cau == 0||so_cau==-1);
+	do
+	{
+		thoi_gian = NhapSo(25, 19, 3);
+		if (thoi_gian == 0)
+		{
+			THONGBAO(1, "THOI GIAN PHAI LON HON 0");
+		}
+		if(thoi_gian==-1){
+			if(THONGBAO(3,"BAN CO MUON THOAT KHONG"))return;
+		}
+		else continue;
+	} while (thoi_gian == 0||thoi_gian==-1);
+
+	timer = thread(DongHo, thoi_gian);
+	STreeCH *Questions = GetQuestion(root, maMH, so_cau, soluongcauhoi);
+	int so_cau_dung[so_cau], chon, index, wherey; // 10=A 14=B 18=C 22=D
+	for (int i = 0; i < so_cau; i++) // LUU CAU DA TRA LOI: DUNG = 1,  sai = -1 / -2 / -3 / -4,  chua chon =0
+		so_cau_dung[i] = 0;
+
+	for (int i = 0; stopThi != 1;)
+	{
+		if (i == so_cau)
+		{
+			stopThi = THONGBAO(3, "BAN CO MUON THOAT KHONG");
+			if (stopThi == 0)
+				i--;
+			else
+				break;
+		}
+		InCauHoiThi(Questions[i],so_cau_dung,i,so_cau);
+		index = wherey = 10; // thiet lap vi tri
 		// XEM LUA CHON
 		while (stopThi != 1)
 		{
@@ -754,18 +763,9 @@ void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 	getch();
 	InsertQuestion(root, NewQuestion);
 }
-void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
+void InCauHoi(STreeCH& ExsistQuestion)
 {
-	int chon, vi_tri_contro = 16, stop = 0;
 	char temp[95]; // 94 ki tu+ ki tu '\0'
-	VeBangCauHoi(tenMH, ExsistQuestion->info.ID);
-	TextColor(20);
-	gotoxy(120, 16);
-	cout << "     HIEU CHINH         ";
-	TextColor(112);
-	gotoxy(120, 19);
-	cout << "     XOA CAU HOI        ";
-	SetColor(0, 7);
 	gotoxy(21, 10);
 	if (strlen(ExsistQuestion->info.question) <= 94)
 		cout << ExsistQuestion->info.question;
@@ -787,6 +787,19 @@ void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 	gotoxy(21, 25);
 	cout << ExsistQuestion->info.answer;
 
+}
+void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
+{
+	int chon, vi_tri_contro = 16, stop = 0;
+	VeBangCauHoi(tenMH, ExsistQuestion->info.ID);
+	TextColor(20);
+	gotoxy(120, 16);
+	cout << "     HIEU CHINH         ";
+	TextColor(112);
+	gotoxy(120, 19);
+	cout << "     XOA CAU HOI        ";
+	SetColor(0, 7);
+	InCauHoi(ExsistQuestion);
 	while (stop != 1)
 	{
 		chon = getch();

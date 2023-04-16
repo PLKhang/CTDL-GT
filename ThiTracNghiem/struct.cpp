@@ -220,13 +220,13 @@ int DeleteQuestion(STreeCH &root, STreeCH &Question)
     else
         return DeleteQuestion(root->right, Question);
 }
-int DeleteQuestion_maMH(STreeCH&root,char maMH)
+int DeleteQuestion_maMH(STreeCH&root,char maMH[])
 {
     if(root==NULL)return 0;
     Queue<STreeCH>temp1;
     STreeCH temp2;
     temp1.Push(root);
-    while(!temp.empty())
+    while(!temp1.empty())
     {
         temp2=temp1.pop();
         if(strcmp(temp2->info.maMonHoc,maMH)==0)DeleteQuestion(root,temp2);
