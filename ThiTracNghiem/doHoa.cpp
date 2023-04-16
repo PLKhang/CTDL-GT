@@ -303,6 +303,10 @@ bool KhungThem(int types)
 		cout << "NHAP TEN";
 		gotoxy(101, 33);
 		cout << "NHAP MAT KHAU";
+		gotoxy(116, 33);
+		cout << " NAM ";
+		gotoxy(116, 35);
+		cout << " NU  ";
 		break;
 	case 4:
 		xn = 90;
