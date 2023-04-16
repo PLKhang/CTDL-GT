@@ -192,6 +192,7 @@ int SoNode(STreeCH root)
 }
 int DeleteQuestion(STreeCH &root, STreeCH &Question)
 {
+    if(root==NULL||Question==NULL)return 0;
     int ID = Question->info.ID;
     if (root->left == NULL && root->right == NULL)
     {
@@ -211,11 +212,28 @@ int DeleteQuestion(STreeCH &root, STreeCH &Question)
             root = NULL;
             delete temp;
         }
+        RestoreID();
+        return 1;
     }
     else if (SoNode(root->left) > SoNode(root->right))
-        DeleteQuestion(root->left, Question);
+        return DeleteQuestion(root->left, Question);
     else
-        DeleteQuestion(root->right, Question);
+        return DeleteQuestion(root->right, Question);
+}
+int DeleteQuestion_maMH(STreeCH&root,char maMH)
+{
+    if(root==NULL)return 0;
+    Queue<STreeCH>temp1;
+    STreeCH temp2;
+    temp1.Push(root);
+    while(!temp.empty())
+    {
+        temp2=temp1.pop();
+        if(strcmp(temp2->info.maMonHoc,maMH)==0)DeleteQuestion(root,temp2);
+        if(temp2->left!=NULL)temp1.Push(temp2->left);
+        if(temp2->right!=NULL)temp1.Push(temp2->right);
+    }
+    return 1;
 }
 int Repare(STreeCH root, CauHoi question)
 {

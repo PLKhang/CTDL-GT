@@ -39,8 +39,8 @@ CursorRow=76
 TopLine=1
 LeftChar=1
 [Editors]
-Order=8
-Focused=8
+Order=3,8,4,5,6,9,0,7,1
+Focused=4
 [Editor_6]
 CursorCol=2
 CursorRow=333
