@@ -1,10 +1,10 @@
 #include "struct.h"
 
 //---------------------------MonHoc--------------------------//
-    bool is_Empty_MH(ListMH dsmh)
-    {
-        return dsmh.n == 0;
-    }
+bool is_Empty_MH(ListMH dsmh)
+{
+    return dsmh.n == 0;
+}
 bool is_Full_MH(ListMH dsmh)
 {
     if (dsmh.n == MaxOfSubjects - 1)
@@ -65,12 +65,13 @@ int pos_MaMH_MH(ListMH dsmh, const char *maMH)
             return i;
     return -1;
 }
-string FindName(ListMH dsmh,char maMH[])
+string FindName(ListMH dsmh, char maMH[])
 {
-	for(int i=0;i<dsmh.n;i++)
-	{
-		if(strcmp(dsmh.nodes[i].maMonHoc,maMH)==0)return dsmh.nodes[i].tenMonHoc;
-	}
+    for (int i = 0; i < dsmh.n; i++)
+    {
+        if (strcmp(dsmh.nodes[i].maMonHoc, maMH) == 0)
+            return dsmh.nodes[i].tenMonHoc;
+    }
 }
 //---------------------------CauHoi--------------------------//
 
@@ -152,11 +153,11 @@ int ReadID()
 }
 void RestoreID()
 {
-	int number;
-    fstream docID("Data/KeyID.txt",ios::in|ios::out);
-    docID>>number;
+    int number;
+    fstream docID("Data/KeyID.txt", ios::in | ios::out);
+    docID >> number;
     docID.seekp(ios::beg);
-    docID<<--number;
+    docID << --number;
     docID.close();
 }
 STreeCH newnode()
@@ -379,14 +380,6 @@ bool delete_After_DT(PtrDT p)
     delete q;
     return 1;
 }
-bool delete_Pos_DT(PtrDT &first, string maMon)
-{
-    if (is_Empty_DT(first) || !is_Existed_MaMH_DT(first, maMon))
-        return 0;
-    PtrDT pos = pos_MaMH_DT(first, maMon);
-    pos->info.diemThi = -1;
-    return 1;
-}
 bool delete_List_DT(PtrDT &first)
 {
     while (first != NULL)
@@ -401,31 +394,22 @@ bool set_DiemThi_DT(PtrDT p, float x)
     p->info.diemThi = x;
     return 1;
 }
-bool set_DiemThi(PtrDT first,char maMH[],float x)
-{
-	while(first!=NULL)
-	{
-		if(strcmp(first->info.maMonHoc,maMH)==0)
-		{
-			first->info.diemThi=x;
-			return 1;
-		}
-		else first=first->next;
-	}
-	return 0;
-}
-PtrDT pos_MaMH_DT(PtrDT first, string maMon)
+PtrDT pos_MaMH_DT(PtrDT &first, const string &maMH)
 {
     if (is_Empty_DT(first))
-        return NULL;
+    {
+        DiemThi score;
+        strcpy(score.maMonHoc, maMH.c_str());
+        insert_First_DT(first, score);
+        return first;
+    }
     PtrDT p = first;
 
-    while (strcmp(p->info.maMonHoc, maMon.c_str()) != 0 && p != NULL)
+    while (strcmp(p->info.maMonHoc, maMH.c_str()) != 0 && p != NULL)
     {
         p = p->next;
     }
     return p;
-	
 }
 //---------------------------SinhVien--------------------------//
 void KhoiTao_PtrSV(PtrSV &first)
@@ -438,14 +422,15 @@ bool is_Empty_SV(PtrSV first)
         return 1;
     return 0;
 }
-bool is_Existed_MSSV_SV(PtrSV first, string mssv)
+bool is_Existed_MSSV_SV(ListLH dslh, string mssv)
 {
-    if (is_Empty_SV(first))
+    if (dslh.n == 0)
         return 0;
     PtrSV p = NULL;
-    for (p = first; p != NULL; p = p->next)
-        if (strcmp(p->info.MSSV, mssv.c_str()) == 0)
-            return 1;
+    for (int i = 0; i < dslh.n; i++)
+        for (p = dslh.lh[i]->danhSachSinhVien; p != NULL; p = p->next)
+            if (strcmp(p->info.MSSV, mssv.c_str()) == 0)
+                return 1;
     return 0;
 }
 void insert_First_SV(PtrSV &first, SinhVien sv)
@@ -545,7 +530,7 @@ bool is_Full_LH(ListLH ListLH)
 {
     return (ListLH.n == MaxOfClasses);
 }
-bool is_Existed_MaLop(ListLH ListLH, const char * maLop)
+bool is_Existed_MaLop(ListLH ListLH, const char *maLop)
 {
     for (int i = 0; i < ListLH.n; i++)
     {
@@ -554,15 +539,15 @@ bool is_Existed_MaLop(ListLH ListLH, const char * maLop)
     }
     return false;
 }
-int ThemLop(ListLH &ListLH, LopHoc lh)
+int ThemLop(ListLH &ListLH, LopHoc info)
 {
     if (is_Full_LH(ListLH))
         return 0;
-    if (is_Existed_MaLop(ListLH, lh.maLop))
-        return 0;
+    if (is_Existed_MaLop(ListLH, info.maLop))
+        return -1;
     // bat dau them lop hoc
     ListLH.lh[ListLH.n] = new LopHoc; // Khoi tao vung nho cho con tro
-    *ListLH.lh[ListLH.n] = lh;        // Them mon hoc vao vung nho cua con tro, sau khi them vao thi tang so luong phan tu cua danh sach len 1
+    *ListLH.lh[ListLH.n] = info;      // Them mon hoc vao vung nho cua con tro, sau khi them vao thi tang so luong phan tu cua danh sach len 1
     ListLH.n++;
     return 1;
 }

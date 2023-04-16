@@ -25,11 +25,19 @@ void SetColor(int backgound_color, int text_color);
 char GetKey();
 string NhapChuoi(int x, int y, int chieudai);
 string NhapMa(int x, int y, int chieudai = 20, string = "");
-int NhapSo(int x, int y, int soluong);
+// int NhapSo(int x, int y, int soluong);
+double NhapSo(int x, int y, int soluong);
 // kiem tra neu mang ky tu rong
 bool is_Empty_CArray(const char *a);
 // xoa 1 dong dang hien thi tren man hinh de tao khoang trong dien thong tin moi
 void delete_LineOnScreen(int x, int y, int length);
+void delete_AreaOnScreen(int x, int y, int width, int height = 1);
+void setCursorVisibility(bool isVisible);
+
+bool createLopHocFolder(string maLH);
+bool removeLopHocFolder(string maLH);
+bool removeSinhVienFile(string maLH, string mssv);
+
 /*
 return:
 0:  khong mo duoc file dslh
@@ -41,8 +49,8 @@ return:
 -5: doc file cho dslk DiemThi bi loi~
  */
 int doc_danhSachLopHoc(ListLH &dslh);
-int doc_danhSachSinhVien(PtrSV &dssv, string maLH);             //--> doc_danhSachLopHoc
-int doc_danhSachDiemThi(PtrDT &dsdt, string maLH, string mssv); // --> doc_danhSachSinhVien
+int doc_danhSachSinhVien(PtrSV &dssv, const string &maLH);                           //--> doc_danhSachLopHoc
+int doc_danhSachDiemThi(PtrDT &dsdt, const string &maLH, const string &mssv); // --> doc_danhSachSinhVien
 
 int doc_danhSachMonHoc(ListMH &dsmh);
 int doc_danhSachCauHoi(STreeCH &dsch);

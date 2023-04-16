@@ -2,7 +2,7 @@
 
 int THONGBAO(int option, string thongbao)
 {
-	SetColor(0,7);
+	SetColor(0, 7);
 	VeKhung(125, 0, 155, 10);
 	gotoxy(126, 1);
 	cout << "         THONG BAO           ";
@@ -60,7 +60,7 @@ int THONGBAO(int option, string thongbao)
 			}
 		} while ((option = getch()) != 13);
 		// xoa thanh thong bao
-		SetColor(0,7);
+		SetColor(0, 7);
 		for (int i = 0; i <= 10; i++)
 			delete_LineOnScreen(125, i, 32);
 		TextColor(7);
@@ -127,7 +127,6 @@ void VeHeader(int types, string text1, string text2)
 		break;
 	}
 }
-
 
 bool VeDanhSach(int types)
 {
@@ -276,8 +275,7 @@ void VeKhung(int x1, int y1, int x2, int y2)
 }
 bool KhungThem(int types)
 {
-	for (int i = 0; i < 5; i++)
-		delete_LineOnScreen(5, 32 + i, 110);
+	delete_AreaOnScreen(5, 32, 110, 5);
 	int x0 = 5, y0 = 32;
 	int xn = 115, yn = 36;
 	int x1 = 200, x2 = 200, x3 = 200;

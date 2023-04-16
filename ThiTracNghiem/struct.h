@@ -172,9 +172,9 @@ void set_Info_MH(ListMH &dsmh, unsigned pos, MonHoc new_MH);
 // Tra ve vi tri MonHoc.maMonHoc = maMH
 int pos_MaMH_MH(ListMH dsmh, string maMH);
 
-string FindName(ListMH dsmh,char maMH[]);
+string FindName(ListMH dsmh, char maMH[]);
 //-------------------CauHoi------------------//
-// tao bo id 
+// tao bo id
 struct ID
 {
     int id;
@@ -187,25 +187,25 @@ int numNode(ID *root);
 void Insert(ID *&tree, int data);
 int InsertToBalance(ID *&root, int min, int max, ofstream &file);
 void TaoFileID();
-//doc lay id
+// doc lay id
 int ReadID();
 // tra lai id cuoi
 void RestoreID();
-//tao node moi
+// tao node moi
 STreeCH newnode();
-//in cau hoi
+// in cau hoi
 int InsertQuestion(STreeCH &root, STreeCH question);
-//xoa cau hoi
+// xoa cau hoi
 int DeleteQuestion(STreeCH &root, STreeCH &Quetion);
 // sua lai cau hoi
-int Repare(STreeCH root, CauHoi question);// dung con tro tro truc tiep toi nen khong dung
+int Repare(STreeCH root, CauHoi question); // dung con tro tro truc tiep toi nen khong dung
 // duyet tim cau hoi theo ma mon
 void PreTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count);
 // random cau hoi va tra ve con tro streech
 STreeCH *GetQuestion(STreeCH &root, char maMH[], int number_question, int tong_so_cau_hoi);
-//dem so cau hoi cua mon do
+// dem so cau hoi cua mon do
 int DemSoCauHoi(STreeCH root, char maMH[]);
-//tim cau hoi theo ID 
+// tim cau hoi theo ID
 void TimCauHoiDaThi(STreeCH root, STreeCH list[], int ID, int &count);
 //-------------------DiemThi------------------//
 
@@ -221,29 +221,24 @@ bool is_Existed_DT(PtrDT first, string maMon);
 bool is_Existed_MaMH_DT(PtrDT first, string maMon);
 bool insert_First_DT(PtrDT &first, DiemThi x);
 bool insert_After_DT(PtrDT p, DiemThi x);
-// them vao sap xep theo ma mon (truong hop: THEM MON HOC)
 bool insert_Order_DT(PtrDT &first, DiemThi x);
 
-bool delete_DiemThi_First_DT(PtrDT &first);
-bool delete_DiemThi_After_DT(PtrDT p);
-bool delete_Pos_DT(PtrDT &first, string maMon);
+bool delete_First_DT(PtrDT &first);
+bool delete_After_DT(PtrDT p);
 // Xoa danh sach diem thi cua sinh vien
 bool delete_List_DT(PtrDT &first);
-// void delete_Info_DT(PtrDT &first, DiemThi x);
 
 // Dung ham pos_MaMH_DT() truyen vao de lay vi tri sua diemThi
 bool set_DiemThi_DT(PtrDT p, float x);
-//tim theo ma mon va sua diem
-bool set_DiemThi(PtrDT first,char maMH[],float x);
 // Tra ve vi tri node chua MaMH
-PtrDT pos_MaMH_DT(PtrDT first, string maMon);
+PtrDT pos_MaMH_DT(PtrDT &first, const string &maMH);
 //-------------------SinhVien------------------//
 
 void KhoiTao_PtrSV(PtrSV &First);
 // kiem tra lop nay da co sinh vien nao hay chua
 bool is_Empty_SV(PtrSV first);
 // kiem tra neu mssv da ton tai(case : THEM SINH VIEN)
-bool is_Existed_MSSV_SV(PtrSV first, string mssv);
+bool is_Existed_MSSV_SV(ListLH dslh, string mssv);
 
 void insert_First_SV(PtrSV &first, SinhVien sv);
 bool insert_After_SV(PtrSV p, SinhVien sv);

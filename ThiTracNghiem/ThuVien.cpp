@@ -65,6 +65,8 @@ string NhapChuoi(int x, int y, int chieudai) // x va y la dia chi de hien ki tu 
     char chuoi[chieudai + 1] = {'\0'};
     int index = 0;
     int ki_tu;
+    delete_LineOnScreen(x, y, chieudai);
+    setCursorVisibility(1);
     while ((ki_tu = getch()) != ENTER && ki_tu != ESC)
     {
         if (ki_tu == 0 || ki_tu == 224)
@@ -87,46 +89,53 @@ string NhapChuoi(int x, int y, int chieudai) // x va y la dia chi de hien ki tu 
         {
             index--;
             chuoi[index] = '\0';
-            if(index<=93){
+            if (index <= 93)
+            {
                 gotoxy(x + index, y);
                 cout << " ";
                 gotoxy(x + index, y);
             }
-            else {
-                gotoxy(x-94+index,y+1);
-                cout<<" ";
-                gotoxy(x-94+index,y+1);
+            else
+            {
+                gotoxy(x - 94 + index, y + 1);
+                cout << " ";
+                gotoxy(x - 94 + index, y + 1);
             }
-            
         }
         // kiem tra neu lon hon chieu dai hoac ki tu dau bang ' ' thi khong cho vao mang
-        if ((index == chieudai) || (ki_tu == ' ' && index == 0)||(ki_tu==' '&&chuoi[index-1]==' '))
+        if ((index == chieudai) || (ki_tu == ' ' && index == 0) || (ki_tu == ' ' && chuoi[index - 1] == ' '))
             continue;
 
         if ((ki_tu >= 'A' && ki_tu <= 'Z') || (ki_tu >= 'a' && ki_tu <= 'z') || ki_tu == '-' || ki_tu == '_' || (ki_tu >= '0' && ki_tu <= '9') || ki_tu == ' ')
         {
             chuoi[index] = toupper(ki_tu);
-            if(index<=93){
+            if (index <= 93)
+            {
                 gotoxy(x + index, y);
             }
             else
             {
-                gotoxy(x-94+index,y+1);
+                gotoxy(x - 94 + index, y + 1);
             }
             cout << chuoi[index];
             index++;
         }
     }
+    setCursorVisibility(0);
     chuoi[index] = '\0';
     return chuoi;
 }
 string NhapMa(int x, int y, int chieudai, string loai)
 {
+    delete_LineOnScreen(x, y, chieudai);
+    setCursorVisibility(1);
     gotoxy(x, y);
     char Ma[chieudai + 1] = {'\0'};
-	int ki_tu,index = 0;
-    while ((ki_tu = getch()) != ENTER && ki_tu != ESC)
+    int ki_tu, index = 0;
+    while ((ki_tu = getch()) != ENTER)
     {
+        if (ki_tu == ESC)
+            return "EXIT";
         if (ki_tu == 0 || ki_tu == 224)
         {
             ki_tu = getch(); // bat ki tu con khi nhap phim mo rong
@@ -163,32 +172,46 @@ string NhapMa(int x, int y, int chieudai, string loai)
             index++;
         }
     }
+    setCursorVisibility(0);
     Ma[index] = '\0';
     return Ma;
 }
-int NhapSo(int x, int y, int soluong)
+double NhapSo(int x, int y, int soluong)
 {
-    gotoxy(x, y);
-    int number, sum = 0, index = 0;
-    while ((number = GetKey()) != ENTER)
+    char num[soluong + 1] = {'\0'};
+    int index = 0;
+    char ch;
+    bool check = true; // kiem tra de nhap duy nhat 1 dau '.'
+    delete_LineOnScreen(x, y, soluong);
+    setCursorVisibility(1);
+    while ((ch = getch()) != ENTER)
     {
-        if (number >= '0' && number <= '9' && soluong != 0)
+        if (ch >= '0' && ch <= '9')
         {
-            sum = sum * 10 + (number - '0');
-            soluong--;
+            num[index] = ch;
             gotoxy(x + index++, y);
-            cout << (number - '0');
+            cout << ch;
         }
-        if (number == 8 && index > 0)
+        if (ch == '.' && check)
         {
-            soluong++;
-            gotoxy(x + --index, y);
-            cout << " ";
-            gotoxy(x + index, y);
-            sum /= 10;
+            num[index] = ch;
+            check = false;
+            gotoxy(x + index++, y);
+            cout << ch;
         }
+        if (ch == BACKSPACE && index > 0)
+        {
+            num[index] = '\0';
+            gotoxy(x + --index, y);
+            cout << ' ';
+        }
+        if (ch == ESC) // dang nhap lieu thi chon thoat
+            return -1;
     }
-    return sum;
+    if (index == 0) // truong hop enter khi chua nhap
+        return -1;
+    setCursorVisibility(0);
+    return atof(num);
 }
 bool is_Empty_CArray(const char *a)
 {
@@ -196,17 +219,36 @@ bool is_Empty_CArray(const char *a)
 }
 void delete_LineOnScreen(int x, int y, int length)
 {
+    string eraser;
+    eraser.resize(length, ' ');
     gotoxy(x, y);
-    SetColor(0, 7);
-    for (int i = 0; i < length; i++)
-        cout << " ";
+    // SetColor(0, 7);
+    // for (int i = 0; i < length; i++)
+    cout << eraser;
+    gotoxy(x, y);
+}
+void delete_AreaOnScreen(int x, int y, int width, int height)
+{
+    for (int i = 0; i < height; i++)
+        delete_LineOnScreen(x, y + i, width);
+}
+void setCursorVisibility(bool isVisible)
+{
+    CONSOLE_CURSOR_INFO cursorInfo;
+    HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    // Get the current cursor info
+    GetConsoleCursorInfo(handle, &cursorInfo);
+
+    // Set the cursor visibility
+    cursorInfo.bVisible = isVisible;
+    SetConsoleCursorInfo(handle, &cursorInfo);
 }
 ////////////////////////////////////////////////////
 int doc_danhSachLopHoc(ListLH &dslh)
 {
     // Mo file
-    ifstream file;
-    file.open("Data/DanhSachLopHoc.txt", ios::in);
+    ifstream file("Data\\DanhSachLopHoc.txt", ios::in);
     if (!file)
         return 0;
 
@@ -220,6 +262,7 @@ int doc_danhSachLopHoc(ListLH &dslh)
     string field;
     int check = 0;
 
+    int debug = 0;
     // vong lap de doc cac dong trong file
     while (getline(file, line))
     {
@@ -269,12 +312,12 @@ int doc_danhSachLopHoc(ListLH &dslh)
     file.close();
     return 1;
 }
-int doc_danhSachSinhVien(PtrSV &dssv, string maLH)
+int doc_danhSachSinhVien(PtrSV &dssv, const string &maLH)
 {
     KhoiTao_PtrSV(dssv);
-    string fileLocation = "Data/DanhSachSinhVien/" + maLH + ".txt";
+    string filePath = "Data\\DanhSachSinhVien\\" + maLH + ".txt";
 
-    ifstream file(fileLocation.c_str());
+    ifstream file(filePath.c_str());
     if (!file)
         return 0;
 
@@ -327,8 +370,6 @@ int doc_danhSachSinhVien(PtrSV &dssv, string maLH)
                 return -2;
             case -1:
                 return -3;
-            default:
-                return 0;
             }
         }
         insert_Order_SV(dssv, info);
@@ -336,12 +377,12 @@ int doc_danhSachSinhVien(PtrSV &dssv, string maLH)
     file.close();
     return 1;
 }
-int doc_danhSachDiemThi(PtrDT &dsdt, string maLH, string mssv)
+int doc_danhSachDiemThi(PtrDT &dsdt, const string &maLH, const string &mssv)
 {
     KhoiTao_PtrDT(dsdt);
-    string fileLocation = "Data/DanhSachSinhVien/DanhSachDiemThi/" + maLH + '/' + mssv + ".txt";
+    string filePath = "Data\\DanhSachSinhVien\\DanhSachDiemThi\\" + maLH + '\\' + mssv + ".txt";
 
-    ifstream file(fileLocation.c_str());
+    ifstream file(filePath.c_str());
     if (!file)
         return 0;
 
@@ -373,7 +414,8 @@ int doc_danhSachDiemThi(PtrDT &dsdt, string maLH, string mssv)
             }
             field_Num++;
         }
-        insert_Order_DT(dsdt, info);
+        if (info.diemThi >= 0)
+            insert_Order_DT(dsdt, info);
     }
     file.close();
     return 1;
@@ -421,6 +463,7 @@ int doc_danhSachMonHoc(ListMH &dsmh)
     }
     // Dong file
     file.close();
+    return 1;
 }
 int doc_danhSachCauHoi(STreeCH &dsch)
 {
@@ -445,64 +488,91 @@ int doc_danhSachCauHoi(STreeCH &dsch)
         InsertQuestion(dsch, question);
     }
     docfile.close();
+    return 1;
+}
+bool createLopHocFolder(string maLH)
+{
+    string folderPath = "Data\\DanhSachSinhVien\\DanhSachDiemThi\\" + maLH;
+    string command = "mkdir " + folderPath;
+    int status = system(command.c_str());
+    if (status == 0)
+        return 1;
+    return 0;
+}
+bool removeLopHocFolder(string maLH)
+{
+    string folderPath = "Data\\DanhSachSinhVien\\DanhSachDiemThi\\" + maLH;
+    string command = "rmdir " + folderPath;
+    int status = system(command.c_str());
+    if (status == 0)
+        return 1;
+    return 0;
+}
+bool removeSinhVienFile(string maLH, string mssv)
+{
+    string filePath = "Data/DanhSachSinhVien/DanhSachDiemThi/" + maLH + '/' + mssv + ".txt";
+    string command = "rm " + filePath;
+    int status = system(command.c_str());
+    if (status == 0)
+        return 1;
+    return 0;
 }
 int ghi_danhSachLopHoc(ListLH dslh)
 {
     // Mo file
     ofstream file;
+    ofstream accountFile("Data/DanhSachTaiKhoan.txt");
+    accountFile.clear();
+    accountFile.close();
     file.open("Data/DanhSachLopHoc.txt", ios::out);
     if (!file)
         return 0;
 
-    file << dslh.n << endl;
     for (int i = 0; i < dslh.n; i++)
     {
-        // cap du lieu
-        LopHoc data;
-        file << data.maLop << "|";
-        file << data.tenLop << "|";
-        file << data.nienKhoa << "|";
-        // Ghi dữ liệu vào file
-        // cin >> data.maLop;
-        // cin.ignore();
-        // getline(cin, data.tenLop);
-        // cin >> data.nienKhoa;
-        // data.danhSachSinhVien = ghi_danhSachSinhVien();
-        // file << data.maLop << "|" << data.tenLop << "|" << data.nienKhoa << "|"  << endl;
-        // ghi_danhSachSinhVien(data.danhSachSinhVien, data.maLop);
-        file << '\n';
-    }
 
-    // Đóng file
+        file << dslh.lh[i]->maLop << "|"
+             << dslh.lh[i]->tenLop << "|"
+             << dslh.lh[i]->nienKhoa << "|\n";
+        ghi_danhSachSinhVien(dslh.lh[i]->danhSachSinhVien, dslh.lh[i]->maLop);
+    }
     file.close();
     return 1;
 }
 int ghi_danhSachSinhVien(PtrSV dssv, string maLH)
 {
-    string fileLocation = "Data/DanhSachSinhvien/" + maLH + ".txt";
-    ofstream file(fileLocation.c_str());
+    string filePath = "Data/DanhSachSinhvien/" + maLH + ".txt";
+    ofstream file(filePath.c_str());
+    ofstream accountFile("Data/DanhSachTaiKhoan.txt", ios::app);
     if (!file)
         return 0;
     PtrSV p = dssv;
     while (p != NULL)
     {
-        file << p->info.MSSV << '|' << p->info.password << '|' << p->info.ho << '|' << p->info.ten << '|' << p->info.phai << "|\n";
+        file << p->info.MSSV << '|'
+             << p->info.password << '|'
+             << p->info.ho << '|'
+             << p->info.ten << '|'
+             << p->info.phai << "|\n";
+        accountFile << p->info.MSSV << '|' << p->info.password << "|\n";
         ghi_danhSachDiemThi(p->info.danhSachDiemThi, maLH, p->info.MSSV);
         p = p->next;
     }
     file.close();
+    accountFile.close();
     return 1;
 }
 int ghi_danhSachDiemThi(PtrDT dsdt, string maLH, string mssv)
 {
-    string fileLocation = "Data/DanhSachSinhVien/DanhSachDiemThi/" + maLH + '/' + mssv + ".txt";
-    ofstream file(fileLocation.c_str());
+    string filePath = "Data/DanhSachSinhVien/DanhSachDiemThi/" + maLH + '/' + mssv + ".txt";
+    ofstream file(filePath.c_str());
     if (!file)
         return 0;
     PtrDT p = dsdt;
     while (p != NULL)
     {
-        file << p->info.maMonHoc << '|' << p->info.diemThi << "|\n";
+        if (p->info.diemThi >= 0 && p->info.diemThi <= 10)
+            file << p->info.maMonHoc << '|' << p->info.diemThi << "|\n";
         p = p->next;
     }
     file.close();
@@ -511,19 +581,14 @@ int ghi_danhSachDiemThi(PtrDT dsdt, string maLH, string mssv)
 int ghi_danhSachMonHoc(ListMH dsmh)
 {
     // Mo file
-    ofstream file;
-    file.open("Data/DanhSachLopHoc.txt", ios::out);
+    ofstream file("Data/DanhSachMonHoc.txt");
     if (!file)
         return 0;
 
-    file << dsmh.n << endl;
-
     for (int i = 0; i < dsmh.n; i++)
     {
-        // cap du lieu
-        MonHoc data;
-        file << data.maMonHoc << "|";
-        file << data.tenMonHoc << "|" << endl;
+        file << dsmh.nodes[i].maMonHoc << '|'
+             << dsmh.nodes[i].tenMonHoc << "|\n";
     }
     // Đong file
     file.close();
@@ -552,7 +617,8 @@ int ghi_danhSachCauHoi(STreeCH dsch)
                 << temp->info.ans1 << endl
                 << temp->info.ans2 << endl
                 << temp->info.ans3 << endl
-                << temp->info.ans4 << temp->info.answer;
+                << temp->info.ans4 << endl
+                << temp->info.answer;
         if (!q.empty())
             ghifile << endl;
     }
