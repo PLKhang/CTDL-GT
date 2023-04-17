@@ -25,7 +25,7 @@ int KiemTraTK(string Name, string Password)
 	return -1;
 }
 string DANGNHAP()
-{
+{	
 	system("cls");
 	string Name, Password;
 	chuThiTracNghiem(18, 2);
@@ -35,8 +35,8 @@ string DANGNHAP()
 	gotoxy(60, 18);
 	cout << "PASSWORD";
 	VeKhung(68, 17, 90, 19);
-	delete_LineOnScreen(69, 15, 20);
-	delete_LineOnScreen(69, 18, 20);
+	delete_LineOnScreen(69, 15, 21);
+	delete_LineOnScreen(69, 18, 21);
 	do
 	{
 		Name = NhapMa(69, 15, 20);
@@ -2676,7 +2676,7 @@ bool XoaLopHoc(ListLH &dslh, LopHoc **lh, int index)
 bool HieuChinhLopHoc(ListLH dslh, LopHoc **data, int index)
 {
 	LopHoc tempLH;
-	THONGBAO(1, "NHAP THONG TIN LOP HOC MOI");
+	THONGBAO(1, "NHAP THONG TIN - LOP HOC MOI");
 	do // cho nhap maLop truoc khi nhap thong tin khac
 	{
 		strcpy(tempLH.maLop, NhapMa(10, 9 + (index % 10 + 1) * 2, 11).c_str());
@@ -3513,11 +3513,11 @@ bool THEMSINHVIEN(ListLH &dslh, ListMH dsmh)
 }
 void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 {
-	cout << doc_danhSachLopHoc(dslh);
 
+	doc_danhSachLopHoc(dslh);
 	doc_danhSachMonHoc(dsmh);
 	doc_danhSachCauHoi(root);
-	Sleep(1000);
+	Sleep(100);
 
 	char ch;
 	int option, stop = 0;

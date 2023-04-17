@@ -36,4 +36,12 @@
 
         ds cau hoi da thi(bug)
 
+        menu dsmh qua tran(bug)
+
+        them/hieuchinhsinhvien
+
+        loop khi thi xong
+
+        thanh chuc nang(huong dan)
+        
 **LAM DEP MAT**

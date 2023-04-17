@@ -25,7 +25,6 @@ void SetColor(int backgound_color, int text_color);
 char GetKey();
 string NhapChuoi(int x, int y, int chieudai);
 string NhapMa(int x, int y, int chieudai = 20, string = "");
-// int NhapSo(int x, int y, int soluong);
 double NhapSo(int x, int y, int soluong);
 // kiem tra neu mang ky tu rong
 bool is_Empty_CArray(const char *a);
