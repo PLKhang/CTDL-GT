@@ -192,7 +192,8 @@ int SoNode(STreeCH root)
 }
 int DeleteQuestion(STreeCH &root, STreeCH &Question)
 {
-    if(root==NULL||Question==NULL)return 0;
+    if (root == NULL || Question == NULL)
+        return 0;
     int ID = Question->info.ID;
     if (root->left == NULL && root->right == NULL)
     {
@@ -220,18 +221,22 @@ int DeleteQuestion(STreeCH &root, STreeCH &Question)
     else
         return DeleteQuestion(root->right, Question);
 }
-int DeleteQuestion_maMH(STreeCH&root,char maMH[])
+int DeleteQuestion_maMH(STreeCH &root, char maMH[])
 {
-    if(root==NULL)return 0;
-    Queue<STreeCH>temp1;
+    if (root == NULL)
+        return 0;
+    Queue<STreeCH> temp1;
     STreeCH temp2;
     temp1.Push(root);
-    while(!temp1.empty())
+    while (!temp1.empty())
     {
-        temp2=temp1.pop();
-        if(strcmp(temp2->info.maMonHoc,maMH)==0)DeleteQuestion(root,temp2);
-        if(temp2->left!=NULL)temp1.Push(temp2->left);
-        if(temp2->right!=NULL)temp1.Push(temp2->right);
+        temp2 = temp1.pop();
+        if (strcmp(temp2->info.maMonHoc, maMH) == 0)
+            DeleteQuestion(root, temp2);
+        if (temp2->left != NULL)
+            temp1.Push(temp2->left);
+        if (temp2->right != NULL)
+            temp1.Push(temp2->right);
     }
     return 1;
 }
@@ -414,18 +419,20 @@ bool set_DiemThi_DT(PtrDT p, float x)
 }
 PtrDT pos_MaMH_DT(PtrDT &first, const string &maMH)
 {
-    if (is_Empty_DT(first))
+    PtrDT p = first;
+    while (p != NULL && strcmp(p->info.maMonHoc, maMH.c_str()) != 0)
+    {
+        cout << p << '\n';
+        p = p->next;
+    }
+    if (p == NULL) // neu khong co node thi tao node moi va gan cho p
     {
         DiemThi score;
         strcpy(score.maMonHoc, maMH.c_str());
-        insert_First_DT(first, score);
-        return first;
-    }
-    PtrDT p = first;
-
-    while (strcmp(p->info.maMonHoc, maMH.c_str()) != 0 && p != NULL)
-    {
-        p = p->next;
+        insert_Order_DT(first, score);
+        p = first;
+        while (p != NULL && strcmp(p->info.maMonHoc, maMH.c_str()) != 0)
+            p = p->next;
     }
     return p;
 }
@@ -440,16 +447,32 @@ bool is_Empty_SV(PtrSV first)
         return 1;
     return 0;
 }
-bool is_Existed_MSSV_SV(ListLH dslh, string mssv)
+// bool is_Existed_MSSV_SV(ListLH dslh, string mssv)
+// {
+//     if (dslh.n == 0)
+//         return 0;
+//     PtrSV p = NULL;
+//     for (int i = 0; i < dslh.n; i++)
+//         for (p = dslh.lh[i]->danhSachSinhVien; p != NULL; p = p->next)
+//             if (strcmp(p->info.MSSV, mssv.c_str()) == 0)
+//                 return 1;
+//     return 0;
+// }
+bool is_Existed_MSSV_SV(ListLH dslh, string MSSV)
 {
-    if (dslh.n == 0)
-        return 0;
-    PtrSV p = NULL;
+    if(is_Empty_LH(dslh))
+        return false;
     for (int i = 0; i < dslh.n; i++)
-        for (p = dslh.lh[i]->danhSachSinhVien; p != NULL; p = p->next)
-            if (strcmp(p->info.MSSV, mssv.c_str()) == 0)
-                return 1;
-    return 0;
+    {
+        PtrSV currentSV = dslh.lh[i]->danhSachSinhVien;
+        while (currentSV != NULL)
+        {
+            if (strcmp(currentSV->info.MSSV, MSSV.c_str()) == 0)
+                return true; 
+            currentSV = currentSV->next;
+        }
+    }
+    return false; 
 }
 void insert_First_SV(PtrSV &first, SinhVien sv)
 {
