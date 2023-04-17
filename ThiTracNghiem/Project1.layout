@@ -57,7 +57,7 @@ TopLine=64
 LeftChar=1
 [Editors]
 Order=3,8,4,5,6,9,0,7,1
-Focused=-1
+Focused=8
 [Editor_6]
 CursorCol=12
 CursorRow=9
@@ -67,7 +67,7 @@ LeftChar=1
 <<<<<<< HEAD
 CursorCol=2
 CursorRow=28
-TopLine=11
+TopLine=1120
 =======
 CursorCol=27
 CursorRow=528
