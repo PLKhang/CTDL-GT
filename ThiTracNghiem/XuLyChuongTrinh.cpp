@@ -25,7 +25,7 @@ int KiemTraTK(string Name, string Password)
 	return -1;
 }
 string DANGNHAP()
-{	
+{
 	system("cls");
 	string Name, Password;
 	chuThiTracNghiem(18, 2);
@@ -705,6 +705,7 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 	cout << "DIEM THI CUA BAN LA:" << diem;
 	THONGBAO(0, "NHAN PHIM BAT KY DE THOAT");
 	set_DiemThi_DT(pos_MaMH_DT(SV->info.danhSachDiemThi, maMH), diem);
+	THONGBAO(1, "XONG");
 	cin.ignore();
 
 	// set_DiemThi(SV->info.danhSachDiemThi,mon,diem);
@@ -1487,7 +1488,7 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 				}
 			}
 			}
-			if (types != 2)
+			if (!types)
 				HienOptionSinhVien(1);
 			gotoxy(2, 9 + (index % 10 + 1) * 2);
 			cout << ">>";
@@ -1559,7 +1560,7 @@ void HienDanhSachSinhVien(PtrSV *data, string tenLop, int page, int maxPage, int
 	TextColor(7);
 	VeHeader(2, "DANH SACH SINH VIEN", tenLop);
 	VeDanhSach(2);
-	if (!types)
+	if (types == 0)
 		HienOptionSinhVien(1);
 	if (types == 1)
 	{
@@ -1587,19 +1588,14 @@ void HienDanhSachSinhVien(PtrSV *data, string tenLop, int page, int maxPage, int
 		else
 		{
 			p = data[i]->info.danhSachDiemThi;
-			while (p != NULL)
-			{
-				if (strcmp(p->info.maMonHoc, maMon.c_str()) == 0)
-				{
-					gotoxy(105, 11 + 2 * count);
-					if (p->info.diemThi >= 0)
-						cout << setprecision(2) << fixed << p->info.diemThi;
-					else
-						cout << "Chua thi";
-					break;
-				}
+			while (p != NULL && strcmp(p->info.maMonHoc, maMon.c_str()) != 0)
 				p = p->next;
-			}
+
+			gotoxy(105, 11 + 2 * count);
+			if (p != NULL)
+				cout << setprecision(2) << fixed << p->info.diemThi;
+			else
+				cout << "Chua thi";
 		}
 		count++;
 	}
@@ -1636,7 +1632,7 @@ int HienOptionSinhVien(bool check)
 	gotoxy(120, 15);
 	TextColor(20);
 	cout << option1;
-	TextColor(112);
+	TextColor(7);
 
 	char ch;
 	while (1)
@@ -2472,7 +2468,7 @@ int HienOptionLopHoc(bool check)
 	gotoxy(120, 15);
 	TextColor(20);
 	cout << option1;
-	TextColor(112);
+	TextColor(7);
 
 	char ch;
 	while (1)
@@ -2834,7 +2830,7 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 				if (page < maxPage)
 				{
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
-					index = (index % 10 + 1) * 10;
+					index = (index / 10 + 1) * 10;
 					HienDanhSachLopHoc(temp, numOfClasses, ++page, maxPage, types);
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
@@ -2848,8 +2844,6 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 					break;
 				delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
 
-				// option = HienOptionLopHoc();
-				// switch (option)
 				switch (HienOptionLopHoc())
 				{
 				case 1:
@@ -2920,11 +2914,10 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 				}
 				}
 				HienOptionLopHoc(1);
-
+			}
 				gotoxy(2, 9 + (index % 10 + 1) * 2);
 				cout << ">>";
-			}
-			break;
+				break;
 			}
 		}
 		else
@@ -3199,7 +3192,7 @@ int HienOptionMonHoc(bool check)
 	gotoxy(120, 15);
 	TextColor(20);
 	cout << option1;
-	TextColor(112);
+	TextColor(7);
 
 	char ch;
 	while (1)

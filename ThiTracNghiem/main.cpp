@@ -6,7 +6,6 @@ int main()
 	ListLH dslh;
 	ListMH dsmh;
 	STreeCH root = NULL;
-	cout << "Goto main processing\n";
 	MainProcessing(dsmh, dslh, root);
 	
 	gotoxy(0, 40);

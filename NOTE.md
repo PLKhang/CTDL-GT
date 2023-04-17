@@ -32,7 +32,7 @@
 
     (ok)count -> index trong menu 
 
-        huy thi (khi chon so cau / thoi gian)
+    (ok)huy thi (khi chon so cau / thoi gian)
 
         ds cau hoi da thi(bug)
 
@@ -40,7 +40,7 @@
 
         them/hieuchinhsinhvien
 
-        loop khi thi xong
+    (ok)loop khi thi xong
 
         thanh chuc nang(huong dan)
         

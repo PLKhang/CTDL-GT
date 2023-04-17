@@ -69,11 +69,15 @@ string NhapChuoi(int x, int y, int chieudai) // x va y la dia chi de hien ki tu 
     setCursorVisibility(1);
     while ((ki_tu = getch()) != ENTER)
     {
-        if(ki_tu == ESC)
+        if (ki_tu == ESC)
+        {
+            setCursorVisibility(0);
             return "EXIT";
+        }
         else if (ki_tu == 0 || ki_tu == 224)
         {
             ki_tu = getch();
+            setCursorVisibility(0);
             switch (ki_tu)
             {
             case F1:
@@ -138,10 +142,14 @@ string NhapMa(int x, int y, int chieudai, string loai)
     while ((ki_tu = getch()) != ENTER)
     {
         if (ki_tu == ESC)
+        {
+            setCursorVisibility(0);
             return "EXIT";
+        }
         if (ki_tu == 0 || ki_tu == 224)
         {
             ki_tu = getch(); // bat ki tu con khi nhap phim mo rong
+            setCursorVisibility(0);
             switch (ki_tu)
             {
             case F1:
@@ -209,11 +217,14 @@ double NhapSo(int x, int y, int soluong)
             cout << ' ';
         }
         if (ch == ESC) // dang nhap lieu thi chon thoat
+        {
+            setCursorVisibility(0);
             return -1;
+        }
     }
+    setCursorVisibility(0);
     if (index == 0) // truong hop enter khi chua nhap
         return -1;
-    setCursorVisibility(0);
     return atof(num);
 }
 bool is_Empty_CArray(const char *a)
