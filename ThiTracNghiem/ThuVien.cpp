@@ -64,12 +64,14 @@ string NhapChuoi(int x, int y, int chieudai) // x va y la dia chi de hien ki tu 
     gotoxy(x, y);
     char chuoi[chieudai + 1] = {'\0'};
     int index = 0;
-    int ki_tu;
+    char ki_tu;
     delete_LineOnScreen(x, y, chieudai);
     setCursorVisibility(1);
-    while ((ki_tu = getch()) != ENTER && ki_tu != ESC)
+    while ((ki_tu = getch()) != ENTER)
     {
-        if (ki_tu == 0 || ki_tu == 224)
+        if(ki_tu == ESC)
+            return "EXIT";
+        else if (ki_tu == 0 || ki_tu == 224)
         {
             ki_tu = getch();
             switch (ki_tu)
@@ -85,7 +87,7 @@ string NhapChuoi(int x, int y, int chieudai) // x va y la dia chi de hien ki tu 
         }
 
         // xoa ki tu
-        if (ki_tu == BACKSPACE && index > 0)
+        else if (ki_tu == BACKSPACE && index > 0)
         {
             index--;
             chuoi[index] = '\0';
@@ -131,7 +133,8 @@ string NhapMa(int x, int y, int chieudai, string loai)
     setCursorVisibility(1);
     gotoxy(x, y);
     char Ma[chieudai + 1] = {'\0'};
-    int ki_tu, index = 0;
+    char ki_tu;
+    int index = 0;
     while ((ki_tu = getch()) != ENTER)
     {
         if (ki_tu == ESC)

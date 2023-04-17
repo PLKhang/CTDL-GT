@@ -1791,7 +1791,7 @@ bool ThemSinhVien(ListLH dslh, PtrSV &dssv, ListMH dsmh)
 	KhoiTao_PtrDT(newSV.danhSachDiemThi);
 
 	int check = 0;
-	while (check == 0) // nhap MSSV
+	while (1) // nhap MSSV
 	{
 		strcpy(newSV.MSSV, NhapMa(8, 35, 10).c_str());
 		if (is_Existed_MSSV_SV(dslh, newSV.MSSV))
@@ -1804,37 +1804,37 @@ bool ThemSinhVien(ListLH dslh, PtrSV &dssv, ListMH dsmh)
 		else if (is_Empty_CArray(newSV.MSSV))
 			THONGBAO(1, "HAY NHAP DU THONG TIN");
 		else
-			check++;
+			break;
 	}
-	while (check == 1) // nhap HO
+	while (1) // nhap HO
 	{
 		strcpy(newSV.ho, NhapChuoi(26, 35, 50).c_str());
 		if (is_Empty_CArray(newSV.ho))
 			THONGBAO(1, "HAY NHAP DU THONG TIN");
-		else if (strcmp(newSV.ho, "EXIT"))
+		else if (strcmp(newSV.ho, "EXIT") == 0)
 		{
 			if (THONGBAO(3, "HUY QUA TRINH?"))
 				return 0;
 		}
 		else
-			check++;
+			break;
 	}
-	while (check == 2) // nhap TEN
+	while (1) // nhap TEN
 	{
-		strcpy(newSV.ten, NhapChuoi(26, 35, 50).c_str());
+		strcpy(newSV.ten, NhapChuoi(81, 35, 15).c_str());
 		if (is_Empty_CArray(newSV.ten))
 			THONGBAO(1, "HAY NHAP DU THONG TIN");
-		else if (strcmp(newSV.ten, "EXIT"))
+		else if (strcmp(newSV.ten, "EXIT") == 0)
 		{
 			if (THONGBAO(3, "HUY QUA TRINH?"))
 				return 0;
 		}
 		else
-			check++;
+			break;
 	}
-	while (check == 3) // nhap PASSWORD
+	while (1) // nhap PASSWORD
 	{
-		strcpy(newSV.password, NhapMa(81, 35, 16).c_str());
+		strcpy(newSV.password, NhapMa(101, 35, 11).c_str());
 		if (is_Empty_CArray(newSV.password))
 			THONGBAO(1, "HAY NHAP DU THONG TIN");
 		else if (strcmp(newSV.password, "EXIT") == 0)
@@ -1843,7 +1843,7 @@ bool ThemSinhVien(ListLH dslh, PtrSV &dssv, ListMH dsmh)
 				return 0;
 		}
 		else
-			check++;
+			break;
 	}
 	gotoxy(116, 33);
 	SetColor(1, 3);
@@ -2588,11 +2588,11 @@ int HienOptionLopHoc(bool check)
 			return 0;
 	}
 }
-bool ThemLopHoc(ListLH &dslh)
+bool ThemLopHoc(ListLH &dslh, int check, string maLH)
 {
 	KhungThem(1);
-	int check = 0; // check: kiem tra xem da nhap thong tin toi vi tri nao (1:maLop  2: tenLop  3:nienKhoa )
 	LopHoc temp;
+	strcpy(temp.maLop, maLH.c_str());
 	while (check == 0)
 	{
 		strcpy(temp.maLop, NhapMa(8, 35, 11).c_str());
@@ -2608,6 +2608,10 @@ bool ThemLopHoc(ListLH &dslh)
 		else
 			check++;
 	}
+
+	gotoxy(8, 35);
+	cout << temp.maLop;
+
 	while (check == 1)
 	{
 		strcpy(temp.tenLop, NhapChuoi(26, 35, 50).c_str());
@@ -2643,7 +2647,9 @@ bool ThemLopHoc(ListLH &dslh)
 		{
 		case ENTER:
 		{
+			TextColor(0);
 			createLopHocFolder(temp.maLop);
+			TextColor(7);
 			ThemLop(dslh, temp);
 			return 1;
 		}
@@ -3436,7 +3442,7 @@ bool HieuChinhMonHoc(ListMH dsmh, int index, int line)
 	}
 	return 1;
 }
-void THEMSINHVIEN(ListLH &dslh, ListMH dsmh)
+bool THEMSINHVIEN(ListLH &dslh, ListMH dsmh)
 {
 	system("cls");
 	VeKhung(5, 5, 75, 7);
@@ -3449,63 +3455,47 @@ void THEMSINHVIEN(ListLH &dslh, ListMH dsmh)
 	LopHoc *lopHoc;
 	int num = 0;
 	bool checkMaLH = 0;
-	do
+	int check = 0;
+	while (check == 0)
 	{
 		strcpy(temp.maLop, NhapMa(25, 6, 11).c_str());
-		checkMaLH = 1;
 		if (is_Empty_CArray(temp.maLop))
-		{
-			checkMaLH = 0;
-			if (THONGBAO(3, "CHUA NHAP MA LOP, HUY THAO TAC?"))
-				return;
-		}
+			THONGBAO(1, "HAY NHAP DU THONG TIN");
 		else if (is_Existed_MaLop(dslh, temp.maLop))
+			check++;
+		else if (strcmp(temp.maLop, "EXIT") == 0)
 		{
-			checkMaLH = 1;
-			break;
+			if (THONGBAO(3, "HUY THAO TAC?"))
+				return 0;
 		}
-		else if (THONGBAO(3, "MA LOP KHONG TON TAI, THEM LOP MOI?"))
+		else
 		{
-			KhungThem(1);
-			gotoxy(6, 35);
-			cout << temp.maLop;
-			while (1)
+			if (THONGBAO(3, "MA LOP KHONG TON TAI - THEM LOP MOI?"))
 			{
-				strcpy(temp.tenLop, NhapChuoi(26, 35, 50).c_str());
-				if (is_Empty_CArray(temp.tenLop))
+				delete_AreaOnScreen(5, 32, 120, 5);
+				if (ThemLopHoc(dslh, 1, temp.maLop))
 				{
-					if (THONGBAO(3, "TEN LOP RONG, HUY THAO TAC?"))
-						return;
+					check++;
+					delete_AreaOnScreen(5, 32, 120, 5);
+					THONGBAO(1, "DA THEM LOP HOC");
 				}
 				else
-					break;
+					return 0;
 			}
-			while (1)
-			{
-				temp.nienKhoa = NhapSo(101, 35, 4);
-				if (temp.nienKhoa == 0)
-				{
-					if (THONGBAO(3, "SAI NIEN KHOA, HUY THAO TAC?"))
-						return;
-				}
-				else
-					break;
-			}
-			ThemLop(dslh, temp);
-			THONGBAO(1, "DA THEM LOP HOC");
 		}
-	} while (checkMaLH == 0);
-	do
+	}
+	while (check == 1)
 	{
 		num = NhapSo(25, 9, 5);
 		if (num <= 0)
+			THONGBAO(1, "HAY NHAP DU THONG TIN");
+		else if (num == -1)
 		{
-			if (THONGBAO(3, "CHUA NHAP SO LUONG, THOAT?"))
-				return;
+			return 0;
 		}
 		else
-			break;
-	} while (1);
+			check++;
+	}
 	for (int i = 0; i < dslh.n; i++)
 		if (strcmp(dslh.lh[i]->maLop, temp.maLop) == 0)
 		{
@@ -3514,16 +3504,12 @@ void THEMSINHVIEN(ListLH &dslh, ListMH dsmh)
 		}
 	for (int i = 0; i < num; i++)
 	{
-		THONGBAO(1, "NHAP THONG TIN SINH VIEN THU " + to_string(i + 1));
+		THONGBAO(1, "NHAP THONG TIN - SINH VIEN THU " + to_string(i + 1));
 		if (!ThemSinhVien(dslh, lopHoc->danhSachSinhVien, dsmh))
-		{
-			THONGBAO(1, "DA DUNG THAO TAC");
-			break;
-		}
+			return 0;
 	}
-	THONGBAO(1, "DA XONG");
-	for (int i = 0; i < 5; i++)
-		delete_LineOnScreen(5, 32 + i, 120);
+	delete_AreaOnScreen(5, 32, 120);
+	return 1;
 }
 void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 {
@@ -3570,7 +3556,10 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 					MENU_DSLH_GV(dslh, dsmh, root);
 					break;
 				case 2: // THEM SINH VIEN
-					THEMSINHVIEN(dslh, dsmh);
+					if (THEMSINHVIEN(dslh, dsmh))
+						THONGBAO(1, "DA HOAN TAT QUA TRINH");
+					else
+						THONGBAO(1, "DA HUY QUA TRINH");
 					break;
 				case 3: // DANH SACH MON HOC
 					MENU_DSMH_GV(root, dsmh);

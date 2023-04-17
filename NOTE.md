@@ -1,7 +1,7 @@
     (ok)nhap so thap phan 
     (ok)kiem tra diem                           (0 <= x <= 10)
-        kiem tra maLop          (D21CQCN01-N)   cddccccddcc (c: char, d: int)
-        kiem tra mssv           (N21DCCN042)    cddccccddd
+     // kiem tra maLop          (D21CQCN01-N)   cddccccddcc (c: char, d: int)
+     // kiem tra mssv           (N21DCCN042)    cddccccddd
         
     (ok)ket thuc chuong trinh:
     (ok)- ghi lop hoc
@@ -33,5 +33,7 @@
     (ok)count -> index trong menu 
 
         huy thi (khi chon so cau / thoi gian)
+
+        ds cau hoi da thi(bug)
 
 **LAM DEP MAT**

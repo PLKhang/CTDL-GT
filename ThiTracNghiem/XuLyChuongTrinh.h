@@ -21,7 +21,7 @@ int MENU_SV(STreeCH root, ListMH dsmh, string maLop, PtrSV &p);
 // types: 0-> quan ly dslh, 1->chon lop hoc->return "maLop"
 string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types = 0);
 // tao folder moi trong function nay`
-bool ThemLopHoc(ListLH &dslh);
+bool ThemLopHoc(ListLH &dslh, int check = 0, string maLH = "");
 // xoa folder trong function nay`
 bool XoaLopHoc(ListLH &dslh, LopHoc **lh, int count);
 bool HieuChinhLopHoc(ListLH dslh, LopHoc **data, int index);
@@ -31,7 +31,7 @@ int HienOptionLopHoc(bool check = 0);
 bool sortDSLH(LopHoc **dslh, int numOfClass, int &index);
 void DanhSachTheoNienKhoa(ListLH dslh, LopHoc **data, int nienKhoa, int &numOfClasses);
 
-void THEMSINHVIEN(ListLH &dslh, ListMH dsmh);
+bool THEMSINHVIEN(ListLH &dslh, ListMH dsmh);
 //-------------------------SINH VIEN-------------------------
 // types: 0->chuc nang quan ly sinh vien, 1->xem dsdt theo mon, 2->lay mssv
 PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int types = 0, string maMon = "");
