@@ -36,11 +36,13 @@
 
         ds cau hoi da thi(bug)
 
-        menu dsmh qua tran(bug)
+    (ok)menu dsmh qua trang(bug)
 
-        them/hieuchinhsinhvien
+    (ok)them/hieuchinhsinhvien
 
     (ok)loop khi thi xong
+
+    (ok)sap xep dslophoc
 
         thanh chuc nang(huong dan)
         
