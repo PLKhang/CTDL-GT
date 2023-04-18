@@ -197,13 +197,13 @@ double NhapSo(int x, int y, int soluong)
     setCursorVisibility(1);
     while ((ch = getch()) != ENTER)
     {
-        if (ch >= '0' && ch <= '9')
+        if (ch >= '0' && ch <= '9' && index < soluong)
         {
             num[index] = ch;
             gotoxy(x + index++, y);
             cout << ch;
         }
-        if (ch == '.' && check)
+        if (ch == '.' && check && index < soluong)
         {
             num[index] = ch;
             check = false;
