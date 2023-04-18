@@ -207,7 +207,7 @@ STreeCH *GetQuestion(STreeCH &root, char maMH[], int number_question, int tong_s
 // dem so cau hoi cua mon do
 int DemSoCauHoi(STreeCH root, char maMH[]);
 // tim cau hoi theo ID
-void TimCauHoiDaThi(STreeCH root, STreeCH list[], int ID, int &count);
+void TimCauHoiDaThi(STreeCH root, STreeCH list[], int ID, int count);
 //-------------------DiemThi------------------//
 
 void KhoiTao_PtrDT(PtrDT &First);

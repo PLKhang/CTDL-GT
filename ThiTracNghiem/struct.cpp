@@ -298,7 +298,7 @@ int DemSoCauHoi(STreeCH root, char maMH[])
     else
         return 0;
 }
-void TimCauHoiDaThi(STreeCH root, STreeCH list[], int ID, int &count)
+void TimCauHoiDaThi(STreeCH root, STreeCH list[], int ID, int count)
 {
     if (root != NULL)
     {

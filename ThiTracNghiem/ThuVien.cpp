@@ -504,6 +504,36 @@ int doc_danhSachCauHoi(STreeCH &dsch)
     docfile.close();
     return 1;
 }
+int docCauHoiDaThi(STreeCH root,STreeCH List[],int NOE[],int Answer[],MonHoc MH,int &NumberQuestion,int &NumberOfExams,char MSSV[])
+{
+    ifstream docfile(("Data/DanhSachSinhVien/DanhSachCauHoiThi/" + string(MSSV) + ".txt").data());
+    if(!docfile.is_open())return 0;
+    string maMH;
+    int temp,count=0,ID;
+    while(!docfile.eof())
+    {
+        getline(docfile,maMH);
+        if(strcmp(MH.maMonHoc,maMH.data())==0)
+        {
+            docfile>>temp;
+            NOE[NumberOfExams++]=NumberQuestion;
+            for(int i=NumberQuestion;i<NumberQuestion+temp;i++)
+            {
+                docfile>>ID;
+                docfile.ignore();
+                docfile>>Answer[i];
+                docfile.ignore();
+                //TimCauHoiDaThi(root, list, ID[i], count);
+                TimCauHoiDaThi(root,List,ID,i);
+            }
+            NumberQuestion+=temp;
+        }
+        else 
+            docfile.ignore();
+    }
+    docfile.close();
+    return 1;
+}
 bool createLopHocFolder(string maLH)
 {
     string folderPath = "Data\\DanhSachSinhVien\\DanhSachDiemThi\\" + maLH;
@@ -641,49 +671,12 @@ int ghi_danhSachCauHoi(STreeCH dsch)
 
 void GhiCauHoiDaThi(char MSSV[], STreeCH *ListQuestion, int YourAnswer[], int numberQuestion)
 {
-    ifstream doc_CauHoiDaThi(("Data/DanhSachSinhVien/DanhSachCauHoiThi/" + string(MSSV) + ".txt").data());
-    ptrCauHoi TatCaCauHoiDaThi = new CauHoi[500];
-    string a;
-    int i = 0;
-    if (doc_CauHoiDaThi.is_open())
-        while (!doc_CauHoiDaThi.eof())
-        {
-            getline(doc_CauHoiDaThi, a, '|');
-            if (a == "")
-                break;
-            strcpy(TatCaCauHoiDaThi[i].maMonHoc, a.data());
-            doc_CauHoiDaThi >> TatCaCauHoiDaThi[i].ID;
-            doc_CauHoiDaThi.ignore();
-            doc_CauHoiDaThi >> TatCaCauHoiDaThi[i++].answer;
-            doc_CauHoiDaThi.ignore();
-            doc_CauHoiDaThi.ignore();
-        }
-    for (int k = i, j = 0; k < i + numberQuestion; k++, j++)
-    {
-        strcpy(TatCaCauHoiDaThi[k].maMonHoc, ListQuestion[j]->info.maMonHoc);
-        TatCaCauHoiDaThi[k].ID = ListQuestion[j]->info.ID;
-        TatCaCauHoiDaThi[k].answer = YourAnswer[j];
-    }
-    numberQuestion += i;
-    for (int j = 0; j <= numberQuestion - 2; j++)
-    {
-        for (int k = j + 1; k <= numberQuestion - 1;)
-        {
-            if (TatCaCauHoiDaThi[j].ID == TatCaCauHoiDaThi[k].ID)
-            {
-                swap(TatCaCauHoiDaThi[j], TatCaCauHoiDaThi[k]);
-                swap(TatCaCauHoiDaThi[k], TatCaCauHoiDaThi[--numberQuestion]);
-            }
-            else
-                k++;
-        }
-    }
-    doc_CauHoiDaThi.close();
-    ofstream ghiCauHoiDaThi(("Data/DanhSachSinhVien/DanhSachCauHoiThi/" + string(MSSV) + ".txt").data());
+    ofstream ghiCauHoiDaThi(("Data/DanhSachSinhVien/DanhSachCauHoiThi/" + string(MSSV) + ".txt").data(),ios::app);
+    ghiCauHoiDaThi<<ListQuestion[0]->info.maMonHoc<<endl;
+    ghiCauHoiDaThi<<numberQuestion<<endl;
     for (int k = 0; k < numberQuestion; k++)
     {
-        ghiCauHoiDaThi << TatCaCauHoiDaThi[k].maMonHoc << '|' << TatCaCauHoiDaThi[k].ID << '|' << TatCaCauHoiDaThi[k].answer << '|' << endl;
+        ghiCauHoiDaThi<<ListQuestion[k]->info.ID<<'|'<<YourAnswer[k]<<endl;
     }
     ghiCauHoiDaThi.close();
-    delete[] TatCaCauHoiDaThi;
 }
