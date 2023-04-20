@@ -99,6 +99,7 @@ typedef CauHoi *ptrCauHoi;
 struct nodeCauHoi
 {
     CauHoi info; // key = info.ID;
+    bool is_used=false;
     nodeCauHoi *left = NULL;
     nodeCauHoi *right = NULL;
 };
