@@ -502,20 +502,23 @@ int doc_danhSachCauHoi(STreeCH &dsch)
         question = new nodeCauHoi;
         docfile.getline(question->info.maMonHoc, 16);
         docfile >> question->info.ID;
-        docfile.ignore();
-        docfile.getline(question->info.question, 200);
-        docfile.getline(question->info.ans1, 100);
-        docfile.getline(question->info.ans2, 100);
-        docfile.getline(question->info.ans3, 100);
-        docfile.getline(question->info.ans4, 100);
+        docfile.ignore();//bo qua ki tu xuong dong
+        getline(docfile,temp);
+        if(temp.compare("DA THI")==0)question->is_used=true;
+        else question->is_used=false;
+        docfile.getline(question->info.question, 201);
+        docfile.getline(question->info.ans1, 101);
+        docfile.getline(question->info.ans2, 101);
+        docfile.getline(question->info.ans3, 101);
+        docfile.getline(question->info.ans4, 101);
         docfile >> question->info.answer;
-        docfile.ignore();
+        docfile.ignore();// bo qua ki tu xuong dong
         InsertQuestion(dsch, question);
     }
     docfile.close();
     return 1;
 }
-int docCauHoiDaThi(STreeCH root,STreeCH List[],int NOE[],int Answer[],MonHoc MH,int &NumberQuestion,int &NumberOfExams,char MSSV[])
+int docCauHoiDaThi(STreeCH root,STreeCH List[],int NOE[],char Answer[],MonHoc MH,int &NumberQuestion,int &NumberOfExams,char MSSV[])
 {
     ifstream docfile(("Data/DanhSachSinhVien/DanhSachCauHoiThi/" + string(MSSV) + ".txt").data());
     if(!docfile.is_open())return 0;
@@ -539,8 +542,8 @@ int docCauHoiDaThi(STreeCH root,STreeCH List[],int NOE[],int Answer[],MonHoc MH,
             }
             NumberQuestion+=temp;
         }
-        else 
-            docfile.ignore();
+        // else 
+        //     docfile.ignore();
     }
     docfile.close();
     return 1;
@@ -668,6 +671,7 @@ int ghi_danhSachCauHoi(STreeCH dsch)
             q.Push(temp->right);
         ghifile << temp->info.maMonHoc << endl
                 << temp->info.ID << endl
+                <<(temp->is_used==true?"DA THI":"CHUA THI")<<endl
                 << temp->info.question << endl
                 << temp->info.ans1 << endl
                 << temp->info.ans2 << endl
@@ -680,7 +684,7 @@ int ghi_danhSachCauHoi(STreeCH dsch)
     ghifile.close();
 }
 
-void GhiCauHoiDaThi(char MSSV[], STreeCH *ListQuestion, int YourAnswer[], int numberQuestion)
+void GhiCauHoiDaThi(char MSSV[], STreeCH *ListQuestion, char YourAnswer[], int numberQuestion)
 {
     ofstream ghiCauHoiDaThi(("Data/DanhSachSinhVien/DanhSachCauHoiThi/" + string(MSSV) + ".txt").data(),ios::app);
     ghiCauHoiDaThi<<ListQuestion[0]->info.maMonHoc<<endl;

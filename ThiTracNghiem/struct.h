@@ -88,7 +88,7 @@ struct CauHoi
 {
     int ID = 0;
     char maMonHoc[16];
-    int answer;
+    char answer;
     char ans1[100];
     char ans2[100];
     char ans3[100];
