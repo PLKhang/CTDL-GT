@@ -315,6 +315,13 @@ void KhoiTao_PtrDT(PtrDT &first)
 {
     first = NULL;
 }
+PtrDT create_Node_DT(DiemThi info)
+{
+    PtrDT p = new nodeDiemThi;
+    p->info = info;
+    p->next = NULL;
+    return p;
+}
 bool is_Empty_DT(PtrDT first)
 {
     if (first == NULL)

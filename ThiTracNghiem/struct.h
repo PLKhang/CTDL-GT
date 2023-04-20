@@ -211,6 +211,7 @@ void TimCauHoiDaThi(STreeCH root, STreeCH list[], int ID, int count);
 //-------------------DiemThi------------------//
 
 void KhoiTao_PtrDT(PtrDT &First);
+PtrDT create_Node_DT(DiemThi info);
 
 // kiem tra dsdt co node nao hay chua
 bool is_Empty_DT(PtrDT first);
