@@ -28,15 +28,12 @@
 # 4. file danh sách điểm thi (vd: N21DCCN042.txt)
 ## (nằm trong folder "__Data\DanhSachSinhVien\DanhSachDiemThi\'folder các lớp'__" chứa file điểm từng sinh viên)
 ###	vd: ..\DanhSachDiemThi\D21CQCN01-N\N21DCCN042.txt
-	1. mã môn 1(C15)|điểm số 1(float, setDigit(2))|
-	2. mã môn 2|điểm số 2|
-	....................
-	chưa thi: điểm = -1 (< 0)
-
-	vd: 	
-	1.	INT4234|5|
-	2.	INT5234|-1|
-	...........
+	lần thi cuối cùng của 1 môn -> node đầu tiên trong dsdt
+	1. maMonHoc1 | điểm lần thi thứ x của môn
+	2. maMonHoc2 | điểm lần thi thứ y của môn
+	3. maMonHoc1 | điểm lần thi thứ x - 1 của môn
+	4. maMonHoc1 | điểm lần thi thứ x - 2 của môn
+	5. maMonHoc3 | điểm lần thi thứ x của môn
 ---
 # 5. file danh sách câu hỏi ("DanhSachCauHoi.txt") 
 ## (nằm trong folder "__Data__")
