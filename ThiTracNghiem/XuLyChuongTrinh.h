@@ -65,7 +65,6 @@ bool XoaMonHoc(ListMH &dsmh, int index);
 bool HieuChinhMonHoc(ListMH &dsmh, int index, int line);
 
 void HienDanhSachMonHoc(ListMH dsmh, int page, int maxPage, bool types);
-// line: 1-> 4 tuong ung 4 option cua MonHoc
 int HienOptionMonHoc(bool check = 0);
 //--------------------------CAU HOI-------------------------
 int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc);
