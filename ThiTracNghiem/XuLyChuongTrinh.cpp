@@ -706,7 +706,7 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 	THONGBAO(0, "NHAN PHIM BAT KY DE THOAT");
 	DiemThi info;
 	info.diemThi = diem;
-	strcpy(info.maMonHoc,maMH);
+	info.maMonHoc = maMH;
 	insert_Order_DT(SV->info.danhSachDiemThi, info);
 	// set_DiemThi_DT(pos_MaMH_DT(SV->info.danhSachDiemThi, maMH), diem);
 	cin.ignore();
