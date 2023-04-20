@@ -477,7 +477,7 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 {
 	stopThi = 0;
 	int so_cau, thoi_gian, soluongcauhoi;
-	char maMH[51];
+	char maMH[16];
 	thread timer;
 
 	do
@@ -706,7 +706,7 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 	THONGBAO(0, "NHAN PHIM BAT KY DE THOAT");
 	DiemThi info;
 	info.diemThi = diem;
-	info.maMonHoc = maMH;
+	strcpy(info.maMonHoc, maMH);
 	insert_Order_DT(SV->info.danhSachDiemThi, info);
 	// set_DiemThi_DT(pos_MaMH_DT(SV->info.danhSachDiemThi, maMH), diem);
 	cin.ignore();
