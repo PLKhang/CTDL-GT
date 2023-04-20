@@ -33,6 +33,6 @@ void chuMenuSV(int x, int y);
 void VeBangCauHoi(char tenMH[], int ID);
 void VeKhungThi();
 void VeBangDanhSachCauHoi(char maMH[], int MaxPage, int Page);
-
-
+float VeKhungDiem(STreeCH *Questions,char YourAnswer[],PtrSV &SV,int so_cau);
+string VeKhungNhapThi(int tong_so_cau,int &so_cau,int &thoi_gian);
 #endif // DO_HOA_H
