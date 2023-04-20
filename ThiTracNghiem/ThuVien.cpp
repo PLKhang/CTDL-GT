@@ -391,10 +391,10 @@ int doc_danhSachSinhVien(PtrSV &dssv, const string &maLH)
     file.close();
     return 1;
 }
-int doc_danhSachDiemThi(PtrDT &dsdt, const string &maLH, const string &mssv)
+int doc_danhSachDiemThi(PtrDT &dsdt) // insert_Last_DT
 {
     KhoiTao_PtrDT(dsdt);
-    string filePath = "Data\\DanhSachSinhVien\\DanhSachDiemThi\\" + maLH + '\\' + mssv + ".txt";
+    string filePath = "DT.txt";
 
     ifstream file(filePath.c_str());
     if (!file)
@@ -406,6 +406,8 @@ int doc_danhSachDiemThi(PtrDT &dsdt, const string &maLH, const string &mssv)
     int pos = 0;
     int field_Num = 1;
     string field;
+
+    PtrDT lastDT = dsdt;
 
     while (getline(file, line))
     {
@@ -429,7 +431,16 @@ int doc_danhSachDiemThi(PtrDT &dsdt, const string &maLH, const string &mssv)
             field_Num++;
         }
         if (info.diemThi >= 0)
-            insert_Order_DT(dsdt, info);
+            if (is_Empty_DT(dsdt))
+            {
+                insert_First_DT(dsdt, info);
+                lastDT = dsdt;
+            }
+            else
+            {
+                lastDT->next = create_Node_DT(info);
+                lastDT = lastDT->next;
+            }
     }
     file.close();
     return 1;
