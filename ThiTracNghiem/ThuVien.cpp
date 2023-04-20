@@ -391,10 +391,10 @@ int doc_danhSachSinhVien(PtrSV &dssv, const string &maLH)
     file.close();
     return 1;
 }
-int doc_danhSachDiemThi(PtrDT &dsdt) // insert_Last_DT
+int doc_danhSachDiemThi(PtrDT &dsdt, const string &maLH, const string &mssv) // insert_Last_DT
 {
     KhoiTao_PtrDT(dsdt);
-    string filePath = "DT.txt";
+    string filePath = "Data/DanhSachSinhVien/DanhSachDiemThi/" + maLH + '/' + mssv + ".txt";
 
     ifstream file(filePath.c_str());
     if (!file)
