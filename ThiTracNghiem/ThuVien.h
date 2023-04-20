@@ -53,8 +53,7 @@ int doc_danhSachDiemThi(PtrDT &dsdt, const string &maLH, const string &mssv); //
 
 int doc_danhSachMonHoc(ListMH &dsmh);
 int doc_danhSachCauHoi(STreeCH &dsch);
-int doc_CauHoiDaThi(string maLH, string mssv);
-int docCauHoiDaThi(STreeCH root,STreeCH List[],int NOE[],int Answer[],MonHoc MH,int &NumberQuestion,int &NumberOfExams,char MSSV[]);
+int docCauHoiDaThi(STreeCH root,STreeCH List[],int NOE[],char Answer[],MonHoc MH,int &NumberQuestion,int &NumberOfExams,char MSSV[]);
 // <-- dssv, dsdt, dstk
 int ghi_danhSachLopHoc(ListLH dslh);
 int ghi_danhSachSinhVien(PtrSV dssv, string maLH);
@@ -62,6 +61,6 @@ int ghi_danhSachDiemThi(PtrDT dsdt, string maLH, string mssv);
 int ghi_danhSachTaiKhoan(ListLH dslh); // ios::app
 int ghi_danhSachMonHoc(ListMH dsmh);
 int ghi_danhSachCauHoi(STreeCH dsch);
-void GhiCauHoiDaThi(char MSSV[], STreeCH *ListQuestion, int YourAnswer[], int numberQuestion);
+void GhiCauHoiDaThi(char MSSV[], STreeCH *ListQuestion, char YourAnswer[], int numberQuestion);
 
 #endif // THU_VIEN_H

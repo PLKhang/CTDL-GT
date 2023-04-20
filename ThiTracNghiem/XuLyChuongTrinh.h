@@ -71,8 +71,8 @@ int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc);
 void HienDanhSachCauHoi(STreeCH dsch, const char *maMH, int start, int line);
 void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[]);
 void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[]);
-void InDanhSachCH(STreeCH *ListQuestion, int start, int end);
-void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[]);
+void InDanhSachCH(STreeCH *ListQuestion, char maMH[],int start, int end,int Page,int MaxPage);
+void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[],int LANTHI=-1);
 void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh);
 
 #endif // XU_LY_CHUONG_TRINH_H
