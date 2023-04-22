@@ -591,3 +591,64 @@ void VeBangDanhSachCauHoi(char maMH[], int MaxPage, int Page)
 	cout << "Page " << Page << '/' << MaxPage;
 	SetColor(0, 7);
 }
+
+float VeKhungDiem(STreeCH *Questions,char YourAnswer[],PtrSV &SV,int so_cau)
+{
+	system("cls");
+	VeKhung(57,12,90,20);
+	float diem=0;
+	int so_cau_dung=0;
+	for (int i = 0; i < so_cau; i++)
+	{
+		if (YourAnswer[i] == Questions[i]->info.answer)
+			diem++;
+	}
+	so_cau_dung=diem;
+	diem = (diem / so_cau) * 10;
+	gotoxy(58,14);cout<<"HO VA TEN: "<<SV->info.ho<<" "<<SV->info.ten;
+	gotoxy(58,16);cout<<"DIEM THI: "<<diem;
+	gotoxy(58,18);cout<<"SO CAU DUNG: "<<so_cau_dung<<'/'<<so_cau;
+	return diem;
+}
+string VeKhungNhapThi(int tong_so_cau,int &so_cau,int &thoi_gian)
+{
+	system("cls");
+	VeKhung(57,12,100,20);
+	gotoxy(58, 14);
+	cout << "SO CAU HOI:";
+	gotoxy(58, 16);
+	cout << "THOI GIAN:";
+	gotoxy(58, 18);
+	cout << "SO CAU TOI THIEU: 1| SO CAU TOI DA:" << tong_so_cau;
+	do
+	{
+		gotoxy(69, 14);
+		cout << "   ";
+		so_cau = NhapSo(69, 14, 3);
+		if (so_cau > tong_so_cau)
+			THONGBAO(1, "NHAP NHIEU HON SO CAU CO SAN"); // in so cau ra nua
+		if (so_cau == 0)
+			THONGBAO(1, "SO CAU =0 KHONG HOP LE");
+		if (so_cau == -1)
+		{
+			if (THONGBAO(3, "BAN MUON THOAT KHONG"))
+				return "ESC";
+		}
+	} while (so_cau > tong_so_cau || so_cau == 0 || so_cau == -1);
+	do
+	{
+		thoi_gian = NhapSo(69, 16, 3);
+		if (thoi_gian == 0)
+		{
+			THONGBAO(1, "THOI GIAN PHAI LON HON 0");
+		}
+		if (thoi_gian == -1)
+		{
+			if (THONGBAO(3, "BAN CO MUON THOAT KHONG"))
+				return "ESC";
+		}
+		else
+			continue;
+	} while (thoi_gian == 0 || thoi_gian == -1);
+	return "NOTHING";
+}

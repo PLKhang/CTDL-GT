@@ -385,6 +385,7 @@ void DongHo(int time)
 	}
 	stopThi = 1;
 }
+
 void InCauHoiThi(STreeCH &Question, char so_cau_dung[], int i, int so_cau)
 {
 	char temp[95];
@@ -437,49 +438,8 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 		if (soluongcauhoi == 0)
 			THONGBAO(1, "KHONG CO CAU HOI");
 	} while (soluongcauhoi == 0);
-	system("cls");
-
-	gotoxy(12, 15);
-	cout << "SO CAU HOI:";
-	VeKhung(24, 14, 28, 16);
-	gotoxy(12, 19);
-	cout << "THOI GIAN:";
-	VeKhung(24, 18, 28, 20);
-
-	gotoxy(50, 24);
-	cout << "SO CAU TOI THIEU: 1| SO CAU TOI DA:" << soluongcauhoi;
-
-	do
-	{
-		gotoxy(25, 15);
-		cout << "   ";
-		so_cau = NhapSo(25, 15, 3);
-		if (so_cau > soluongcauhoi)
-			THONGBAO(1, "NHAP NHIEU HON SO CAU CO SAN"); // in so cau ra nua
-		if (so_cau == 0)
-			THONGBAO(1, "SO CAU =0 KHONG HOP LE");
-		if (so_cau == -1)
-		{
-			if (THONGBAO(3, "BAN MUON THOAT KHONG"))
-				return;
-		}
-	} while (so_cau > soluongcauhoi || so_cau == 0 || so_cau == -1);
-	do
-	{
-		thoi_gian = NhapSo(25, 19, 3);
-		if (thoi_gian == 0)
-		{
-			THONGBAO(1, "THOI GIAN PHAI LON HON 0");
-		}
-		if (thoi_gian == -1)
-		{
-			if (THONGBAO(3, "BAN CO MUON THOAT KHONG"))
-				return;
-		}
-		else
-			continue;
-	} while (thoi_gian == 0 || thoi_gian == -1);
-
+	
+	if(VeKhungNhapThi(soluongcauhoi,so_cau,thoi_gian).compare("ESC")==0)return;
 	timer = thread(DongHo, thoi_gian);
 	STreeCH *Questions = GetQuestion(root, maMH, so_cau, soluongcauhoi);
 	int chon, index, wherey;
@@ -639,22 +599,11 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 	stopThi = 1;
 	timer.join();
 	GhiCauHoiDaThi(SV->info.MSSV, Questions, YourAnswer, so_cau);
-	float diem = 0;
-	for (int i = 0; i < so_cau; i++)
-	{
-		if (YourAnswer[i] == Questions[i]->info.answer)
-			diem++;
-	}
-	diem = (diem / so_cau) * 10;
-	system("cls");
-	gotoxy(60, 15);
-	cout << "DIEM THI CUA BAN LA:" << diem;
-	THONGBAO(0, "NHAN PHIM BAT KY DE THOAT");
 	DiemThi info;
-	info.diemThi = diem;
 	strcpy(info.maMonHoc,maMH);
+	info.diemThi = VeKhungDiem(Questions,YourAnswer,SV,so_cau);
 	insert_Order_DT(SV->info.danhSachDiemThi, info);
-	// set_DiemThi_DT(pos_MaMH_DT(SV->info.danhSachDiemThi, maMH), diem);
+	THONGBAO(0, "NHAN PHIM BAT KY DE THOAT");
 	cin.ignore();
 }
 void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
