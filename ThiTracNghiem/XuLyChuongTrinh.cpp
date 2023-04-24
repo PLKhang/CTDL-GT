@@ -487,7 +487,10 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 	char YourAnswer[so_cau];
 	for (int i = 0; i < so_cau; i++) 
 		YourAnswer[i] = '0';
-
+	for(int i=0;i<so_cau;i++)
+	{
+		Questions[i]->is_used=true;
+	}
 	for (int i = 0; stopThi != 1;)
 	{
 		if (i == so_cau)
@@ -702,6 +705,7 @@ void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 		}
 	} while (1);
 	NewQuestion->info.answer = answer;
+	NewQuestion->is_used=false;
 	if(InsertQuestion(root, NewQuestion))THONGBAO(1,"THEM CAU HOI THANH CONG");
 	THONGBAO(0, "AN PHIM BAT KY DE THOAT");
 	getch();
@@ -847,7 +851,8 @@ void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 			}
 			else
 			{
-				if (THONGBAO(3, "BAN CO MUON XOA"))
+				if(ExsistQuestion->is_used==true)THONGBAO(0,"CAU HOI DA DUOC THI");
+				else if (THONGBAO(3, "BAN CO MUON XOA"))
 				{
 					DeleteQuestion(root, ExsistQuestion);
 					//RestoreID();
@@ -925,6 +930,12 @@ int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc) // thi
 		NumberQuestion = 0;
 		PreTraversal(ListQuestion, root, monHoc.maMonHoc, NumberQuestion); // tim cau hoi
 		MaxPage = (NumberQuestion - 1) / 10 + 1;
+		if (NumberQuestion == 0)
+			THONGBAO(0, "KHONG CO CAU HOI");
+		else
+		{
+			InDanhSachCH(ListQuestion,monHoc.maMonHoc,(Page - 1) * 10, (Page * 10 < NumberQuestion ? Page * 10 : NumberQuestion),Page,MaxPage);
+		}
 		TextColor(20);
 		gotoxy(120, 16);
 		cout << "     THEM CAU HOI       ";
@@ -932,12 +943,6 @@ int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc) // thi
 		gotoxy(120, 19);
 		cout << "     XEM CAU HOI        ";
 		SetColor(0, 7);
-		if (NumberQuestion == 0)
-			THONGBAO(0, "KHONG CO CAU HOI");
-		else
-		{
-			InDanhSachCH(ListQuestion,monHoc.maMonHoc,(Page - 1) * 10, (Page * 10 < NumberQuestion ? Page * 10 : NumberQuestion),Page,MaxPage);
-		}
 		// CHON LUA
 		while (stop != 1)
 		{
