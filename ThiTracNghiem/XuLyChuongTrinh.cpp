@@ -400,7 +400,7 @@ void InCauHoiThi(STreeCH &Question, char so_cau_dung[], int i, int so_cau)
 	{
 		VeKhung(5, 27, 20, 29);
 		gotoxy(6, 28);
-		cout<<"BAN CHON "<<so_cau_dung[i];
+		cout << "BAN CHON " << so_cau_dung[i];
 	}
 	gotoxy(6, 6);
 	if (strlen(Question->info.question) <= 94)
@@ -438,13 +438,14 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 		if (soluongcauhoi == 0)
 			THONGBAO(1, "KHONG CO CAU HOI");
 	} while (soluongcauhoi == 0);
-	
-	if(VeKhungNhapThi(soluongcauhoi,so_cau,thoi_gian).compare("ESC")==0)return;
+
+	if (VeKhungNhapThi(soluongcauhoi, so_cau, thoi_gian).compare("ESC") == 0)
+		return;
 	timer = thread(DongHo, thoi_gian);
 	STreeCH *Questions = GetQuestion(root, maMH, so_cau, soluongcauhoi);
 	int chon, index, wherey;
 	char YourAnswer[so_cau];
-	for (int i = 0; i < so_cau; i++) 
+	for (int i = 0; i < so_cau; i++)
 		YourAnswer[i] = '0';
 
 	for (int i = 0; stopThi != 1;)
@@ -600,15 +601,15 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 	timer.join();
 	GhiCauHoiDaThi(SV->info.MSSV, Questions, YourAnswer, so_cau);
 	DiemThi info;
-	strcpy(info.maMonHoc,maMH);
-	info.diemThi = VeKhungDiem(Questions,YourAnswer,SV,so_cau);
+	strcpy(info.maMonHoc, maMH);
+	info.diemThi = VeKhungDiem(Questions, YourAnswer, SV, so_cau);
 	insert_Order_DT(SV->info.danhSachDiemThi, info);
 	THONGBAO(0, "NHAN PHIM BAT KY DE THOAT");
 	cin.ignore();
 }
 void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 {
-	int answer=0, ki_tu;
+	int answer = 0, ki_tu;
 	STreeCH NewQuestion = newnode();
 
 	NewQuestion->info.ID = ReadID();
@@ -618,33 +619,33 @@ void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 	do
 	{
 		strcpy(NewQuestion->info.question, NhapChuoi(21, 10, 188).data());
-		if (NewQuestion->info.question[0] == '\0'||strcmp(NewQuestion->info.question,"EXIT")==0)
+		if (NewQuestion->info.question[0] == '\0' || strcmp(NewQuestion->info.question, "EXIT") == 0)
 			THONGBAO(1, "CAU HOI RONG");
-	} while (NewQuestion->info.question[0] == '\0'||strcmp(NewQuestion->info.question,"EXIT")==0);
+	} while (NewQuestion->info.question[0] == '\0' || strcmp(NewQuestion->info.question, "EXIT") == 0);
 	do
 	{
 		strcpy(NewQuestion->info.ans1, NhapChuoi(21, 13, 94).data());
-		if (NewQuestion->info.ans1[0] == '\0'||strcmp(NewQuestion->info.ans1,"EXIT")==0)
+		if (NewQuestion->info.ans1[0] == '\0' || strcmp(NewQuestion->info.ans1, "EXIT") == 0)
 			THONGBAO(1, "DAP AN 1 RONG");
-	} while (NewQuestion->info.ans1[0] == '\0'||strcmp(NewQuestion->info.ans1,"EXIT")==0);
+	} while (NewQuestion->info.ans1[0] == '\0' || strcmp(NewQuestion->info.ans1, "EXIT") == 0);
 	do
 	{
 		strcpy(NewQuestion->info.ans2, NhapChuoi(21, 16, 94).data());
-		if (NewQuestion->info.ans2[0] == '\0'||strcmp(NewQuestion->info.ans2,"EXIT")==0)
+		if (NewQuestion->info.ans2[0] == '\0' || strcmp(NewQuestion->info.ans2, "EXIT") == 0)
 			THONGBAO(1, "DAP AN 2 RONG");
-	} while (NewQuestion->info.ans2[0] == '\0'||strcmp(NewQuestion->info.ans2,"EXIT")==0);
+	} while (NewQuestion->info.ans2[0] == '\0' || strcmp(NewQuestion->info.ans2, "EXIT") == 0);
 	do
 	{
 		strcpy(NewQuestion->info.ans3, NhapChuoi(21, 19, 94).data());
-		if (NewQuestion->info.ans3[0] == '\0'||strcmp(NewQuestion->info.ans3,"EXIT")==0)
+		if (NewQuestion->info.ans3[0] == '\0' || strcmp(NewQuestion->info.ans3, "EXIT") == 0)
 			THONGBAO(1, "DAP AN 3 RONG");
-	} while (NewQuestion->info.ans3[0] == '\0'||strcmp(NewQuestion->info.ans3,"EXIT")==0);
+	} while (NewQuestion->info.ans3[0] == '\0' || strcmp(NewQuestion->info.ans3, "EXIT") == 0);
 	do
 	{
 		strcpy(NewQuestion->info.ans4, NhapChuoi(21, 22, 94).data());
-		if (NewQuestion->info.ans4 == '\0'||strcmp(NewQuestion->info.ans4,"EXIT")==0)
+		if (NewQuestion->info.ans4 == '\0' || strcmp(NewQuestion->info.ans4, "EXIT") == 0)
 			THONGBAO(1, "DAP AN 4 RONG");
-	} while (NewQuestion->info.ans4[0] == '\0'||strcmp(NewQuestion->info.ans4,"EXIT")==0);
+	} while (NewQuestion->info.ans4[0] == '\0' || strcmp(NewQuestion->info.ans4, "EXIT") == 0);
 	gotoxy(21, 25);
 	do
 	{
@@ -661,7 +662,8 @@ void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 		}
 	} while (1);
 	NewQuestion->info.answer = answer;
-	if(InsertQuestion(root, NewQuestion))THONGBAO(1,"THEM CAU HOI THANH CONG");
+	if (InsertQuestion(root, NewQuestion))
+		THONGBAO(1, "THEM CAU HOI THANH CONG");
 	THONGBAO(0, "AN PHIM BAT KY DE THOAT");
 	getch();
 }
@@ -753,17 +755,17 @@ void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 						}
 						case 25:
 						{
-							int ki_tu,answer;// viet ham nhap dap an
+							int ki_tu, answer; // viet ham nhap dap an
 							while (1)
 							{
-								ki_tu =getch();
-								if (ki_tu==ENTER&&answer >= 'A' && answer <= 'D')
+								ki_tu = getch();
+								if (ki_tu == ENTER && answer >= 'A' && answer <= 'D')
 									break;
-								if(ki_tu>='A'&&ki_tu<='D')
+								if (ki_tu >= 'A' && ki_tu <= 'D')
 								{
-									gotoxy(21,25);
-									cout<<ki_tu;
-									answer=ki_tu;
+									gotoxy(21, 25);
+									cout << ki_tu;
+									answer = ki_tu;
 								}
 							}
 							ExsistQuestion->info.answer = answer;
@@ -809,7 +811,7 @@ void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 				if (THONGBAO(3, "BAN CO MUON XOA"))
 				{
 					DeleteQuestion(root, ExsistQuestion);
-					//RestoreID();
+					// RestoreID();
 					return;
 				}
 			}
@@ -851,11 +853,11 @@ void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 		}
 	}
 }
-void InDanhSachCH(STreeCH *ListQuestion, char maMH[],int start, int end,int Page,int MaxPage)
+void InDanhSachCH(STreeCH *ListQuestion, char maMH[], int start, int end, int Page, int MaxPage)
 {
 	int wherey = 10;
 	char chuoi[90];
-	VeBangDanhSachCauHoi(maMH,MaxPage,Page);
+	VeBangDanhSachCauHoi(maMH, MaxPage, Page);
 	for (int i = start; i < end; i++)
 	{
 		gotoxy(6, wherey);
@@ -895,7 +897,7 @@ int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc) // thi
 			THONGBAO(0, "KHONG CO CAU HOI");
 		else
 		{
-			InDanhSachCH(ListQuestion,monHoc.maMonHoc,(Page - 1) * 10, (Page * 10 < NumberQuestion ? Page * 10 : NumberQuestion),Page,MaxPage);
+			InDanhSachCH(ListQuestion, monHoc.maMonHoc, (Page - 1) * 10, (Page * 10 < NumberQuestion ? Page * 10 : NumberQuestion), Page, MaxPage);
 		}
 		// CHON LUA
 		while (stop != 1)
@@ -1038,21 +1040,22 @@ void Tim_End_Start(STreeCH List[], int NOE[], int &start, int &end, int lanthi, 
 		end = NOE[lanthi];
 	}
 }
-void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[],int LANTHI)
+void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[], int LANTHI)
 {
 	STreeCH List[500];
 	int NOE[10], NumberQuestion = 0, NumberOfExams = 0;
 	char YourAnswer[500];
 	docCauHoiDaThi(root, List, NOE, YourAnswer, monHoc, NumberQuestion, NumberOfExams, MSSV);
-	int MaxPage ,Page, start, end, wherey, chon, stop;
+	int MaxPage, Page, start, end, wherey, chon, stop;
 	while (1)
 	{
-		if(LANTHI>=0)
+		if (LANTHI >= 0)
 			Tim_End_Start(List, NOE, start, end, LANTHI, NumberQuestion, NumberOfExams);
-		else Tim_End_Start(List, NOE, start, end,NumberOfExams, NumberQuestion, NumberOfExams);//hien lan cuoi
+		else
+			Tim_End_Start(List, NOE, start, end, NumberOfExams, NumberQuestion, NumberOfExams); // hien lan cuoi
 
-		MaxPage = (end - start - 1) / 10 + 1,Page = 1,wherey = 10,stop = 0;
-		InDanhSachCH(List,monHoc.maMonHoc,start, end,Page,MaxPage);
+		MaxPage = (end - start - 1) / 10 + 1, Page = 1, wherey = 10, stop = 0;
+		InDanhSachCH(List, monHoc.maMonHoc, start, end, Page, MaxPage);
 		// CHON LUA;
 		gotoxy(3, 10);
 		cout << ">>";
@@ -1072,8 +1075,10 @@ void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[],int LANTHI)
 				VeKhung(5, 30, 115, 32);
 				gotoxy(6, 31);
 				cout << "DAP AN BAN CHON LA:";
-				if (YourAnswer[start] >='A'&&YourAnswer[start]<='D')cout<<YourAnswer[start];
-				else cout<<"CHUA CHON";
+				if (YourAnswer[start] >= 'A' && YourAnswer[start] <= 'D')
+					cout << YourAnswer[start];
+				else
+					cout << "CHUA CHON";
 				THONGBAO(0, "NHAN ESC DE THOAT");
 				while (1)
 				{
@@ -1096,7 +1101,8 @@ void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[],int LANTHI)
 				{
 				case F5:
 				{
-					if(LANTHI>=0)break;
+					if (LANTHI >= 0)
+						break;
 					int LanThi = 0;
 					VeKhung(5, 30, 30, 32);
 					gotoxy(6, 31);
@@ -1109,7 +1115,7 @@ void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[],int LANTHI)
 					if (NumberOfExams >= 1)
 						gotoxy(50, 0);
 					cout << "LAN THI THU: " << LanThi;
-					InDanhSachCH(List,monHoc.maMonHoc, start, end,Page,MaxPage);
+					InDanhSachCH(List, monHoc.maMonHoc, start, end, Page, MaxPage);
 					break;
 				}
 				case UP:
@@ -1809,21 +1815,31 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 	for (p = data.danhSachDiemThi; p != NULL; p = p->next)
 		numOfScores++;
 
+	if (numOfScores == 0)
+	{
+		THONGBAO(1, "CHUA CO DIEM THI");
+		return;
+	}
 	PtrDT temp[numOfScores] = {NULL};
 
-	p = data.danhSachDiemThi;
-	for (int i = 0; p != NULL; i++)
+	int numOfSubs = 0;
+	PtrDT q = data.danhSachDiemThi;
+	temp[numOfSubs++] = q;
+	p = q->next;
+	while (p != NULL) // chi quan ly diem thi cuoi cung cua tung mon hoc
 	{
-		temp[i] = p;
+		if (strcmp(p->info.maMonHoc, q->info.maMonHoc) != 0)
+		{
+			q = p;
+			temp[numOfSubs++] = q;
+		}
 		p = p->next;
 	}
-	if (numOfScores == 0)
-		THONGBAO(1, "CHUA CO DIEM THI");
 
 	int page = 1;
 	int index = 0; // vi tri trong mang con tro
-	int maxPage = (numOfScores - 1) / 10 + 1;
-	HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, page, maxPage, is_SV);
+	int maxPage = (numOfSubs - 1) / 10 + 1;
+	HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage, is_SV);
 	gotoxy(2, 9 + (index % 10 + 1) * 2);
 	cout << ">>";
 
@@ -1847,7 +1863,7 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
 					page--;
 					index--;
-					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, page, maxPage, is_SV);
+					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage, is_SV);
 
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
@@ -1863,17 +1879,17 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 			break;
 			case DOWN:
 			{
-				if (index % 10 == 9 && index < numOfScores - 1) // truong hop o cuoi trang va con sinh vien thi PgDn
+				if (index % 10 == 9 && index < numOfSubs - 1) // truong hop o cuoi trang va con sinh vien thi PgDn
 				{
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
 					page++;
 					index++;
-					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, page, maxPage, is_SV);
+					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage, is_SV);
 
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
 				}
-				else if (index % 10 < 9 && index < numOfScores - 1) // truong hop o vi tri khong phai cuoi trang
+				else if (index % 10 < 9 && index < numOfSubs - 1) // truong hop o vi tri khong phai cuoi trang
 				{
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
 					index++;
@@ -1889,7 +1905,7 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
 					page--;
 					index = (index / 10) * 10 - 1;
-					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, page, maxPage, is_SV);
+					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage, is_SV);
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
 				}
@@ -1902,7 +1918,7 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
 					page++;
 					index = (index / 10 + 1) * 10;
-					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, page, maxPage, is_SV);
+					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage, is_SV);
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
 				}
@@ -1923,13 +1939,13 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 					if (ThemDiemThi(data.danhSachDiemThi, temp, dsmh, root))
 					{
 						THONGBAO(1, "DA THEM THANH CONG");
-						numOfScores++;
+						numOfSubs++;
 					}
 					else
 						THONGBAO(1, "DA HUY THAO TAC");
 					page = 1;
 					index = 0;
-					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, page, maxPage, is_SV);
+					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage, is_SV);
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
 				}
@@ -1970,12 +1986,129 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 			break;
 			case ENTER:
 			{
+				MonHoc choosedSubject;
+				strcpy(choosedSubject.maMonHoc, temp[index]->info.maMonHoc);
+				strcpy(choosedSubject.tenMonHoc, FindName(dsmh, choosedSubject.maMonHoc).c_str());
 				THONGBAO(1, "XEM DSCH DA THI");
+				HienDiemThi(root, choosedSubject, data, numOfSubs);
 			}
 			}
-			HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, page, maxPage, is_SV);
+			HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage, is_SV);
 			gotoxy(2, 9 + (index % 10 + 1) * 2);
 			cout << ">>";
+		}
+	}
+}
+void HienDiemThi(STreeCH root, MonHoc monHoc, SinhVien &data, int numOfScores)
+{
+	PtrDT temp[numOfScores] = {NULL};
+	PtrDT p = NULL;
+	int numOfSubScores = 0;
+	bool check = false;
+	for (p = data.danhSachDiemThi; p != NULL; p = p->next)
+	{
+		if (strcmp(p->info.maMonHoc, monHoc.maMonHoc) == 0)
+		{
+			temp[numOfSubScores++] = p;
+			check = true;
+		}
+		else if (check)
+			break;
+	}
+	THONGBAO(1, "NumOfScore: " + to_string(numOfSubScores));
+	int index = 0;
+	int page = 1;
+	int maxPage = (numOfSubScores - 1) / 10 + 1;
+	HienDiemTheoLanThi(temp, numOfSubScores, page, maxPage);
+	gotoxy(2, 9 + (index % 10 + 1) * 2);
+	cout << ">>";
+
+	char ch;
+	while (1)
+	{
+		if ((ch = getch()) == -32)
+		{
+			ch = getch();
+			switch (ch)
+			{
+			case UP:
+			{
+				if (index % 10 == 0 && page > 1) // truong hop dang o dau trang va ton tai trang truoc thi PgUp
+				{
+					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+					page--;
+					index--;
+					HienDiemTheoLanThi(temp, numOfSubScores, page, maxPage);
+					gotoxy(2, 9 + (index % 10 + 1) * 2);
+					cout << ">>";
+				}
+				else if (index % 10 > 0) // truong hop o vi tri khong phai dau trang
+				{
+					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+					index--;
+					gotoxy(2, 9 + (index % 10 + 1) * 2);
+					cout << ">>";
+				}
+			}
+			break;
+			case DOWN:
+			{
+				if (index % 10 == 9 && index < numOfSubScores - 1) // truong hop o cuoi trang va con sinh vien thi PgDn
+				{
+					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+					page++;
+					index++;
+					HienDiemTheoLanThi(temp, numOfSubScores, page, maxPage);
+
+					gotoxy(2, 9 + (index % 10 + 1) * 2);
+					cout << ">>";
+				}
+				else if (index % 10 < 9 && index < numOfSubScores - 1) // truong hop o vi tri khong phai cuoi trang
+				{
+					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+					index++;
+					gotoxy(2, 9 + (index % 10 + 1) * 2);
+					cout << ">>";
+				}
+			}
+			break;
+			case PAGEUP:
+			{
+				if (page > 1)
+				{
+					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+					page--;
+					index = (index / 10) * 10 - 1;
+					HienDiemTheoLanThi(temp, numOfSubScores, page, maxPage);
+					gotoxy(2, 9 + (index % 10 + 1) * 2);
+					cout << ">>";
+				}
+			}
+			break;
+			case PAGEDOWN:
+			{
+				if (page < maxPage)
+				{
+					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+					page++;
+					index = (index / 10 + 1) * 10;
+					HienDiemTheoLanThi(temp, numOfSubScores, page, maxPage);
+					gotoxy(2, 9 + (index % 10 + 1) * 2);
+					cout << ">>";
+				}
+			}
+			break;
+			}
+		}
+		else
+		{
+			switch (ch)
+			{
+			case ESC:
+				return;
+			case ENTER:
+				InCauHoiDaThi(root, monHoc, data.MSSV, index);
+			}
 		}
 	}
 }
@@ -2057,7 +2190,7 @@ bool HieuChinhDiemThi(PtrDT *data, int index, int line)
 	data[index]->info.diemThi = newScore;
 	return true;
 }
-void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, string ten, int page, int maxPage, bool is_SV)
+void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, string ten, int numOfSubs, int page, int maxPage, bool is_SV)
 {
 	system("cls");
 	TextColor(7);
@@ -2067,10 +2200,33 @@ void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, strin
 	if (!is_SV)
 		HienOptionDiemThi(1);
 	int count = 1;
-	for (int i = (page - 1) * 10; i < page * 10 && data[i] != NULL; i++)
+	for (int i = (page - 1) * 10; i < page * 10 && i < numOfSubs; i++)
 	{
 		gotoxy(6, 9 + count * 2);
 		cout << FindName(dsmh, data[i]->info.maMonHoc);
+		gotoxy(78, 9 + count * 2);
+		cout << setprecision(2) << fixed << data[i]->info.diemThi;
+		count++;
+	}
+	gotoxy(91, 29);
+	cout << "Page " << page << '/' << maxPage;
+}
+void HienDiemTheoLanThi(PtrDT *data, int numOfScore, int page, int maxPage)
+{
+	system("cls");
+	TextColor(7);
+
+	VeHeader(3, "DANH SACH DIEM THI", data[0]->info.maMonHoc);
+	VeDanhSach(3);
+	delete_LineOnScreen(30, 9, 12);
+	gotoxy(33, 9);
+	cout << "LAN THI";
+
+	int count = 1;
+	for (int i = (page - 1) * 10; i < page * 10 && i < numOfScore; i++)
+	{
+		gotoxy(37, 9 + count * 2);
+		cout << numOfScore - i;
 		gotoxy(78, 9 + count * 2);
 		cout << setprecision(2) << fixed << data[i]->info.diemThi;
 		count++;
@@ -3327,7 +3483,7 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 
 	doc_danhSachLopHoc(dslh);
 	doc_danhSachMonHoc(dsmh);
-	cout<<"JE";
+	cout << "JE";
 	doc_danhSachCauHoi(root);
 	Sleep(100);
 
