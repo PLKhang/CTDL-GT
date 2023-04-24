@@ -438,16 +438,59 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 		if (soluongcauhoi == 0)
 			THONGBAO(1, "KHONG CO CAU HOI");
 	} while (soluongcauhoi == 0);
+	system("cls");
 
-	if (VeKhungNhapThi(soluongcauhoi, so_cau, thoi_gian).compare("ESC") == 0)
-		return;
+	gotoxy(12, 15);
+	cout << "SO CAU HOI:";
+	VeKhung(24, 14, 28, 16);
+	gotoxy(12, 19);
+	cout << "THOI GIAN:";
+	VeKhung(24, 18, 28, 20);
+
+	gotoxy(50, 24);
+	cout << "SO CAU TOI THIEU: 1| SO CAU TOI DA:" << soluongcauhoi;
+
+	do
+	{
+		gotoxy(25, 15);
+		cout << "   ";
+		so_cau = NhapSo(25, 15, 3);
+		if (so_cau > soluongcauhoi)
+			THONGBAO(1, "NHAP NHIEU HON SO CAU CO SAN"); // in so cau ra nua
+		if (so_cau == 0)
+			THONGBAO(1, "SO CAU =0 KHONG HOP LE");
+		if (so_cau == -1)
+		{
+			if (THONGBAO(3, "BAN MUON THOAT KHONG"))
+				return;
+		}
+	} while (so_cau > soluongcauhoi || so_cau == 0 || so_cau == -1);
+	do
+	{
+		thoi_gian = NhapSo(25, 19, 3);
+		if (thoi_gian == 0)
+		{
+			THONGBAO(1, "THOI GIAN PHAI LON HON 0");
+		}
+		if (thoi_gian == -1)
+		{
+			if (THONGBAO(3, "BAN CO MUON THOAT KHONG"))
+				return;
+		}
+		else
+			continue;
+	} while (thoi_gian == 0 || thoi_gian == -1);
+
 	timer = thread(DongHo, thoi_gian);
 	STreeCH *Questions = GetQuestion(root, maMH, so_cau, soluongcauhoi);
 	int chon, index, wherey;
 	char YourAnswer[so_cau];
 	for (int i = 0; i < so_cau; i++)
 		YourAnswer[i] = '0';
-
+	for(int i=0;i<so_cau;i++)
+	{
+		Questions[i]->is_used=true;
+	}
 	for (int i = 0; stopThi != 1;)
 	{
 		if (i == so_cau)
@@ -662,8 +705,8 @@ void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 		}
 	} while (1);
 	NewQuestion->info.answer = answer;
-	if (InsertQuestion(root, NewQuestion))
-		THONGBAO(1, "THEM CAU HOI THANH CONG");
+	NewQuestion->is_used=false;
+	if(InsertQuestion(root, NewQuestion))THONGBAO(1,"THEM CAU HOI THANH CONG");
 	THONGBAO(0, "AN PHIM BAT KY DE THOAT");
 	getch();
 }
@@ -808,7 +851,8 @@ void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 			}
 			else
 			{
-				if (THONGBAO(3, "BAN CO MUON XOA"))
+				if(ExsistQuestion->is_used==true)THONGBAO(0,"CAU HOI DA DUOC THI");
+				else if (THONGBAO(3, "BAN CO MUON XOA"))
 				{
 					DeleteQuestion(root, ExsistQuestion);
 					// RestoreID();
@@ -886,6 +930,12 @@ int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc) // thi
 		NumberQuestion = 0;
 		PreTraversal(ListQuestion, root, monHoc.maMonHoc, NumberQuestion); // tim cau hoi
 		MaxPage = (NumberQuestion - 1) / 10 + 1;
+		if (NumberQuestion == 0)
+			THONGBAO(0, "KHONG CO CAU HOI");
+		else
+		{
+			InDanhSachCH(ListQuestion,monHoc.maMonHoc,(Page - 1) * 10, (Page * 10 < NumberQuestion ? Page * 10 : NumberQuestion),Page,MaxPage);
+		}
 		TextColor(20);
 		gotoxy(120, 16);
 		cout << "     THEM CAU HOI       ";
@@ -893,12 +943,6 @@ int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc) // thi
 		gotoxy(120, 19);
 		cout << "     XEM CAU HOI        ";
 		SetColor(0, 7);
-		if (NumberQuestion == 0)
-			THONGBAO(0, "KHONG CO CAU HOI");
-		else
-		{
-			InDanhSachCH(ListQuestion, monHoc.maMonHoc, (Page - 1) * 10, (Page * 10 < NumberQuestion ? Page * 10 : NumberQuestion), Page, MaxPage);
-		}
 		// CHON LUA
 		while (stop != 1)
 		{
@@ -1811,9 +1855,8 @@ bool HieuChinhSinhVien(ListLH dslh, PtrSV dssv, PtrSV *data, int index)
 void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 {
 	int numOfScores = 0;
+	PtrDT temp[MaxOfSubjects] = {NULL};
 	PtrDT p = data.danhSachDiemThi;
-	for (p = data.danhSachDiemThi; p != NULL; p = p->next)
-		numOfScores++;
 
 	if (numOfScores == 0)
 	{
@@ -1834,6 +1877,7 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 			temp[numOfSubs++] = q;
 		}
 		p = p->next;
+		numOfScores++;
 	}
 
 	int page = 1;
@@ -1989,7 +2033,6 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 				MonHoc choosedSubject;
 				strcpy(choosedSubject.maMonHoc, temp[index]->info.maMonHoc);
 				strcpy(choosedSubject.tenMonHoc, FindName(dsmh, choosedSubject.maMonHoc).c_str());
-				THONGBAO(1, "XEM DSCH DA THI");
 				HienDiemThi(root, choosedSubject, data, numOfSubs);
 			}
 			}
@@ -3099,7 +3142,6 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, bool types)
 					THONGBAO(1, "CHON MON HOC DE XEM - DANH SACH CAU HOI");
 					break;
 				}
-				HienOptionMonHoc(1);
 				gotoxy(2, 9 + (index % 10 + 1) * 2);
 				cout << ">>";
 			}
@@ -3188,7 +3230,7 @@ int HienOptionMonHoc(bool check)
 	gotoxy(120, 15);
 	TextColor(20);
 	cout << option1;
-	TextColor(7);
+	TextColor(112);
 
 	char ch;
 	while (1)
