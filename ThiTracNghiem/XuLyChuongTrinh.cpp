@@ -2147,7 +2147,7 @@ void HienDiemThi(STreeCH root, MonHoc monHoc, SinhVien &data, int numOfScores)
 			case ESC:
 				return;
 			case ENTER:
-				InCauHoiDaThi(root, monHoc, data.MSSV, index);
+				InCauHoiDaThi(root, monHoc, data.MSSV, numOfSubScores - index);
 			}
 		}
 	}
