@@ -47,11 +47,13 @@ void SortDSSV(PtrSV *data, int n, bool &check);
 //-------------------------DIEM THI--------------------------
 // types:  0->co the chinh sua diem thi, 1->chi xem diem
 void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool types = 0);
+void HienDiemThi(STreeCH root, MonHoc monHoc, SinhVien &data, int numOfScores);
 bool ThemDiemThi(PtrDT &dsdt, PtrDT *data, ListMH dsmh, STreeCH root);
 bool XoaDiemThi(PtrDT &dsdt, PtrDT *data, int index);
 bool HieuChinhDiemThi(PtrDT *data, int index, int line);
 
-void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, string ten, int page, int maxPage, bool is_SV = false);
+void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, string ten, int numOfSubs, int page, int maxPage, bool is_SV = false);
+void HienDiemTheoLanThi(PtrDT *data, int numOfScores, int page, int maxPage);
 int HienOptionDiemThi(bool check = 0);
 // sap xep theo mon <-> sap xep theo diem(cao xuong thap)
 void SortDSDT(PtrDT *data, int n, int &check);
@@ -68,11 +70,12 @@ void HienDanhSachMonHoc(ListMH dsmh, int page, int maxPage, bool types);
 int HienOptionMonHoc(bool check = 0);
 //--------------------------CAU HOI-------------------------
 int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc);
-void HienDanhSachCauHoi(STreeCH dsch, const char *maMH, int start, int line);
+void InCauHoiThi(STreeCH &Question, char so_cau_dung[], int i, int so_cau);
 void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[]);
 void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[]);
-void InDanhSachCH(STreeCH *ListQuestion, char maMH[], int end,int Page,int MaxPage);
-void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[],int LANTHI=-1);
+void InDanhSachCH(STreeCH *ListQuestion, char maMH[], int start, int end, int Page, int MaxPage);
+void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[], int LANTHI = -1);
+void Tim_End_Start(STreeCH List[], int NOE[], int &start, int &end, int lanthi, int NumberQuestion, int NumberofExams);
 void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh);
 
 #endif // XU_LY_CHUONG_TRINH_H

@@ -2188,6 +2188,119 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 		}
 	}
 }
+void HienDiemThi(STreeCH root, MonHoc monHoc, SinhVien &data, int numOfScores)
+{
+	PtrDT temp[numOfScores] = {NULL};
+	PtrDT p = NULL;
+	int numOfSubScores = 0;
+	bool check = false;
+	for (p = data.danhSachDiemThi; p != NULL; p = p->next)
+	{
+		if (strcmp(p->info.maMonHoc, monHoc.maMonHoc) == 0)
+		{
+			temp[numOfSubScores++] = p;
+			check = true;
+		}
+		else if (check)
+			break;
+	}
+	THONGBAO(1, "NumOfScore: " + to_string(numOfSubScores));
+	int index = 0;
+	int page = 1;
+	int maxPage = (numOfSubScores - 1) / 10 + 1;
+	HienDiemTheoLanThi(temp, numOfSubScores, page, maxPage);
+	gotoxy(2, 9 + (index % 10 + 1) * 2);
+	cout << ">>";
+
+	char ch;
+	while (1)
+	{
+		if ((ch = getch()) == -32)
+		{
+			ch = getch();
+			switch (ch)
+			{
+			case UP:
+			{
+				if (index % 10 == 0 && page > 1) // truong hop dang o dau trang va ton tai trang truoc thi PgUp
+				{
+					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+					page--;
+					index--;
+					HienDiemTheoLanThi(temp, numOfSubScores, page, maxPage);
+					gotoxy(2, 9 + (index % 10 + 1) * 2);
+					cout << ">>";
+				}
+				else if (index % 10 > 0) // truong hop o vi tri khong phai dau trang
+				{
+					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+					index--;
+					gotoxy(2, 9 + (index % 10 + 1) * 2);
+					cout << ">>";
+				}
+			}
+			break;
+			case DOWN:
+			{
+				if (index % 10 == 9 && index < numOfSubScores - 1) // truong hop o cuoi trang va con sinh vien thi PgDn
+				{
+					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+					page++;
+					index++;
+					HienDiemTheoLanThi(temp, numOfSubScores, page, maxPage);
+
+					gotoxy(2, 9 + (index % 10 + 1) * 2);
+					cout << ">>";
+				}
+				else if (index % 10 < 9 && index < numOfSubScores - 1) // truong hop o vi tri khong phai cuoi trang
+				{
+					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+					index++;
+					gotoxy(2, 9 + (index % 10 + 1) * 2);
+					cout << ">>";
+				}
+			}
+			break;
+			case PAGEUP:
+			{
+				if (page > 1)
+				{
+					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+					page--;
+					index = (index / 10) * 10 - 1;
+					HienDiemTheoLanThi(temp, numOfSubScores, page, maxPage);
+					gotoxy(2, 9 + (index % 10 + 1) * 2);
+					cout << ">>";
+				}
+			}
+			break;
+			case PAGEDOWN:
+			{
+				if (page < maxPage)
+				{
+					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+					page++;
+					index = (index / 10 + 1) * 10;
+					HienDiemTheoLanThi(temp, numOfSubScores, page, maxPage);
+					gotoxy(2, 9 + (index % 10 + 1) * 2);
+					cout << ">>";
+				}
+			}
+			break;
+			}
+		}
+		else
+		{
+			switch (ch)
+			{
+			case ESC:
+				return;
+			case ENTER:
+				InCauHoiDaThi(root, monHoc, data.MSSV, numOfSubScores - index);
+			}
+		}
+	}
+}
 bool ThemDiemThi(PtrDT &dsdt, PtrDT *data, ListMH dsmh, STreeCH root)
 {
 	DiemThi score;
@@ -2266,7 +2379,7 @@ bool HieuChinhDiemThi(PtrDT *data, int index, int line)
 	data[index]->info.diemThi = newScore;
 	return true;
 }
-void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, string ten, int page, int maxPage, bool is_SV)
+void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, string ten, int numOfSubs, int page, int maxPage, bool is_SV)
 {
 	system("cls");
 	TextColor(7);
@@ -2276,10 +2389,33 @@ void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, strin
 	if (!is_SV)
 		HienOptionDiemThi(1);
 	int count = 1;
-	for (int i = (page - 1) * 10; i <= page * 10 && data[i] != NULL; i++)
+	for (int i = (page - 1) * 10; i < page * 10 && i < numOfSubs; i++)
 	{
 		gotoxy(6, 9 + count * 2);
 		cout << FindName(dsmh, data[i]->info.maMonHoc);
+		gotoxy(78, 9 + count * 2);
+		cout << setprecision(2) << fixed << data[i]->info.diemThi;
+		count++;
+	}
+	gotoxy(91, 29);
+	cout << "Page " << page << '/' << maxPage;
+}
+void HienDiemTheoLanThi(PtrDT *data, int numOfScore, int page, int maxPage)
+{
+	system("cls");
+	TextColor(7);
+
+	VeHeader(3, "DANH SACH DIEM THI", data[0]->info.maMonHoc);
+	VeDanhSach(3);
+	delete_LineOnScreen(30, 9, 12);
+	gotoxy(33, 9);
+	cout << "LAN THI";
+
+	int count = 1;
+	for (int i = (page - 1) * 10; i < page * 10 && i < numOfScore; i++)
+	{
+		gotoxy(37, 9 + count * 2);
+		cout << numOfScore - i;
 		gotoxy(78, 9 + count * 2);
 		cout << setprecision(2) << fixed << data[i]->info.diemThi;
 		count++;
