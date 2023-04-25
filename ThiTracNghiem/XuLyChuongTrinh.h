@@ -60,16 +60,16 @@ void SortDSDT(PtrDT *data, int n, int &check);
 
 //--------------------------MON HOC---------------------------
 // types: 0-> chuc nang quan ly mon hoc, 1-> chon ma mon hoc de thi
-string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, bool types = 0);
+string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, bool selectMode = 0);
 bool ThemMonHoc(ListMH &dsmh);
 bool XoaMonHoc(ListMH &dsmh, int index);
-// index: vi tri HIEU CHINH trong dsmh, line: vi tri hieu chinh tren man hinh
+// chi duoc hieu chinh ten mon hoc
 bool HieuChinhMonHoc(ListMH &dsmh, int index, int line);
 
-void HienDanhSachMonHoc(ListMH dsmh, int page, int maxPage, bool types);
+void HienDanhSachMonHoc(ListMH dsmh, int page, int maxPage, bool selectMode);
 int HienOptionMonHoc(bool check = 0);
 //--------------------------CAU HOI-------------------------
-int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc);
+int MENU_DSCH_GV(STreeCH &root, MonHoc &monHoc);
 void InCauHoiThi(STreeCH &Question, char so_cau_dung[], int i, int so_cau);
 void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[]);
 void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[]);
