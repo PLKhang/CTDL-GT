@@ -74,6 +74,7 @@ struct MonHoc
 {
     char maMonHoc[16];
     char tenMonHoc[51];
+    bool is_used = false;
 };
 
 struct DanhSachMonHoc
