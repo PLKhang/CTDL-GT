@@ -200,6 +200,7 @@ int InsertQuestion(STreeCH &root, STreeCH question);
 int DeleteQuestion(STreeCH &root, STreeCH &Quetion);
 // sua lai cau hoi
 int DeleteQuestion_maMH(STreeCH&root,char maMH[]);
+void DeleteRoot(STreeCH& root);
 int Repare(STreeCH root, CauHoi question);// dung con tro tro truc tiep toi nen khong dung
 // duyet tim cau hoi theo ma mon
 void PreTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count);
