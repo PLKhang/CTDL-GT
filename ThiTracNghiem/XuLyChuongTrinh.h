@@ -52,9 +52,8 @@ bool ThemDiemThi(PtrDT &dsdt, PtrDT *data, ListMH dsmh, STreeCH root);
 bool XoaDiemThi(PtrDT &dsdt, PtrDT *data, int index);
 bool HieuChinhDiemThi(PtrDT *data, int index, int line);
 
-void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, string ten, int numOfSubs, int page, int maxPage, bool is_SV = false);
+void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, string ten, int numOfSubs, int page, int maxPage);
 void HienDiemTheoLanThi(PtrDT *data, int numOfScores, int page, int maxPage);
-int HienOptionDiemThi(bool check = 0);
 // sap xep theo mon <-> sap xep theo diem(cao xuong thap)
 void SortDSDT(PtrDT *data, int n, int &check);
 

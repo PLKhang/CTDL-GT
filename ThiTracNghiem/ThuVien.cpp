@@ -431,6 +431,7 @@ int doc_danhSachDiemThi(PtrDT &dsdt, const string &maLH, const string &mssv) // 
             field_Num++;
         }
         if (info.diemThi >= 0)
+        {
             if (is_Empty_DT(dsdt))
             {
                 insert_First_DT(dsdt, info);
@@ -441,6 +442,7 @@ int doc_danhSachDiemThi(PtrDT &dsdt, const string &maLH, const string &mssv) // 
                 lastDT->next = create_Node_DT(info);
                 lastDT = lastDT->next;
             }
+        }
     }
     file.close();
     return 1;
@@ -479,8 +481,12 @@ int doc_danhSachMonHoc(ListMH &dsmh)
             case 2:
                 strcpy(data.tenMonHoc, field.c_str());
                 break;
-            default:
-                return -1;
+            case 3:
+                if (!(atof(field.c_str())))
+                    data.is_used = false;
+                else
+                    data.is_used = true;	
+                break;
             }
             field_Num++;
         }
@@ -502,47 +508,50 @@ int doc_danhSachCauHoi(STreeCH &dsch)
         question = new nodeCauHoi;
         docfile.getline(question->info.maMonHoc, 16);
         docfile >> question->info.ID;
-        docfile.ignore();//bo qua ki tu xuong dong
-        getline(docfile,temp);
-        if(temp.compare("DA THI")==0)question->is_used=true;
-        else question->is_used=false;
+        docfile.ignore(); // bo qua ki tu xuong dong
+        getline(docfile, temp);
+        if (temp.compare("DA THI") == 0)
+            question->is_used = true;
+        else
+            question->is_used = false;
         docfile.getline(question->info.question, 201);
         docfile.getline(question->info.ans1, 101);
         docfile.getline(question->info.ans2, 101);
         docfile.getline(question->info.ans3, 101);
         docfile.getline(question->info.ans4, 101);
         docfile >> question->info.answer;
-        docfile.ignore();// bo qua ki tu xuong dong
+        docfile.ignore(); // bo qua ki tu xuong dong
         InsertQuestion(dsch, question);
     }
     docfile.close();
     return 1;
 }
-int docCauHoiDaThi(STreeCH root,STreeCH List[],int NOE[],char Answer[],MonHoc MH,int &NumberQuestion,int &NumberOfExams,char MSSV[])
+int docCauHoiDaThi(STreeCH root, STreeCH List[], int NOE[], char Answer[], MonHoc MH, int &NumberQuestion, int &NumberOfExams, char MSSV[])
 {
     ifstream docfile(("Data/DanhSachSinhVien/DanhSachCauHoiThi/" + string(MSSV) + ".txt").data());
-    if(!docfile.is_open())return 0;
+    if (!docfile.is_open())
+        return 0;
     string maMH;
-    int temp,count=0,ID;
-    while(!docfile.eof())
+    int temp, count = 0, ID;
+    while (!docfile.eof())
     {
-        getline(docfile,maMH);
-        if(strcmp(MH.maMonHoc,maMH.data())==0)
+        getline(docfile, maMH);
+        if (strcmp(MH.maMonHoc, maMH.data()) == 0)
         {
-            docfile>>temp;
-            NOE[NumberOfExams++]=NumberQuestion;
-            for(int i=NumberQuestion;i<NumberQuestion+temp;i++)
+            docfile >> temp;
+            NOE[NumberOfExams++] = NumberQuestion;
+            for (int i = NumberQuestion; i < NumberQuestion + temp; i++)
             {
-                docfile>>ID;
+                docfile >> ID;
                 docfile.ignore();
-                docfile>>Answer[i];
+                docfile >> Answer[i];
                 docfile.ignore();
-                //TimCauHoiDaThi(root, list, ID[i], count);
-                TimCauHoiDaThi(root,List,ID,i);
+                // TimCauHoiDaThi(root, list, ID[i], count);
+                TimCauHoiDaThi(root, List, ID, i);
             }
-            NumberQuestion+=temp;
+            NumberQuestion += temp;
         }
-        // else 
+        // else
         //     docfile.ignore();
     }
     docfile.close();
@@ -646,7 +655,8 @@ int ghi_danhSachMonHoc(ListMH dsmh)
     for (int i = 0; i < dsmh.n; i++)
     {
         file << dsmh.nodes[i].maMonHoc << '|'
-             << dsmh.nodes[i].tenMonHoc << "|\n";
+             << dsmh.nodes[i].tenMonHoc << "|"
+             << (dsmh.nodes[i].is_used ? "1|\n" : "0|\n");
     }
     // Đong file
     file.close();
@@ -671,7 +681,7 @@ int ghi_danhSachCauHoi(STreeCH dsch)
             q.Push(temp->right);
         ghifile << temp->info.maMonHoc << endl
                 << temp->info.ID << endl
-                <<(temp->is_used==true?"DA THI":"CHUA THI")<<endl
+                << (temp->is_used == true ? "DA THI" : "CHUA THI") << endl
                 << temp->info.question << endl
                 << temp->info.ans1 << endl
                 << temp->info.ans2 << endl
@@ -686,12 +696,12 @@ int ghi_danhSachCauHoi(STreeCH dsch)
 
 void GhiCauHoiDaThi(char MSSV[], STreeCH *ListQuestion, char YourAnswer[], int numberQuestion)
 {
-    ofstream ghiCauHoiDaThi(("Data/DanhSachSinhVien/DanhSachCauHoiThi/" + string(MSSV) + ".txt").data(),ios::app);
-    ghiCauHoiDaThi<<ListQuestion[0]->info.maMonHoc<<endl;
-    ghiCauHoiDaThi<<numberQuestion<<endl;
+    ofstream ghiCauHoiDaThi(("Data/DanhSachSinhVien/DanhSachCauHoiThi/" + string(MSSV) + ".txt").data(), ios::app);
+    ghiCauHoiDaThi << ListQuestion[0]->info.maMonHoc << endl;
+    ghiCauHoiDaThi << numberQuestion << endl;
     for (int k = 0; k < numberQuestion; k++)
     {
-        ghiCauHoiDaThi<<ListQuestion[k]->info.ID<<'|'<<YourAnswer[k]<<endl;
+        ghiCauHoiDaThi << ListQuestion[k]->info.ID << '|' << YourAnswer[k] << endl;
     }
     ghiCauHoiDaThi.close();
 }

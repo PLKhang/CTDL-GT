@@ -23,7 +23,7 @@ LeftChar=1
 <<<<<<< HEAD
 CursorCol=2
 CursorRow=612
-TopLine=604
+TopLine=1
 =======
 CursorCol=6
 CursorRow=217
@@ -82,16 +82,16 @@ Order=3,4,5,2,9,8,6
 Focused=6
 >>>>>>> def5de1d5ebd89ec6d76877c96af80f12f25e08b
 [Editor_6]
-CursorCol=40
-CursorRow=516
-TopLine=500
+CursorCol=42
+CursorRow=488
+TopLine=471
 LeftChar=1
 [Editor_8]
 <<<<<<< HEAD
 <<<<<<< HEAD
-CursorCol=2
-CursorRow=2113
-TopLine=2101
+CursorCol=29
+CursorRow=2130
+TopLine=2114
 =======
 CursorCol=16
 CursorRow=709
