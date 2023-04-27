@@ -225,38 +225,42 @@ int DeleteQuestion_maMH(STreeCH &root, char maMH[])
 {
     if (root == NULL)
         return 0;
-    int i=0,socau=DemSoCauHoi(root,maMH);
+    int i = 0, socau = DemSoCauHoi(root, maMH);
     Queue<STreeCH> temp1;
-    STreeCH temp2,*temp3=new STreeCH[socau];
+    STreeCH temp2, *temp3 = new STreeCH[socau];
     temp1.Push(root);
     while (!temp1.empty())
     {
         temp2 = temp1.pop();
-        if (strcmp(temp2->info.maMonHoc, maMH) == 0)temp3[i++]=temp2;
+        if (strcmp(temp2->info.maMonHoc, maMH) == 0)
+            temp3[i++] = temp2;
         if (temp2->left != NULL)
             temp1.Push(temp2->left);
         if (temp2->right != NULL)
             temp1.Push(temp2->right);
     }
-    for(int i=i-1;i>=0;i--)
-	{
-		DeleteQuestion(root, temp3[i]);
-	}
+    for (int i = i - 1; i >= 0; i--)
+    {
+        DeleteQuestion(root, temp3[i]);
+    }
     return 1;
 }
-void DeleteRoot(STreeCH& root)
+void DeleteRoot(STreeCH &root)
 {
-	if(root==0)return;
-	Queue<STreeCH> q;
-	STreeCH temp;
-	q.Push(root);
-	while(!q.empty())
-	{
-		temp=q.pop();
-		if(temp->left!=NULL)q.Push(temp->left);
-		if(temp->right!=NULL)q.Push(temp->right);
-		delete temp;
-	}
+    if (root == 0)
+        return;
+    Queue<STreeCH> q;
+    STreeCH temp;
+    q.Push(root);
+    while (!q.empty())
+    {
+        temp = q.pop();
+        if (temp->left != NULL)
+            q.Push(temp->left);
+        if (temp->right != NULL)
+            q.Push(temp->right);
+        delete temp;
+    }
 }
 int Repare(STreeCH root, CauHoi question)
 {
@@ -485,7 +489,7 @@ bool is_Empty_SV(PtrSV first)
 // }
 bool is_Existed_MSSV_SV(ListLH dslh, string MSSV)
 {
-    if(is_Empty_LH(dslh))
+    if (is_Empty_LH(dslh))
         return false;
     for (int i = 0; i < dslh.n; i++)
     {
@@ -493,11 +497,11 @@ bool is_Existed_MSSV_SV(ListLH dslh, string MSSV)
         while (currentSV != NULL)
         {
             if (strcmp(currentSV->info.MSSV, MSSV.c_str()) == 0)
-                return true; 
+                return true;
             currentSV = currentSV->next;
         }
     }
-    return false; 
+    return false;
 }
 void insert_First_SV(PtrSV &first, SinhVien sv)
 {

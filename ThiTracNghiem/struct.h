@@ -100,7 +100,7 @@ typedef CauHoi *ptrCauHoi;
 struct nodeCauHoi
 {
     CauHoi info; // key = info.ID;
-    bool is_used=false;
+    bool is_used = false;
     nodeCauHoi *left = NULL;
     nodeCauHoi *right = NULL;
 };
@@ -200,9 +200,9 @@ int InsertQuestion(STreeCH &root, STreeCH question);
 // xoa cau hoi
 int DeleteQuestion(STreeCH &root, STreeCH &Quetion);
 // sua lai cau hoi
-int DeleteQuestion_maMH(STreeCH&root,char maMH[]);
-void DeleteRoot(STreeCH& root);
-int Repare(STreeCH root, CauHoi question);// dung con tro tro truc tiep toi nen khong dung
+int DeleteQuestion_maMH(STreeCH &root, char maMH[]);
+void DeleteRoot(STreeCH &root);
+int Repare(STreeCH root, CauHoi question); // dung con tro tro truc tiep toi nen khong dung
 // duyet tim cau hoi theo ma mon
 void PreTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count);
 // random cau hoi va tra ve con tro streech

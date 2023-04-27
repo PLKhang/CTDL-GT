@@ -485,7 +485,7 @@ int doc_danhSachMonHoc(ListMH &dsmh)
                 if (!(atof(field.c_str())))
                     data.is_used = false;
                 else
-                    data.is_used = true;	
+                    data.is_used = true;
                 break;
             }
             field_Num++;

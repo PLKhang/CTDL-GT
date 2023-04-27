@@ -48,12 +48,12 @@ return:
 -5: doc file cho dslk DiemThi bi loi~
  */
 int doc_danhSachLopHoc(ListLH &dslh);
-int doc_danhSachSinhVien(PtrSV &dssv, const string &maLH);                           //--> doc_danhSachLopHoc
+int doc_danhSachSinhVien(PtrSV &dssv, const string &maLH);                    //--> doc_danhSachLopHoc
 int doc_danhSachDiemThi(PtrDT &dsdt, const string &maLH, const string &mssv); // --> doc_danhSachSinhVien
 
 int doc_danhSachMonHoc(ListMH &dsmh);
 int doc_danhSachCauHoi(STreeCH &dsch);
-int docCauHoiDaThi(STreeCH root,STreeCH List[],int NOE[],char Answer[],MonHoc MH,int &NumberQuestion,int &NumberOfExams,char MSSV[]);
+int docCauHoiDaThi(STreeCH root, STreeCH List[], int NOE[], char Answer[], MonHoc MH, int &NumberQuestion, int &NumberOfExams, char MSSV[]);
 // <-- dssv, dsdt, dstk
 int ghi_danhSachLopHoc(ListLH dslh);
 int ghi_danhSachSinhVien(PtrSV dssv, string maLH);

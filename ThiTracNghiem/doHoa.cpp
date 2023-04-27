@@ -592,28 +592,31 @@ void VeBangDanhSachCauHoi(char maMH[], int MaxPage, int Page)
 	SetColor(0, 7);
 }
 
-float VeKhungDiem(STreeCH *Questions,char YourAnswer[],PtrSV &SV,int so_cau)
+float VeKhungDiem(STreeCH *Questions, char YourAnswer[], PtrSV &SV, int so_cau)
 {
 	system("cls");
-	VeKhung(57,12,90,20);
-	float diem=0;
-	int so_cau_dung=0;
+	VeKhung(57, 12, 90, 20);
+	float diem = 0;
+	int so_cau_dung = 0;
 	for (int i = 0; i < so_cau; i++)
 	{
 		if (YourAnswer[i] == Questions[i]->info.answer)
 			diem++;
 	}
-	so_cau_dung=diem;
+	so_cau_dung = diem;
 	diem = (diem / so_cau) * 10;
-	gotoxy(58,14);cout<<"HO VA TEN: "<<SV->info.ho<<" "<<SV->info.ten;
-	gotoxy(58,16);cout<<"DIEM THI: "<<diem;
-	gotoxy(58,18);cout<<"SO CAU DUNG: "<<so_cau_dung<<'/'<<so_cau;
+	gotoxy(58, 14);
+	cout << "HO VA TEN: " << SV->info.ho << " " << SV->info.ten;
+	gotoxy(58, 16);
+	cout << "DIEM THI: " << diem;
+	gotoxy(58, 18);
+	cout << "SO CAU DUNG: " << so_cau_dung << '/' << so_cau;
 	return diem;
 }
-string VeKhungNhapThi(int tong_so_cau,int &so_cau,int &thoi_gian)
+string VeKhungNhapThi(int tong_so_cau, int &so_cau, int &thoi_gian)
 {
 	system("cls");
-	VeKhung(57,12,100,20);
+	VeKhung(57, 12, 100, 20);
 	gotoxy(58, 14);
 	cout << "SO CAU HOI:";
 	gotoxy(58, 16);
