@@ -31,7 +31,7 @@ int HienOptionLopHoc(bool check = 0);
 bool sortDSLH(LopHoc **dslh, int numOfClass, int &index);
 void DanhSachTheoNienKhoa(ListLH dslh, LopHoc **data, int nienKhoa, int &numOfClasses);
 
-bool THEMSINHVIEN(ListLH &dslh, ListMH dsmh);
+bool THEMSINHVIEN(ListLH &dslh, ListMH dsmh, STreeCH root);
 //-------------------------SINH VIEN-------------------------
 // types: 0->chuc nang quan ly sinh vien, 1->xem dsdt theo mon, 2->lay mssv
 PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int types = 0, string maMon = "");
@@ -68,7 +68,7 @@ bool HieuChinhMonHoc(ListMH &dsmh, int index, int line);
 void HienDanhSachMonHoc(ListMH dsmh, int page, int maxPage, bool selectMode);
 int HienOptionMonHoc(bool check = 0);
 //--------------------------CAU HOI-------------------------
-int MENU_DSCH_GV(STreeCH &root, MonHoc &monHoc);
+int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc);
 void InCauHoiThi(STreeCH &Question, char so_cau_dung[], int i, int so_cau);
 void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[]);
 void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[]);

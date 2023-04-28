@@ -1,5 +1,5 @@
 [Editor_0]
-CursorCol=21
+CursorCol=20
 CursorRow=32
 TopLine=1
 LeftChar=1
@@ -83,7 +83,7 @@ Focused=6
 >>>>>>> def5de1d5ebd89ec6d76877c96af80f12f25e08b
 [Editor_6]
 <<<<<<< HEAD
-CursorCol=42
+CursorCol=41
 CursorRow=488
 TopLine=471
 =======
@@ -96,9 +96,9 @@ LeftChar=1
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
-CursorCol=5
-CursorRow=2115
-TopLine=2115
+CursorCol=8
+CursorRow=3339
+TopLine=3808
 =======
 CursorCol=14
 CursorRow=1105

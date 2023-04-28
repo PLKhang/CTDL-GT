@@ -224,7 +224,7 @@ double NhapSo(int x, int y, int soluong)
     }
     setCursorVisibility(0);
     if (index == 0) // truong hop enter khi chua nhap
-        return -1;
+        return -2;
     return atof(num);
 }
 bool is_Empty_CArray(const char *a)
