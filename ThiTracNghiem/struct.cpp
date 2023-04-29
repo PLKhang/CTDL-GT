@@ -127,7 +127,7 @@ int InsertToBalance(ID *&root, int min, int max, ofstream &file)
 void TaoFileID()
 {
     createID root = NULL;
-    int n = 3;
+    int n = 14;
     ofstream file("Data/KeyID.txt");
     file << 1 << endl;
     for (int i = 1; i <= pow(2, n) - 1; i++)
@@ -136,12 +136,14 @@ void TaoFileID()
 }
 int ReadID()
 {
-    int number, temp;
-    fstream docID("Data/KeyID.txt", ios::in | ios::out);
-    if (!docID.is_open())
+	fstream temp1("Data/KeyID.txt",ios::in|ios::out);
+    if(!temp1.is_open())
     {
         TaoFileID();
     }
+    temp1.close();
+    int number, temp;
+    fstream docID("Data/KeyID.txt", ios::in | ios::out);
     docID >> number;
     for (int i = 1; i <= number; i++)
     {
@@ -176,12 +178,29 @@ int InsertQuestion(STreeCH &root, STreeCH question)
     }
     else
     {
-        if (root->info.ID > question->info.ID)
-            return InsertQuestion(root->left, question);
-        else if (root->info.ID < question->info.ID)
-            return InsertQuestion(root->right, question);
-        else
-            return 0;
+    	STreeCH temp=root;
+    	while(1)
+		{
+			if (temp->info.ID > question->info.ID)
+			{
+				if(temp->left==NULL)
+				{
+				 	temp->left=question;
+				 	return 1;
+				}
+				temp=temp->left;
+			}
+			else if (temp->info.ID < question->info.ID)
+			{
+				if(temp->right==NULL)
+				{
+					temp->right=question;
+					return 1;
+				}
+				temp=temp->right;
+			} 
+			else return 0;	
+		}
     }
 }
 int SoNode(STreeCH root)

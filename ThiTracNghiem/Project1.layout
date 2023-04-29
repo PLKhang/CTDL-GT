@@ -96,9 +96,15 @@ LeftChar=1
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 CursorCol=5
 CursorRow=3334
 TopLine=3319
+=======
+CursorCol=8
+CursorRow=3339
+TopLine=3042
+>>>>>>> 8e326ff65aeccce9b9070331ee3ff41afd07a8a3
 =======
 CursorCol=14
 CursorRow=1105

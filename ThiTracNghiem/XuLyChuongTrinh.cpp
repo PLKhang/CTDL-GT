@@ -1092,7 +1092,7 @@ void ThanhChucNang()
 {
 	VeKhung(5, 34, 115, 36);
 	gotoxy(6, 35);
-	cout << "ESC: THOAT     F1: XEM LAN THI   F5:TIM CAU HOI   ENTER: CHON   <-: LUI TRANG    ->: TRANG MOI    " << char(30) << ":LEN      " << char(31) << ":XUONG ";
+	cout << "ESC: THOAT  F1: XEM LAN THI  F5:TIM CAU HOI  ENTER: CHON  <-: LUI TRANG  ->: TRANG MOI  " << char(30) << ":LEN  " << char(31) << ":XUONG ";
 }
 bool TimCauHoi(STreeCH List[], char YourAnswer[], int start, int &end)
 {
