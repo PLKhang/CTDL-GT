@@ -12,7 +12,7 @@ int THONGBAO(int option, string thongbao)
 	cout << thongbao;
 	if (option == 1) // clear thanh thong bao
 	{
-		Sleep(600);
+		Sleep(1500);
 		for (int i = 0; i <= 10; i++)
 		{
 			gotoxy(125, i);
@@ -654,4 +654,32 @@ string VeKhungNhapThi(int tong_so_cau, int &so_cau, int &thoi_gian)
 			continue;
 	} while (thoi_gian == 0 || thoi_gian == -1);
 	return "NOTHING";
+}
+void ThanhChucNang(int option)
+{
+	VeKhung(5, 34, 115, 36);
+	gotoxy(6, 35);
+	switch (option)
+	{
+	case 1:
+	{
+		cout << "ESC: THOAT   F1: XEM LAN THI    F5:TIM CAU HOI   ENTER: CHON   <-: LUI TRANG  ->: TRANG MOI  " << char(30) << ":LEN  " << char(31) << ":XUONG ";
+		break;
+	}
+	case 2:
+	{
+		cout << "ESC: THOAT    F5: TIM CAU HOI     ENTER: CHON      <-: LUI TRANG      ->: TRANG MOI     " << char(30) << ": LEN     " << char(31) << ": XUONG ";
+		break;
+	}
+	case 3:
+	{
+		cout << "ESC:THOAT   F1:TIM CAU HOI   F5:TAI LAI TRANG  ENTER:CHON   <-: LUI TRANG   ->: TRANG MOI   " << char(30) << ":LEN   " << char(31) << ":XUONG ";
+		break;
+	}
+	case 4:
+	{
+		cout << "ESC:THOAT          ENTER:CHON          <-: LUI TRANG           ->: TRANG MOI         " << char(30) << ":LEN           " << char(31) << ":XUONG ";	
+		break;
+	}
+	}
 }

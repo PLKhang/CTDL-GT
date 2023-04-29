@@ -289,11 +289,21 @@ int Repare(STreeCH root, CauHoi question)
     return 0;
 }
 //--------LAY CAU HOI--------
+void InTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count)
+{
+    if (root != NULL)
+    {
+    	InTraversal(AllQuestions, root->left, maMH, count);
+        if (strcmp(root->info.maMonHoc,maMH)==0)
+            AllQuestions[count++] = root;
+        InTraversal(AllQuestions, root->right, maMH, count);
+    }
+}
 void PreTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count)
 {
     if (root != NULL)
     {
-        if ((string(root->info.maMonHoc) == string(maMH)))
+        if (strcmp(root->info.maMonHoc,maMH)==0)
             AllQuestions[count++] = root;
         PreTraversal(AllQuestions, root->left, maMH, count);
         PreTraversal(AllQuestions, root->right, maMH, count);

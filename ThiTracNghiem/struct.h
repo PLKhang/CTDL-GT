@@ -204,6 +204,7 @@ int DeleteQuestion_maMH(STreeCH &root, char maMH[]);
 void DeleteRoot(STreeCH &root);
 int Repare(STreeCH root, CauHoi question); // dung con tro tro truc tiep toi nen khong dung
 // duyet tim cau hoi theo ma mon
+void InTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count);
 void PreTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count);
 // random cau hoi va tra ve con tro streech
 STreeCH *GetQuestion(STreeCH &root, char maMH[], int number_question, int tong_so_cau_hoi);
