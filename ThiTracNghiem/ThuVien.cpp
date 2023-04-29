@@ -533,6 +533,7 @@ int docCauHoiDaThi(STreeCH root, STreeCH List[], int NOE[], char Answer[], MonHo
         return 0;
     string maMH;
     int temp, count = 0, ID;
+	NumberOfExams=NumberQuestion=0;
     while (!docfile.eof())
     {
         getline(docfile, maMH);
@@ -557,6 +558,26 @@ int docCauHoiDaThi(STreeCH root, STreeCH List[], int NOE[], char Answer[], MonHo
     docfile.close();
     return 1;
 }
+int demSoCauDaThi(MonHoc MH,char MSSV[])
+{
+    int count=0,temp;string maMH;
+    ifstream docfile(("Data/DanhSachSinhVien/DanhSachCauHoiThi/" + string(MSSV) + ".txt").data());
+    if (!docfile.is_open())
+        return 0;
+    
+    while (!docfile.eof())
+    {
+        getline(docfile, maMH);
+        if (strcmp(MH.maMonHoc, maMH.data()) == 0)
+        {
+            docfile>>temp;
+            docfile.ignore();// con ki tu xuong dong
+            count+=temp;
+        }
+    }
+    docfile.close();
+    return count;
+}
 bool createLopHocFolder(string maLH)
 {
     string folderPath = "Data\\DanhSachSinhVien\\DanhSachDiemThi\\" + maLH;
@@ -570,6 +591,15 @@ bool removeLopHocFolder(string maLH)
 {
     string folderPath = "Data\\DanhSachSinhVien\\DanhSachDiemThi\\" + maLH;
     string command = "rmdir " + folderPath;
+    int status = system(command.c_str());
+    if (status == 0)
+        return 1;
+    return 0;
+}
+bool removeLopHocFile(string maLH)
+{
+    string filePath = "Data/DanhSachSinhVien/" + maLH + ".txt";
+    string command = "rm " + filePath;
     int status = system(command.c_str());
     if (status == 0)
         return 1;

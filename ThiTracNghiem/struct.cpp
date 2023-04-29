@@ -213,26 +213,17 @@ int DeleteQuestion(STreeCH &root, STreeCH &Question)
 {
     if (root == NULL || Question == NULL)
         return 0;
-    int ID = Question->info.ID;
     if (root->left == NULL && root->right == NULL)
-    {
-        STreeCH temp;
-        if (root == Question) // truong hop nut Question la nut cuoi
+    { 
+        if (root != Question) // truong hop Question khong phai la nut cuoi
         {
-            temp = root;
-            Question = NULL;
-            root = NULL;
-            delete temp;
-        }
-        else // truong hop Question khong phai la nut cuoi
-        {
-            temp = root;
+            int ID = Question->info.ID;
             Question->info = root->info;
             Question->info.ID = ID;
-            root = NULL;
-            delete temp;
         }
-        RestoreID();
+        delete root;//xóa nút cuối cùng đươc thêm
+        root = NULL;//là nút cuối cùng được thêm vào
+        RestoreID();//trả lại ID vào file
         return 1;
     }
     else if (SoNode(root->left) > SoNode(root->right))
@@ -266,7 +257,7 @@ int DeleteQuestion_maMH(STreeCH &root, char maMH[])
 }
 void DeleteRoot(STreeCH &root)
 {
-    if (root == 0)
+    if (root == NULL)
         return;
     Queue<STreeCH> q;
     STreeCH temp;
@@ -329,7 +320,7 @@ int DemSoCauHoi(STreeCH root, char maMH[])
 {
     if (root != NULL)
     {
-        if (string(root->info.maMonHoc) == string(maMH))
+        if (strcmp(root->info.maMonHoc,maMH)==0)
         {
             return 1 + DemSoCauHoi(root->left, maMH) + DemSoCauHoi(root->right, maMH);
         }
@@ -339,17 +330,21 @@ int DemSoCauHoi(STreeCH root, char maMH[])
     else
         return 0;
 }
-void TimCauHoiDaThi(STreeCH root, STreeCH list[], int ID, int count)
+void TimCauHoiDaThi(STreeCH root, STreeCH list[], int ID, int i)
 {
-    if (root != NULL)
+    STreeCH temp=root;
+    while(temp!=NULL)
     {
-        if (root->info.ID == ID)
-            list[count++] = root;
-        else if (root->info.ID > ID)
-            TimCauHoiDaThi(root->left, list, ID, count);
-        else
-            TimCauHoiDaThi(root->right, list, ID, count);
+        if(temp->info.ID==ID)
+        {
+            list[i]=temp;
+            break;
+        }
+        else if (temp->info.ID > ID)
+            temp=temp->left;
+        else temp=temp->right;
     }
+
 }
 //---------------------------DiemThi--------------------------//
 void KhoiTao_PtrDT(PtrDT &first)

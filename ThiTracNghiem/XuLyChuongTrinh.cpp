@@ -654,7 +654,7 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 }
 void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 {
-	char answer = 0, ki_tu;
+	int answer = 0, ki_tu;
 	STreeCH NewQuestion = newnode();
 
 	NewQuestion->info.ID = ReadID();
@@ -739,7 +739,7 @@ void InCauHoi(STreeCH &ExsistQuestion, char tenMH[])
 	gotoxy(21, 25);
 	cout << ExsistQuestion->info.answer;
 }
-void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
+int XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 {
 	int chon, vi_tri_contro = 16, stop = 0;
 	InCauHoi(ExsistQuestion, tenMH);
@@ -862,7 +862,7 @@ void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 				{
 					DeleteQuestion(root, ExsistQuestion);
 					// RestoreID();
-					return;
+					return 1;
 				}
 			}
 			break;
@@ -902,6 +902,7 @@ void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 		}
 		}
 	}
+	return 0;
 }
 void InDanhSachCH(STreeCH *ListQuestion, char maMH[], int start, int end, int Page, int MaxPage)
 {
@@ -923,23 +924,23 @@ void InDanhSachCH(STreeCH *ListQuestion, char maMH[], int start, int end, int Pa
 		wherey += 2;
 	}
 }
-int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc) // thi
+int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc) 
 {
-	int NumberQuestion = 0, vi_tri_contro, wherey, chon, MaxPage, Page, stop;
+	int NumberQuestion, vi_tri_contro, wherey, chon, MaxPage, Page, stop;
 	char chuoi[90];
-	STreeCH *ListQuestion = new STreeCH[300];
-	Page = 1;
+	NumberQuestion = DemSoCauHoi(root, monHoc.maMonHoc);
+	STreeCH *ListQuestion = new STreeCH[NumberQuestion];
+	NumberQuestion = 0;
+	PreTraversal(ListQuestion, root, monHoc.maMonHoc, NumberQuestion); // tim cau hoi
+	Page = 1,MaxPage = (NumberQuestion - 1) / 10 + 1;
 	while (1)
 	{
 		// XUAT NOI DUNG
 		stop = 0, vi_tri_contro = 16;
-		NumberQuestion = 0;
-		PreTraversal(ListQuestion, root, monHoc.maMonHoc, NumberQuestion); // tim cau hoi
-		MaxPage = (NumberQuestion - 1) / 10 + 1;
 		if (NumberQuestion == 0)
 		{
 			THONGBAO(0, "KHONG CO CAU HOI");
-			Sleep(2000);
+			Sleep(1000);
 			return 0;
 		}
 		else
@@ -966,8 +967,11 @@ int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc) // thi
 				case 16:
 				{
 					ThemCauHoi(root, monHoc.maMonHoc, monHoc.tenMonHoc);
+					delete []ListQuestion;
+					ListQuestion = new STreeCH[NumberQuestion+1];
 					NumberQuestion = 0;
-					stop = 1;
+					PreTraversal(ListQuestion, root, monHoc.maMonHoc, NumberQuestion); // tim cau hoi
+					stop = 1,MaxPage = (NumberQuestion - 1) / 10 + 1;
 					break;
 				}
 				case 19: // XEM CAU HOI
@@ -980,7 +984,13 @@ int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc) // thi
 						chon = getch();
 						if (chon == ENTER)
 						{
-							XemCauHoi(root, ListQuestion[i], monHoc.tenMonHoc);
+							if(XemCauHoi(root, ListQuestion[i], monHoc.tenMonHoc)==1)
+							{
+								NumberQuestion = 0;
+								PreTraversal(ListQuestion, root, monHoc.maMonHoc, NumberQuestion);
+								MaxPage = (NumberQuestion - 1) / 10 + 1;
+								if(Page>MaxPage)Page=MaxPage;
+							}
 							stop = 1;
 							break;
 						}
@@ -1081,6 +1091,7 @@ int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc) // thi
 			}
 		}
 	}
+	delete[] ListQuestion;
 }
 void Tim_End_Start(STreeCH List[], int NOE[], int &start, int &end, int lanthi, int NumberQuestion, int NumberofExams)
 {
@@ -1094,11 +1105,22 @@ void Tim_End_Start(STreeCH List[], int NOE[], int &start, int &end, int lanthi, 
 		end = NOE[lanthi] - 1;
 	}
 }
-void ThanhChucNang()
+void ThanhChucNang(int option)
 {
 	VeKhung(5, 34, 115, 36);
 	gotoxy(6, 35);
-	cout << "ESC: THOAT  F1: XEM LAN THI  F5: TIM CAU HOI   ENTER: CHON   <-: LUI TRANG   ->: TRANG MOI   " << char(30) << ": LEN   " << char(31) << ":XUONG";
+	switch (option)
+	{
+	case 1:
+	{
+		cout << "ESC: THOAT  F1: XEM LAN THI  F5:TIM CAU HOI  ENTER: CHON  <-: LUI TRANG  ->: TRANG MOI  " << char(30) << ":LEN  " << char(31) << ":XUONG ";
+		break;
+	}
+	case 2:
+	{
+		cout << "ESC: THOAT    F5:TIM CAU HOI     ENTER: CHON     <-: LUI TRANG      ->: TRANG MOI    " << char(30) << ": LEN   " << char(31) << ": XUONG ";
+	}
+	}
 }
 bool TimCauHoi(STreeCH List[], char YourAnswer[], int start, int &end)
 {
@@ -1106,10 +1128,10 @@ bool TimCauHoi(STreeCH List[], char YourAnswer[], int start, int &end)
 	char *address = NULL;
 	VeKhung(5, 30, 115, 33);
 	gotoxy(6, 31);
-	cout << "NHAP NOI DUNG";
+	cout << "NHAP NOI DUNG |";
 	gotoxy(6, 32);
-	cout << "CAN TIM";
-	content = NhapChuoi(21, 31, 188);
+	cout << "  CAN TIM     |";
+	content = NhapChuoi(21, 31, 94);
 	STreeCH ptr;
 	int temp = start;
 	for (int i = start; i <= end; i++)
@@ -1135,9 +1157,10 @@ bool TimCauHoi(STreeCH List[], char YourAnswer[], int start, int &end)
 }
 void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[], int LANTHI)
 {
-	STreeCH List[500];
 	int NOE[10], NumberQuestion = 0, NumberOfExams = 0;
-	char YourAnswer[500];
+	NumberQuestion = demSoCauDaThi(monHoc, MSSV);
+	STreeCH List[NumberQuestion];
+	char YourAnswer[NumberQuestion];
 	docCauHoiDaThi(root, List, NOE, YourAnswer, monHoc, NumberQuestion, NumberOfExams, MSSV);
 	if (NumberQuestion == 0)
 	{
@@ -1146,17 +1169,21 @@ void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[], int LANTHI)
 	}
 
 	int MaxPage, Page, start, end, wherey, chon, LanThi = NumberOfExams;
-	if (LANTHI >= 0)
-		Tim_End_Start(List, NOE, start, end, LANTHI, NumberQuestion, NumberOfExams);
+	if (LANTHI > 0)
+		LanThi = LANTHI;
 	else
-		Tim_End_Start(List, NOE, start, end, NumberOfExams, NumberQuestion, NumberOfExams); // hien lan cuoi
-	MaxPage = (end - start) / 10 + 1, Page = 1;												//(end-start+1)=số câu
+		LanThi = NumberOfExams;
+	Tim_End_Start(List, NOE, start, end, LanThi, NumberQuestion, NumberOfExams); // hien lan cuoi
+	MaxPage = (end - start) / 10 + 1, Page = 1;									 //(end-start+1)=số câu
 
 	InDanhSachCH(List, monHoc.maMonHoc, start, (end > start + 9 ? start + 9 : end), Page, MaxPage);
 	// start<=i<=end
 	for (int index = start, wherey = 10; true;)
 	{
-		ThanhChucNang();
+		if (LANTHI == 0)
+			ThanhChucNang(1);
+		else
+			ThanhChucNang(2);
 		gotoxy(48, 3);
 		cout << "LAN THI THU:" << LanThi;
 		gotoxy(3, wherey);
@@ -1202,7 +1229,7 @@ void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[], int LANTHI)
 			case F1:
 			{
 
-				if (LANTHI >= 0)
+				if (LANTHI > 0)
 					break;
 				VeKhung(5, 30, 38, 32);
 				gotoxy(6, 31);
@@ -1222,12 +1249,13 @@ void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[], int LANTHI)
 			}
 			case F5:
 			{
-				Tim_End_Start(List, NOE, start, end, NumberOfExams, NumberQuestion, NumberOfExams);
+				Tim_End_Start(List, NOE, start, end, LanThi, NumberQuestion, NumberOfExams);
 				if (TimCauHoi(List, YourAnswer, start, end) == false)
 				{
 					THONGBAO(1, "KHONG TIM THAY CAU HOI");
 					break;
 				}
+				wherey = 10;
 				index = start;
 				MaxPage = (end - start) / 10 + 1, Page = 1;
 				InDanhSachCH(List, monHoc.maMonHoc, start, (end > start + 9 ? start + 9 : end), Page, MaxPage);
@@ -2185,13 +2213,6 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 			{
 			case ESC:
 				return;
-			case F1:
-			{
-				if (is_SV)
-					break;
-				THONGBAO(1, "HIEN DSMH");
-			}
-			break;
 			case ENTER:
 			{
 				if (is_SV)
@@ -2317,6 +2338,9 @@ void HienDiemThi(STreeCH root, MonHoc monHoc, SinhVien &data, int numOfScores)
 				return;
 			case ENTER:
 				InCauHoiDaThi(root, monHoc, data.MSSV, numOfSubScores - index);
+				HienDiemTheoLanThi(temp, numOfSubScores, page, maxPage);
+				gotoxy(2, 9 + (index % 10 + 1) * 2);
+				cout << ">>";
 			}
 		}
 	}
@@ -2859,6 +2883,7 @@ bool XoaLopHoc(ListLH &dslh, LopHoc **lh, int index)
 		if (lh[index] == dslh.lh[i])
 			break;
 	removeLopHocFolder(lh[index]->maLop);
+	removeLopHocFile(lh[index]->maLop);
 	XoaLop(dslh, i);
 	for (int j = index; j < MaxOfClasses - 1; j++)
 		lh[j] = lh[j + 1];
@@ -3611,7 +3636,7 @@ bool THEMSINHVIEN(ListLH &dslh, ListMH dsmh, STreeCH root)
 		else if (strcmp(temp.maLop, "F1") == 0) // F1 = chon lop theo dslh
 		{
 			strcpy(temp.maLop, MENU_DSLH_GV(dslh, dsmh, root, 1).c_str());
-			if(strcmp(temp.maLop, "EXIT") != 0)
+			if (strcmp(temp.maLop, "EXIT") != 0)
 				check++;
 			system("cls");
 			VeKhung(5, 5, 75, 7);

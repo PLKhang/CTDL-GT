@@ -71,9 +71,9 @@ int HienOptionMonHoc(bool check = 0);
 int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc);
 void InCauHoiThi(STreeCH &Question, char so_cau_dung[], int i, int so_cau);
 void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[]);
-void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[]);
+int XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[]);
 void InDanhSachCH(STreeCH *ListQuestion, char maMH[], int start, int end, int Page, int MaxPage);
-void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[], int LANTHI = -1);
+void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[], int LANTHI = 0);
 void Tim_End_Start(STreeCH List[], int NOE[], int &start, int &end, int lanthi, int NumberQuestion, int NumberofExams);
 void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh);
 
