@@ -2179,13 +2179,6 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 			{
 			case ESC:
 				return;
-			case F1:
-			{
-				if (is_SV)
-					break;
-				THONGBAO(1, "HIEN DSMH");
-			}
-			break;
 			case ENTER:
 			{
 				if (is_SV)
@@ -2311,6 +2304,9 @@ void HienDiemThi(STreeCH root, MonHoc monHoc, SinhVien &data, int numOfScores)
 				return;
 			case ENTER:
 				InCauHoiDaThi(root, monHoc, data.MSSV, numOfSubScores - index);
+				HienDiemTheoLanThi(temp, numOfSubScores, page, maxPage);
+				gotoxy(2, 9 + (index % 10 + 1) * 2);
+				cout << ">>";
 			}
 		}
 	}
@@ -3605,7 +3601,7 @@ bool THEMSINHVIEN(ListLH &dslh, ListMH dsmh, STreeCH root)
 		else if (strcmp(temp.maLop, "F1") == 0) // F1 = chon lop theo dslh
 		{
 			strcpy(temp.maLop, MENU_DSLH_GV(dslh, dsmh, root, 1).c_str());
-			if(strcmp(temp.maLop, "EXIT") != 0)
+			if (strcmp(temp.maLop, "EXIT") != 0)
 				check++;
 			system("cls");
 			VeKhung(5, 5, 75, 7);
