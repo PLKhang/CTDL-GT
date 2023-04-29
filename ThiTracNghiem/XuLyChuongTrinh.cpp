@@ -654,7 +654,7 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 }
 void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 {
-	int answer = 0, ki_tu;
+	char answer = 0, ki_tu;
 	STreeCH NewQuestion = newnode();
 
 	NewQuestion->info.ID = ReadID();
@@ -695,6 +695,7 @@ void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 	do
 	{
 		ki_tu = getch();
+		ki_tu=toupper(ki_tu);
 		if (ki_tu == ENTER && answer >= 'A' && answer <= 'D')
 			break;
 		if (ki_tu == 224 || ki_tu == 0)
@@ -801,16 +802,17 @@ void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 						}
 						case 25:
 						{
-							int ki_tu, answer; // viet ham nhap dap an
+							char ki_tu, answer='\0'; // viet ham nhap dap an
 							while (1)
 							{
 								ki_tu = getch();
+								ki_tu=toupper(ki_tu);
 								if (ki_tu == ENTER && answer >= 'A' && answer <= 'D')
 									break;
 								if (ki_tu >= 'A' && ki_tu <= 'D')
 								{
 									gotoxy(21, 25);
-									cout << ki_tu;
+									cout << char(ki_tu);
 									answer = ki_tu;
 								}
 							}
@@ -935,7 +937,11 @@ int MENU_DSCH_GV(STreeCH &root, MonHoc monHoc) // thi
 		PreTraversal(ListQuestion, root, monHoc.maMonHoc, NumberQuestion); // tim cau hoi
 		MaxPage = (NumberQuestion - 1) / 10 + 1;
 		if (NumberQuestion == 0)
+		{
 			THONGBAO(0, "KHONG CO CAU HOI");
+			Sleep(2000);
+			return 0;
+		}
 		else
 		{
 			InDanhSachCH(ListQuestion, monHoc.maMonHoc, (Page - 1) * 10, (Page * 10 < NumberQuestion ? Page * 10 - 1 : NumberQuestion - 1), Page, MaxPage);
@@ -1092,7 +1098,7 @@ void ThanhChucNang()
 {
 	VeKhung(5, 34, 115, 36);
 	gotoxy(6, 35);
-	cout << "ESC: THOAT     F1: XEM LAN THI   F5:TIM CAU HOI   ENTER: CHON   <-: LUI TRANG    ->: TRANG MOI    " << char(30) << ":LEN      " << char(31) << ":XUONG ";
+	cout << "ESC: THOAT  F1: XEM LAN THI  F5: TIM CAU HOI   ENTER: CHON   <-: LUI TRANG   ->: TRANG MOI   " << char(30) << ": LEN   " << char(31) << ":XUONG";
 }
 bool TimCauHoi(STreeCH List[], char YourAnswer[], int start, int &end)
 {
