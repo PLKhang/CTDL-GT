@@ -654,7 +654,7 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 }
 void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 {
-	int answer = 0, ki_tu;
+	char answer = 0, ki_tu;
 	STreeCH NewQuestion = newnode();
 
 	NewQuestion->info.ID = ReadID();
