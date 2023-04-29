@@ -35,6 +35,7 @@ void setCursorVisibility(bool isVisible);
 
 bool createLopHocFolder(string maLH);
 bool removeLopHocFolder(string maLH);
+bool removeLopHocFile(string maLH);
 bool removeSinhVienFile(string maLH, string mssv);
 
 /*
