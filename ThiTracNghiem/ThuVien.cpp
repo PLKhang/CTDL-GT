@@ -575,6 +575,15 @@ bool removeLopHocFolder(string maLH)
         return 1;
     return 0;
 }
+bool removeLopHocFile(string maLH)
+{
+    string filePath = "Data/DanhSachSinhVien/" + maLH + ".txt";
+    string command = "rm " + filePath;
+    int status = system(command.c_str());
+    if (status == 0)
+        return 1;
+    return 0;
+}
 bool removeSinhVienFile(string maLH, string mssv)
 {
     string filePath = "Data/DanhSachSinhVien/DanhSachDiemThi/" + maLH + '/' + mssv + ".txt";

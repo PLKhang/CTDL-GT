@@ -2849,6 +2849,7 @@ bool XoaLopHoc(ListLH &dslh, LopHoc **lh, int index)
 		if (lh[index] == dslh.lh[i])
 			break;
 	removeLopHocFolder(lh[index]->maLop);
+	removeLopHocFile(lh[index]->maLop);
 	XoaLop(dslh, i);
 	for (int j = index; j < MaxOfClasses - 1; j++)
 		lh[j] = lh[j + 1];
