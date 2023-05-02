@@ -453,7 +453,7 @@ bool delete_After_DT(PtrDT p)
 }
 bool delete_List_DT(PtrDT &first)
 {
-    while (first != NULL)
+	while(!is_Empty_DT(first))
         if (!delete_First_DT(first))
             return 0;
     return 1;
@@ -573,10 +573,12 @@ bool delete_After_SV(PtrSV p)
     delete q;
     return 1;
 }
-void delete_List_SV(PtrSV &first)
+bool delete_List_SV(PtrSV &first)
 {
     while (!is_Empty_SV(first))
-        delete_First_SV(first);
+        if (!delete_First_SV(first))
+            return 0;
+    return 1;
 }
 PtrDT set_Blank_dsDT_SV(ListMH dsmh)
 {

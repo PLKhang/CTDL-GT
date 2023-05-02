@@ -252,7 +252,7 @@ bool insert_Order_SV(PtrSV &first, SinhVien sv);
 //+ xoa dsDT trong cac node
 bool delete_First_SV(PtrSV &first);
 bool delete_After_SV(PtrSV p);
-void delete_List_SV(PtrSV &first);
+bool delete_List_SV(PtrSV &first);
 // tao dsDT cho sv moi va cho tat ca diem thi = -1(chua thi)
 PtrDT set_Blank_dsDT_SV(ListMH dsmh);
 

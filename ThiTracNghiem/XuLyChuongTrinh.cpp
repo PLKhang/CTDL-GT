@@ -695,7 +695,7 @@ void ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 	do
 	{
 		ki_tu = getch();
-		ki_tu=toupper(ki_tu);
+		ki_tu = toupper(ki_tu);
 		if (ki_tu == ENTER && answer >= 'A' && answer <= 'D')
 			break;
 		if (ki_tu == 224 || ki_tu == 0)
@@ -802,11 +802,11 @@ void XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 						}
 						case 25:
 						{
-							char ki_tu, answer='\0'; // viet ham nhap dap an
+							char ki_tu, answer = '\0'; // viet ham nhap dap an
 							while (1)
 							{
 								ki_tu = getch();
-								ki_tu=toupper(ki_tu);
+								ki_tu = toupper(ki_tu);
 								if (ki_tu == ENTER && answer >= 'A' && answer <= 'D')
 									break;
 								if (ki_tu >= 'A' && ki_tu <= 'D')
@@ -1222,12 +1222,13 @@ void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[], int LANTHI)
 			}
 			case F5:
 			{
-				Tim_End_Start(List, NOE, start, end, NumberOfExams, NumberQuestion, NumberOfExams);
+				Tim_End_Start(List, NOE, start, end, LanThi, NumberQuestion, NumberOfExams);
 				if (TimCauHoi(List, YourAnswer, start, end) == false)
 				{
 					THONGBAO(1, "KHONG TIM THAY CAU HOI");
 					break;
 				}
+				wherey = 10;
 				index = start;
 				MaxPage = (end - start) / 10 + 1, Page = 1;
 				InDanhSachCH(List, monHoc.maMonHoc, start, (end > start + 9 ? start + 9 : end), Page, MaxPage);
@@ -2826,27 +2827,15 @@ bool ThemLopHoc(ListLH &dslh, int check, string maLH)
 			check++;
 	}
 
-	char ch;
-	while (1)
+	if (THONGBAO(3, "LUU LOP HOC?"))
 	{
-		ch = getch();
-		switch (ch)
-		{
-		case ENTER:
-		{
-			TextColor(0);
-			createLopHocFolder(temp.maLop);
-			TextColor(7);
-			ThemLop(dslh, temp);
-			return 1;
-		}
-		case ESC:
-		{
-			if (THONGBAO(3, "HUY THAO TAC?"))
-				return 0;
-		}
-		}
+		TextColor(0);
+		createLopHocFolder(temp.maLop);
+		TextColor(7);
+		ThemLop(dslh, temp);
+		return 1;
 	}
+	return 0;
 }
 bool XoaLopHoc(ListLH &dslh, LopHoc **lh, int index)
 {
@@ -3167,7 +3156,7 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 				{
 					int i;
 					for (i = 0; i < dslh.n; i++)
-						if (dslh.lh[i] = temp[index])
+						if (dslh.lh[i] == temp[index])
 							break;
 					MENU_DSSV_GV(dslh, i, dsmh, root);
 				}
