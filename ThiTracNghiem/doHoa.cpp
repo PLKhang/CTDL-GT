@@ -681,5 +681,67 @@ void ThanhChucNang(int option)
 		cout << "ESC:THOAT          ENTER:CHON          <-: LUI TRANG           ->: TRANG MOI         " << char(30) << ":LEN           " << char(31) << ":XUONG ";
 		break;
 	}
+	case 5: // menu_dslh_gv
+	{
+		cout << "ESC: THOAT   F1: TIM LOP   F5: SAP XEP    PgUp/PgDn: DOI TRANG      < / > / " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: XEM LOP";
+		break;
+	}
+	case 6: // menu_dslh_gv (selection mode)
+	{
+		cout << "ESC: THOAT   F1: TIM LOP   F5: SAP XEP    PgUp/PgDn: DOI TRANG                 " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: CHON";
+		break;
+	}
+	case 7: // menu_dssv_gv
+	{
+		cout << "ESC: THOAT   F1: TIM SV    F5: SAP XEP    PgUp/PgDn: DOI TRANG     < / > / " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: XEM DIEM";
+		break;
+	}
+	case 8: // menu_dssv_gv (selection mode)
+	{
+		cout << "ESC: THOAT   F1: TIM SV    F5: SAP XEP    PgUp/PgDn: DOI TRANG                 " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: CHON";
+		break;
+	}
+	case 9: // menu_dsmh_gv
+	{
+		cout << "ESC: THOAT   F1: TIM MON      PgUp/PgDn: DOI TRANG         < / > / " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: XEM DSCH CUA MON";
+		break;
+	}
+	case 10: // menu_dsmh (selection mode)
+	{
+		delete_AreaOnScreen(5, 34, 111, 3);
+		VeKhung(5, 34, 90, 36);
+		gotoxy(6, 35);
+		cout << "ESC: THOAT   F1: TIM MON      PgUp/PgDn: DOI TRANG    " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: CHON";
+		break;
+	}
+	case 11: // THEMSINHVIEN
+	{
+		delete_AreaOnScreen(5, 34, 111, 3);
+		VeKhung(5, 34, 90, 36);
+		gotoxy(6, 35);
+		cout << "ESC: THOAT   F1: CHON LOP                                              ENTER: CHON";
+		break;
+	}
+	case 12: // menu_dsdt_gv
+	{
+		delete_AreaOnScreen(5, 34, 111, 3);
+		VeKhung(5, 34, 90, 36);
+		gotoxy(6, 35);
+		cout << "ESC: THOAT        PgUp/PgDn: DOI TRANG        " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: XEM CHI TIET";
+		break;
+	}
+	case 13: // menu_dsdt_gv (case: SV)
+	{
+		cout << "ESC: THOAT                                PgUp/PgDn: DOI TRANG                               " << char(30) << " / " << char(31) << ": DI CHUYEN";
+		break;
+	}
+	case 14: // dsdt theo lan thi
+	{
+		delete_AreaOnScreen(5, 34, 111, 3);
+		VeKhung(5, 34, 90, 36);
+		gotoxy(6, 35);
+		cout << "ESC: THOAT        PgUp/PgDn: DOI TRANG        " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: XEM DSCH THI";
+		break;
+	}
 	}
 }

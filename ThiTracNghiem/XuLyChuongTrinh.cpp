@@ -1790,6 +1790,7 @@ void HienDanhSachSinhVien(PtrSV *data, string tenLop, int page, int maxPage, int
 		}
 		count++;
 	}
+	types == 2 ? ThanhChucNang(8) : ThanhChucNang(7);
 	gotoxy(116, 29);
 	cout << "Page " << page << '/' << maxPage;
 }
@@ -2482,6 +2483,7 @@ void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, strin
 		cout << setprecision(2) << fixed << data[i]->info.diemThi;
 		count++;
 	}
+	ThanhChucNang(12);
 	gotoxy(91, 29);
 	cout << "Page " << page << '/' << maxPage;
 }
@@ -2505,6 +2507,7 @@ void HienDiemTheoLanThi(PtrDT *data, int numOfScore, int page, int maxPage)
 		cout << setprecision(2) << fixed << data[i]->info.diemThi;
 		count++;
 	}
+	ThanhChucNang(14);
 	gotoxy(91, 29);
 	cout << "Page " << page << '/' << maxPage;
 }
@@ -2980,6 +2983,7 @@ void HienDanhSachLopHoc(LopHoc **data, int numOfClasses, int page, int maxPage, 
 		cout << data[index]->nienKhoa;
 		count++;
 	}
+	types ? ThanhChucNang(6) : ThanhChucNang(5);
 	gotoxy(116, 29);
 	cout << "Page " << page << '/' << maxPage;
 }
@@ -3427,6 +3431,7 @@ void HienDanhSachMonHoc(ListMH dsmh, int page, int maxPage, bool selectMode)
 		cout << dsmh.nodes[i].tenMonHoc;
 		count++;
 	}
+	selectMode ? ThanhChucNang(10) : ThanhChucNang(9);
 	gotoxy(91, 29);
 	cout << "Page " << page << '/' << maxPage;
 }
@@ -3654,6 +3659,7 @@ bool THEMSINHVIEN(ListLH &dslh, ListMH dsmh, STreeCH root)
 	cout << "NHAP MA LOP    : ";
 	gotoxy(6, 9);
 	cout << "NHAP SO LUONG  : ";
+	ThanhChucNang(11);
 	LopHoc temp;
 	LopHoc *lopHoc;
 	int num = 0;
@@ -3676,6 +3682,7 @@ bool THEMSINHVIEN(ListLH &dslh, ListMH dsmh, STreeCH root)
 			cout << "NHAP MA LOP    : " << temp.maLop;
 			gotoxy(6, 9);
 			cout << "NHAP SO LUONG  : ";
+			ThanhChucNang(11);
 		}
 		else if (is_Existed_MaLop(dslh, temp.maLop))
 			check++;
