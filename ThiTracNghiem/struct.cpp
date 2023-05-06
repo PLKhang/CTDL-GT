@@ -674,20 +674,12 @@ int XoaLop(ListLH &ListLH, int pos)
     ListLH.n--;
     return 1;
 }
-// int delete_LH(ListLH &dslh, int pos)
-//{
-// if(is_Empty(dslh))
-// return 0;
-// if(pos >= dslh.n || p < 0)
-// return -1;
-// LopHoc *P = &dslh.nodes[pos];
-// for(int i = p; i < n; i++)
-// dslh.nodes[i] = dslh.nodes[i + 1];
-// delete_List_SV(P.danhSachSinhVien);
-// delete P;
-// dslh.n--;
-// return 1;
-//  }
+void Delete_DSLH(ListLH &dslh) {
+    for (int i = dslh.n; i > 0; i--) {
+        XoaLop(dslh, i);
+    }
+    delete[] dslh.lh;
+}
 void SuaLop(ListLH &ListLH, int i, LopHoc lh)
 {
     if (i < 0 || i >= ListLH.n || ListLH.n == 0)

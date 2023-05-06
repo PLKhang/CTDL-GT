@@ -13,9 +13,9 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root);
 
 int KiemTraTK(string Name, string Password);
 string DANGNHAP();
-int MENU_GV(ListMH &dsmh, ListLH &dslh, STreeCH &root);
+int MENU_GV();
 // login: SV
-int MENU_SV(STreeCH root, ListMH dsmh, string maLop, PtrSV &p);
+int MENU_SV();
 
 //------------------------LOP HOC----------------------------
 // types: 0-> quan ly dslh, 1->chon lop hoc->return "maLop"
@@ -47,10 +47,10 @@ void SortDSSV(PtrSV *data, int n, bool &check);
 //-------------------------DIEM THI--------------------------
 // types:  0->co the chinh sua diem thi, 1->chi xem diem
 void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool types = 0);
-void HienDiemThi(STreeCH root, MonHoc monHoc, SinhVien &data, int numOfScores);
-bool ThemDiemThi(PtrDT &dsdt, PtrDT *data, ListMH dsmh, STreeCH root);
-bool XoaDiemThi(PtrDT &dsdt, PtrDT *data, int index);
-bool HieuChinhDiemThi(PtrDT *data, int index, int line);
+bool HienDiemThi(STreeCH root, MonHoc monHoc, SinhVien &data);
+// bool ThemDiemThi(PtrDT &dsdt, PtrDT *data, ListMH dsmh, STreeCH root);
+// bool XoaDiemThi(PtrDT &dsdt, PtrDT *data, int index);
+// bool HieuChinhDiemThi(PtrDT *data, int index, int line);
 
 void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, string ten, int numOfSubs, int page, int maxPage);
 void HienDiemTheoLanThi(PtrDT *data, int numOfScores, int page, int maxPage);

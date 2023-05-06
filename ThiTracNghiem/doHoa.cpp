@@ -743,5 +743,14 @@ void ThanhChucNang(int option)
 		cout << "ESC: THOAT        PgUp/PgDn: DOI TRANG        " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: XEM DSCH THI";
 		break;
 	}
+	case 15: // menu_GV // menu_SV
+		delete_AreaOnScreen(5, 34, 111, 3);
+		VeKhung(30, 34, 115, 36);
+		gotoxy(31, 35);
+		cout << "ESC: THOAT                       " << char(30) << " / " << char(31) << ": DI CHUYEN                     ENTER: CHON";
+		break;
+	case 16: // login
+		break;
+
 	}
 }
