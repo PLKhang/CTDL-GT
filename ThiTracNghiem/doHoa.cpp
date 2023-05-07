@@ -661,6 +661,11 @@ void ThanhChucNang(int option)
 	gotoxy(6, 35);
 	switch (option)
 	{
+	case 0:
+	{
+		cout << "  ESC: DUNG THI(NOP BAI)     ENTER: CHON DAP AN     <-: CAU TRUOC     ->: CAU SAU     " << char(30) << ":LEN     " << char(31) << ":XUONG ";
+		break;
+	}
 	case 1:
 	{
 		cout << "ESC: THOAT   F1: XEM LAN THI    F5:TIM CAU HOI   ENTER: CHON   <-: LUI TRANG  ->: TRANG MOI  " << char(30) << ":LEN  " << char(31) << ":XUONG ";

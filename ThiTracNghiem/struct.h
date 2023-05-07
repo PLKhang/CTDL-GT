@@ -69,6 +69,69 @@ public:
     }
     int GetNumber() { return number; }
 };
+template<typename T>struct Array
+{
+    private:
+        T *ptr;
+        int number;
+        int index_last;
+    public:
+        Array()
+        {
+            ptr=NULL;
+            number=0;
+            index_last=-1;
+        }
+        Array(int number_in)
+        {
+            ptr=new T[number_in];
+            number=number_in;
+            index_last=-1;
+        }
+        int GetIndexLast(){return index_last;}
+        T& operator[](int i)
+        {
+            return ptr[i];
+        }
+
+        void push(T New)
+        {
+            if (index_last == number - 1) {
+                T* temp;
+                temp = new T[number + 10]; // tạo mảng mới 
+                for (int i = 0; i < number; i++) {
+                    temp[i] = ptr[i];
+                }
+                temp[index_last + 1] = New;
+                delete[] ptr; // xóa mảng cũ
+                ptr = temp; // gán con trỏ vào mảng mới
+                index_last++;
+                number+=10;
+            }
+            else {
+                ptr[++index_last] = New;
+            }
+        }
+
+        void erase(int i)
+        {
+            if (i < 0 || i > index_last)
+               return;
+            if (i == index_last) {
+                index_last--;
+                return;
+            }
+            for (int k = i; k < index_last; k++) {
+                ptr[k] = ptr[k + 1];
+            }
+            index_last--;
+        }
+
+        void destroy()
+        {
+            delete []ptr;
+        }
+};
 //------------------------------------------------//
 struct MonHoc
 {
@@ -204,14 +267,16 @@ int DeleteQuestion_maMH(STreeCH &root, char maMH[]);
 void DeleteRoot(STreeCH &root);
 int Repare(STreeCH root, CauHoi question); // dung con tro tro truc tiep toi nen khong dung
 // duyet tim cau hoi theo ma mon
-void InTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count);
+void InTraversal(Array<STreeCH>&AllQuestions, STreeCH root, char maMH[]);
 void PreTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count);
 // random cau hoi va tra ve con tro streech
 STreeCH *GetQuestion(STreeCH &root, char maMH[], int number_question, int tong_so_cau_hoi);
 // dem so cau hoi cua mon do
 int DemSoCauHoi(STreeCH root, char maMH[]);
 // tim cau hoi theo ID
-void TimCauHoiDaThi(STreeCH root, STreeCH list[], int ID, int count);
+void TimCauHoiDaThi(STreeCH root, Array<STreeCH>&list, int ID);
+//sap xep theo id
+void Sort(Array<STreeCH>&Arr,int first,int last);
 //-------------------DiemThi------------------//
 
 void KhoiTao_PtrDT(PtrDT &First);

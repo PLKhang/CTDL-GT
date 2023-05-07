@@ -290,14 +290,14 @@ int Repare(STreeCH root, CauHoi question)
     return 0;
 }
 //--------LAY CAU HOI--------
-void InTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count)
+void InTraversal(Array<STreeCH>&AllQuestions, STreeCH root, char maMH[])
 {
     if (root != NULL)
     {
-        InTraversal(AllQuestions, root->left, maMH, count);
+        InTraversal(AllQuestions, root->left, maMH);
         if (strcmp(root->info.maMonHoc, maMH) == 0)
-            AllQuestions[count++] = root;
-        InTraversal(AllQuestions, root->right, maMH, count);
+            AllQuestions.push(root);
+        InTraversal(AllQuestions, root->right, maMH);
     }
 }
 void PreTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count)
@@ -341,14 +341,14 @@ int DemSoCauHoi(STreeCH root, char maMH[])
     else
         return 0;
 }
-void TimCauHoiDaThi(STreeCH root, STreeCH list[], int ID, int i)
+void TimCauHoiDaThi(STreeCH root, Array<STreeCH>&list, int ID)
 {
     STreeCH temp = root;
     while (temp != NULL)
     {
         if (temp->info.ID == ID)
         {
-            list[i] = temp;
+            list.push(temp);
             break;
         }
         else if (temp->info.ID > ID)
@@ -356,6 +356,26 @@ void TimCauHoiDaThi(STreeCH root, STreeCH list[], int ID, int i)
         else
             temp = temp->right;
     }
+}
+void Sort(Array<STreeCH>&Arr,int first,int last)
+{
+    int mid,i,j;
+    STreeCH temp;
+    mid=(first+last)/2,i=first,j=last;
+    do
+    {
+        while(Arr[i]->info.ID<Arr[mid]->info.ID)i++;
+        while(Arr[j]->info.ID>Arr[mid]->info.ID)j--;
+        if(i<=j)
+        {
+            temp=Arr[i];
+            Arr[i]=Arr[j];
+            Arr[j]=temp;
+            i++;j--;
+        }
+    }while(i<=j);
+    if(i<last)Sort(Arr,i,last);
+    if(j>first)Sort(Arr,first,j);
 }
 //---------------------------DiemThi--------------------------//
 void KhoiTao_PtrDT(PtrDT &first)

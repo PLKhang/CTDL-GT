@@ -526,7 +526,7 @@ int doc_danhSachCauHoi(STreeCH &dsch)
     docfile.close();
     return 1;
 }
-int docCauHoiDaThi(STreeCH root, STreeCH List[], int NOE[], char Answer[], MonHoc MH, int &NumberQuestion, int &NumberOfExams, char MSSV[])
+int docCauHoiDaThi(STreeCH root, Array<STreeCH>&List, int NOE[], char Answer[], MonHoc MH, int &NumberQuestion, int &NumberOfExams, char MSSV[])
 {
     ifstream docfile(("Data/DanhSachSinhVien/DanhSachCauHoiThi/" + string(MSSV) + ".txt").data());
     if (!docfile.is_open())
@@ -547,8 +547,7 @@ int docCauHoiDaThi(STreeCH root, STreeCH List[], int NOE[], char Answer[], MonHo
                 docfile.ignore();
                 docfile >> Answer[i];
                 docfile.ignore();
-                // TimCauHoiDaThi(root, list, ID[i], count);
-                TimCauHoiDaThi(root, List, ID, i);
+                TimCauHoiDaThi(root, List, ID);
             }
             NumberQuestion += temp;
         }
