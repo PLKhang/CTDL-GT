@@ -8,6 +8,9 @@ int main()
 	STreeCH root = NULL;
 	MainProcessing(dsmh, dslh, root);
 	
+	DeleteRoot(root);
+	Delete_DSLH(dslh);
+	
 	gotoxy(0, 40);
 	cout << "End of program\n";
 	return 0;
