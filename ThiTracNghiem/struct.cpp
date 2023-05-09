@@ -103,63 +103,78 @@ void Insert(ID *&tree, int data)
     else
         return;
 }
-int InsertToBalance(ID *&root, int min, int max, ofstream &file)
+int InsertToBalance(ID *&root, int min, int max,int &temp,ofstream &file)
 {
     if (root == NULL)
     {
         Insert(root, (min + max) / 2);
-        file << (min + max) / 2 << endl;
+        temp=(min+max)/2;
+        //file << (min + max) / 2 << endl;
+        file.write(reinterpret_cast<char *>(&temp),sizeof(int));
     }
     else
     {
         if (numNode(root->left) == numNode(root->right))
         {
             max = root->id;
-            InsertToBalance(root->left, min, max, file);
+            InsertToBalance(root->left, min, max,temp, file);
         }
         else
         {
             min = root->id;
-            InsertToBalance(root->right, min, max, file);
+            InsertToBalance(root->right, min, max,temp, file);
         }
+    }
+}
+void DeleteAllID(ID*root)
+{
+    if(root!=NULL)
+    {
+        DeleteAllID(root->left);
+        DeleteAllID(root->right);
+        delete root;
     }
 }
 void TaoFileID()
 {
     createID root = NULL;
-    int n = 14;
-    ofstream file("Data/KeyID.txt");
-    file << 1 << endl;
+    int n = 14,temp=1;
+    ofstream file("Data/KeyID.bin");
+    //file << 1 << endl;
+    file.write(reinterpret_cast<char*>(&temp),sizeof(int));
     for (int i = 1; i <= pow(2, n) - 1; i++)
-        InsertToBalance(root, 1, pow(2, n), file); // lay can duoi
+        InsertToBalance(root, 1, pow(2, n),temp, file); // lay can duoi
+    DeleteAllID(root);
     file.close();
 }
 int ReadID()
 {
-    fstream temp1("Data/KeyID.txt", ios::in | ios::out);
+    fstream temp1("Data/KeyID.bin", ios::binary|ios::in | ios::out);
     if (!temp1.is_open())
     {
         TaoFileID();
     }
     temp1.close();
-    int number, temp;
-    fstream docID("Data/KeyID.txt", ios::in | ios::out);
-    docID >> number;
-    for (int i = 1; i <= number; i++)
-    {
-        docID >> temp;
-    }
+    int number, ID;
+    fstream docID("Data/KeyID.bin", ios::binary|ios::in | ios::out);
+    //docID >> number;
+    docID.read(reinterpret_cast<char *>(&number),sizeof(int));
+    docID.seekg(number*sizeof(int),ios::beg);
+    docID.read(reinterpret_cast<char *>(&ID),sizeof(int)); 
+    ++number;
     docID.seekp(ios::beg);
-    docID << ++number;
-    return temp;
+    docID.write(reinterpret_cast<char*>(&number),sizeof(int));
+    return ID;
 }
 void RestoreID()
 {
     int number;
-    fstream docID("Data/KeyID.txt", ios::in | ios::out);
-    docID >> number;
+    fstream docID("Data/KeyID.bin", ios::in | ios::out);
+    //docID >> number;
+    docID.read(reinterpret_cast<char*>(&number),sizeof(int));
     docID.seekp(ios::beg);
-    docID << --number;
+    --number;
+    docID.write(reinterpret_cast<char*>(&number),sizeof(int));
     docID.close();
 }
 STreeCH newnode()
@@ -218,9 +233,13 @@ int DeleteQuestion(STreeCH &root, STreeCH &Question)
     {
         if (root != Question) // truong hop Question khong phai la nut cuoi
         {
+            cout<<Question->info.ID<<" "<<root->info.ID<<endl;
+            cin.ignore();
             int ID = Question->info.ID;
             Question->info = root->info;
             Question->info.ID = ID;
+            cout<<Question->info.ID<<" "<<root->info.ID;
+            cin.ignore();
         }
         delete root; // xóa nút cuối cùng đươc thêm
         root = NULL; // là nút cuối cùng được thêm vào

@@ -23,7 +23,7 @@ int wherex(void);
 int wherey(void);
 void SetColor(int backgound_color, int text_color);
 char GetKey();
-string NhapChuoi(int x, int y, int chieudai);
+string NhapChuoi(int x, int y, int chieudai,int option=0);
 string NhapMa(int x, int y, int chieudai = 20, string = "");
 double NhapSo(int x, int y, int soluong);
 // kiem tra neu mang ky tu rong

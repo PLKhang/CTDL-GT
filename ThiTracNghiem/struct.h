@@ -112,7 +112,10 @@ template<typename T>struct Array
                 ptr[++index_last] = New;
             }
         }
-
+        void clear()
+        {
+            index_last=-1;
+        }
         void erase(int i)
         {
             if (i < 0 || i > index_last)

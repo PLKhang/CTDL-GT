@@ -59,13 +59,20 @@ char GetKey()
     else
         return key;
 }
-string NhapChuoi(int x, int y, int chieudai) // x va y la dia chi de hien ki tu vua nhap
+string NhapChuoi(int x, int y, int chieudai,int option) // x va y la dia chi de hien ki tu vua nhap
 {
-    gotoxy(x, y);
     char chuoi[chieudai + 1] = {'\0'};
     int index = 0;
     int ki_tu;
-    delete_LineOnScreen(x, y, chieudai);
+    if(option==0)delete_LineOnScreen(x, y, chieudai);
+    else
+    {
+        gotoxy(21, 10);
+		cout << "                                                                                              ";
+        gotoxy(21, 11);
+		cout << "                                                                                              ";
+    }
+    gotoxy(x, y);
     setCursorVisibility(1);
     while ((ki_tu = getch()) != ENTER)
     {
