@@ -27,32 +27,77 @@ int KiemTraTK(string Name, string Password)
 string DANGNHAP()
 {
 	system("cls");
-	string Name, Password;
+	string Name="", Password="",temp;int option=0,stop=0;
 	chuThiTracNghiem(18, 2);
-	gotoxy(60, 15);
-	cout << "ACCOUNT";
+	gotoxy(60, 15);cout << "ACCOUNT";
 	VeKhung(68, 14, 90, 16);
-	gotoxy(60, 18);
-	cout << "PASSWORD";
+	gotoxy(60, 18);cout << "PASSWORD";
 	VeKhung(68, 17, 90, 19);
+	VeKhung(74,21,84,23);
+	gotoxy(75,22);cout<<"DANG NHAP";
 	delete_LineOnScreen(69, 15, 21);
 	delete_LineOnScreen(69, 18, 21);
-	do
+	while(stop==0)
 	{
-		Name = NhapMa(69, 15, 20);
-		if (Name == "")
-			THONGBAO(1, "NAME RONG!");
-		else if (Name == "EXIT")
-			return Name;
-	} while (Name == "");
-	do
-	{
-		Password = NhapMa(69, 18, 20, "MATKHAU");
-		if (Password == "")
-			THONGBAO(1, "PASSWORD RONG!");
-		else if (Password == "EXIT")
-			return Password;
-	} while (Password == "");
+		switch(option)
+		{
+			case 0:
+			{
+				temp=NhapMa1(69, 15,20,Name);
+				if(temp=="DOWN"||temp=="DONE")option=1;
+				if(temp=="EXIT")return "EXIT";
+				break;
+			}
+			case 1:
+			{
+				temp=NhapMa1(69, 18, 20,Password,"MATKHAU");
+				if(temp=="UP")option=0;
+				if(temp=="DOWN"||temp=="DONE")option=2;
+				if(temp=="EXIT")return "EXIT";
+				break;
+			}
+			case 2:
+			{
+				gotoxy(75,22);
+				SetBGColor(9);
+				cout<<"DANG NHAP";
+				while(option=getch())
+				{
+					if(option==ENTER)
+					{
+						if(Name=="")
+						{
+							THONGBAO(1,"NAME EMPTY!");
+							Sleep(500);
+							option=0;
+						}
+						else if(Password=="")
+						{
+							THONGBAO(1,"PASSWORD EMPTY!");
+							Sleep(500);
+							option=1;
+						}
+						else stop=1;
+						break;
+					}
+					if(option==224)
+					{
+						option=getch();
+						if(option==UP)
+							{
+								option=1;
+								gotoxy(75,22);
+								SetBGColor(0);
+								cout<<"DANG NHAP";
+								break;
+							}
+					}
+					if(option==ESC)return "EXIT";	
+				}
+				break;
+			}
+		}
+	}
 	switch (KiemTraTK(Name, Password))
 	{
 	case -1:

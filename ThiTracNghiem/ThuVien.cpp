@@ -194,6 +194,63 @@ string NhapMa(int x, int y, int chieudai, string loai)
     Ma[index] = '\0';
     return Ma;
 }
+string NhapMa1(int x, int y, int length,string &input,string loai)
+{
+    int ki_tu, index;
+    index=input.size();
+    input.resize(length);
+    gotoxy(x+index, y);
+    while ((ki_tu = getch()) != ENTER)
+    {
+        if (ki_tu == ESC)
+        {
+            if(input[index] = '\0')input[--index]='\0';
+            input.resize(index);
+            return "EXIT";
+        }
+        if (ki_tu == 0 || ki_tu == 224)
+        {
+            ki_tu = getch(); // bat ki tu con khi nhap phim mo rong
+            if(ki_tu==UP)
+            {
+                if(input[index] = '\0')input[--index]='\0';
+                input.resize(index);
+                return "UP";
+            }
+            if(ki_tu==DOWN)
+            {
+                if(input[index] = '\0')input[--index]='\0';
+                input.resize(index);
+                return "DOWN";
+            }
+            continue; // tiep tuc de khong nhap ki tu du
+        }
+
+        if (ki_tu == BACKSPACE && index > 0)
+        {
+            index--;
+            input[index] = '\0';
+            gotoxy(x + index, y);
+            cout << " ";
+            gotoxy(x + index, y);
+        }
+        if ((index == 0 && (ki_tu == ' ')) || index == length)
+            continue;
+        if ((ki_tu >= 'A' && ki_tu <= 'Z') || (ki_tu >= 'a' && ki_tu <= 'z') || (ki_tu >= '0' && ki_tu <= '9') || ki_tu == '_' || ki_tu == '-')
+        {
+            input[index] = toupper(ki_tu);
+            gotoxy(x + index, y);
+            if (loai == "MATKHAU")
+                cout << '*';
+            else
+                cout << input[index];
+            index++;
+        }
+    }
+    if(input[index] = '\0')input[--index]='\0';
+    input.resize(index);
+    return "DONE";
+}
 double NhapSo(int x, int y, int soluong)
 {
     char num[soluong + 1] = {'\0'};
