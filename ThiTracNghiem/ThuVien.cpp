@@ -50,11 +50,11 @@ void SetColor(int backgound_color, int text_color)
     SetConsoleTextAttribute(hStdout, color_code);
 }
 //////////////////////////////////////////////////////////////////////////
-char GetKey()
+int GetKey()//dung để loại bỏ phím mở rộng
 {
-    char key;
+    int key;
     key = getch();
-    if (key == -32 || key == 0)
+    if (key == 224 || key == 0)
         return -getch();
     else
         return key;
@@ -138,6 +138,127 @@ string NhapChuoi(int x, int y, int chieudai,int option) // x va y la dia chi de 
     chuoi[index] = '\0';
     return chuoi;
 }
+string NhapChuoi1(int x, int y, int length,string &input) // x va y la dia chi de hien ki tu vua nhap
+{
+    int index,ki_tu;
+    //cập nhật vị trí hiện tại
+    index=input.size();
+    gotoxy(x+index, y);
+    input.resize(length);//thiết lập độ dài cho chuỗi
+    while ((ki_tu = getch()) != ENTER)
+    {
+        if (ki_tu == ESC)
+        {
+            if(input[index-1]==' '&&index!=0)input[--index]='\0';
+            input.resize(index);
+            return "EXIT";
+        }
+        else if (ki_tu == 0 || ki_tu == 224)
+        {
+            ki_tu = getch();
+            if(ki_tu==UP)
+            {
+                if(input[index-1]==' '&&index!=0)input[--index]='\0';
+                input.resize(index);
+                return "UP";
+            }
+            else if(ki_tu==DOWN)
+            {
+                if(input[index-1]==' '&&index!=0)input[--index]='\0';
+                input.resize(index);
+                return "DOWN";
+            }
+            else if(ki_tu==LEFT){
+                if(input[index-1]==' '&&index!=0)input[--index]='\0';
+                input.resize(index);
+                return "LEFT";
+            }
+            else if(ki_tu==RIGHT)
+            {
+                if(input[index-1]==' '&&index!=0)input[--index]='\0';
+                input.resize(index);
+                return "RIGHT";   
+            }
+            continue;
+        }
+        // xoa ki tu
+        else if (ki_tu == BACKSPACE && index > 0)
+        {
+            index--;
+            input[index] = '\0';
+            if (index <= 93)
+            {
+                gotoxy(x + index, y);
+                cout << " ";
+                gotoxy(x + index, y);
+            }
+            else
+            {
+                gotoxy(x - 94 + index, y + 1);
+                cout << " ";
+                gotoxy(x - 94 + index, y + 1);
+            }
+        }
+        // kiem tra neu lon hon chieu dai hoac ki tu dau bang ' ' thi khong cho vao mang
+        if ((index == length) || (ki_tu == ' ' && index == 0) || (ki_tu == ' ' && input[index - 1] == ' '))
+            continue;
+
+        if ((ki_tu >= 'A' && ki_tu <= 'Z') || (ki_tu >= 'a' && ki_tu <= 'z') || ki_tu == '-' || ki_tu == '_' || (ki_tu >= '0' && ki_tu <= '9') || ki_tu == ' ')
+        {
+            input[index] = toupper(ki_tu);
+            if (index <= 93)
+            {
+                gotoxy(x + index, y);
+            }
+            else
+            {
+                gotoxy(x - 94 + index, y + 1);
+            }
+            cout << input[index];
+            index++;
+        }
+    }
+    if(input[index-1]==' ')input[--index]='\0';//bỏ kí tự cuối
+    input.resize(index);//thiết lập kích thước của chuỗi
+    return "DONE";
+}
+string NhapDapAn(int x,int y,char &Answer)
+{
+    int index=0,ki_tu;
+    if(Answer>='A'&&Answer<='D')index=1;
+    gotoxy(x+index, y);
+    while ((ki_tu = getch()) != ENTER)
+    {
+        if (ki_tu == ESC)
+            return "EXIT";
+        else if (ki_tu == 0 || ki_tu == 224)
+        {
+            ki_tu = getch();
+            if(ki_tu==UP)return "UP";
+            else if(ki_tu==DOWN)return "DOWN";
+            else if(ki_tu==LEFT)return "LEFT";
+            else if(ki_tu==RIGHT)return "RIGHT";   
+            continue;
+        }
+        // xoa ki tu
+        else if (ki_tu == BACKSPACE && index > 0)
+        {
+            index=0;
+            Answer = '\0';
+            gotoxy(x, y);
+            cout << " ";
+            gotoxy(x, y);
+        }
+        ki_tu = toupper(ki_tu);
+        if (ki_tu >= 'A' && ki_tu <= 'D'&&index==0)
+        {
+            Answer = ki_tu;
+            gotoxy(x, y);cout <<Answer;
+            index++;
+        }
+    }
+    return "DONE";   
+}
 string NhapMa(int x, int y, int chieudai, string loai)
 {
     delete_LineOnScreen(x, y, chieudai);
@@ -194,6 +315,63 @@ string NhapMa(int x, int y, int chieudai, string loai)
     Ma[index] = '\0';
     return Ma;
 }
+string NhapMa1(int x, int y, int length,string &input,string loai)
+{
+    int ki_tu, index;
+    index=input.size();
+    input.resize(length);
+    gotoxy(x+index, y);
+    while ((ki_tu = getch()) != ENTER)
+    {
+        if (ki_tu == ESC)
+        {
+            if(input[index] = '\0'&&index!=0)input[--index]='\0';
+            input.resize(index);
+            return "EXIT";
+        }
+        if (ki_tu == 0 || ki_tu == 224)
+        {
+            ki_tu = getch(); // bat ki tu con khi nhap phim mo rong
+            if(ki_tu==UP)
+            {
+                if(input[index] = '\0'&&index!=0)input[--index]='\0';
+                input.resize(index);
+                return "UP";
+            }
+            if(ki_tu==DOWN)
+            {
+                if(input[index] = '\0'&&index!=0)input[--index]='\0';
+                input.resize(index);
+                return "DOWN";
+            }
+            continue; // tiep tuc de khong nhap ki tu du
+        }
+
+        if (ki_tu == BACKSPACE && index > 0)
+        {
+            index--;
+            input[index] = '\0';
+            gotoxy(x + index, y);
+            cout << " ";
+            gotoxy(x + index, y);
+        }
+        if ((index == 0 && (ki_tu == ' ')) || index == length)
+            continue;
+        if ((ki_tu >= 'A' && ki_tu <= 'Z') || (ki_tu >= 'a' && ki_tu <= 'z') || (ki_tu >= '0' && ki_tu <= '9') || ki_tu == '_' || ki_tu == '-')
+        {
+            input[index] = toupper(ki_tu);
+            gotoxy(x + index, y);
+            if (loai == "MATKHAU")
+                cout << '*';
+            else
+                cout << input[index];
+            index++;
+        }
+    }
+    if(input[index] = '\0')input[--index]='\0';
+    input.resize(index);
+    return "DONE";
+}
 double NhapSo(int x, int y, int soluong)
 {
     char num[soluong + 1] = {'\0'};
@@ -222,6 +400,7 @@ double NhapSo(int x, int y, int soluong)
             num[index] = '\0';
             gotoxy(x + --index, y);
             cout << ' ';
+            gotoxy(x+index,y);
         }
         if (ch == ESC) // dang nhap lieu thi chon thoat
         {
@@ -233,6 +412,52 @@ double NhapSo(int x, int y, int soluong)
     if (index == 0) // truong hop enter khi chua nhap
         return -2;
     return atof(num);
+}
+int Dem(int num)
+{
+    int count=0;
+    while(num>0)
+    {
+        num/=10;
+        count++;
+    }
+    return count;
+}
+string NhapSo1(int x, int y, int soluong,int&num)
+{
+    int index,ch;
+    index=Dem(num);
+    gotoxy(x+index,y);
+    while ((ch = getch()) != ENTER)
+    {
+        if (ch >= '0' && ch <= '9' && index < soluong)
+        {
+            num = num*10+(ch-'0');
+            gotoxy(x + index++, y);
+            cout << ch-'0';
+        }
+        if (ch == BACKSPACE && index > 0)
+        {
+            num/=10;
+            gotoxy(x + --index, y);
+            cout << ' ';
+            gotoxy(x+index,y);
+        }
+        if (ch == ESC) // dang nhap lieu thi chon thoat
+        {
+            return "EXIT";
+        }
+        if(ch==224||ch==0)
+        {
+            ch=getch();
+            if(ch==UP)return "UP";
+            else if(ch==DOWN)return "DOWN";
+            else if(ch==LEFT)return "LEFT";
+            else if(ch==RIGHT)return "RIGHT";   
+        }
+    }
+    if(index==0)return "EMPTY";
+    return "DONE";
 }
 bool is_Empty_CArray(const char *a)
 {

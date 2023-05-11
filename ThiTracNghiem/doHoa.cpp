@@ -490,7 +490,7 @@ void VeBangCauHoi(char tenMH[], int ID)
 	gotoxy(6, 25);
 	cout << "DAP AN";
 }
-void VeKhungThi()
+void VeKhungThi(int index)
 {
 	system("cls");
 	VeKhung(5, 5, 115, 25);
@@ -526,21 +526,24 @@ void VeKhungThi()
 		y++;
 	}
 	SetColor(2, 0);
-	gotoxy(6, 10);
-	cout << "         ";
-	gotoxy(6, 11);
-	cout << "         ";
-	gotoxy(6, 12);
-	cout << "         ";
-	gotoxy(10, 10);
-	cout << "A";
+	gotoxy(6, index);cout << "         ";
+	gotoxy(6, index+1);cout << "         ";
+	gotoxy(6, index+2);cout << "         ";
+	
 	SetColor(0, 7);
-	gotoxy(10, 14);
-	cout << "B";
-	gotoxy(10, 18);
-	cout << "C";
-	gotoxy(10, 22);
-	cout << "D";
+	gotoxy(10, 10);cout << "A";
+	gotoxy(10, 14);cout << "B";
+	gotoxy(10, 18);cout << "C";
+	gotoxy(10, 22);cout << "D";
+	SetColor(2, 0);
+	switch(index)
+	{
+		case 10:{gotoxy(10, 10);cout << "A";break;}
+		case 14:{gotoxy(10, 14);cout << "B";break;}
+		case 18:{gotoxy(10, 18);cout << "C";break;}
+		case 22:{gotoxy(10, 22);cout << "D";break;}
+	}
+	SetColor(0, 7);
 }
 void VeBangDanhSachCauHoi(char maMH[], int MaxPage, int Page)
 {
@@ -683,7 +686,7 @@ void ThanhChucNang(int option)
 	}
 	case 4:
 	{
-		cout << "ESC:THOAT          ENTER:CHON          <-: LUI TRANG           ->: TRANG MOI         " << char(30) << ":LEN           " << char(31) << ":XUONG ";
+		cout << "ESC:THOAT     ENTER:CHON     ->: QUAY LAI      " << char(30) << ":LEN      " << char(31) << ":XUONG    HUONG DAN: DAP AN CHON LA A,B,C,D";
 		break;
 	}
 	case 5: // menu_dslh_gv

@@ -69,7 +69,7 @@ void HienDanhSachMonHoc(ListMH dsmh, int page, int maxPage, bool selectMode);
 int HienOptionMonHoc(bool check = 0);
 //--------------------------CAU HOI-------------------------
 void MENU_DSCH_GV(STreeCH &root, MonHoc monHoc);
-void InCauHoiThi(STreeCH &Question, char so_cau_dung[], int i, int so_cau);
+int InCauHoiThi(STreeCH &Question, char so_cau_dung[], int i, int so_cau);
 STreeCH ThemCauHoi(STreeCH &root, char maMH[], char tenMH[]);
 int XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[]);
 void InDanhSachCH(Array<STreeCH>&ListQuestion, char maMH[], int start, int end, int Page, int MaxPage);

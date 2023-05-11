@@ -27,32 +27,80 @@ int KiemTraTK(string Name, string Password)
 string DANGNHAP()
 {
 	system("cls");
-	string Name, Password;
+	string Name="", Password="",temp;int option=0,stop=0;
 	chuThiTracNghiem(18, 2);
-	gotoxy(60, 15);
-	cout << "ACCOUNT";
+	gotoxy(60, 15);cout << "ACCOUNT";
 	VeKhung(68, 14, 90, 16);
-	gotoxy(60, 18);
-	cout << "PASSWORD";
+	gotoxy(60, 18);cout << "PASSWORD";
 	VeKhung(68, 17, 90, 19);
+	VeKhung(74,21,84,23);
+	gotoxy(75,22);cout<<"DANG NHAP";
 	delete_LineOnScreen(69, 15, 21);
 	delete_LineOnScreen(69, 18, 21);
-	do
+	while(stop==0)
 	{
-		Name = NhapMa(69, 15, 20);
-		if (Name == "")
-			THONGBAO(1, "NAME RONG!");
-		else if (Name == "EXIT")
-			return Name;
-	} while (Name == "");
-	do
-	{
-		Password = NhapMa(69, 18, 20, "MATKHAU");
-		if (Password == "")
-			THONGBAO(1, "PASSWORD RONG!");
-		else if (Password == "EXIT")
-			return Password;
-	} while (Password == "");
+		switch(option)
+		{
+			case 0:
+			{
+				temp=NhapMa1(69, 15,20,Name);
+				if(temp=="DOWN"||temp=="DONE")option=1;
+				if(temp=="EXIT")return "EXIT";
+				break;
+			}
+			case 1:
+			{
+				temp=NhapMa1(69, 18, 20,Password,"MATKHAU");
+				if(temp=="UP")option=0;
+				if(temp=="DOWN"||temp=="DONE")option=2;
+				if(temp=="EXIT")return "EXIT";
+				break;
+			}
+			case 2:
+			{
+				gotoxy(75,22);
+				SetBGColor(9);
+				cout<<"DANG NHAP";
+				while(option=getch())
+				{
+					if(option==ENTER)
+					{
+						if(Name=="")
+						{
+							THONGBAO(1,"NAME EMPTY!");
+							Sleep(500);
+							option=0;
+						}
+						else if(Password=="")
+						{
+							THONGBAO(1,"PASSWORD EMPTY!");
+							Sleep(500);
+							option=1;
+						}
+						else stop=1;
+						gotoxy(75,22);
+						SetBGColor(0);
+						cout<<"DANG NHAP";
+						break;
+					}
+					if(option==224)
+					{
+						option=getch();
+						if(option==UP)
+							{
+								option=1;
+								gotoxy(75,22);
+								SetBGColor(0);
+								cout<<"DANG NHAP";
+								break;
+							}
+					}
+					if(option==ESC)return "EXIT";	
+				}
+				break;
+			}
+		}
+	}
 	switch (KiemTraTK(Name, Password))
 	{
 	case -1:
@@ -346,20 +394,20 @@ int MENU_SV(string maLop, PtrSV &p)
 int stopThi = 0; // stop=1 thi dung thi
 void DongHo(int time)
 {
+	system("cls");
 	int giay;
 	while (time > 0)
 	{
-		gotoxy(63, 2);
+		gotoxy(62, 2);
 		cout << time;
 		gotoxy(65, 2);
 		cout << ":phut";
-		gotoxy(71, 2);
+		gotoxy(72, 2);
 		cout << "00";
 		gotoxy(74, 2);
 		cout << ":giay";
 		VeKhung(60, 1, 80, 3);
 		Sleep(1000);
-
 		gotoxy(62, 2);
 		cout << time--;
 		giay = 59;
@@ -368,15 +416,15 @@ void DongHo(int time)
 		{
 			SetColor(0, 7);
 			VeKhung(60, 1, 80, 3);
-			gotoxy(63, 2);
+			gotoxy(62, 2);
 			cout << "   ";
-			gotoxy(63, 2);
+			gotoxy(62, 2);
 			cout << time;
 			gotoxy(65, 2);
 			cout << ":phut";
-			gotoxy(71, 2);
-			cout << "   ";
-			gotoxy(71, 2);
+			gotoxy(72, 2);
+			cout << "  ";
+			gotoxy(72, 2);
 			cout << giay--;
 			gotoxy(74, 2);
 			cout << ":giay";
@@ -390,21 +438,29 @@ void DongHo(int time)
 	stopThi = 1;
 }
 
-void InCauHoiThi(STreeCH &Question, char so_cau_dung[], int i, int so_cau)
+int InCauHoiThi(STreeCH &Question, char YourAnswer[], int i, int so_cau)
 {
+	Sleep(100);
 	char temp[95];
-	VeKhungThi();
-	if (so_cau_dung[i] == '\0')
+	int index;
+	switch(YourAnswer[i])
+	{
+		case '\0':
+		case 'A':{index=10;break;}
+		case 'B':{index=14;break;}
+		case 'C':{index=18;break;}
+		case 'D':{index=22;break;}
+	}
+	VeKhungThi(index);
+	if (YourAnswer[i]=='\0')
 	{
 		VeKhung(5, 27, 20, 29); // ve khung dap an ban chon
-		gotoxy(6, 28);
-		cout << "BAN CHUA CHON";
+		gotoxy(6, 28);cout << "BAN CHUA CHON";
 	}
 	else
 	{
 		VeKhung(5, 27, 20, 29);
-		gotoxy(6, 28);
-		cout << "BAN CHON " << so_cau_dung[i];
+		gotoxy(6, 28);cout << "BAN CHON " << YourAnswer[i];
 	}
 	gotoxy(6, 6);
 	if (strlen(Question->info.question) <= 94)
@@ -427,14 +483,79 @@ void InCauHoiThi(STreeCH &Question, char so_cau_dung[], int i, int so_cau)
 
 	gotoxy(110, 26);
 	cout << i + 1 << '/' << so_cau;
+	return index;
+}
+string NhapSC_TG(int &so_cau,int &thoi_gian,int soluongcauhoi,PtrSV &SV)
+{
+	int option=0,check_empty=0;string temp;
+	system("cls");
+	VeKhung(57, 12, 97, 22);
+	gotoxy(58, 14);cout << "HO VA TEN: " << SV->info.ho << " " << SV->info.ten;
+	gotoxy(58, 16);cout << "SO CAU HOI:";
+	gotoxy(58, 18);cout << "THOI GIAN:";
+	gotoxy(58, 20);cout << "SO CAU TOI THIEU: 1| SO CAU TOI DA:" << soluongcauhoi;
+	while(1)
+	{
+		switch(option)
+		{
+			case 0:
+			{
+				check_empty=0;
+				temp=NhapSo1(70,16,3,so_cau);
+				if(temp.compare("EMPTY")==0)check_empty=1;
+				if(temp.compare("DOWN")==0||temp.compare("DONE")==0||temp.compare("EMPTY")==0)option=1;
+				break;
+			}
+			case 1:
+			{
+				temp=NhapSo1(70,18,3,thoi_gian);
+				if(temp.compare("UP")==0)option=0;
+				if(temp.compare("EMPTY")==0)
+				{
+					THONGBAO(1,"THOI GIAN TRONG");
+				}
+				if(temp.compare("DONE")==0)
+				{
+					if(check_empty==1)
+					{
+						THONGBAO(1,"SO CAU TRONG");
+						option=0;
+						break;
+					}
+					if(so_cau==0)
+					{
+						THONGBAO(1,"SO CAU PHAI KHAC KHONG");
+						option=0;
+						break;
+					}
+					if(so_cau>soluongcauhoi)
+					{
+						THONGBAO(1,"SO CAU KHONG LON HON TONG SO CAU");
+						option=0;
+						break;
+					}
+					if(thoi_gian==0)
+					{
+						THONGBAO(1,"THOI GIAN PHAI KHAC KHONG");
+						option=1;
+						break;
+					}
+					return "DONE";
+				}
+				break;
+			}
+		}
+		if(temp.compare("EXIT")==0&&THONGBAO(3,"BAN CO MUON THOAT KHONG!"))return "EXIT";
+	}
 }
 void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 {
 	stopThi = 0;
-	int so_cau, thoi_gian, soluongcauhoi;
+	int so_cau=0, thoi_gian=0, soluongcauhoi;
 	char maMH[16];
+	int chon, index, wherey;
+	STreeCH *Questions;
 	thread timer;
-
 	do
 	{
 		strcpy(maMH, MENU_DSMH_GV(root, dsmh, 1).data());
@@ -447,77 +568,27 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 		if (soluongcauhoi == 0)
 			THONGBAO(1, "KHONG CO CAU HOI");
 	} while (soluongcauhoi == 0);
-	system("cls");
-
-	VeKhung(57, 12, 97, 22);
-	gotoxy(58, 14);
-	cout << "HO VA TEN: " << SV->info.ho << " " << SV->info.ten;
-	gotoxy(58, 16);
-	cout << "SO CAU HOI:";
-	// VeKhung(70, 15, 73, 17);
-	gotoxy(58, 18);
-	cout << "THOI GIAN:";
-	// VeKhung(70, 18, 73, 20);
-	gotoxy(58, 20);
-	cout << "SO CAU TOI THIEU: 1| SO CAU TOI DA:" << soluongcauhoi;
-
-	do
-	{
-		gotoxy(25, 15);
-		cout << "   ";
-		so_cau = NhapSo(70, 16, 3);
-		if (so_cau > soluongcauhoi)
-			THONGBAO(1, "NHAP NHIEU HON SO CAU CO SAN"); // in so cau ra nua
-		if (so_cau == 0)
-			THONGBAO(1, "SO CAU =0 KHONG HOP LE");
-		if (so_cau == -1)
-		{
-			if (THONGBAO(3, "BAN MUON THOAT KHONG"))
-				return;
-		}
-		if (so_cau == -2)
-			THONGBAO(1, "VUI LONG NHAP SO CAU HOI");
-	} while (so_cau > soluongcauhoi || so_cau <= 0);
-	do
-	{
-		thoi_gian = NhapSo(70, 18, 3);
-		if (thoi_gian == 0)
-		{
-			THONGBAO(1, "THOI GIAN PHAI LON HON 0");
-		}
-		if (thoi_gian == -1)
-		{
-			if (THONGBAO(3, "BAN CO MUON THOAT KHONG"))
-				return;
-		}
-		if (thoi_gian == -2)
-			THONGBAO(1, "VUI LONG NHAP THOI GIAN");
-	} while (thoi_gian <= 0);
-
+	if(NhapSC_TG(so_cau,thoi_gian,soluongcauhoi,SV).compare("EXIT")==0)return;
 	timer = thread(DongHo, thoi_gian);
-	STreeCH *Questions = GetQuestion(root, maMH, so_cau, soluongcauhoi);
-	int chon, index, wherey;
-	char YourAnswer[so_cau];
-	for (int i = 0; i < so_cau; i++)
-		YourAnswer[i] = '\0';
-	for (int i = 0; i < so_cau; i++)
-	{
-		Questions[i]->is_used = true;
-	}
+	char YourAnswer[so_cau]={'\0'};
+	Questions = GetQuestion(root, maMH, so_cau, soluongcauhoi);
+	for (int i = 0; i < so_cau; i++)Questions[i]->is_used = true;
 	for (int i = 0; stopThi != 1;)
 	{
 		if (i == so_cau)
 		{
-			THONGBAO(1,"DA THI XONG");
-			stopThi = THONGBAO(3, "BAN CO MUON THOAT KHONG");
-			if (stopThi == 0)
-				i--;
+			i--;
+			gotoxy(6, 28);cout<<"              ";
+			if (YourAnswer[i] == '\0')
+			{
+				gotoxy(6, 28);cout << "BAN CHUA CHON";
+			}
 			else
-				break;
-		}
-		InCauHoiThi(Questions[i], YourAnswer, i, so_cau);
+			{
+				gotoxy(6, 28);cout << "BAN CHON " << YourAnswer[i];
+			}
+		}else index = wherey=InCauHoiThi(Questions[i], YourAnswer, i, so_cau);
 		ThanhChucNang(0);
-		index = wherey = 10; // thiet lap vi tri
 		// XEM LUA CHON
 		while (stopThi != 1)
 		{
@@ -527,36 +598,19 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 				stopThi = THONGBAO(3, "BAN CO MUON THOAT KHONG"); // NEU THOAT THI STOP=1 VA THOAT
 				THONGBAO(1);
 			}
-			else if (chon == ENTER) // PHAT HIEN NHAN ENTER VA KIEM TRA DAP AN
+			if (chon == ENTER) // PHAT HIEN NHAN ENTER VA KIEM TRA DAP AN
 			{
 				switch (index)
 				{
-				case 10:
-				{
-					YourAnswer[i] = 'A'; // chon sai
-					break;
-				}
-				case 14:
-				{
-					YourAnswer[i] = 'B'; // chon sai
-					break;
-				}
-				case 18:
-				{
-					YourAnswer[i] = 'C'; // chon sai
-					break;
-				}
-				case 22:
-				{
-					YourAnswer[i] = 'D'; // chon sai
-					break;
-				}
+				case 10:{YourAnswer[i] = 'A'; break;}
+				case 14:{YourAnswer[i] = 'B'; break;}
+				case 18:{YourAnswer[i] = 'C';break;}
+				case 22:{YourAnswer[i] = 'D';break;}
 				}
 				i++; // qua trang moi
 				break;
 			}
-			else if (chon == 224)
-				chon = getch(); // NUT MO
+			if (chon == 224)chon = getch();
 			// XU LY DI CHUYEN
 			if (chon == 72 && index != 10) // KIEM TRA CO NHAN NUT LEN HAY KHONG VA INDEX KHONG O TAI CAU A
 			{
@@ -667,114 +721,224 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 }
 STreeCH ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 {
-	int answer = 0, ki_tu;
+	int option=0,stop=0;
+	char answer='\0';
+	string temp,question="",ans1="",ans2="",ans3="",ans4="";
 	STreeCH NewQuestion = newnode();
 	NewQuestion->info.ID = ReadID();
 	VeBangCauHoi(tenMH, NewQuestion->info.ID);
 	ThanhChucNang(17);
-	do
+	while(stop==0)
 	{
-		strcpy(NewQuestion->info.question, NhapChuoi(21, 10, 188,1).data());
-		if (NewQuestion->info.question[0] == '\0' )
-			THONGBAO(1, "CAU HOI RONG");
-		if(strcmp(NewQuestion->info.question, "EXIT") == 0)
+		switch(option)
 		{
-			if(THONGBAO(3,"BAN CO MUON HUY CAU HOI")==1)
+			
+			case 0:
 			{
-				THONGBAO(1,"HUY THEM CAU HOI THANH CONG");
-				RestoreID();
-				delete NewQuestion;
-				return NULL;
+				temp=NhapChuoi1(21, 10, 188,question);
+				if(temp.compare("EXIT")==0&&THONGBAO(3,"BAN CO MUON HUY KHONG"))
+				{
+					RestoreID();
+					THONGBAO(0,"HUY CAU HOI THANH CONG");
+					Sleep(2000);
+					delete NewQuestion;
+					return NULL;
+				}
+				if(temp.compare("DONE")==0||temp.compare("DOWN")==0)option=1;
+				break;
 			}
-		}
-	} while (NewQuestion->info.question[0] == '\0' || strcmp(NewQuestion->info.question, "EXIT") == 0);
-	do
-	{
-		strcpy(NewQuestion->info.ans1, NhapChuoi(21, 13, 94).data());
-		if (NewQuestion->info.ans1[0] == '\0')
-			THONGBAO(1, "DAP AN 1 RONG");
-		if(strcmp(NewQuestion->info.ans1, "EXIT") == 0)
-		{
-			if(THONGBAO(3,"BAN CO MUON HUY CAU HOI")==1)
+			case 1:
 			{
-				THONGBAO(1,"HUY THEM CAU HOI THANH CONG");
-				RestoreID();
-				delete NewQuestion;
-				return NULL;
+				temp=NhapChuoi1(21, 13, 94,ans1);
+				if(temp.compare("EXIT")==0&&THONGBAO(3,"BAN CO MUON HUY KHONG"))
+				{
+					RestoreID();
+					THONGBAO(0,"HUY CAU HOI THANH CONG");
+					Sleep(2000);
+					delete NewQuestion;
+					return NULL;
+				}
+				if(temp.compare("DONE")==0||temp.compare("DOWN")==0)option=2;
+				if(temp.compare("UP")==0)option=0;
+				break;
 			}
-		}
-	} while (NewQuestion->info.ans1[0] == '\0' || strcmp(NewQuestion->info.ans1, "EXIT") == 0);
-	do
-	{
-		strcpy(NewQuestion->info.ans2, NhapChuoi(21, 16, 94).data());
-		if (NewQuestion->info.ans2[0] == '\0' )
-			THONGBAO(1, "DAP AN 2 RONG");
-		if(strcmp(NewQuestion->info.ans2, "EXIT") == 0)
-		{
-			if(THONGBAO(3,"BAN CO MUON HUY CAU HOI")==1)
+			case 2:
 			{
-				THONGBAO(1,"HUY THEM CAU HOI THANH CONG");
-				RestoreID();
-				delete NewQuestion;
-				return NULL;
+				temp=NhapChuoi1(21, 16, 94,ans2);
+				if(temp.compare("EXIT")==0&&THONGBAO(3,"BAN CO MUON HUY KHONG"))
+				{
+					RestoreID();
+					THONGBAO(0,"HUY CAU HOI THANH CONG");
+					Sleep(2000);
+					delete NewQuestion;
+					return NULL;
+				}
+				if(temp.compare("DONE")==0||temp.compare("DOWN")==0)option=3;
+				if(temp.compare("UP")==0)option=1;
+				break;
 			}
-		}
-	} while (NewQuestion->info.ans2[0] == '\0' || strcmp(NewQuestion->info.ans2, "EXIT") == 0);
-	do
-	{
-		strcpy(NewQuestion->info.ans3, NhapChuoi(21, 19, 94).data());
-		if (NewQuestion->info.ans3[0] == '\0')
-			THONGBAO(1, "DAP AN 3 RONG");
-		if(strcmp(NewQuestion->info.ans3, "EXIT") == 0)
-		{
-			if(THONGBAO(3,"BAN CO MUON HUY CAU HOI")==1)
+			case 3:
 			{
-				THONGBAO(1,"HUY THEM CAU HOI THANH CONG");
-				RestoreID();
-				delete NewQuestion;
-				return NULL;
+				temp=NhapChuoi1(21, 19, 94,ans3);
+				if(temp.compare("EXIT")==0&&THONGBAO(3,"BAN CO MUON HUY KHONG"))
+				{
+					RestoreID();
+					THONGBAO(0,"HUY CAU HOI THANH CONG");
+					Sleep(2000);
+					delete NewQuestion;
+					return NULL;
+				}
+				if(temp.compare("DONE")==0||temp.compare("DOWN")==0)option=4;
+				if(temp.compare("UP")==0)option=2;
+				break;
 			}
-		}
-	} while (NewQuestion->info.ans3[0] == '\0' || strcmp(NewQuestion->info.ans3, "EXIT") == 0);
-	do
-	{
-		strcpy(NewQuestion->info.ans4, NhapChuoi(21, 22, 94).data());
-		if (NewQuestion->info.ans4 == '\0' )
-			THONGBAO(1, "DAP AN 4 RONG");
-		if(strcmp(NewQuestion->info.ans4, "EXIT") == 0)
-		{
-			if(THONGBAO(3,"BAN CO MUON HUY CAU HOI")==1)
+			case 4:
 			{
-				THONGBAO(1,"HUY THEM CAU HOI THANH CONG");
-				RestoreID();
-				delete NewQuestion;
-				return NULL;
+				temp=NhapChuoi1(21, 22, 94,ans4);
+				if(temp.compare("EXIT")==0&&THONGBAO(3,"BAN CO MUON HUY KHONG"))
+				{
+						RestoreID();
+						THONGBAO(0,"HUY CAU HOI THANH CONG");
+						Sleep(2000);
+						delete NewQuestion;
+						return NULL;
+				}
+				if(temp.compare("DONE")==0||temp.compare("DOWN")==0)option=5;
+				if(temp.compare("UP")==0)option=3;
+				break;
 			}
-		}
-	} while (NewQuestion->info.ans4[0] == '\0' || strcmp(NewQuestion->info.ans4, "EXIT") == 0);
-	gotoxy(21, 25);
-	do
-	{
-		ki_tu = getch();
-		ki_tu = toupper(ki_tu);
-		if (ki_tu == ENTER && answer >= 'A' && answer <= 'D')
-			break;
-		if (ki_tu == 224 || ki_tu == 0)
-			getch();
-		if (ki_tu >= 'A' && ki_tu <= 'D')
-		{
-			gotoxy(21, 25);
-			cout << char(ki_tu);
-			answer = ki_tu;
-		}
-	} while (1);
+			case 5:
+			{
+				// gotoxy(21, 25);
+				// do
+				// {
+				// 	letter = getch();
+				// 	if(letter==224||letter==0)
+				// 	{
+				// 		letter=getch();
+				// 		if(letter==UP)
+				// 		{
+				// 			option=4;
+				// 			break;
+				// 		}
+				// 		continue;
+				// 	}
+				// 	if(letter==ESC&&THONGBAO(3,"BAN CO MUON HUY KHONG"))
+				// 	{
+				// 		RestoreID();
+				// 		THONGBAO(0,"HUY CAU HOI THANH CONG");
+				// 		Sleep(2000);
+				// 		delete NewQuestion;
+				// 		return NULL;
+				// 	}
+				// 	letter = toupper(letter);
+				// 	if (letter == ENTER && answer >= 'A' && answer <= 'D')
+				// 		{
+				// 			if(question.compare("")==0)
+				// 			{
+				// 				THONGBAO(1,"CAU HOI RONG!");
+				// 				option=0;
+				// 				break;
+				// 			}
+				// 			if(ans1.compare("")==0)
+				// 			{
+				// 				THONGBAO(1,"CAU HOI 1 RONG");
+				// 				option=1;
+				// 				break;
+				// 			}
+				// 			if(ans2.compare("")==0)
+				// 			{
+				// 				THONGBAO(1,"CAU HOI 2 RONG");
+				// 				option=2;
+				// 				break;
+				// 			}
+				// 			if(ans3.compare("")==0)
+				// 			{
+				// 				THONGBAO(1,"CAU HOI 3 RONG");
+				// 				option=3;
+				// 				break;
+				// 			}
+				// 			if(ans4.compare("")==0)
+				// 			{
+				// 				THONGBAO(1,"CAU HOI 4 RONG");
+				// 				option=4;
+				// 				break;
+				// 			}
+				// 			stop=1;
+				// 			break;
+				// 		}
+				// 	if (letter>= 'A' && letter <= 'D')
+				// 	{
+				// 		gotoxy(21, 25);
+				// 		cout << char(letter);
+				// 		answer = letter;
+				// 	}
+				// } while (1);
+				temp=NhapDapAn(21,25,answer);
+				if(temp.compare("DONE")==0)
+				{
+					if(question.compare("")==0)
+					{
+						THONGBAO(1,"CAU HOI RONG!");
+						option=0;
+						break;
+					}
+					if(ans1.compare("")==0)
+					{
+						THONGBAO(1,"CAU HOI 1 RONG");
+						option=1;
+						break;
+					}
+					if(ans2.compare("")==0)
+					{
+						THONGBAO(1,"CAU HOI 2 RONG");
+						option=2;
+						break;
+					}
+					if(ans3.compare("")==0)
+					{
+						THONGBAO(1,"CAU HOI 3 RONG");
+						option=3;
+						break;
+					}
+					if(ans4.compare("")==0)
+					{
+						THONGBAO(1,"CAU HOI 4 RONG");
+						option=4;
+						break;
+					}
+					if(answer=='\0')
+					{
+						THONGBAO(1,"DAP AN RONG");
+						option=5;
+						break;
+					}
+					stop=1;
+				}
+				else if(temp.compare("UP")==0)option=4;
+				else if(temp.compare("EXIT")==0&&THONGBAO(3,"BAN CO MUON HUY KHONG"))
+				{
+					RestoreID();
+					THONGBAO(0,"HUY CAU HOI THANH CONG");
+					Sleep(2000);
+					delete NewQuestion;
+					return NULL;
+				}
+				break;
+			}
+		}	
+	}
+	strcpy(NewQuestion->info.question,question.data());
+	strcpy(NewQuestion->info.ans1,ans1.data());
+	strcpy(NewQuestion->info.ans2,ans2.data());
+	strcpy(NewQuestion->info.ans3,ans3.data());
+	strcpy(NewQuestion->info.ans4,ans4.data());
 	NewQuestion->info.answer = answer;
 	strcpy(NewQuestion->info.maMonHoc, maMH);
 	NewQuestion->is_used = false;
 	if (InsertQuestion(root, NewQuestion))
-		THONGBAO(1, "THEM CAU HOI THANH CONG");
-	THONGBAO(0, "AN PHIM BAT KY DE THOAT");
-	getch();
+		THONGBAO(0, "THEM CAU HOI THANH CONG");
+	Sleep(2000);
 	return NewQuestion;
 }
 void InCauHoi(STreeCH &ExsistQuestion, char tenMH[])
@@ -804,8 +968,8 @@ void InCauHoi(STreeCH &ExsistQuestion, char tenMH[])
 }
 int XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 {
-	int chon, vi_tri_contro = 16, stop = 0;
-	string temp;
+	int chon, vi_tri_contro = 16, stop = 0,check_change=0;
+	string temp,question,ans1,ans2,ans3,ans4;char answer;
 	InCauHoi(ExsistQuestion, tenMH);
 	TextColor(20);
 	gotoxy(120, 16);
@@ -824,167 +988,259 @@ int XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 		{
 			if (vi_tri_contro == 16)
 			{
-				int contro = 10;
-				gotoxy(3, 10);
-				cout << ">>";
-				while (stop != 1)
-				{
-					chon = getch();
-					switch (chon)
-					{
-					case ENTER:
-					{
+				// int contro = 10;
+				// gotoxy(3, 10);
+				// cout << ">>";
+				// while (stop != 1)
+				// {
+				// 	chon = getch();
+				// 	switch (chon)
+				// 	{
+				// 	case ENTER:
+				// 	{
 						
-						switch (contro)
-						{
-						case 10:
-						{
-							temp=ExsistQuestion->info.question;
-							do
-							{
-								strcpy(ExsistQuestion->info.question, NhapChuoi(21, 10, 188,1).data());
-								if(strcmp(ExsistQuestion->info.question,"EXIT")==0)
-								{
-									strcpy(ExsistQuestion->info.question,temp.data());
-									gotoxy(21, 10);
-									if (strlen(ExsistQuestion->info.question) <= 94)
-										cout << ExsistQuestion->info.question;
-									else
-									{
-										temp.resize(94);
-										strncpy(&temp[0], ExsistQuestion->info.question, 94); // copy 94 ki tu 0->93
-										cout << temp;
-										gotoxy(21, 11);
-										cout << &ExsistQuestion->info.question[94]; // in tu ki tu 94->188
-									}
-									break;
-								}
-								if(ExsistQuestion->info.question[0]=='\0')THONGBAO(1,"CAU HOI RONG");
-							}
-							while(ExsistQuestion->info.question[0]=='\0');
-							break;
-						}
-						case 13:
-						{
-							temp=ExsistQuestion->info.ans1;
-							do{
-								strcpy(ExsistQuestion->info.ans1, NhapChuoi(21, 13, 94).data());
-								if(strcmp(ExsistQuestion->info.ans1,"EXIT")==0)
-								{
-									strcpy(ExsistQuestion->info.ans1,temp.data());
-									gotoxy(21, 13);
-									cout << ExsistQuestion->info.ans1;
-									break;
-								}
-								if(ExsistQuestion->info.ans1[0]=='\0')THONGBAO(1,"DAP AN 1 HOI RONG");
-							}
-							while(ExsistQuestion->info.ans1[0]=='\0');
-							break;
-						}
-						case 16:
-						{
-							temp=ExsistQuestion->info.ans2;
-							do{
-								strcpy(ExsistQuestion->info.ans2, NhapChuoi(21, 16, 94).data());
-								if(strcmp(ExsistQuestion->info.ans2,"EXIT")==0)
-								{
-									strcpy(ExsistQuestion->info.ans2, temp.data());
-									gotoxy(21, 16);
-									cout << ExsistQuestion->info.ans2;
-									break;
-								}
-								if(ExsistQuestion->info.ans2[0]=='\0')THONGBAO(1,"DAP AN 2 HOI RONG");
-							}
-							while(ExsistQuestion->info.ans2[0]=='\0');
-							break;
-						}
-						case 19:
-						{
-							temp=ExsistQuestion->info.ans3;
-							do{
-								strcpy(ExsistQuestion->info.ans3, NhapChuoi(21, 16, 94).data());
-								if(strcmp(ExsistQuestion->info.ans3,"EXIT")==0)
-								{
-									strcpy(ExsistQuestion->info.ans3, temp.data());
-									gotoxy(21, 19);
-									cout << ExsistQuestion->info.ans3;
-									break;
-								}
-								if(ExsistQuestion->info.ans3[0]=='\0')THONGBAO(1,"DAP AN 3 HOI RONG");
-							}
-							while(ExsistQuestion->info.ans3[0]=='\0');
-							break;
-						}
-						case 22:
-						{
-							temp=ExsistQuestion->info.ans4;
-							do{
-								strcpy(ExsistQuestion->info.ans4, NhapChuoi(21, 16, 94).data());
-								if(strcmp(ExsistQuestion->info.ans4,"EXIT")==0)
-								{
-									strcpy(ExsistQuestion->info.ans4, temp.data());
-									cout << ExsistQuestion->info.ans4;
-									gotoxy(21, 25);
-									break;
-								}
-								if(ExsistQuestion->info.ans4[0]=='\0')THONGBAO(1,"DAP AN 4 HOI RONG");
-							}
-							while(ExsistQuestion->info.ans4[0]=='\0');
-							break;
-						}
-						case 25:
-						{
-							char ki_tu, answer = '\0'; // viet ham nhap dap an
-							while (1)
-							{
-								ki_tu = getch();
-								ki_tu = toupper(ki_tu);
-								if (ki_tu == ENTER && answer >= 'A' && answer <= 'D')
-									break;
-								if (ki_tu >= 'A' && ki_tu <= 'D')
-								{
-									gotoxy(21, 25);
-									cout << char(ki_tu);
-									answer = ki_tu;
-								}
-							}
-							ExsistQuestion->info.answer = answer;
-						}
-						break;
-						}
-					}
-					case ESC:
+				// 		switch (contro)
+				// 		{
+				// 		case 10:
+				// 		{
+				// 			temp=ExsistQuestion->info.question;
+				// 			do
+				// 			{
+				// 				strcpy(ExsistQuestion->info.question, NhapChuoi(21, 10, 188,1).data());
+				// 				if(strcmp(ExsistQuestion->info.question,"EXIT")==0)
+				// 				{
+				// 					strcpy(ExsistQuestion->info.question,temp.data());
+				// 					gotoxy(21, 10);
+				// 					if (strlen(ExsistQuestion->info.question) <= 94)
+				// 						cout << ExsistQuestion->info.question;
+				// 					else
+				// 					{
+				// 						temp.resize(94);
+				// 						strncpy(&temp[0], ExsistQuestion->info.question, 94); // copy 94 ki tu 0->93
+				// 						cout << temp;
+				// 						gotoxy(21, 11);
+				// 						cout << &ExsistQuestion->info.question[94]; // in tu ki tu 94->188
+				// 					}
+				// 					break;
+				// 				}
+				// 				if(ExsistQuestion->info.question[0]=='\0')THONGBAO(1,"CAU HOI RONG");
+				// 			}
+				// 			while(ExsistQuestion->info.question[0]=='\0');
+				// 			break;
+				// 		}
+				// 		case 13:
+				// 		{
+				// 			temp=ExsistQuestion->info.ans1;
+				// 			do{
+				// 				strcpy(ExsistQuestion->info.ans1, NhapChuoi(21, 13, 94).data());
+				// 				if(strcmp(ExsistQuestion->info.ans1,"EXIT")==0)
+				// 				{
+				// 					strcpy(ExsistQuestion->info.ans1,temp.data());
+				// 					gotoxy(21, 13);
+				// 					cout << ExsistQuestion->info.ans1;
+				// 					break;
+				// 				}
+				// 				if(ExsistQuestion->info.ans1[0]=='\0')THONGBAO(1,"DAP AN 1 HOI RONG");
+				// 			}
+				// 			while(ExsistQuestion->info.ans1[0]=='\0');
+				// 			break;
+				// 		}
+				// 		case 16:
+				// 		{
+				// 			temp=ExsistQuestion->info.ans2;
+				// 			do{
+				// 				strcpy(ExsistQuestion->info.ans2, NhapChuoi(21, 16, 94).data());
+				// 				if(strcmp(ExsistQuestion->info.ans2,"EXIT")==0)
+				// 				{
+				// 					strcpy(ExsistQuestion->info.ans2, temp.data());
+				// 					gotoxy(21, 16);
+				// 					cout << ExsistQuestion->info.ans2;
+				// 					break;
+				// 				}
+				// 				if(ExsistQuestion->info.ans2[0]=='\0')THONGBAO(1,"DAP AN 2 HOI RONG");
+				// 			}
+				// 			while(ExsistQuestion->info.ans2[0]=='\0');
+				// 			break;
+				// 		}
+				// 		case 19:
+				// 		{
+				// 			temp=ExsistQuestion->info.ans3;
+				// 			do{
+				// 				strcpy(ExsistQuestion->info.ans3, NhapChuoi(21, 16, 94).data());
+				// 				if(strcmp(ExsistQuestion->info.ans3,"EXIT")==0)
+				// 				{
+				// 					strcpy(ExsistQuestion->info.ans3, temp.data());
+				// 					gotoxy(21, 19);
+				// 					cout << ExsistQuestion->info.ans3;
+				// 					break;
+				// 				}
+				// 				if(ExsistQuestion->info.ans3[0]=='\0')THONGBAO(1,"DAP AN 3 HOI RONG");
+				// 			}
+				// 			while(ExsistQuestion->info.ans3[0]=='\0');
+				// 			break;
+				// 		}
+				// 		case 22:
+				// 		{
+				// 			temp=ExsistQuestion->info.ans4;
+				// 			do{
+				// 				strcpy(ExsistQuestion->info.ans4, NhapChuoi(21, 16, 94).data());
+				// 				if(strcmp(ExsistQuestion->info.ans4,"EXIT")==0)
+				// 				{
+				// 					strcpy(ExsistQuestion->info.ans4, temp.data());
+				// 					cout << ExsistQuestion->info.ans4;
+				// 					gotoxy(21, 25);
+				// 					break;
+				// 				}
+				// 				if(ExsistQuestion->info.ans4[0]=='\0')THONGBAO(1,"DAP AN 4 HOI RONG");
+				// 			}
+				// 			while(ExsistQuestion->info.ans4[0]=='\0');
+				// 			break;
+				// 		}
+				// 		case 25:
+				// 		{
+				// 			char ki_tu, answer = '\0'; // viet ham nhap dap an
+				// 			while (1)
+				// 			{
+				// 				ki_tu = getch();
+				// 				ki_tu = toupper(ki_tu);
+				// 				if (ki_tu == ENTER && answer >= 'A' && answer <= 'D')
+				// 					break;
+				// 				if (ki_tu >= 'A' && ki_tu <= 'D')
+				// 				{
+				// 					gotoxy(21, 25);
+				// 					cout << char(ki_tu);
+				// 					answer = ki_tu;
+				// 				}
+				// 			}
+				// 			ExsistQuestion->info.answer = answer;
+				// 		}
+				// 		break;
+				// 		}
+				// 	}
+				// 	case ESC:
+				// 	{
+				// 		gotoxy(3, contro);
+				// 		cout << "  ";
+				// 		stop = 1;
+				// 		break;
+				// 	}
+				// 	case 0:
+				// 	case 224:
+				// 	{
+				// 		chon = getch();
+				// 		if (chon == UP && contro != 10)
+				// 		{
+				// 			gotoxy(3, contro);
+				// 			cout << "  ";
+				// 			contro -= 3;
+				// 			gotoxy(3, contro);
+				// 			cout << ">>";
+				// 		}
+				// 		if (chon == DOWN && contro != 25)
+				// 		{
+				// 			gotoxy(3, contro);
+				// 			cout << "  ";
+				// 			contro += 3;
+				// 			gotoxy(3, contro);
+				// 			cout << ">>";
+				// 		}
+				// 		break;
+				// 	}
+				// 	}
+				// }
+				// stop = 0;
+				TextColor(112);
+				gotoxy(120, 16);
+				cout << "     HIEU CHINH         ";
+				TextColor(112);
+				gotoxy(120, 19);
+				cout << "     XOA CAU HOI        ";
+				SetColor(0, 7);
+				chon=0;
+				question=ExsistQuestion->info.question;
+				ans1=ExsistQuestion->info.ans1;
+				ans2=ExsistQuestion->info.ans2;
+				ans3=ExsistQuestion->info.ans3;
+				ans4=ExsistQuestion->info.ans4;
+				answer=ExsistQuestion->info.answer;
+				while(1){
+					switch(chon)
 					{
-						gotoxy(3, contro);
-						cout << "  ";
-						stop = 1;
-						break;
+						case 0:
+						{
+							temp=NhapChuoi1(21,10,188,question);
+							if(temp.compare("DOWN")==0||temp.compare("DONE")==0)chon=1;
+							if(strcmp(ExsistQuestion->info.question,question.data())!=0)
+								check_change=1;
+							break;
+						}
+						case 1:
+						{
+							temp=NhapChuoi1(21,13,94,ans1);
+							if(strcmp(ExsistQuestion->info.ans1,ans1.data())!=0)
+								check_change=1;
+							if(temp.compare("UP")==0)chon=0;
+							if(temp.compare("DOWN")==0||temp.compare("DONE")==0)chon=2;
+							break;
+						}
+						case 2:
+						{
+							temp=NhapChuoi1(21,16,94,ans2);
+							if(temp.compare("UP")==0)chon=1;
+							if(temp.compare("DOWN")==0||temp.compare("DONE")==0)chon=3;
+							if(strcmp(ExsistQuestion->info.ans2,ans2.data())!=0)
+								check_change=1;
+							break;
+						}
+						case 3:
+						{
+							temp=NhapChuoi1(21,19,94,ans3);
+							if(temp.compare("UP")==0)chon=2;
+							if(temp.compare("DOWN")==0||temp.compare("DONE")==0)chon=4;
+							if(strcmp(ExsistQuestion->info.ans3,ans3.data())!=0)
+								check_change=1;
+							break;
+						}
+						case 4:
+						{
+							temp=NhapChuoi1(21,22,94,ans4);
+							if(temp.compare("UP")==0)chon=3;
+							if(temp.compare("DOWN")==0||temp.compare("DONE")==0)chon=5;
+							if(strcmp(ExsistQuestion->info.ans4,ans4.data())!=0)
+								check_change=1;
+							break;
+						}
+						case 5:
+						{
+							temp=NhapDapAn(21,25,answer);
+							if(temp.compare("UP")==0)chon=4;
+							if(ExsistQuestion->info.answer!=answer)
+								check_change=1;
+							break;
+							
+						}
 					}
-					case 0:
-					case 224:
+					if(temp.compare("EXIT")==0)
 					{
-						chon = getch();
-						if (chon == UP && contro != 10)
+						if(check_change==1&&THONGBAO(3,"BAN CO MUON LUU KHONG")==1)
 						{
-							gotoxy(3, contro);
-							cout << "  ";
-							contro -= 3;
-							gotoxy(3, contro);
-							cout << ">>";
+							strcpy(ExsistQuestion->info.question,question.data());
+							strcpy(ExsistQuestion->info.ans1,ans1.data());
+							strcpy(ExsistQuestion->info.ans2,ans2.data());
+							strcpy(ExsistQuestion->info.ans3,ans3.data());
+							strcpy(ExsistQuestion->info.ans4,ans4.data());
 						}
-						if (chon == DOWN && contro != 25)
-						{
-							gotoxy(3, contro);
-							cout << "  ";
-							contro += 3;
-							gotoxy(3, contro);
-							cout << ">>";
-						}
-						break;
+						return 0;
 					}
-					}
+					if(temp.compare("RIGHT")==0)break;
 				}
-				stop = 0;
+				TextColor(20);
+				gotoxy(120, 16);
+				cout << "     HIEU CHINH         ";
+				TextColor(112);
+				gotoxy(120, 19);
+				cout << "     XOA CAU HOI        ";
+				SetColor(0, 7);
 			}
 			else
 			{
@@ -993,14 +1249,25 @@ int XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 				else if (THONGBAO(3, "BAN CO MUON XOA"))
 				{
 					DeleteQuestion(root, ExsistQuestion);
-					// RestoreID();
 					return 1;
 				}
 			}
 			break;
 		}
 		case ESC:
-		{   stop=1;
+		{
+		   	stop=1;
+			if(check_change==1)
+			{
+				if(THONGBAO(3,"BAN CO MUON LUU KHONG")==1)
+				{
+					strcpy(ExsistQuestion->info.question,question.data());
+					strcpy(ExsistQuestion->info.ans1,ans1.data());
+					strcpy(ExsistQuestion->info.ans2,ans2.data());
+					strcpy(ExsistQuestion->info.ans3,ans3.data());
+					strcpy(ExsistQuestion->info.ans4,ans4.data());
+				}
+			}
 			break;
 		}
 		case 0:

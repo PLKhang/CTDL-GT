@@ -16,7 +16,7 @@ LeftChar=1
 [Editor_7]
 CursorCol=28
 CursorRow=52
-TopLine=1
+TopLine=22
 LeftChar=1
 [Editor_4]
 <<<<<<< HEAD
@@ -24,7 +24,7 @@ LeftChar=1
 <<<<<<< HEAD
 CursorCol=6
 CursorRow=701
-TopLine=683
+TopLine=1
 =======
 CursorCol=11
 CursorRow=299
@@ -100,9 +100,9 @@ Focused=6
 >>>>>>> def5de1d5ebd89ec6d76877c96af80f12f25e08b
 [Editor_6]
 <<<<<<< HEAD
-CursorCol=41
+CursorCol=20
 CursorRow=488
-TopLine=1
+TopLine=470
 =======
 CursorCol=1
 CursorRow=521
@@ -115,9 +115,9 @@ LeftChar=1
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
-CursorCol=41
-CursorRow=81
-TopLine=69
+CursorCol=5
+CursorRow=731
+TopLine=713
 =======
 >>>>>>> 76f40bd4687d135e05aa6108bc31abd70e16e661
 =======
