@@ -68,13 +68,17 @@ bool HieuChinhMonHoc(ListMH &dsmh, int index, int line);
 void HienDanhSachMonHoc(ListMH dsmh, int page, int maxPage, bool selectMode);
 int HienOptionMonHoc(bool check = 0);
 //--------------------------CAU HOI-------------------------
-void MENU_DSCH_GV(STreeCH &root, MonHoc monHoc);
-int InCauHoiThi(STreeCH &Question, char so_cau_dung[], int i, int so_cau);
+int InCauHoiThi(STreeCH &Question, char YourAnswer, int current_index, int so_cau,int option=0);
+string NhapSC_TG(int &so_cau,int &thoi_gian,int soluongcauhoi,PtrSV &SV);
+void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh);
 STreeCH ThemCauHoi(STreeCH &root, char maMH[], char tenMH[]);
 int XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[]);
 void InDanhSachCH(Array<STreeCH>&ListQuestion, char maMH[], int start, int end, int Page, int MaxPage);
-void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[], int LANTHI = 0);
+bool TimCauHoi1(Array<STreeCH>&List, int &NumberQuestion);
+void MENU_DSCH_GV(STreeCH &root, MonHoc monHoc);
 void Tim_End_Start(int NOE[], int &start, int &end, int lanthi, int NumberQuestion, int NumberofExams);
+bool TimCauHoi2(Array<STreeCH> List, char YourAnswer[], int start, int &end);
+void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[], int LANTHI = 0);
 void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh);
 
 #endif // XU_LY_CHUONG_TRINH_H

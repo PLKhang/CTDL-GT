@@ -12,7 +12,7 @@ int THONGBAO(int option, string thongbao)
 	cout << thongbao;
 	if (option == 1) // clear thanh thong bao
 	{
-		Sleep(1500);
+		Sleep(2000);
 		for (int i = 0; i <= 10; i++)
 		{
 			gotoxy(125, i);
@@ -433,8 +433,103 @@ void chuMenuSV(int x, int y)
 	gotoxy(x, y++);
 	cout << "|_|  |_|______|_| \\_|\\____/  |_____/|_____|_| \\_|_|  |_|     \\/   |_____|______|_| \\_|";
 }
-void VeBangCauHoi(char tenMH[], int ID)
+void XoaVungThi()
 {
+    //VeKhung(5, 5, 115, 25);
+    for(int j=5;j<=25;j++)
+    {
+        gotoxy(5,j);cout<<"                                                                                                               ";
+    }
+}
+void VeKhungCauHoi(int Your_index,int Answer_index,int option)
+{
+	Sleep(200);//để chờ in thời gian thi
+	XoaVungThi();
+	VeKhung(5, 5, 115, 25);
+	int x = 5, y = 9;
+	while (y <= 21)
+	{
+		x = 5;
+		while (x <= 115)
+		{
+			gotoxy(x, y);
+			if (x == 5)
+				cout << LEFT_MIDDLE;
+			else if (x == 115)
+				cout << RIGHT_MIDDLE;
+			else
+				cout << NGANG;
+			x++;
+		}
+		y = y + 4;
+	}
+	x = 15, y = 9;
+	while (y <= 25)
+	{
+		gotoxy(x, y);
+		if (y == 9)
+			cout << TOP_MIDDLE;
+		else if (y == 25)
+			cout << BOTTOM_MIDDLE;
+		else if (y == 9 || y == 13 || y == 17 || y == 21)
+			cout << CENTER;
+		else
+			cout << DOC;
+		y++;
+	}
+	if(option==1&&Your_index!=Answer_index)
+	{
+		//tô đáp án đúng
+		SetColor(2, 0);
+		gotoxy(6, Answer_index);cout << "         ";
+		gotoxy(6, Answer_index+1);cout << "         ";
+		gotoxy(6, Answer_index+2);cout << "         ";
+		//tô đáp án bạn chon
+		SetColor(4, 7);
+		gotoxy(6, Your_index);cout << "         ";
+		gotoxy(6, Your_index+1);cout << "         ";
+		gotoxy(6, Your_index+2);cout << "         ";
+		SetColor(0, 7);
+	}
+	else if(option==0||(option==1&&Your_index!=0))
+	{	
+		//dùng cho thi hoặc bạn chon đúng hoặc không chọn
+		if(Your_index==0)Your_index=10;
+		SetColor(2, 0);
+		gotoxy(6, Your_index);cout << "         ";
+		gotoxy(6, Your_index+1);cout << "         ";
+		gotoxy(6, Your_index+2);cout << "         ";
+		SetColor(0, 7);
+	}
+	gotoxy(10, 10);cout << "A";
+	gotoxy(10, 14);cout << "B";
+	gotoxy(10, 18);cout << "C";
+	gotoxy(10, 22);cout << "D";
+	if(option==0||(option==1&&Your_index==Answer_index))SetColor(2, 0);
+	else SetColor(4, 0);
+	switch(Your_index)
+	{
+		case 10:{gotoxy(10, 10);cout << "A";break;}
+		case 14:{gotoxy(10, 14);cout << "B";break;}
+		case 18:{gotoxy(10, 18);cout << "C";break;}
+		case 22:{gotoxy(10, 22);cout << "D";break;}
+	}
+	if(option==1&&Your_index!=Answer_index)
+	{
+		SetColor(2, 0);
+		switch(Answer_index)
+		{
+			case 10:{gotoxy(10, 10);cout << "A";break;}
+			case 14:{gotoxy(10, 14);cout << "B";break;}
+			case 18:{gotoxy(10, 18);cout << "C";break;}
+			case 22:{gotoxy(10, 22);cout << "D";break;}
+		}
+	}
+	SetColor(0, 7);
+}
+void VeKhungCauHoi1(char tenMH[], int ID)
+{
+	//DÙNG CHO THÊM CÂU HỎI VÀ XEM CÂU HỎI BÌNH THƯỜNG
 	system("cls");
 	VeKhung(5, 5, 115, 27);
 	int x = 5, y = 7;
@@ -489,61 +584,6 @@ void VeBangCauHoi(char tenMH[], int ID)
 	cout << "LUA CHON 4";
 	gotoxy(6, 25);
 	cout << "DAP AN";
-}
-void VeKhungThi(int index)
-{
-	system("cls");
-	VeKhung(5, 5, 115, 25);
-	int x = 5, y = 9;
-	while (y <= 21)
-	{
-		x = 5;
-		while (x <= 115)
-		{
-			gotoxy(x, y);
-			if (x == 5)
-				cout << LEFT_MIDDLE;
-			else if (x == 115)
-				cout << RIGHT_MIDDLE;
-			else
-				cout << NGANG;
-			x++;
-		}
-		y = y + 4;
-	}
-	x = 15, y = 9;
-	while (y <= 25)
-	{
-		gotoxy(x, y);
-		if (y == 9)
-			cout << TOP_MIDDLE;
-		else if (y == 25)
-			cout << BOTTOM_MIDDLE;
-		else if (y == 9 || y == 13 || y == 17 || y == 21)
-			cout << CENTER;
-		else
-			cout << DOC;
-		y++;
-	}
-	SetColor(2, 0);
-	gotoxy(6, index);cout << "         ";
-	gotoxy(6, index+1);cout << "         ";
-	gotoxy(6, index+2);cout << "         ";
-	
-	SetColor(0, 7);
-	gotoxy(10, 10);cout << "A";
-	gotoxy(10, 14);cout << "B";
-	gotoxy(10, 18);cout << "C";
-	gotoxy(10, 22);cout << "D";
-	SetColor(2, 0);
-	switch(index)
-	{
-		case 10:{gotoxy(10, 10);cout << "A";break;}
-		case 14:{gotoxy(10, 14);cout << "B";break;}
-		case 18:{gotoxy(10, 18);cout << "C";break;}
-		case 22:{gotoxy(10, 22);cout << "D";break;}
-	}
-	SetColor(0, 7);
 }
 void VeBangDanhSachCauHoi(char maMH[], int MaxPage, int Page)
 {
@@ -671,12 +711,12 @@ void ThanhChucNang(int option)
 	}
 	case 1:
 	{
-		cout << "ESC: THOAT   F1: XEM LAN THI    F5:TIM CAU HOI   ENTER: CHON   <-: LUI TRANG  ->: TRANG MOI  " << char(30) << ":LEN  " << char(31) << ":XUONG ";
+		cout << "ESC: THOAT      F1: XEM LAN THI      F2:TIM CAU HOI     F5: TAI LAI     <-: LUI TRANG      ->: TRANG MOI   ";
 		break;
 	}
 	case 2:
 	{
-		cout << "ESC: THOAT    F5: TIM CAU HOI     ENTER: CHON      <-: LUI TRANG      ->: TRANG MOI     " << char(30) << ": LEN     " << char(31) << ": XUONG ";
+		cout << "          ESC: THOAT           F5: TIM CAU HOI               <-: LUI TRANG                  ->: TRANG MOI ";
 		break;
 	}
 	case 3:
