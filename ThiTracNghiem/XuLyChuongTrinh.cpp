@@ -650,39 +650,22 @@ STreeCH ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 	char answer='\0';
 	string temp,question="",ans1="",ans2="",ans3="",ans4="";
 	STreeCH NewQuestion = newnode();
-	NewQuestion->info.ID = ReadID();
+	ReadID(NewQuestion->info.ID,1);
 	VeKhungCauHoi1(tenMH, NewQuestion->info.ID);
 	ThanhChucNang(17);
 	while(stop==0)
 	{
 		switch(option)
 		{
-			
 			case 0:
 			{
 				temp=NhapChuoi1(21, 10, 188,question);
-				if(temp.compare("EXIT")==0&&THONGBAO(3,"BAN CO MUON HUY KHONG"))
-				{
-					RestoreID();
-					THONGBAO(0,"HUY CAU HOI THANH CONG");
-					Sleep(2000);
-					delete NewQuestion;
-					return NULL;
-				}
 				if(temp.compare("DONE")==0||temp.compare("DOWN")==0)option=1;
 				break;
 			}
 			case 1:
 			{
 				temp=NhapChuoi1(21, 13, 94,ans1);
-				if(temp.compare("EXIT")==0&&THONGBAO(3,"BAN CO MUON HUY KHONG"))
-				{
-					RestoreID();
-					THONGBAO(0,"HUY CAU HOI THANH CONG");
-					Sleep(2000);
-					delete NewQuestion;
-					return NULL;
-				}
 				if(temp.compare("DONE")==0||temp.compare("DOWN")==0)option=2;
 				if(temp.compare("UP")==0)option=0;
 				break;
@@ -690,14 +673,6 @@ STreeCH ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 			case 2:
 			{
 				temp=NhapChuoi1(21, 16, 94,ans2);
-				if(temp.compare("EXIT")==0&&THONGBAO(3,"BAN CO MUON HUY KHONG"))
-				{
-					RestoreID();
-					THONGBAO(0,"HUY CAU HOI THANH CONG");
-					Sleep(2000);
-					delete NewQuestion;
-					return NULL;
-				}
 				if(temp.compare("DONE")==0||temp.compare("DOWN")==0)option=3;
 				if(temp.compare("UP")==0)option=1;
 				break;
@@ -705,14 +680,6 @@ STreeCH ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 			case 3:
 			{
 				temp=NhapChuoi1(21, 19, 94,ans3);
-				if(temp.compare("EXIT")==0&&THONGBAO(3,"BAN CO MUON HUY KHONG"))
-				{
-					RestoreID();
-					THONGBAO(0,"HUY CAU HOI THANH CONG");
-					Sleep(2000);
-					delete NewQuestion;
-					return NULL;
-				}
 				if(temp.compare("DONE")==0||temp.compare("DOWN")==0)option=4;
 				if(temp.compare("UP")==0)option=2;
 				break;
@@ -720,14 +687,6 @@ STreeCH ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 			case 4:
 			{
 				temp=NhapChuoi1(21, 22, 94,ans4);
-				if(temp.compare("EXIT")==0&&THONGBAO(3,"BAN CO MUON HUY KHONG"))
-				{
-						RestoreID();
-						THONGBAO(0,"HUY CAU HOI THANH CONG");
-						Sleep(2000);
-						delete NewQuestion;
-						return NULL;
-				}
 				if(temp.compare("DONE")==0||temp.compare("DOWN")==0)option=5;
 				if(temp.compare("UP")==0)option=3;
 				break;
@@ -776,28 +735,28 @@ STreeCH ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 					stop=1;
 				}
 				else if(temp.compare("UP")==0)option=4;
-				else if(temp.compare("EXIT")==0&&THONGBAO(3,"BAN CO MUON HUY KHONG"))
-				{
-					RestoreID();
-					THONGBAO(0,"HUY CAU HOI THANH CONG");
-					Sleep(2000);
-					delete NewQuestion;
-					return NULL;
-				}
 				break;
 			}
-		}	
+		}
+		if(temp.compare("EXIT")==0&&THONGBAO(3,"BAN CO MUON HUY KHONG"))
+		{
+			THONGBAO(0,"HUY CAU HOI THANH CONG");
+			Sleep(2000);
+			delete NewQuestion;
+			return NULL;
+		}
 	}
+	strcpy(NewQuestion->info.maMonHoc, maMH);
 	strcpy(NewQuestion->info.question,question.data());
 	strcpy(NewQuestion->info.ans1,ans1.data());
 	strcpy(NewQuestion->info.ans2,ans2.data());
 	strcpy(NewQuestion->info.ans3,ans3.data());
 	strcpy(NewQuestion->info.ans4,ans4.data());
 	NewQuestion->info.answer = answer;
-	strcpy(NewQuestion->info.maMonHoc, maMH);
 	NewQuestion->is_used = false;
-	if (InsertQuestion(root, NewQuestion))
+	if (InsertNewQuestion(root, NewQuestion))
 		THONGBAO(0, "THEM CAU HOI THANH CONG");
+	else THONGBAO(0,"THEM CAU HOI KHONG THANH CONG");
 	Sleep(2000);
 	return NewQuestion;
 }
@@ -1112,10 +1071,7 @@ void MENU_DSCH_GV(STreeCH &root, MonHoc monHoc)
 						{
 							if (XemCauHoi(root, ListQuestion[i], monHoc.tenMonHoc) == 1)
 							{
-								//cần duyệt lại vì ID của câu hỏi đã thay đổi 
-								//ListQuestion.erase(i);
-								ListQuestion.clear();
-								InTraversal(ListQuestion,root,monHoc.maMonHoc);
+								ListQuestion.erase(i);
 								NumberQuestion--;
 								MaxPage = (NumberQuestion - 1) / 10 + 1;
 								if (Page > MaxPage)
@@ -3657,7 +3613,7 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 	doc_danhSachMonHoc(dsmh);
 	doc_danhSachCauHoi(root);
 	Sleep(100);
-
+	TaoFileID();
 	char ch;
 	int option, stop = 0;
 	while (1)

@@ -251,24 +251,32 @@ struct ID
 };
 typedef ID *createID;
 
-int numNode(ID *root);
-void Insert(ID *&tree, int data);
-int InsertToBalance(ID *&root, int min, int max, ofstream &file);
+int NumberOfNode(ID *root);
+void InsertID(ID *&tree, int data);
+int InsertToBalance(ID *&root, int min, int max,int&temp, ofstream &file);
+void DeleteAllID(ID*root);
 void TaoFileID();
 // doc lay id
-int ReadID();
+int ReadID(int&ExistID,int option=0);
+
 // tra lai id cuoi
 void RestoreID();
 // tao node moi
 STreeCH newnode();
+void store(STreeCH,vector<STreeCH>&);
+STreeCH Convert(vector<STreeCH>&,int max,int min);
+STreeCH Balance(STreeCH root);
+STreeCH BinarySearch(STreeCH root,int ID);
+STreeCH OriginRoot(STreeCH);
 // in cau hoi
-int InsertQuestion(STreeCH &root, STreeCH question);
+int Insert(STreeCH &root, STreeCH &question);
+int InsertNewQuestion(STreeCH &root, STreeCH &question);
+void SubDelete(STreeCH&root);
+int Delete(STreeCH&root,int ID);
 // xoa cau hoi
 int DeleteQuestion(STreeCH &root, STreeCH &Quetion);
-// sua lai cau hoi
-int DeleteQuestion_maMH(STreeCH &root, char maMH[]);
+int SoNode(STreeCH root);
 void DeleteRoot(STreeCH &root);
-int Repare(STreeCH root, CauHoi question); // dung con tro tro truc tiep toi nen khong dung
 // duyet tim cau hoi theo ma mon
 void InTraversal(Array<STreeCH>&AllQuestions, STreeCH root, char maMH[]);
 void PreTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count);
@@ -277,7 +285,6 @@ STreeCH *GetQuestion(STreeCH &root, char maMH[], int number_question, int tong_s
 // dem so cau hoi cua mon do
 int DemSoCauHoi(STreeCH root, char maMH[]);
 // tim cau hoi theo ID
-void TimCauHoiDaThi(STreeCH root, Array<STreeCH>&list, int ID);
 //sap xep theo id
 void Sort(Array<STreeCH>&Arr,int first,int last);
 //-------------------DiemThi------------------//

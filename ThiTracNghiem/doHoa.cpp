@@ -567,7 +567,8 @@ void VeKhungCauHoi1(char tenMH[], int ID)
 		y++;
 	}
 	gotoxy(45, 6);
-	cout << "NOI DUNG CAU HOI-" << ID;
+	cout << "NOI DUNG CAU HOI";
+	if(ID>0)cout << " - "<<ID;
 	gotoxy(45, 8);
 	cout << tenMH;
 	gotoxy(6, 8);

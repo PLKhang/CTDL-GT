@@ -753,7 +753,7 @@ int doc_danhSachCauHoi(STreeCH &dsch)
         docfile.getline(question->info.ans4, 101);
         docfile >> question->info.answer;
         docfile.ignore(); // bo qua ki tu xuong dong
-        InsertQuestion(dsch, question);
+        Insert(dsch, question);
     }
     docfile.close();
     return 1;
@@ -779,7 +779,7 @@ int docCauHoiDaThi(STreeCH root, Array<STreeCH>&List, int NOE[], char Answer[], 
                 docfile.ignore();
                 docfile >> Answer[i];
                 docfile.ignore();
-                TimCauHoiDaThi(root, List, ID);
+                List.push(BinarySearch(root,ID));
             }
             NumberQuestion += temp;
         }
