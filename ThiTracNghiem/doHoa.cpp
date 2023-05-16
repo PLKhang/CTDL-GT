@@ -477,53 +477,74 @@ void VeKhungCauHoi(int Your_index,int Answer_index,int option)
 			cout << DOC;
 		y++;
 	}
-	if(option==1&&Your_index!=Answer_index)
+	if(option==0)//thi
 	{
-		//tô đáp án đúng
-		SetColor(2, 0);
-		gotoxy(6, Answer_index);cout << "         ";
-		gotoxy(6, Answer_index+1);cout << "         ";
-		gotoxy(6, Answer_index+2);cout << "         ";
-		//tô đáp án bạn chon
-		SetColor(4, 7);
-		gotoxy(6, Your_index);cout << "         ";
-		gotoxy(6, Your_index+1);cout << "         ";
-		gotoxy(6, Your_index+2);cout << "         ";
-		SetColor(0, 7);
-	}
-	else if(option==0||(option==1&&Your_index!=0))
-	{	
-		//dùng cho thi hoặc bạn chon đúng hoặc không chọn
 		if(Your_index==0)Your_index=10;
 		SetColor(2, 0);
 		gotoxy(6, Your_index);cout << "         ";
 		gotoxy(6, Your_index+1);cout << "         ";
 		gotoxy(6, Your_index+2);cout << "         ";
-		SetColor(0, 7);
 	}
+	else //chế độ xem câu hỏi đã thi
+	{
+		if(Your_index!=0)
+		{
+			if(Your_index!=Answer_index)
+			{
+				//tô đáp án bạn chon
+				SetColor(4, 0);
+				gotoxy(6, Your_index);cout << "         ";
+				gotoxy(6, Your_index+1);cout << "         ";
+				gotoxy(6, Your_index+2);cout << "         ";
+			}
+			//tô đáp án đúng
+			SetColor(2, 0);
+			gotoxy(6, Answer_index);cout << "         ";
+			gotoxy(6, Answer_index+1);cout << "         ";
+			gotoxy(6, Answer_index+2);cout << "         ";
+		}
+	}
+	SetColor(0, 7);
 	gotoxy(10, 10);cout << "A";
 	gotoxy(10, 14);cout << "B";
 	gotoxy(10, 18);cout << "C";
 	gotoxy(10, 22);cout << "D";
-	if(option==0||(option==1&&Your_index==Answer_index))SetColor(2, 0);
-	else SetColor(4, 0);
-	switch(Your_index)
-	{
-		case 10:{gotoxy(10, 10);cout << "A";break;}
-		case 14:{gotoxy(10, 14);cout << "B";break;}
-		case 18:{gotoxy(10, 18);cout << "C";break;}
-		case 22:{gotoxy(10, 22);cout << "D";break;}
-	}
-	if(option==1&&Your_index!=Answer_index)
+	if(option==0)
 	{
 		SetColor(2, 0);
-		switch(Answer_index)
+		switch(Your_index)
 		{
 			case 10:{gotoxy(10, 10);cout << "A";break;}
 			case 14:{gotoxy(10, 14);cout << "B";break;}
 			case 18:{gotoxy(10, 18);cout << "C";break;}
 			case 22:{gotoxy(10, 22);cout << "D";break;}
 		}
+	}
+	else 
+	{
+		if(Your_index!=0)
+		{
+			if(Your_index!=Answer_index)
+			{
+				SetColor(4,0);
+				switch(Your_index)
+				{
+					case 10:{gotoxy(10, 10);cout << "A";break;}
+					case 14:{gotoxy(10, 14);cout << "B";break;}
+					case 18:{gotoxy(10, 18);cout << "C";break;}
+					case 22:{gotoxy(10, 22);cout << "D";break;}
+				}
+			}
+			SetColor(2,0);
+			switch(Answer_index)
+			{
+				case 10:{gotoxy(10, 10);cout << "A";break;}
+				case 14:{gotoxy(10, 14);cout << "B";break;}
+				case 18:{gotoxy(10, 18);cout << "C";break;}
+				case 22:{gotoxy(10, 22);cout << "D";break;}
+			}
+			
+		}	
 	}
 	SetColor(0, 7);
 }
