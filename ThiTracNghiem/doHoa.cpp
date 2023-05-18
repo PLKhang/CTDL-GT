@@ -733,7 +733,7 @@ void ThanhChucNang(int option)
 	}
 	case 1:
 	{
-		cout << "ESC: THOAT      F1: XEM LAN THI      F2:TIM CAU HOI     F5: TAI LAI     <-: LUI TRANG      ->: TRANG MOI   ";
+		cout << "ESC: THOAT           F1: TIM CAU HOI          F5: TAI LAI          <-: LUI TRANG          ->: TRANG MOI   ";
 		break;
 	}
 	case 2:

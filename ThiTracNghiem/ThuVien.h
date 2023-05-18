@@ -79,7 +79,7 @@ int doc_danhSachDiemThi(PtrDT &dsdt, const string &maLH, const string &mssv); //
 
 int doc_danhSachMonHoc(ListMH &dsmh);
 int doc_danhSachCauHoi(STreeCH &dsch);
-int docCauHoiDaThi(STreeCH root, Array<STreeCH> &List, int NOE[], char Answer[], MonHoc MH, int &NumberQuestion, int &NumberOfExams, char MSSV[]);
+int docCauHoiDaThi(STreeCH root, Array<STreeCH>&List,char YourAnswer[], char MSSV[], MonHoc MH);
 int demSoCauDaThi(MonHoc MH, char MSSV[]);
 // <-- dssv, dsdt, dstk
 int ghi_danhSachLopHoc(ListLH dslh);

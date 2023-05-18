@@ -758,40 +758,36 @@ int doc_danhSachCauHoi(STreeCH &dsch)
     docfile.close();
     return 1;
 }
-int docCauHoiDaThi(STreeCH root, Array<STreeCH>&List, int NOE[], char Answer[], MonHoc MH, int &NumberQuestion, int &NumberOfExams, char MSSV[])
+int docCauHoiDaThi(STreeCH root, Array<STreeCH>&List,char YourAnswer[], char MSSV[], MonHoc MH)
 {
     ifstream docfile(("Data/DanhSachSinhVien/DanhSachCauHoiThi/" + string(MSSV) + ".txt").data());
     if (!docfile.is_open())
         return 0;
     string maMH;
     int temp, count = 0, ID;
-    NumberOfExams = NumberQuestion = 0;
     while (!docfile.eof())
     {
         getline(docfile, maMH);
         if (strcmp(MH.maMonHoc, maMH.data()) == 0)
         {
             docfile >> temp;
-            NOE[NumberOfExams++] = NumberQuestion;
-            for (int i = NumberQuestion; i < NumberQuestion + temp; i++)
+            for (int i =0; i <temp; i++)
             {
                 docfile >> ID;
-                docfile.ignore();
-                docfile >> Answer[i];
-                docfile.ignore();
+                docfile.ignore();//bỏ dấu |
+                docfile >> YourAnswer[i];
+                //docfile.ignore();//bỏ dấu xuống dòng
                 List.push(BinarySearch(root,ID));
             }
-            NumberQuestion += temp;
+        docfile.close();
+        return 1;
         }
-        // else
-        //     docfile.ignore();
     }
-    docfile.close();
-    return 1;
+    return 0;
 }
 int demSoCauDaThi(MonHoc MH, char MSSV[])
 {
-    int count = 0, temp;
+    int temp=0;
     string maMH;
     ifstream docfile(("Data/DanhSachSinhVien/DanhSachCauHoiThi/" + string(MSSV) + ".txt").data());
     if (!docfile.is_open())
@@ -803,12 +799,11 @@ int demSoCauDaThi(MonHoc MH, char MSSV[])
         if (strcmp(MH.maMonHoc, maMH.data()) == 0)
         {
             docfile >> temp;
-            docfile.ignore(); // con ki tu xuong dong
-            count += temp;
+            docfile.close();
+            return temp;
         }
     }
-    docfile.close();
-    return count;
+    return 0;
 }
 bool createLopHocFolder(string maLH)
 {

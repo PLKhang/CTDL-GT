@@ -899,7 +899,10 @@ int XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 			else
 			{
 				if (ExsistQuestion->is_used == true)
-					THONGBAO(0, "CAU HOI DA DUOC THI");
+				{
+					THONGBAO(1, "   CAU HOI DA DUOC THI");
+					THONGBAO(1,"     KHONG XOA DUOC!");
+				}
 				else if (THONGBAO(3, "BAN CO MUON XOA"))
 				{
 					DeleteQuestion(root, ExsistQuestion);
@@ -980,7 +983,7 @@ bool TimCauHoi1(Array<STreeCH>&List, int &NumberQuestion)
 	cout << "NHAP NOI DUNG |";
 	gotoxy(6, 32);
 	cout << "  CAN TIM     |";
-	content = NhapChuoi(21, 31, 94);
+	content = NhapChuoi(21, 31, 188);
 	STreeCH ptr;
 	int temp = 0;
 	for (int i = 0; i < NumberQuestion; i++)
@@ -1213,7 +1216,7 @@ void Tim_End_Start(int NOE[], int &start, int &end, int lanthi, int NumberQuesti
 		end = NOE[lanthi] - 1;
 	}
 }
-bool TimCauHoi2(Array<STreeCH> List, char YourAnswer[], int start, int &end)
+bool TimCauHoi2(Array<STreeCH> List, char YourAnswer[],int &end)
 {
 	string content;
 	char *address = NULL;
@@ -1224,8 +1227,8 @@ bool TimCauHoi2(Array<STreeCH> List, char YourAnswer[], int start, int &end)
 	cout << "  CAN TIM     |";
 	content = NhapChuoi(21, 31, 94);
 	STreeCH ptr;
-	int temp = start;
-	for (int i = start; i <= end; i++)
+	int temp =0;
+	for (int i = 0; i <=end; i++)
 	{
 		address = strstr(List[i]->info.question, content.data());
 
@@ -1242,43 +1245,34 @@ bool TimCauHoi2(Array<STreeCH> List, char YourAnswer[], int start, int &end)
 	delete_LineOnScreen(5,31,112);
 	delete_LineOnScreen(5,32,112);
 	delete_LineOnScreen(5,33,112);
-	if (temp == start)
+	if (temp == 0)
 		return false;
 	else
 	{
-		end = temp - 1;
+		end= temp-1;
 		return true;
 	}
 }
-void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[], int LANTHI)
+void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[] )
 {
-	int NOE[10], NumberQuestion, NumberOfExams ,start, end,chon, LanThi,change=0;
+	int NumberQuestion,chon,change=0;
 	NumberQuestion = demSoCauDaThi(monHoc, MSSV);
-	Array<STreeCH>List(NumberQuestion);
-	char *YourAnswer=new char[NumberQuestion];
-	docCauHoiDaThi(root, List, NOE, YourAnswer, monHoc, NumberQuestion, NumberOfExams, MSSV);
 	if (NumberQuestion == 0)
 	{
 		THONGBAO(0, "CHUA THI");
 		Sleep(2000);
 		return;
 	}
-	
-	if (LANTHI > 0)LanThi = LANTHI;
-	else LanThi = NumberOfExams;
-	Tim_End_Start(NOE, start, end, LanThi, NumberQuestion, NumberOfExams); // hien lan cuoi
+	Array<STreeCH>List(NumberQuestion);
+	char *YourAnswer=new char[NumberQuestion];
+	docCauHoiDaThi(root, List,YourAnswer,MSSV, monHoc);
 	system("cls");
-	InCauHoiThi(List[0],YourAnswer[0],0,(end-start+1),1);
-	gotoxy(48, 3);cout << "LAN THI THU:" << LanThi;
-	if (LANTHI == 0)ThanhChucNang(1);
-	else ThanhChucNang(2);
-	for(int i=start;i<=end;)
+	InCauHoiThi(List[0],YourAnswer[0],0,NumberQuestion,1);
+	ThanhChucNang(1);
+	for(int start=0,end=NumberQuestion-1;start<=end;)
 	{
 		if(change==1)
-		{	
-			InCauHoiThi(List[i],YourAnswer[i],(i-start),(end-start+1),1);
-			gotoxy(48, 3);cout << "LAN THI THU:" << LanThi;
-		}
+			InCauHoiThi(List[start],YourAnswer[start],start,end+1,1);
 		change=0;
 		chon=getch();
 		switch(chon)
@@ -1297,50 +1291,27 @@ void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[], int LANTHI)
 				{
 					case F1:
 					{
-						if (LANTHI > 0)
-							break;
-						VeKhung(5, 30, 38, 32);
-						gotoxy(6, 31);cout << "NHAP LAN THI MUON XEM:";
-						gotoxy(31, 31);cout << "/" << NumberOfExams << " LAN";
-						do
-						{
-							LanThi = NhapSo(28, 31, 2);
-							if (LanThi < 1 )
-								THONGBAO(0, "SO LAN THI>=1");
-							else if(LanThi > NumberOfExams)
-								THONGBAO(1,"NHAP SAI");
-						} while (LanThi < 1 || LanThi > NumberOfExams);
-						delete_LineOnScreen(5,30,35);
-						delete_LineOnScreen(5,31,35);
-						delete_LineOnScreen(5,32,35);
-						Tim_End_Start(NOE, start, end, LanThi, NumberQuestion, NumberOfExams);
-						i=start,change=1;
-						break;
-					}
-					case F2:
-					{
-						Tim_End_Start(NOE, start, end, LanThi, NumberQuestion, NumberOfExams);//tim nhieu lan
-						if (TimCauHoi2(List, YourAnswer, start, end) == false)
+						if (TimCauHoi2(List, YourAnswer, end) == false)
 						{
 							THONGBAO(1, "KHONG TIM THAY CAU HOI");
 							break;
 						}
-						i= start,change=1;
+						start=0,change=1;
 						break;
 					}
 					case F5:
 					{
-						Tim_End_Start(NOE, start, end, LanThi, NumberQuestion, NumberOfExams);//tim nhieu lan
-						i=start,change=1;
+						start=0,end=NumberQuestion-1,change=1;
+						break;
 					}
 					case LEFT:
 					{
-						if(i>start){i--;change=1;}
+						if(start>0){start--;change=1;}
 						break;
 					}
 					case RIGHT:
 					{
-						if(i<end){i++;change=1;}
+						if(start<end){start++;change=1;}
 						break;
 					}
 				}
@@ -2252,7 +2223,7 @@ bool HienDiemThi(STreeCH root, MonHoc monHoc, SinhVien &data)
 			case ESC:
 				return 1;
 			case ENTER:
-				InCauHoiDaThi(root, monHoc, data.MSSV, numOfSubScores - index);
+				InCauHoiDaThi(root, monHoc, data.MSSV);
 				HienDiemTheoLanThi(temp, numOfSubScores, page, maxPage);
 				gotoxy(2, 9 + (index % 10 + 1) * 2);
 				cout << ">>";

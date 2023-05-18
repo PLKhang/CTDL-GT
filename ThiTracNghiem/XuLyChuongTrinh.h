@@ -77,8 +77,7 @@ void InDanhSachCH(Array<STreeCH>&ListQuestion, char maMH[], int start, int end, 
 bool TimCauHoi1(Array<STreeCH>&List, int &NumberQuestion);
 void MENU_DSCH_GV(STreeCH &root, MonHoc monHoc);
 void Tim_End_Start(int NOE[], int &start, int &end, int lanthi, int NumberQuestion, int NumberofExams);
-bool TimCauHoi2(Array<STreeCH> List, char YourAnswer[], int start, int &end);
-void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[], int LANTHI = 0);
-void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh);
+bool TimCauHoi2(Array<STreeCH> List, char YourAnswer[],int &end);
+void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[]);
 
 #endif // XU_LY_CHUONG_TRINH_H
