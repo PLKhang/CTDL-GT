@@ -948,6 +948,7 @@ int ghi_danhSachCauHoi(STreeCH dsch)
         if (!q.empty())
             ghifile << endl;
     }
+    q.Destroy();
     ghifile.close();
 }
 

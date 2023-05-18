@@ -38,6 +38,7 @@ public:
     {
         node<T> *temp = new node<T>;
         temp->info = data;
+        temp->next=NULL;
         if (front == NULL)
             front = temp;
         else
@@ -68,6 +69,19 @@ public:
             return false;
     }
     int GetNumber() { return number; }
+    void Destroy()
+    {
+        if(front==NULL)return;
+        node<T>*temp,*run=front;
+        while(run!=NULL)
+        {
+            temp=run;
+            run=run->next;
+            delete temp;
+        }
+        rear=front=NULL;
+        number=0;
+    }
 };
 template<typename T>struct Array
 {

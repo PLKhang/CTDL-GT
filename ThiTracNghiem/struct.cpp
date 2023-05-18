@@ -244,16 +244,16 @@ int Insert(STreeCH &root, STreeCH &question)
     }
 }
 //---------can bang cay------
-void Store(STreeCH root, vector<STreeCH> &nodes)
+void Store(STreeCH root, Array<STreeCH> &nodes)
 {
     if (root != NULL)
     {
         Store(root->left, nodes);
-        nodes.push_back(root);
+        nodes.push(root);
         Store(root->right, nodes);
     }
 }
-STreeCH Convert(vector<STreeCH> &nodes, int max, int min)
+STreeCH Convert(Array<STreeCH> &nodes, int max, int min)
 {
     if (max < min)
         return NULL;
@@ -265,9 +265,12 @@ STreeCH Convert(vector<STreeCH> &nodes, int max, int min)
 }
 STreeCH Balance(STreeCH root)
 {
-    vector<STreeCH> nodes;
+    Array<STreeCH> nodes;
+    STreeCH NewRoot;
     Store(root, nodes);
-    return Convert(nodes, nodes.size() - 1, 0);
+    NewRoot=Convert(nodes, nodes.GetIndexLast(), 0);
+    nodes.destroy();
+    return NewRoot;
 }
 //tim nut
 STreeCH BinarySearch(STreeCH root,int ID)
@@ -394,6 +397,7 @@ void DeleteRoot(STreeCH &root)
             q.Push(temp->right);
         delete temp;
     }
+    q.Destroy();
 }
 //--------LAY CAU HOI--------
 void PreTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count)
