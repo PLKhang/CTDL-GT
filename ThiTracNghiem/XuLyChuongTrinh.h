@@ -58,26 +58,27 @@ void HienDiemTheoLanThi(PtrDT *data, int numOfScores, int page, int maxPage);
 void SortDSDT(PtrDT *data, int n, int &check);
 
 //--------------------------MON HOC---------------------------
-// types: 0-> chuc nang quan ly mon hoc, 1-> chon ma mon hoc de thi
-string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, bool selectMode = 0);
+// types: 0-> chuc nang quan ly mon hoc, 1-> chon mon hoc
+// types: 2-> thi: mon hoc da thi -> khong hien ra
+string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode = 0, PtrSV SV = NULL);
 bool ThemMonHoc(ListMH &dsmh);
-bool XoaMonHoc(ListMH &dsmh, int index);
+bool XoaMonHoc(ListMH &dsmh, MonHoc *temp[], int index);
 // chi duoc hieu chinh ten mon hoc
-bool HieuChinhMonHoc(ListMH &dsmh, int index, int line);
+bool HieuChinhMonHoc(MonHoc &selectedSubject, int line);
 
-void HienDanhSachMonHoc(ListMH dsmh, int page, int maxPage, bool selectMode);
+void HienDanhSachMonHoc(MonHoc *dsmh[], int numOfSubs, int page, int maxPage, bool selectMode);
 int HienOptionMonHoc(bool check = 0);
 //--------------------------CAU HOI-------------------------
-int InCauHoiThi(STreeCH &Question, char YourAnswer, int current_index, int so_cau,int option=0);
-string NhapSC_TG(int &so_cau,int &thoi_gian,int soluongcauhoi,PtrSV &SV);
+int InCauHoiThi(STreeCH &Question, char YourAnswer, int current_index, int so_cau, int option = 0);
+string NhapSC_TG(int &so_cau, int &thoi_gian, int soluongcauhoi, PtrSV &SV);
 void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh);
 STreeCH ThemCauHoi(STreeCH &root, char maMH[], char tenMH[]);
 int XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[]);
-void InDanhSachCH(Array<STreeCH>&ListQuestion, char maMH[], int start, int end, int Page, int MaxPage);
-bool TimCauHoi1(Array<STreeCH>&List, int &NumberQuestion);
+void InDanhSachCH(Array<STreeCH> &ListQuestion, char maMH[], int start, int end, int Page, int MaxPage);
+bool TimCauHoi1(Array<STreeCH> &List, int &NumberQuestion);
 void MENU_DSCH_GV(STreeCH &root, MonHoc monHoc);
 void Tim_End_Start(int NOE[], int &start, int &end, int lanthi, int NumberQuestion, int NumberofExams);
-bool TimCauHoi2(Array<STreeCH> List, char YourAnswer[],int &end);
+bool TimCauHoi2(Array<STreeCH> List, char YourAnswer[], int &end);
 void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[]);
 
 #endif // XU_LY_CHUONG_TRINH_H

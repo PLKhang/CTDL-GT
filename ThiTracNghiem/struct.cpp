@@ -54,10 +54,6 @@ int delete_MH(ListMH &dsmh, unsigned pos)
     dsmh.n--;
     return 1;
 }
-void set_Info_MH(ListMH &dsmh, unsigned pos, MonHoc new_MH)
-{
-    dsmh.nodes[pos] = new_MH;
-}
 int pos_MaMH_MH(ListMH dsmh, const char *maMH)
 {
     for (int i = 0; i < dsmh.n; i++)
@@ -103,32 +99,32 @@ void InsertID(ID *&tree, int data)
     else
         return;
 }
-int InsertToBalance(ID *&root, int min, int max,int &temp,ofstream &file)
+int InsertToBalance(ID *&root, int min, int max, int &temp, ofstream &file)
 {
     if (root == NULL)
     {
         InsertID(root, (min + max) / 2);
-        temp=(min+max)/2;
-        //file << (min + max) / 2 << endl;
-        file.write(reinterpret_cast<char *>(&temp),sizeof(int));
+        temp = (min + max) / 2;
+        // file << (min + max) / 2 << endl;
+        file.write(reinterpret_cast<char *>(&temp), sizeof(int));
     }
     else
     {
         if (NumberOfNode(root->left) == NumberOfNode(root->right))
         {
             max = root->id;
-            InsertToBalance(root->left, min, max,temp, file);
+            InsertToBalance(root->left, min, max, temp, file);
         }
         else
         {
             min = root->id;
-            InsertToBalance(root->right, min, max,temp, file);
+            InsertToBalance(root->right, min, max, temp, file);
         }
     }
 }
-void DeleteAllID(ID*root)
+void DeleteAllID(ID *root)
 {
-    if(root!=NULL)
+    if (root != NULL)
     {
         DeleteAllID(root->left);
         DeleteAllID(root->right);
@@ -137,59 +133,62 @@ void DeleteAllID(ID*root)
 }
 void TaoFileID()
 {
-    ifstream check("Data/FileOldID.bin",ios::binary);
-    if(check.is_open())return;
-    int n = 14,temp=0;
+    ifstream check("Data/FileOldID.bin", ios::binary);
+    if (check.is_open())
+        return;
+    int n = 14, temp = 0;
     createID root = NULL;
-    ofstream FileOldKey("Data/FileOldID.bin",ios::binary);
-    FileOldKey.write(reinterpret_cast<char *>(&temp),sizeof(temp));
+    ofstream FileOldKey("Data/FileOldID.bin", ios::binary);
+    FileOldKey.write(reinterpret_cast<char *>(&temp), sizeof(temp));
     FileOldKey.close();
-    ofstream FileNewID("Data/FileNewID.bin",ios::binary);
-    temp=1;
-    FileNewID.write(reinterpret_cast<char*>(&temp),sizeof(int));
+    ofstream FileNewID("Data/FileNewID.bin", ios::binary);
+    temp = 1;
+    FileNewID.write(reinterpret_cast<char *>(&temp), sizeof(int));
     for (int i = 1; i <= pow(2, n) - 1; i++)
-        InsertToBalance(root, 1, pow(2, n),temp, FileNewID); // lay can duoi
+        InsertToBalance(root, 1, pow(2, n), temp, FileNewID); // lay can duoi
     DeleteAllID(root);
     FileNewID.close();
 }
-int ReadID(int&ExistID,int option)
+int ReadID(int &ExistID, int option)
 {
     int number, ID;
-    fstream FileOldID("Data/FileOldID.bin", ios::binary|ios::in | ios::out);
-    fstream FileNewID("Data/FileNewID.bin", ios::binary|ios::in | ios::out);
-    FileOldID.read(reinterpret_cast<char*>(&number),sizeof(number));
-    if(number!=0)
+    fstream FileOldID("Data/FileOldID.bin", ios::binary | ios::in | ios::out);
+    fstream FileNewID("Data/FileNewID.bin", ios::binary | ios::in | ios::out);
+    FileOldID.read(reinterpret_cast<char *>(&number), sizeof(number));
+    if (number != 0)
     {
-        FileOldID.seekg(number*sizeof(int),ios::beg);
-        FileOldID.read(reinterpret_cast<char*>(&ID),sizeof(int));
-        if(option==0)
+        FileOldID.seekg(number * sizeof(int), ios::beg);
+        FileOldID.read(reinterpret_cast<char *>(&ID), sizeof(int));
+        if (option == 0)
         {
             number--;
             FileOldID.seekg(ios::beg);
-            FileOldID.write(reinterpret_cast<char*>(&number),sizeof(int));
+            FileOldID.write(reinterpret_cast<char *>(&number), sizeof(int));
         }
-        ExistID=ID;
+        ExistID = ID;
         FileNewID.close();
         FileOldID.close();
-        if(number==0)return 1;//phục hồi lại cây ban đầu để sử dụng file key
-        else return 2;//cần cân bằng lại cây
+        if (number == 0)
+            return 1; // phục hồi lại cây ban đầu để sử dụng file key
+        else
+            return 2; // cần cân bằng lại cây
     }
     else
     {
-        
-        FileNewID.read(reinterpret_cast<char *>(&number),sizeof(int));
-        FileNewID.seekg(number*sizeof(int),ios::beg);
-        FileNewID.read(reinterpret_cast<char *>(&ID),sizeof(int)); 
-        if(option==0)
+
+        FileNewID.read(reinterpret_cast<char *>(&number), sizeof(int));
+        FileNewID.seekg(number * sizeof(int), ios::beg);
+        FileNewID.read(reinterpret_cast<char *>(&ID), sizeof(int));
+        if (option == 0)
         {
             ++number;
             FileNewID.seekp(ios::beg);
-            FileNewID.write(reinterpret_cast<char*>(&number),sizeof(int));
+            FileNewID.write(reinterpret_cast<char *>(&number), sizeof(int));
         }
-        ExistID=ID;
+        ExistID = ID;
         FileNewID.close();
         FileOldID.close();
-        return 0;//không cần cân bằng lại cây
+        return 0; // không cần cân bằng lại cây
     }
 }
 
@@ -197,10 +196,10 @@ void RestoreID()
 {
     int number;
     fstream FileID("Data/FileNewID.bin", ios::in | ios::out);
-    FileID.read(reinterpret_cast<char*>(&number),sizeof(int));
+    FileID.read(reinterpret_cast<char *>(&number), sizeof(int));
     FileID.seekp(ios::beg);
     --number;
-    FileID.write(reinterpret_cast<char*>(&number),sizeof(int));
+    FileID.write(reinterpret_cast<char *>(&number), sizeof(int));
     FileID.close();
 }
 int Insert(STreeCH &root, STreeCH &question)
@@ -220,8 +219,8 @@ int Insert(STreeCH &root, STreeCH &question)
                 if (temp->left == NULL)
                 {
                     temp->left = question;
-                    question->left=NULL;
-                    question->right=NULL;
+                    question->left = NULL;
+                    question->right = NULL;
                     return 1;
                 }
                 temp = temp->left;
@@ -231,8 +230,8 @@ int Insert(STreeCH &root, STreeCH &question)
                 if (temp->right == NULL)
                 {
                     temp->right = question;
-                    question->left=NULL;
-                    question->right=NULL;
+                    question->left = NULL;
+                    question->right = NULL;
                     return 1;
                 }
                 temp = temp->right;
@@ -240,7 +239,6 @@ int Insert(STreeCH &root, STreeCH &question)
             else
                 return 0;
         }
-
     }
 }
 //---------can bang cay------
@@ -268,44 +266,48 @@ STreeCH Balance(STreeCH root)
     Array<STreeCH> nodes;
     STreeCH NewRoot;
     Store(root, nodes);
-    NewRoot=Convert(nodes, nodes.GetIndexLast(), 0);
+    NewRoot = Convert(nodes, nodes.GetIndexLast(), 0);
     nodes.destroy();
     return NewRoot;
 }
-//tim nut
-STreeCH BinarySearch(STreeCH root,int ID)
+// tim nut
+STreeCH BinarySearch(STreeCH root, int ID)
 {
-    if (root == NULL)return NULL;
+    if (root == NULL)
+        return NULL;
     STreeCH temp = root;
     while (1)
     {
-        if (temp->info.ID > ID)temp = temp->left;
-        else if (temp->info.ID <ID)temp = temp->right;
-        else return temp;
+        if (temp->info.ID > ID)
+            temp = temp->left;
+        else if (temp->info.ID < ID)
+            temp = temp->right;
+        else
+            return temp;
     }
     return temp;
 }
-//Phuc hồi cây
+// Phuc hồi cây
 STreeCH OriginRoot(STreeCH root)
 {
-    int number,ID;
-    STreeCH p=NULL;
-    fstream FileNewID("Data/FileNewID.bin", ios::binary|ios::in | ios::out);
-    FileNewID.read(reinterpret_cast<char *>(&number),sizeof(int));
-    Array<STreeCH>Arr(number);//number lớn hơn tổng số câu là 1
-    for(int i=1;i<number;i++)
+    int number, ID;
+    STreeCH p = NULL;
+    fstream FileNewID("Data/FileNewID.bin", ios::binary | ios::in | ios::out);
+    FileNewID.read(reinterpret_cast<char *>(&number), sizeof(int));
+    Array<STreeCH> Arr(number); // number lớn hơn tổng số câu là 1
+    for (int i = 1; i < number; i++)
     {
-        FileNewID.seekg((i)*sizeof(int),ios::beg);
-        FileNewID.read(reinterpret_cast<char *>(&ID),sizeof(int)); 
-        Arr[i]=BinarySearch(root,ID);
+        FileNewID.seekg((i) * sizeof(int), ios::beg);
+        FileNewID.read(reinterpret_cast<char *>(&ID), sizeof(int));
+        Arr[i] = BinarySearch(root, ID);
     }
-    for(int i=1;i<number;i++)
+    for (int i = 1; i < number; i++)
     {
-        Arr[i]->left=NULL;
-        Arr[i]->right==NULL;
+        Arr[i]->left = NULL;
+        Arr[i]->right == NULL;
     }
-    for(int i=1;i<number;i++)
-        Insert(p,Arr[i]);
+    for (int i = 1; i < number; i++)
+        Insert(p, Arr[i]);
     return p;
 }
 // ---------them, xoa,sua cau hoi-----//
@@ -313,24 +315,26 @@ STreeCH rp;
 STreeCH newnode()
 {
     STreeCH p = new nodeCauHoi;
-    p->info.ID=0;
+    p->info.ID = 0;
     p->left = NULL;
     p->right = NULL;
     return p;
 }
 int InsertNewQuestion(STreeCH &root, STreeCH &question)
 {
-    int check=ReadID(question->info.ID);
-    if(Insert(root,question)==0)return 0;
-    if(check==2)//cân bằng lại cây
-        root=Balance(root);
-    if(check==1)
-        root=OriginRoot(root);//phục hồi lại cây ban đầu
+    int check = ReadID(question->info.ID);
+    if (Insert(root, question) == 0)
+        return 0;
+    if (check == 2) // cân bằng lại cây
+        root = Balance(root);
+    if (check == 1)
+        root = OriginRoot(root); // phục hồi lại cây ban đầu
     return 1;
 }
 void SubDelete(STreeCH &root)
 {
-    if (root->left != NULL)SubDelete(root->left);
+    if (root->left != NULL)
+        SubDelete(root->left);
     else
     {
         rp->info = root->info;
@@ -340,11 +344,14 @@ void SubDelete(STreeCH &root)
 }
 int Delete(STreeCH &root, int ID)
 {
-    if (root == NULL)return 0;
+    if (root == NULL)
+        return 0;
     else
     {
-        if (root->info.ID > ID)return Delete(root->left, ID);
-        else if (root->info.ID < ID)return Delete(root->right, ID);
+        if (root->info.ID > ID)
+            return Delete(root->left, ID);
+        else if (root->info.ID < ID)
+            return Delete(root->right, ID);
         else
         {
             rp = root;
@@ -361,18 +368,18 @@ int Delete(STreeCH &root, int ID)
 }
 int DeleteQuestion(STreeCH &root, STreeCH &Question)
 {
-    int number,ID=Question->info.ID;
+    int number, ID = Question->info.ID;
     if (root == NULL)
         return 0;
-    Delete(root,Question->info.ID);
-    root=Balance(root);
-    fstream FileOldKey("Data/FileOldID.bin",ios::binary|ios::in|ios::out);
-    FileOldKey.read(reinterpret_cast<char *>(&number),sizeof(int));
+    Delete(root, Question->info.ID);
+    root = Balance(root);
+    fstream FileOldKey("Data/FileOldID.bin", ios::binary | ios::in | ios::out);
+    FileOldKey.read(reinterpret_cast<char *>(&number), sizeof(int));
     number++;
-    FileOldKey.seekp(number*4,ios::beg);
-    FileOldKey.write(reinterpret_cast<char *>(&ID),sizeof(int));
+    FileOldKey.seekp(number * 4, ios::beg);
+    FileOldKey.write(reinterpret_cast<char *>(&ID), sizeof(int));
     FileOldKey.seekp(ios::beg);
-    FileOldKey.write(reinterpret_cast<char *>(&number),sizeof(int));
+    FileOldKey.write(reinterpret_cast<char *>(&number), sizeof(int));
     FileOldKey.close();
 }
 int SoNode(STreeCH root)
@@ -410,7 +417,7 @@ void PreTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count)
         PreTraversal(AllQuestions, root->right, maMH, count);
     }
 }
-void InTraversal(Array<STreeCH>&AllQuestions, STreeCH root, char maMH[])
+void InTraversal(Array<STreeCH> &AllQuestions, STreeCH root, char maMH[])
 {
     if (root != NULL)
     {
@@ -451,25 +458,30 @@ int DemSoCauHoi(STreeCH root, char maMH[])
     else
         return 0;
 }
-void Sort(Array<STreeCH>&Arr,int first,int last)
+void Sort(Array<STreeCH> &Arr, int first, int last)
 {
-    int mid,i,j;
+    int mid, i, j;
     STreeCH temp;
-    mid=(first+last)/2,i=first,j=last;
+    mid = (first + last) / 2, i = first, j = last;
     do
     {
-        while(Arr[i]->info.ID<Arr[mid]->info.ID)i++;
-        while(Arr[j]->info.ID>Arr[mid]->info.ID)j--;
-        if(i<=j)
+        while (Arr[i]->info.ID < Arr[mid]->info.ID)
+            i++;
+        while (Arr[j]->info.ID > Arr[mid]->info.ID)
+            j--;
+        if (i <= j)
         {
-            temp=Arr[i];
-            Arr[i]=Arr[j];
-            Arr[j]=temp;
-            i++;j--;
+            temp = Arr[i];
+            Arr[i] = Arr[j];
+            Arr[j] = temp;
+            i++;
+            j--;
         }
-    }while(i<=j);
-    if(i<last)Sort(Arr,i,last);
-    if(j>first)Sort(Arr,first,j);
+    } while (i <= j);
+    if (i < last)
+        Sort(Arr, i, last);
+    if (j > first)
+        Sort(Arr, first, j);
 }
 //---------------------------DiemThi--------------------------//
 void KhoiTao_PtrDT(PtrDT &first)
@@ -788,8 +800,10 @@ int XoaLop(ListLH &ListLH, int pos)
     ListLH.n--;
     return 1;
 }
-void Delete_DSLH(ListLH &dslh) {
-    for (int i = dslh.n; i > 0; i--) {
+void Delete_DSLH(ListLH &dslh)
+{
+    for (int i = dslh.n; i > 0; i--)
+    {
         XoaLop(dslh, i);
     }
     delete[] dslh.lh;
