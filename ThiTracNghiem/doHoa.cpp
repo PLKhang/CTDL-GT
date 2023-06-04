@@ -753,27 +753,27 @@ void ThanhChucNang(int option)
 	}
 	case 5: // menu_dslh_gv
 	{
-		cout << "ESC: THOAT   F1: TIM LOP   F5: SAP XEP    PgUp/PgDn: DOI TRANG      < / > / " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: XEM LOP";
+		cout << "ESC:THOAT  F1:TIM LOP  F2:SAP XEP  F5:TAI LAI  PgUp/PgDn:DOI TRANG  < / > / " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: XEM LOP";
 		break;
 	}
 	case 6: // menu_dslh_gv (selection mode)
 	{
-		cout << "ESC: THOAT   F1: TIM LOP   F5: SAP XEP    PgUp/PgDn: DOI TRANG                 " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: CHON";
+		cout << "ESC: THOAT   F1: TIM LOP   F2: SAP XEP   F5: TAI LAI   PgUp/PgDn: DOI TRANG    " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: CHON";
 		break;
 	}
 	case 7: // menu_dssv_gv
 	{
-		cout << "ESC: THOAT   F1: TIM SV    F5: SAP XEP    PgUp/PgDn: DOI TRANG     < / > / " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: XEM DIEM";
+		cout << "ESC:THOAT  F1:TIM SV  F2:SAP XEP  F5: TAI LAI  PgUp/PgDn:DOI TRANG   < / > / " << char(30) << " / " << char(31) << ":DI CHUYEN   ENTER: XEM DIEM";
 		break;
 	}
 	case 8: // menu_dssv_gv (selection mode)
 	{
-		cout << "ESC: THOAT   F1: TIM SV    F5: SAP XEP    PgUp/PgDn: DOI TRANG                 " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: CHON";
+		cout << "ESC: THOAT   F1: TIM SV   F2: SAP XEP   F5: TAI LAI   PgUp/PgDn: DOI TRANG     " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: CHON";
 		break;
 	}
 	case 9: // menu_dsmh_gv
 	{
-		cout << "ESC: THOAT   F1: TIM MON      PgUp/PgDn: DOI TRANG         < / > / " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: XEM DSCH CUA MON";
+		cout << "ESC:THOAT  F1:TIM MON  F5:TAI LAI   PgUp/PgDn:DOI TRANG    < / > / " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: XEM DSCH CUA MON";
 		break;
 	}
 	case 10: // menu_dsmh (selection mode)
@@ -781,7 +781,7 @@ void ThanhChucNang(int option)
 		delete_AreaOnScreen(5, 34, 111, 3);
 		VeKhung(5, 34, 90, 36);
 		gotoxy(6, 35);
-		cout << "ESC: THOAT   F1: TIM MON      PgUp/PgDn: DOI TRANG    " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: CHON";
+		cout << "ESC:THOAT  F1:TIM MON  F5:TAI LAI   PgUp/PgDn:DOI TRANG   " << char(30) << "/" << char(31) << ":DI CHUYEN   ENTER:CHON";
 		break;
 	}
 	case 11: // THEMSINHVIEN

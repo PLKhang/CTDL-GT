@@ -1729,7 +1729,7 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 				p = dslh.lh[classIndex]->danhSachSinhVien;
 				while (p != NULL)
 				{
-					if (strstr(p->info.ten, content.data()) != NULL)
+					if ((strstr(p->info.ten, content.data()) != NULL) || (strstr(p->info.ho, content.data()) != NULL))
 					{
 						temp[numOfResults++] = p;
 					}
@@ -1750,11 +1750,16 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 				}
 			}
 			break;
-			case F5:												 // sap xep theo ho <-> ten(mssv)
+			case F2:												 // sap xep theo ho <-> ten(mssv)
 				delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2); // di chuyen toi vi tri xoa con tro vi tri
 				SortDSSV(temp, numOfStudents, checkList);			 // sap xep lai dssv tuy theo nhu cau
 				page = 1;											 // thao tac di chuyen ve dau dssv
 				index = 0;
+				break;
+			case F5: // tai lai danh sach ban dau
+				p = dslh.lh[classIndex]->danhSachSinhVien;
+				for (int i = 0; p != NULL; i++)
+					temp[i] = p;
 				break;
 			case ENTER:
 			{
@@ -3066,7 +3071,7 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 				}
 			}
 			break;
-			case F5: // sap xep theo ho <-> ten(mssv)
+			case F2: // sap xep theo ho <-> ten(mssv)
 			{
 				sortDSLH(temp, dslh.n, check_List);
 
@@ -3074,6 +3079,10 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 				page = 1;
 			}
 			break;
+			case F5: // tai lai danh sach ban dau
+				for (int i = 0; i < dslh.n; i++)
+					temp[i] = dslh.lh[i];
+				break;
 			case ESC:
 				return "EXIT";
 			case ENTER:
@@ -3301,6 +3310,27 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 				gotoxy(2, 9 + (index % 10 + 1) * 2);
 				cout << ">>";
 				// TODO: Xử lý hiển thị kết quả tìm kiếm
+			}
+		}
+		else if (ch == F5)
+		{
+			if (selectMode != 2)
+			{
+				for (int i = 0; i < dsmh.n; i++)
+					temp[i] = &dsmh.nodes[i];
+				numOfSubjects = dsmh.n;
+			}
+			else
+			{
+				int pos = 0;
+				int numOfScores = 0;
+				for (PtrDT p = SV->info.danhSachDiemThi; p != NULL; p = p->next)
+					numOfScores++;
+				THONGBAO(1, "NumOfScores: " + to_string(numOfScores));
+				numOfSubjects = dsmh.n - numOfScores;
+				for (int i = 0; i < dsmh.n; i++)
+					if (!(is_Existed_MaMH_DT(SV->info.danhSachDiemThi, dsmh.nodes[i].maMonHoc)))
+						temp[pos++] = &dsmh.nodes[i];
 			}
 		}
 		else if (ch == ENTER)
