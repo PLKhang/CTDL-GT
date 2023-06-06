@@ -1,5 +1,9 @@
 {
     "files.associations": {
+<<<<<<< HEAD
         "xstring": "cpp"
+=======
+        "ostream": "cpp"
+>>>>>>> 1dc22aa02135d8a31d559a9bfaa19f849f35fc16
     }
 }

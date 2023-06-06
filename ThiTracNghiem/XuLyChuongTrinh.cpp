@@ -409,38 +409,25 @@ void DongHo(int time)
 	VeKhung(60, 1, 80, 3);
 	while (time > 0)
 	{
-		gotoxy(62, 2);
-		cout << time;
-		gotoxy(65, 2);
-		cout << ":phut";
-		gotoxy(72, 2);
-		cout << "00";
-		gotoxy(74, 2);
-		cout << ":giay";
+		gotoxy(62, 2);cout <<right<<setw(2)<<setfill('0')<<time;
+		gotoxy(65, 2);cout << ":phut";
+		gotoxy(72, 2);cout << "00";
+		gotoxy(74, 2);cout << ":giay";
 		Sleep(1000);
-		gotoxy(62, 2);
-		cout << time--;
+		gotoxy(62, 2);cout << time--;
 		giay = 59;
-
-		while (giay >= 0)
+		while (giay > 0)
 		{
 			SetColor(0, 7);
-			gotoxy(62, 2);
-			cout << "   ";
-			gotoxy(62, 2);
-			cout << time;
-			gotoxy(65, 2);
-			cout << ":phut";
-			gotoxy(72, 2);
-			cout << "  ";
-			gotoxy(72, 2);
-			cout << giay--;
-			gotoxy(74, 2);
-			cout << ":giay";
+			gotoxy(62, 2);cout <<right<<setw(2)<<setfill('0')<<time;
+			gotoxy(65, 2);cout << ":phut";
+			gotoxy(72, 2);cout <<right<<setw(2)<<setfill('0')<< giay--;
+			gotoxy(74, 2);cout << ":giay";
 			Sleep(1000);
 			if (stopThi == 1)
 				return;
 		}
+		if(time==0){gotoxy(72, 2);cout << "00";}
 	}
 	THONGBAO(1, "HET THOI GIAN");
 	THONGBAO(0, "NHAN PHIM BAT KI DE THOAT");
@@ -575,36 +562,37 @@ string NhapSC_TG(int &so_cau, int &thoi_gian, int soluongcauhoi, PtrSV &SV)
 		}
 		case 1:
 		{
-			temp = NhapSo1(70, 18, 3, thoi_gian);
-			if (temp.compare("UP") == 0)
-				option = 0;
-			if (temp.compare("EMPTY") == 0)
-			{
-				THONGBAO(1, "THOI GIAN TRONG");
-			}
+			temp = NhapSo1(70, 18, 2, thoi_gian);
+			if (temp.compare("UP") == 0)option = 0;
+			if (temp.compare("EMPTY") == 0)THONGBAO(1, "THOI GIAN TRONG");
 			if (temp.compare("DONE") == 0)
 			{
 				if (check_empty == 1)
 				{
 					THONGBAO(1, "SO CAU TRONG");
+					gotoxy(70,16);cout<<"  ";
+					if(thoi_gian==0){gotoxy(70,18);cout<<"  ";}
 					option = 0;
 					break;
 				}
 				if (so_cau == 0)
 				{
-					THONGBAO(1, "SO CAU PHAI KHAC KHONG");
+					THONGBAO(1, "SO CAU PHAI >0");
+					gotoxy(70,16);cout<<"  ";
 					option = 0;
 					break;
 				}
 				if (so_cau > soluongcauhoi)
 				{
-					THONGBAO(1, "SO CAU KHONG LON HON TONG SO CAU");
+					THONGBAO(1, "SO CAU PHAI <= TONG SO CAU");
 					option = 0;
 					break;
 				}
-				if (thoi_gian == 0)
+				if (thoi_gian == 0||thoi_gian>60)
 				{
-					THONGBAO(1, "THOI GIAN PHAI KHAC KHONG");
+					THONGBAO(1, "THOI GIAN PHAI >0 va<=60 PHUT");
+					gotoxy(70,18);cout<<"  ";
+					thoi_gian=0;
 					option = 1;
 					break;
 				}
@@ -662,7 +650,6 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 			if (chon == ESC) // NHAN ESC
 			{
 				stopThi = THONGBAO(3, "BAN CO MUON THOAT KHONG"); // NEU THOAT THI STOP=1 VA THOAT
-				THONGBAO(1);
 				break;
 			}
 			else if (chon == ENTER) // PHAT HIEN NHAN ENTER VA KIEM TRA DAP AN

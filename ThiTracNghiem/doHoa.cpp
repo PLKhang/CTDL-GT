@@ -436,14 +436,15 @@ void chuMenuSV(int x, int y)
 void XoaVungThi()
 {
     //VeKhung(5, 5, 115, 25);
+	gotoxy(81,2);cout<<"                                                               ";
     for(int j=5;j<=25;j++)
     {
-        gotoxy(5,j);cout<<"                                                                                                               ";
+        gotoxy(5,j);cout<<"                                                                                                                    ";
     }
 }
 void VeKhungCauHoi(int Your_index,int Answer_index,int option)
 {
-	Sleep(200);//để chờ in thời gian thi
+	Sleep(100);//để chờ in thời gian thi
 	XoaVungThi();
 	VeKhung(5, 5, 115, 25);
 	int x = 5, y = 9;

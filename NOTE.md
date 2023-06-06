@@ -7,7 +7,7 @@
     3. Nhập thông tin của từng sv, có thể dừng nhập khi nhập chưa đủ số lượng ban đầu
     
 ## THONGBAO 
-    THONGBAO(1,..): tắt thông báo khi ấn phím bất kỳ
+    THONGBAO(2,..):-> tắt thông báo khi ấn phím bất kỳ
 
 ## NOTE
     line 3829: temp ?

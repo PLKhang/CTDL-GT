@@ -247,10 +247,6 @@ int insert_MH(ListMH &dsmh, MonHoc info);
 //  0 <=  pos  < dsmh.n
 int delete_MH(ListMH &dsmh, unsigned pos);
 
-// Dung ham nay khi HIEU CHINH mon hoc
-// Vi tri duoc truyen vao tu XuLyChuongTrinh
-void set_Info_MH(ListMH &dsmh, unsigned pos, MonHoc new_MH);
-
 // Tra ve vi tri MonHoc.maMonHoc = maMH
 int pos_MaMH_MH(ListMH dsmh, string maMH);
 
