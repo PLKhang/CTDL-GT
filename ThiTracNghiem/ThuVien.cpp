@@ -451,9 +451,7 @@ string NhapSo1(int x, int y, int soluong,int&num)
         {
             ch=getch();
             if(ch==UP)return "UP";
-            else if(ch==DOWN)return "DOWN";
-            else if(ch==LEFT)return "LEFT";
-            else if(ch==RIGHT)return "RIGHT";   
+            else if(ch==DOWN)return "DOWN";  
         }
     }
     if(index==0)return "EMPTY";
