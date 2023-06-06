@@ -47,27 +47,20 @@ void SortDSSV(PtrSV *data, int n, bool &check);
 //-------------------------DIEM THI--------------------------
 // types:  0->co the chinh sua diem thi, 1->chi xem diem
 void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool types = 0);
-bool HienDiemThi(STreeCH root, MonHoc monHoc, SinhVien &data);
-// bool ThemDiemThi(PtrDT &dsdt, PtrDT *data, ListMH dsmh, STreeCH root);
-// bool XoaDiemThi(PtrDT &dsdt, PtrDT *data, int index);
-// bool HieuChinhDiemThi(PtrDT *data, int index, int line);
-
 void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, string ten, int numOfSubs, int page, int maxPage);
-void HienDiemTheoLanThi(PtrDT *data, int numOfScores, int page, int maxPage);
-// sap xep theo mon <-> sap xep theo diem(cao xuong thap)
-void SortDSDT(PtrDT *data, int n, int &check);
-
 //--------------------------MON HOC---------------------------
-// types: 0-> chuc nang quan ly mon hoc, 1-> chon mon hoc
+// types: 0-> chuc nang quan ly mon hoc
+// types: 1-> chon mon hoc
 // types: 2-> thi: mon hoc da thi -> khong hien ra
 string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode = 0, PtrSV SV = NULL);
 bool ThemMonHoc(ListMH &dsmh);
 bool XoaMonHoc(ListMH &dsmh, MonHoc *temp[], int index);
 // chi duoc hieu chinh ten mon hoc
 bool HieuChinhMonHoc(MonHoc &selectedSubject, int line);
-
 void HienDanhSachMonHoc(MonHoc *dsmh[], int numOfSubs, int page, int maxPage, bool selectMode);
-int HienOptionMonHoc(bool check = 0);
+// types: 0-> chon option
+// types: 1-> chi hien option
+int HienOptionMonHoc(bool types = 0);
 //--------------------------CAU HOI-------------------------
 int InCauHoiThi(STreeCH &Question, char YourAnswer, int current_index, int so_cau, int option = 0);
 string NhapSC_TG(int &so_cau, int &thoi_gian, int soluongcauhoi, PtrSV &SV);

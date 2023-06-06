@@ -115,16 +115,16 @@ string DANGNHAP()
 	switch (KiemTraTK(Name, Password))
 	{
 	case -1:
-		THONGBAO(1, "KHONG CO TAI KHOAN");
+		// THONGBAO(1, "KHONG CO TAI KHOAN");
 		return "NONE";
 	case 0:
-		THONGBAO(1, "KHONG DOC DUOC FILE");
+		// THONGBAO(1, "KHONG DOC DUOC FILE");
 		return "READ FILE ERROR";
 	case 1:
-		THONGBAO(1, "LOGIN SV");
+		// THONGBAO(1, "LOGIN SV");
 		return Name;
 	case 2:
-		THONGBAO(1, "LOGIN GV");
+		// THONGBAO(1, "LOGIN GV");
 		return "GV";
 	}
 }
@@ -3332,6 +3332,12 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 					if (!(is_Existed_MaMH_DT(SV->info.danhSachDiemThi, dsmh.nodes[i].maMonHoc)))
 						temp[pos++] = &dsmh.nodes[i];
 			}
+			maxPage = (numOfSubjects - 1) / 10 + 1;
+			index = 0;
+			page = 1;
+			HienDanhSachMonHoc(temp, numOfSubjects, page, maxPage, selectMode);
+			gotoxy(2, 9 + (index % 10 + 1) * 2);
+			cout << ">>";
 		}
 		else if (ch == ENTER)
 		{
@@ -3393,7 +3399,7 @@ void HienDanhSachMonHoc(MonHoc *dsmh[], int numOfSubs, int page, int maxPage, bo
 	gotoxy(91, 29);
 	cout << "Page " << page << '/' << maxPage;
 }
-int HienOptionMonHoc(bool check)
+int HienOptionMonHoc(bool types)
 {
 	string option1 = "    THEM MON HOC        ";
 	string option2 = "    XOA MON HOC         ";
@@ -3411,7 +3417,7 @@ int HienOptionMonHoc(bool check)
 	cout << option4;
 	TextColor(7);
 
-	if (check)
+	if (types)
 		return 0;
 
 	int pos_Y = 15, conTro = 15;
@@ -3759,7 +3765,6 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 				case 4: // BANG DIEM
 				{
 					// chon lop
-					THONGBAO(1, "CHON LOP");
 					string maLop = MENU_DSLH_GV(dslh, dsmh, root, 1);
 					if (maLop == "EXIT") // bam ESC khi chon lop -> return "EXIT"
 						break;
@@ -3767,7 +3772,6 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 					for (index = 0; index < dslh.n; index++) // lay lop hoc da chon
 						if (strcmp(dslh.lh[index]->maLop, maLop.c_str()) == 0)
 							break;
-					THONGBAO(1, "CHON SINH VIEN");
 					PtrSV pSV = MENU_DSSV_GV(dslh, index, dsmh, root, 2);
 					if (pSV == NULL) // bam ESC khi chon sinh vien -> return NULL
 						break;
@@ -3781,7 +3785,7 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 				}
 				case 6: // THOAT
 				{
-					if (THONGBAO(3, "DANH XUAT?"))
+					if (THONGBAO(3, "DANG XUAT?"))
 						stop = 1;
 					break;
 				}

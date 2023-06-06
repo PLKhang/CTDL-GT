@@ -50,7 +50,7 @@ void SetColor(int backgound_color, int text_color)
     SetConsoleTextAttribute(hStdout, color_code);
 }
 //////////////////////////////////////////////////////////////////////////
-int GetKey()//dung để loại bỏ phím mở rộng
+int GetKey() // dung để loại bỏ phím mở rộng
 {
     int key;
     key = getch();
@@ -59,18 +59,19 @@ int GetKey()//dung để loại bỏ phím mở rộng
     else
         return key;
 }
-string NhapChuoi(int x, int y, int chieudai,int option) // x va y la dia chi de hien ki tu vua nhap
+string NhapChuoi(int x, int y, int chieudai, int option) // x va y la dia chi de hien ki tu vua nhap
 {
     char chuoi[chieudai + 1] = {'\0'};
     int index = 0;
     int ki_tu;
-    if(option==0)delete_LineOnScreen(x, y, chieudai);
+    if (option == 0)
+        delete_LineOnScreen(x, y, chieudai);
     else
     {
         gotoxy(21, 10);
-		cout << "                                                                                              ";
+        cout << "                                                                                              ";
         gotoxy(21, 11);
-		cout << "                                                                                              ";
+        cout << "                                                                                              ";
     }
     gotoxy(x, y);
     setCursorVisibility(1);
@@ -138,46 +139,52 @@ string NhapChuoi(int x, int y, int chieudai,int option) // x va y la dia chi de 
     chuoi[index] = '\0';
     return chuoi;
 }
-string NhapChuoi1(int x, int y, int length,string &input) // x va y la dia chi de hien ki tu vua nhap
+string NhapChuoi1(int x, int y, int length, string &input) // x va y la dia chi de hien ki tu vua nhap
 {
-    int index,ki_tu;
-    //cập nhật vị trí hiện tại
-    index=input.size();
-    gotoxy(x+index, y);
-    input.resize(length);//thiết lập độ dài cho chuỗi
+    int index, ki_tu;
+    // cập nhật vị trí hiện tại
+    index = input.size();
+    gotoxy(x + index, y);
+    input.resize(length); // thiết lập độ dài cho chuỗi
     while ((ki_tu = getch()) != ENTER)
     {
         if (ki_tu == ESC)
         {
-            if(input[index-1]==' '&&index!=0)input[--index]='\0';
+            if (input[index - 1] == ' ' && index != 0)
+                input[--index] = '\0';
             input.resize(index);
             return "EXIT";
         }
         else if (ki_tu == 0 || ki_tu == 224)
         {
             ki_tu = getch();
-            if(ki_tu==UP)
+            if (ki_tu == UP)
             {
-                if(input[index-1]==' '&&index!=0)input[--index]='\0';
+                if (input[index - 1] == ' ' && index != 0)
+                    input[--index] = '\0';
                 input.resize(index);
                 return "UP";
             }
-            else if(ki_tu==DOWN)
+            else if (ki_tu == DOWN)
             {
-                if(input[index-1]==' '&&index!=0)input[--index]='\0';
+                if (input[index - 1] == ' ' && index != 0)
+                    input[--index] = '\0';
                 input.resize(index);
                 return "DOWN";
             }
-            else if(ki_tu==LEFT){
-                if(input[index-1]==' '&&index!=0)input[--index]='\0';
+            else if (ki_tu == LEFT)
+            {
+                if (input[index - 1] == ' ' && index != 0)
+                    input[--index] = '\0';
                 input.resize(index);
                 return "LEFT";
             }
-            else if(ki_tu==RIGHT)
+            else if (ki_tu == RIGHT)
             {
-                if(input[index-1]==' '&&index!=0)input[--index]='\0';
+                if (input[index - 1] == ' ' && index != 0)
+                    input[--index] = '\0';
                 input.resize(index);
-                return "RIGHT";   
+                return "RIGHT";
             }
             continue;
         }
@@ -218,15 +225,17 @@ string NhapChuoi1(int x, int y, int length,string &input) // x va y la dia chi d
             index++;
         }
     }
-    if(input[index-1]==' ')input[--index]='\0';//bỏ kí tự cuối
-    input.resize(index);//thiết lập kích thước của chuỗi
+    if (input[index - 1] == ' ')
+        input[--index] = '\0'; // bỏ kí tự cuối
+    input.resize(index);       // thiết lập kích thước của chuỗi
     return "DONE";
 }
-string NhapDapAn(int x,int y,char &Answer)
+string NhapDapAn(int x, int y, char &Answer)
 {
-    int index=0,ki_tu;
-    if(Answer>='A'&&Answer<='D')index=1;
-    gotoxy(x+index, y);
+    int index = 0, ki_tu;
+    if (Answer >= 'A' && Answer <= 'D')
+        index = 1;
+    gotoxy(x + index, y);
     while ((ki_tu = getch()) != ENTER)
     {
         if (ki_tu == ESC)
@@ -234,30 +243,35 @@ string NhapDapAn(int x,int y,char &Answer)
         else if (ki_tu == 0 || ki_tu == 224)
         {
             ki_tu = getch();
-            if(ki_tu==UP)return "UP";
-            else if(ki_tu==DOWN)return "DOWN";
-            else if(ki_tu==LEFT)return "LEFT";
-            else if(ki_tu==RIGHT)return "RIGHT";   
+            if (ki_tu == UP)
+                return "UP";
+            else if (ki_tu == DOWN)
+                return "DOWN";
+            else if (ki_tu == LEFT)
+                return "LEFT";
+            else if (ki_tu == RIGHT)
+                return "RIGHT";
             continue;
         }
         // xoa ki tu
         else if (ki_tu == BACKSPACE && index > 0)
         {
-            index=0;
+            index = 0;
             Answer = '\0';
             gotoxy(x, y);
             cout << " ";
             gotoxy(x, y);
         }
         ki_tu = toupper(ki_tu);
-        if (ki_tu >= 'A' && ki_tu <= 'D'&&index==0)
+        if (ki_tu >= 'A' && ki_tu <= 'D' && index == 0)
         {
             Answer = ki_tu;
-            gotoxy(x, y);cout <<Answer;
+            gotoxy(x, y);
+            cout << Answer;
             index++;
         }
     }
-    return "DONE";   
+    return "DONE";
 }
 string NhapMa(int x, int y, int chieudai, string loai)
 {
@@ -315,32 +329,36 @@ string NhapMa(int x, int y, int chieudai, string loai)
     Ma[index] = '\0';
     return Ma;
 }
-string NhapMa1(int x, int y, int length,string &input,string loai)
+string NhapMa1(int x, int y, int length, string &input, string loai)
 {
+    setCursorVisibility(1);
     int ki_tu, index;
-    index=input.size();
+    index = input.size();
     input.resize(length);
-    gotoxy(x+index, y);
+    gotoxy(x + index, y);
     while ((ki_tu = getch()) != ENTER)
     {
         if (ki_tu == ESC)
         {
-            if(input[index] = '\0'&&index!=0)input[--index]='\0';
+            if (input[index] = '\0' && index != 0)
+                input[--index] = '\0';
             input.resize(index);
             return "EXIT";
         }
         if (ki_tu == 0 || ki_tu == 224)
         {
             ki_tu = getch(); // bat ki tu con khi nhap phim mo rong
-            if(ki_tu==UP)
+            if (ki_tu == UP)
             {
-                if(input[index] = '\0'&&index!=0)input[--index]='\0';
+                if (input[index] = '\0' && index != 0)
+                    input[--index] = '\0';
                 input.resize(index);
                 return "UP";
             }
-            if(ki_tu==DOWN)
+            if (ki_tu == DOWN)
             {
-                if(input[index] = '\0'&&index!=0)input[--index]='\0';
+                if (input[index] = '\0' && index != 0)
+                    input[--index] = '\0';
                 input.resize(index);
                 return "DOWN";
             }
@@ -367,8 +385,10 @@ string NhapMa1(int x, int y, int length,string &input,string loai)
                 cout << input[index];
             index++;
         }
+        setCursorVisibility(0);
     }
-    if(input[index] = '\0')input[--index]='\0';
+    if (input[index] = '\0')
+        input[--index] = '\0';
     input.resize(index);
     return "DONE";
 }
@@ -400,7 +420,7 @@ double NhapSo(int x, int y, int soluong)
             num[index] = '\0';
             gotoxy(x + --index, y);
             cout << ' ';
-            gotoxy(x+index,y);
+            gotoxy(x + index, y);
         }
         if (ch == ESC) // dang nhap lieu thi chon thoat
         {
@@ -415,48 +435,57 @@ double NhapSo(int x, int y, int soluong)
 }
 int Dem(int num)
 {
-    int count=0;
-    while(num>0)
+    int count = 0;
+    while (num > 0)
     {
-        num/=10;
+        num /= 10;
         count++;
     }
     return count;
 }
-string NhapSo1(int x, int y, int soluong,int&num)
+string NhapSo1(int x, int y, int soluong, int &num)
 {
-    int index,ch;
-    index=Dem(num);
-    gotoxy(x+index,y);
+    int index, ch;
+    index = Dem(num);
+    gotoxy(x + index, y);
     while ((ch = getch()) != ENTER)
     {
+        setCursorVisibility(1);
         if (ch >= '0' && ch <= '9' && index < soluong)
         {
-            num = num*10+(ch-'0');
+            num = num * 10 + (ch - '0');
             gotoxy(x + index++, y);
-            cout << ch-'0';
+            cout << ch - '0';
         }
         if (ch == BACKSPACE && index > 0)
         {
-            num/=10;
+            num /= 10;
             gotoxy(x + --index, y);
             cout << ' ';
-            gotoxy(x+index,y);
+            gotoxy(x + index, y);
         }
         if (ch == ESC) // dang nhap lieu thi chon thoat
         {
+            setCursorVisibility(0);
             return "EXIT";
         }
-        if(ch==224||ch==0)
+        if (ch == 224 || ch == 0)
         {
-            ch=getch();
-            if(ch==UP)return "UP";
-            else if(ch==DOWN)return "DOWN";
-            else if(ch==LEFT)return "LEFT";
-            else if(ch==RIGHT)return "RIGHT";   
+            ch = getch();
+            setCursorVisibility(0);
+            if (ch == UP)
+                return "UP";
+            else if (ch == DOWN)
+                return "DOWN";
+            else if (ch == LEFT)
+                return "LEFT";
+            else if (ch == RIGHT)
+                return "RIGHT";
         }
     }
-    if(index==0)return "EMPTY";
+    setCursorVisibility(0);
+    if (index == 0)
+        return "EMPTY";
     return "DONE";
 }
 bool is_Empty_CArray(const char *a)
@@ -758,7 +787,7 @@ int doc_danhSachCauHoi(STreeCH &dsch)
     docfile.close();
     return 1;
 }
-int docCauHoiDaThi(STreeCH root, Array<STreeCH>&List,char YourAnswer[], char MSSV[], MonHoc MH)
+int docCauHoiDaThi(STreeCH root, Array<STreeCH> &List, char YourAnswer[], char MSSV[], MonHoc MH)
 {
     ifstream docfile(("Data/DanhSachSinhVien/DanhSachCauHoiThi/" + string(MSSV) + ".txt").data());
     if (!docfile.is_open())
@@ -771,23 +800,23 @@ int docCauHoiDaThi(STreeCH root, Array<STreeCH>&List,char YourAnswer[], char MSS
         if (strcmp(MH.maMonHoc, maMH.data()) == 0)
         {
             docfile >> temp;
-            for (int i =0; i <temp; i++)
+            for (int i = 0; i < temp; i++)
             {
                 docfile >> ID;
-                docfile.ignore();//bỏ dấu |
+                docfile.ignore(); // bỏ dấu |
                 docfile >> YourAnswer[i];
-                //docfile.ignore();//bỏ dấu xuống dòng
-                List.push(BinarySearch(root,ID));
+                // docfile.ignore();//bỏ dấu xuống dòng
+                List.push(BinarySearch(root, ID));
             }
-        docfile.close();
-        return 1;
+            docfile.close();
+            return 1;
         }
     }
     return 0;
 }
 int demSoCauDaThi(MonHoc MH, char MSSV[])
 {
-    int temp=0;
+    int temp = 0;
     string maMH;
     ifstream docfile(("Data/DanhSachSinhVien/DanhSachCauHoiThi/" + string(MSSV) + ".txt").data());
     if (!docfile.is_open())
