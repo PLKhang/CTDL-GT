@@ -9,7 +9,12 @@ int THONGBAO(int option, string thongbao)
 	gotoxy(126, 2);
 	cout << "-----------------------------";
 	gotoxy(126, 3);
-	cout << thongbao;
+	if(thongbao.size()>29)
+	{
+		cout<<thongbao.substr(0,29);
+		gotoxy(126, 4);
+		cout << thongbao.substr(29);
+	}else cout << thongbao;
 	if (option == 1) // clear thanh thong bao
 	{
 		Sleep(2000);
@@ -435,7 +440,6 @@ void chuMenuSV(int x, int y)
 }
 void XoaVungThi()
 {
-    //VeKhung(5, 5, 115, 25);
 	gotoxy(81,2);cout<<"                                                               ";
     for(int j=5;j<=25;j++)
     {
@@ -444,7 +448,7 @@ void XoaVungThi()
 }
 void VeKhungCauHoi(int Your_index,int Answer_index,int option)
 {
-	Sleep(100);//để chờ in thời gian thi
+	Sleep(200);//để chờ in thời gian thi
 	XoaVungThi();
 	VeKhung(5, 5, 115, 25);
 	int x = 5, y = 9;
@@ -498,12 +502,13 @@ void VeKhungCauHoi(int Your_index,int Answer_index,int option)
 				gotoxy(6, Your_index+1);cout << "         ";
 				gotoxy(6, Your_index+2);cout << "         ";
 			}
-			//tô đáp án đúng
-			SetColor(2, 0);
-			gotoxy(6, Answer_index);cout << "         ";
-			gotoxy(6, Answer_index+1);cout << "         ";
-			gotoxy(6, Answer_index+2);cout << "         ";
 		}
+		//tô đáp án đúng
+		SetColor(2, 0);
+		gotoxy(6, Answer_index);cout << "         ";
+		gotoxy(6, Answer_index+1);cout << "         ";
+		gotoxy(6, Answer_index+2);cout << "         ";
+		
 	}
 	SetColor(0, 7);
 	gotoxy(10, 10);cout << "A";
@@ -536,6 +541,7 @@ void VeKhungCauHoi(int Your_index,int Answer_index,int option)
 					case 22:{gotoxy(10, 22);cout << "D";break;}
 				}
 			}
+		}
 			SetColor(2,0);
 			switch(Answer_index)
 			{
@@ -545,7 +551,7 @@ void VeKhungCauHoi(int Your_index,int Answer_index,int option)
 				case 22:{gotoxy(10, 22);cout << "D";break;}
 			}
 			
-		}	
+			
 	}
 	SetColor(0, 7);
 }
