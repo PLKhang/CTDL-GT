@@ -20,6 +20,59 @@ struct node
     node<T> *next;
 };
 template <typename T>
+class Stack
+{
+private:
+    int size;
+    node<T> *top;
+
+public:
+    Stack()
+    {
+        size = 0;
+        top = NULL;
+    }
+    void Push(T data)
+    {
+        node<T> *temp = new node<T>;
+        temp->info = data;
+        temp->next = top;
+        top = temp;
+        size++;
+    }
+    T Pop()
+    {
+        if (!this->Empty())
+        {
+            node<T> *temp = top;
+            T data = top->info;
+            top = top->next;
+            delete temp;
+            size--;
+            return data;
+        }
+    }
+    bool Empty()
+    {
+        return (top == NULL);
+    }
+    int GetSize() { return size; }
+    void Destroy()
+    {
+        if (top == NULL)
+            return;
+        node<T> *temp, *run = top;
+        while (run != NULL)
+        {
+            temp = run;
+            run = run->next;
+            delete temp;
+        }
+        top = NULL;
+        size = 0;
+    }
+};
+template <typename T>
 class Queue
 {
 private:
@@ -170,11 +223,11 @@ struct CauHoi
     int ID = 0;
     char maMonHoc[16];
     char answer;
-    char ans1[100];
-    char ans2[100];
-    char ans3[100];
-    char ans4[100];
-    char question[200];
+    char ans1[101];
+    char ans2[101];
+    char ans3[101];
+    char ans4[101];
+    char question[201];
 };
 typedef CauHoi *ptrCauHoi;
 struct nodeCauHoi
@@ -184,8 +237,15 @@ struct nodeCauHoi
     nodeCauHoi *left = NULL;
     nodeCauHoi *right = NULL;
 };
-
 typedef nodeCauHoi *STreeCH;
+// tao bo id
+struct ID
+{
+    int id;
+    ID *left = NULL;
+    ID *right = NULL;
+};
+typedef ID *createID;
 //------------------------------------------------//
 struct DiemThi
 {
@@ -251,30 +311,26 @@ int delete_MH(ListMH &dsmh, unsigned pos);
 int pos_MaMH_MH(ListMH dsmh, string maMH);
 
 string FindName(ListMH dsmh, char maMH[]);
-//-------------------CauHoi------------------//
-// tao bo id
-struct ID
-{
-    int id;
-    ID *left = NULL;
-    ID *right = NULL;
-};
-typedef ID *createID;
-
+// ****************Cau hoi**********************************//
+//so luong nut
 int NumberOfNode(ID *root);
+//chen nut vao cay
 void InsertID(ID *&tree, int data);
+//tim vi tri de in
 int InsertToBalance(ID *&root, int min, int max,int&temp, ofstream &file);
+//giai phong vung nho
 void DeleteAllID(ID*root);
+// tao file ID
 void TaoFileID();
 // doc lay id
 int ReadID(int&ExistID,int option=0);
 
-// tra lai id cuoi
+// Phuc hoi lai ID
 void RestoreID();
 // tao node moi
 STreeCH newnode();
 void store(STreeCH,vector<STreeCH>&);
-STreeCH Convert(vector<STreeCH>&,int max,int min);
+STreeCH Convert(Array<STreeCH>&,int max,int min);
 STreeCH Balance(STreeCH root);
 STreeCH BinarySearch(STreeCH root,int ID);
 STreeCH OriginRoot(STreeCH);
