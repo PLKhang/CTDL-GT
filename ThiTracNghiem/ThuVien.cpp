@@ -815,6 +815,8 @@ int doc_danhSachCauHoi(STreeCH &dsch)
         else
             question->is_used = false;
         docfile.getline(question->info.question, 201);
+        // gotoxy(0,0);cout<<question->info.question;
+        // cin.ignore();
         docfile.getline(question->info.ans1, 101);
         docfile.getline(question->info.ans2, 101);
         docfile.getline(question->info.ans3, 101);

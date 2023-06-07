@@ -406,44 +406,31 @@ int stopThi = 0; // stop=1 thi dung thi
 void DongHo(int time)
 {
 	int giay;
-	VeKhung(60, 1, 80, 3);
+	VeKhung(55, 1, 79, 3);
+	gotoxy(56,2);cout<<"TIME:";
 	while (time > 0)
 	{
-		gotoxy(62, 2);
-		cout << time;
-		gotoxy(65, 2);
-		cout << ":phut";
-		gotoxy(72, 2);
-		cout << "00";
-		gotoxy(74, 2);
-		cout << ":giay";
+		gotoxy(63, 2);cout <<right<<setw(2)<<setfill('0')<<time;
+		gotoxy(65, 2);cout << ":phut  ";
+		gotoxy(72, 2);cout << "00";
+		gotoxy(74, 2);cout << ":giay";
 		Sleep(1000);
-		gotoxy(62, 2);
-		cout << time--;
+		gotoxy(63, 2);cout << time--;
 		giay = 59;
 
 		while (giay >= 0)
 		{
 			SetColor(0, 7);
-			gotoxy(62, 2);
-			cout << "   ";
-			gotoxy(62, 2);
-			cout << time;
-			gotoxy(65, 2);
-			cout << ":phut";
-			gotoxy(72, 2);
-			cout << "  ";
-			gotoxy(72, 2);
-			cout << giay--;
-			gotoxy(74, 2);
-			cout << ":giay";
+			gotoxy(63, 2);cout <<right<<setw(2)<<setfill('0')<<time;
+			gotoxy(65, 2);cout << ":phut  ";
+			gotoxy(72, 2);cout <<right<<setw(2)<<setfill('0')<< giay--;
+			gotoxy(74, 2);cout << ":giay";
 			Sleep(1000);
 			if (stopThi == 1)
 				return;
 		}
 	}
-	THONGBAO(1, "HET THOI GIAN");
-	THONGBAO(0, "NHAN PHIM BAT KI DE THOAT");
+	THONGBAO(0, "       HET THOI GIAN           NHAN PHIM BAT KI DE THOAT");
 	stopThi = 1;
 }
 
@@ -520,14 +507,14 @@ int InCauHoiThi(STreeCH &Question, char YourAnswer, int current_index, int so_ca
 	}
 
 	gotoxy(6, 6);
-	if (strlen(Question->info.question) <= 94)
+	if (strlen(Question->info.question) <110)
 		cout << Question->info.question; // IN CAU HOI
 	else
 	{
-		strncpy(temp, Question->info.question, 94); // copy 94 ki tu 0->93
+		strncpy(temp, Question->info.question, 109); // copy 119 ki tu 0->118
 		cout << temp;
 		gotoxy(6, 7);
-		cout << &Question->info.question[94];
+		cout << &Question->info.question[109];
 	}
 	gotoxy(16, 10);
 	cout << Question->info.ans1; // IN CAU A
@@ -621,9 +608,8 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 {
 	stopThi = 0;
 	int so_cau = 0, thoi_gian = 0, soluongcauhoi, chon, index, wherey;
-	;
 	char maMH[16], *YourAnswer;
-	STreeCH *Questions;
+	STreeCH *Questions=NULL;
 	thread timer;
 	do
 	{
@@ -658,7 +644,10 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 		{
 			chon = getch(); // LAY KI TU TU BAN PHIM
 			if (stopThi == 1)
+			{
+				if(chon==224)getch();
 				break;
+			}
 			if (chon == ESC) // NHAN ESC
 			{
 				stopThi = THONGBAO(3, "BAN CO MUON THOAT KHONG"); // NEU THOAT THI STOP=1 VA THOAT
