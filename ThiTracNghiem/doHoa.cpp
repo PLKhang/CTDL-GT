@@ -450,15 +450,17 @@ void chuMenuSV(int x, int y)
 }
 void XoaVungThi()
 {
-	gotoxy(81,2);cout<<"                                                               ";
-    for(int j=5;j<=25;j++)
-    {
-        gotoxy(5,j);cout<<"                                                                                                                    ";
-    }
+	gotoxy(81, 2);
+	cout << "                                                               ";
+	for (int j = 5; j <= 25; j++)
+	{
+		gotoxy(5, j);
+		cout << "                                                                                                                    ";
+	}
 }
 void VeKhungCauHoi(int Your_index, int Answer_index, int option)
 {
-	Sleep(200);//để chờ in thời gian thi
+	Sleep(200); // để chờ in thời gian thi
 	XoaVungThi();
 	VeKhung(5, 5, 115, 25);
 	int x = 5, y = 9;
@@ -520,12 +522,14 @@ void VeKhungCauHoi(int Your_index, int Answer_index, int option)
 				cout << "         ";
 			}
 		}
-		//tô đáp án đúng
+		// tô đáp án đúng
 		SetColor(2, 0);
-		gotoxy(6, Answer_index);cout << "         ";
-		gotoxy(6, Answer_index+1);cout << "         ";
-		gotoxy(6, Answer_index+2);cout << "         ";
-		
+		gotoxy(6, Answer_index);
+		cout << "         ";
+		gotoxy(6, Answer_index + 1);
+		cout << "         ";
+		gotoxy(6, Answer_index + 2);
+		cout << "         ";
 	}
 	SetColor(0, 7);
 	gotoxy(10, 10);
@@ -582,20 +586,39 @@ void VeKhungCauHoi(int Your_index, int Answer_index, int option)
 					cout << "A";
 					break;
 				}
+				}
+			}
+			SetColor(2, 0);
+			switch (Answer_index)
+			{
+			case 10:
+			{
+				gotoxy(10, 10);
+				cout << "A";
+				break;
+			}
+			case 14:
+			{
+				gotoxy(10, 14);
+				cout << "B";
+				break;
+			}
+			case 18:
+			{
+				gotoxy(10, 18);
+				cout << "C";
+				break;
+			}
+			case 22:
+			{
+				gotoxy(10, 22);
+				cout << "D";
+				break;
+			}
 			}
 		}
-			SetColor(2,0);
-			switch(Answer_index)
-			{
-				case 10:{gotoxy(10, 10);cout << "A";break;}
-				case 14:{gotoxy(10, 14);cout << "B";break;}
-				case 18:{gotoxy(10, 18);cout << "C";break;}
-				case 22:{gotoxy(10, 22);cout << "D";break;}
-			}
-			
-			
+		SetColor(0, 7);
 	}
-	SetColor(0, 7);
 }
 void VeKhungCauHoi1(char tenMH[], int ID)
 {
