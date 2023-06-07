@@ -49,6 +49,7 @@ void SetColor(int backgound_color, int text_color)
     int color_code = backgound_color * 16 + text_color;
     SetConsoleTextAttribute(hStdout, color_code);
 }
+
 //////////////////////////////////////////////////////////////////////////
 int GetKey() // dung để loại bỏ phím mở rộng
 {

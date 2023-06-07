@@ -240,7 +240,7 @@ typedef DanhSachLopHoc ListLH;
 bool is_Empty_MH(ListMH dsmh);
 bool is_Full_MH(ListMH dsmh);
 bool is_Existed_MaMH_MH(ListMH dsmh, string maMH);
-
+bool is_existed_tenMH(ListMH dsmh, string tenMH);
 // 0: dsmh FULL // 1: OK // -1: Trung` maMH
 int insert_MH(ListMH &dsmh, MonHoc info);
 // 0: dsmh EMPTY // 1: OK // -1: pos >= n || pos < 0

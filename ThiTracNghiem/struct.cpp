@@ -20,6 +20,15 @@ bool is_Existed_MaMH_MH(ListMH dsmh, string maMH)
             return 1;
     return 0;
 }
+bool is_existed_tenMH(ListMH dsmh, string tenMH)
+{
+    if (is_Empty_MH(dsmh))
+        return 0;
+    for (int i = 0; i < dsmh.n; i++)
+        if (strcmp(dsmh.nodes[i].tenMonHoc, tenMH.c_str()) == 0)
+            return 1;
+    return 0;
+}
 int insert_MH(ListMH &dsmh, MonHoc info) // ~ insert_Order
 {
     if (is_Full_MH(dsmh))

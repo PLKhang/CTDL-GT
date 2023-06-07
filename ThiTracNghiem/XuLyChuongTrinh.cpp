@@ -409,25 +409,38 @@ void DongHo(int time)
 	VeKhung(60, 1, 80, 3);
 	while (time > 0)
 	{
-		gotoxy(62, 2);cout <<right<<setw(2)<<setfill('0')<<time;
-		gotoxy(65, 2);cout << ":phut";
-		gotoxy(72, 2);cout << "00";
-		gotoxy(74, 2);cout << ":giay";
+		gotoxy(62, 2);
+		cout << right << setw(2) << setfill('0') << time;
+		gotoxy(65, 2);
+		cout << ":phut";
+		gotoxy(72, 2);
+		cout << "00";
+		gotoxy(74, 2);
+		cout << ":giay";
 		Sleep(1000);
-		gotoxy(62, 2);cout << time--;
+		gotoxy(62, 2);
+		cout << time--;
 		giay = 59;
 		while (giay > 0)
 		{
 			SetColor(0, 7);
-			gotoxy(62, 2);cout <<right<<setw(2)<<setfill('0')<<time;
-			gotoxy(65, 2);cout << ":phut";
-			gotoxy(72, 2);cout <<right<<setw(2)<<setfill('0')<< giay--;
-			gotoxy(74, 2);cout << ":giay";
+			gotoxy(62, 2);
+			cout << right << setw(2) << setfill('0') << time;
+			gotoxy(65, 2);
+			cout << ":phut";
+			gotoxy(72, 2);
+			cout << right << setw(2) << setfill('0') << giay--;
+			gotoxy(74, 2);
+			cout << ":giay";
 			Sleep(1000);
 			if (stopThi == 1)
 				return;
 		}
-		if(time==0){gotoxy(72, 2);cout << "00";}
+		if (time == 0)
+		{
+			gotoxy(72, 2);
+			cout << "00";
+		}
 	}
 	THONGBAO(1, "HET THOI GIAN");
 	THONGBAO(0, "NHAN PHIM BAT KI DE THOAT");
@@ -563,22 +576,30 @@ string NhapSC_TG(int &so_cau, int &thoi_gian, int soluongcauhoi, PtrSV &SV)
 		case 1:
 		{
 			temp = NhapSo1(70, 18, 2, thoi_gian);
-			if (temp.compare("UP") == 0)option = 0;
-			if (temp.compare("EMPTY") == 0)THONGBAO(1, "THOI GIAN TRONG");
+			if (temp.compare("UP") == 0)
+				option = 0;
+			if (temp.compare("EMPTY") == 0)
+				THONGBAO(1, "THOI GIAN TRONG");
 			if (temp.compare("DONE") == 0)
 			{
 				if (check_empty == 1)
 				{
 					THONGBAO(1, "SO CAU TRONG");
-					gotoxy(70,16);cout<<"  ";
-					if(thoi_gian==0){gotoxy(70,18);cout<<"  ";}
+					gotoxy(70, 16);
+					cout << "  ";
+					if (thoi_gian == 0)
+					{
+						gotoxy(70, 18);
+						cout << "  ";
+					}
 					option = 0;
 					break;
 				}
 				if (so_cau == 0)
 				{
 					THONGBAO(1, "SO CAU PHAI >0");
-					gotoxy(70,16);cout<<"  ";
+					gotoxy(70, 16);
+					cout << "  ";
 					option = 0;
 					break;
 				}
@@ -588,11 +609,12 @@ string NhapSC_TG(int &so_cau, int &thoi_gian, int soluongcauhoi, PtrSV &SV)
 					option = 0;
 					break;
 				}
-				if (thoi_gian == 0||thoi_gian>60)
+				if (thoi_gian == 0 || thoi_gian > 60)
 				{
 					THONGBAO(1, "THOI GIAN PHAI >0 va<=60 PHUT");
-					gotoxy(70,18);cout<<"  ";
-					thoi_gian=0;
+					gotoxy(70, 18);
+					cout << "  ";
+					thoi_gian = 0;
 					option = 1;
 					break;
 				}
@@ -3067,6 +3089,12 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 			}
 			break;
 			case F5: // tai lai danh sach ban dau
+				check_Delete = false;
+				check_Edit = false;
+				numOfClasses = dslh.n;
+				maxPage = (numOfClasses - 1) / 10 + 1;
+				index = 0;
+				page = 1;
 				for (int i = 0; i < dslh.n; i++)
 					temp[i] = dslh.lh[i];
 				break;
@@ -3322,6 +3350,8 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 			maxPage = (numOfSubjects - 1) / 10 + 1;
 			index = 0;
 			page = 1;
+			check_Delete = false;
+			check_Edit = false;
 			HienDanhSachMonHoc(temp, numOfSubjects, page, maxPage, selectMode);
 			gotoxy(2, 9 + (index % 10 + 1) * 2);
 			cout << ">>";
@@ -3350,7 +3380,7 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 			}
 			else if (check_Edit)
 			{
-				if (!HieuChinhMonHoc(*temp[index], index % 10 + 1))
+				if (!HieuChinhMonHoc(dsmh, *temp[index], index % 10 + 1))
 					THONGBAO(1, "DA HUY - THAO TAC HIEU CHINH");
 				else
 					THONGBAO(1, "THAO TAC HOAN TAT");
@@ -3533,43 +3563,75 @@ bool ThemMonHoc(ListMH &dsmh)
 	MonHoc newMH;
 	// kiem tra da nhap du 2 noi dung hay chua
 	int check = 0;
-
-	while (check == 0)
+	int x = 6;
+	char key;
+	while (1)
 	{
-		strcpy(newMH.maMonHoc, NhapMa(6, 35, 15).c_str());
-		if (is_Existed_MaMH_MH(dsmh, newMH.maMonHoc))
+		if (kbhit()) // Kiểm tra xem có phím nào được nhấn hay không
 		{
-			THONGBAO(1, "MA MON NAY DA TON TAI");
-			continue;
+			key = getch();
+			switch (key)
+			{
+			case LEFT:
+				if (check == 1) // Nếu con trỏ đang ở ô tên lớp, di chuyển về ô mã lớp
+				{
+					check = 0;
+					x = 6;
+				}
+				break;
+			case RIGHT:
+				if (check == 0) // Nếu con trỏ đang ở ô mã lớp, di chuyển về ô tên lớp
+				{
+					check = 1;
+					x = 6;
+				}
+				break;
+			default:
+				break;
+			}
 		}
-		else if (is_Empty_CArray(newMH.maMonHoc))
+		while (check == 0)
 		{
-			THONGBAO(1, "NHAP MA MON HOC");
-			continue;
+			strcpy(newMH.maMonHoc, NhapMa(x, 35, 15).c_str());
+			if (is_Existed_MaMH_MH(dsmh, newMH.maMonHoc))
+			{
+				THONGBAO(1, "MA MON NAY DA TON TAI");
+				continue;
+			}
+			else if (is_Empty_CArray(newMH.maMonHoc))
+			{
+				THONGBAO(1, "NHAP MA MON HOC");
+				continue;
+			}
+			else if (strcmp(newMH.maMonHoc, "EXIT") == 0)
+			{
+				if (THONGBAO(3, "HUY THAO TAC?"))
+					return 0;
+			}
+			else
+				check++;
 		}
-		else if (strcmp(newMH.maMonHoc, "EXIT") == 0)
+		while (check == 1)
 		{
-			if (THONGBAO(3, "HUY THAO TAC?"))
-				return 0;
+			strcpy(newMH.tenMonHoc, NhapChuoi(x + 20, 35, 50).c_str());
+			if (is_existed_tenMH(dsmh, newMH.tenMonHoc))
+			{
+				THONGBAO(1, "TEN MON NAY DA TON TAI");
+				continue;
+			}
+			if (is_Empty_CArray(newMH.tenMonHoc))
+			{
+				THONGBAO(1, "NHAP TEN MON HOC");
+				continue;
+			}
+			else if (strcmp(newMH.tenMonHoc, "EXIT") == 0)
+			{
+				if (THONGBAO(3, "HUY THAO TAC?"))
+					return 0;
+			}
+			else
+				check++;
 		}
-		else
-			check++;
-	}
-	while (check == 1)
-	{
-		strcpy(newMH.tenMonHoc, NhapChuoi(26, 35, 50).c_str());
-		if (is_Empty_CArray(newMH.tenMonHoc))
-		{
-			THONGBAO(1, "NHAP TEN MON HOC");
-			continue;
-		}
-		else if (strcmp(newMH.tenMonHoc, "EXIT") == 0)
-		{
-			if (THONGBAO(3, "HUY THAO TAC?"))
-				return 0;
-		}
-		else
-			check++;
 	}
 	if (THONGBAO(3, "LUU MON HOC?"))
 	{
@@ -3579,7 +3641,7 @@ bool ThemMonHoc(ListMH &dsmh)
 	else
 		return 0;
 }
-bool HieuChinhMonHoc(MonHoc &selectedSubject, int line)
+bool HieuChinhMonHoc(ListMH dsmh, MonHoc &selectedSubject, int line)
 {
 	MonHoc temp;
 	bool is_Changed = false;
@@ -3587,22 +3649,30 @@ bool HieuChinhMonHoc(MonHoc &selectedSubject, int line)
 	temp.is_used = selectedSubject.is_used;
 	strcpy(temp.maMonHoc, selectedSubject.maMonHoc);
 
-	strcpy(temp.tenMonHoc, NhapChuoi(26, 9 + line * 2, 50).c_str());
-	if (is_Empty_CArray(temp.tenMonHoc)) // dung tenMH cu
+	while (true)
 	{
-		strcpy(temp.tenMonHoc, selectedSubject.tenMonHoc);
-		return 0;
-	}
-	else if (strcmp(temp.tenMonHoc, "EXIT") == 0)
-	{
-		if (THONGBAO(3, "HUY QUA TRINH?"))
+		strcpy(temp.tenMonHoc, NhapChuoi(26, 9 + line * 2, 50).c_str());
+		if (is_existed_tenMH(dsmh, temp.tenMonHoc))
+		{
+			THONGBAO(1, "TEN MON NAY DA TON TAI");
+			continue;
+		}
+		if (is_Empty_CArray(temp.tenMonHoc)) // dung tenMH cu
+		{
+			strcpy(temp.tenMonHoc, selectedSubject.tenMonHoc);
 			return 0;
-	}
-	else
-	{
-		if (THONGBAO(3, "LUU THAY DOI?"))
-			selectedSubject = temp;
-		return 1;
+		}
+		else if (strcmp(temp.tenMonHoc, "EXIT") == 0)
+		{
+			if (THONGBAO(3, "HUY QUA TRINH?"))
+				return 0;
+		}
+		else
+		{
+			if (THONGBAO(3, "LUU THAY DOI?"))
+				selectedSubject = temp;
+			return 1;
+		}
 	}
 	return 0;
 }
