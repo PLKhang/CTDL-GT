@@ -286,7 +286,7 @@ void VeKhung(int x1, int y1, int x2, int y2)
 }
 bool KhungThem(int types)
 {
-	delete_AreaOnScreen(5, 32, 110, 5);
+	delete_AreaOnScreen(6, 32, 110, 5);
 	int x0 = 5, y0 = 32;
 	int xn = 115, yn = 36;
 	int x1 = 200, x2 = 200, x3 = 200;
