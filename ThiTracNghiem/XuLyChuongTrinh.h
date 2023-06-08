@@ -57,7 +57,7 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode = 0, PtrSV SV = 
 bool ThemMonHoc(ListMH &dsmh);
 bool XoaMonHoc(ListMH &dsmh, MonHoc *temp[], int index);
 // chi duoc hieu chinh ten mon hoc
-bool HieuChinhMonHoc(MonHoc &selectedSubject, int line);
+bool HieuChinhMonHoc(ListMH dsmh, MonHoc &selectedSubject, int line);
 void HienDanhSachMonHoc(MonHoc *dsmh[], int numOfSubs, int page, int maxPage, bool selectMode);
 // types: 0-> chon option
 // types: 1-> chi hien option

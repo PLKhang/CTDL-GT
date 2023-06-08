@@ -300,7 +300,7 @@ typedef DanhSachLopHoc ListLH;
 bool is_Empty_MH(ListMH dsmh);
 bool is_Full_MH(ListMH dsmh);
 bool is_Existed_MaMH_MH(ListMH dsmh, string maMH);
-
+bool is_existed_tenMH(ListMH dsmh, string tenMH);
 // 0: dsmh FULL // 1: OK // -1: Trung` maMH
 int insert_MH(ListMH &dsmh, MonHoc info);
 // 0: dsmh EMPTY // 1: OK // -1: pos >= n || pos < 0
@@ -360,10 +360,6 @@ PtrDT create_Node_DT(DiemThi info);
 
 // kiem tra dsdt co node nao hay chua
 bool is_Empty_DT(PtrDT first);
-// kiem tra neu tat ca cac mon hoc deu co diem(sai neu ton tai diem < 0)
-bool is_Full_DT(PtrDT first);
-// kiem tra neu MonHoc da co diem (diem >= 0)
-bool is_Existed_DT(PtrDT first, string maMon);
 // kiem tra MonHoc co trong ds hay chua(truong hop: THEM MON HOC)
 bool is_Existed_MaMH_DT(PtrDT first, string maMon);
 bool insert_First_DT(PtrDT &first, DiemThi x);
@@ -374,11 +370,6 @@ bool delete_First_DT(PtrDT &first);
 bool delete_After_DT(PtrDT p);
 // Xoa danh sach diem thi cua sinh vien
 bool delete_List_DT(PtrDT &first);
-
-// Dung ham pos_MaMH_DT() truyen vao de lay vi tri sua diemThi
-bool set_DiemThi_DT(PtrDT p, float x);
-// Tra ve vi tri node chua MaMH
-PtrDT pos_MaMH_DT(PtrDT &first, const string &maMH);
 //-------------------SinhVien------------------//
 
 void KhoiTao_PtrSV(PtrSV &First);
@@ -391,12 +382,10 @@ void insert_First_SV(PtrSV &first, SinhVien sv);
 bool insert_After_SV(PtrSV p, SinhVien sv);
 bool insert_Order_SV(PtrSV &first, SinhVien sv);
 
-//+ xoa dsDT trong cac node
+// + xoa dsDT trong cac node
 bool delete_First_SV(PtrSV &first);
 bool delete_After_SV(PtrSV p);
 bool delete_List_SV(PtrSV &first);
-// tao dsDT cho sv moi va cho tat ca diem thi = -1(chua thi)
-PtrDT set_Blank_dsDT_SV(ListMH dsmh);
 
 // tra ve dia chi nam ngay truoc node co MSSV == mssv(kiem tra vi tri = first rieng)
 PtrSV pos_MSSV_SV(PtrSV first, string mssv);

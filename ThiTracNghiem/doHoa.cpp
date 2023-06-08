@@ -8,13 +8,18 @@ int THONGBAO(int option, string thongbao)
 	cout << "         THONG BAO           ";
 	gotoxy(126, 2);
 	cout << "-----------------------------";
-	gotoxy(126, 3);
-	if(thongbao.size()>29)
+	int pos = 0;
+	int field = 0;
+	string subStr;
+	while ((pos = thongbao.find("-")) != string::npos)
 	{
-		cout<<thongbao.substr(0,29);
-		gotoxy(126, 4);
-		cout << thongbao.substr(29);
-	}else cout << thongbao;
+		subStr = thongbao.substr(0, pos);
+		thongbao.erase(0, pos + 1);
+		gotoxy(126, 3 + field++);
+		cout << subStr;
+	}
+	gotoxy(126, 3 + field++);
+	cout << thongbao;
 	if (option == 1) // clear thanh thong bao
 	{
 		Sleep(2000);
@@ -24,8 +29,9 @@ int THONGBAO(int option, string thongbao)
 			cout << "                               ";
 		}
 	}
-	else if (option == 2) // xoa noi dung vua thong bao
+	else if (option == 2) // Tat thong bao khi an phim bat ky
 	{
+		getch();
 		for (int i = 3; i <= 9; i++)
 		{
 			gotoxy(126, i);
@@ -280,7 +286,7 @@ void VeKhung(int x1, int y1, int x2, int y2)
 }
 bool KhungThem(int types)
 {
-	delete_AreaOnScreen(5, 32, 110, 5);
+	delete_AreaOnScreen(6, 32, 110, 5);
 	int x0 = 5, y0 = 32;
 	int xn = 115, yn = 36;
 	int x1 = 200, x2 = 200, x3 = 200;
@@ -312,6 +318,10 @@ bool KhungThem(int types)
 		cout << " NAM ";
 		gotoxy(116, 35);
 		cout << " NU  ";
+		gotoxy(123, 34);
+		SetColor(7, 0);
+		cout << " XONG ";
+		SetColor(0, 7);
 		break;
 	case 4:
 		xn = 90;
@@ -320,6 +330,10 @@ bool KhungThem(int types)
 		cout << "NHAP MA MON";
 		gotoxy(26, 33);
 		cout << "NHAP TEN MON HOC";
+		gotoxy(92, 34);
+		SetColor(7, 0);
+		cout << " XONG ";
+		SetColor(0, 7);
 		break;
 	default:
 		return 0;
@@ -440,15 +454,17 @@ void chuMenuSV(int x, int y)
 }
 void XoaVungThi()
 {
-	gotoxy(81,2);cout<<"                                                               ";
-    for(int j=5;j<=25;j++)
-    {
-        gotoxy(5,j);cout<<"                                                                                                                    ";
-    }
+	gotoxy(80, 2);
+	cout << "                                                               ";
+	for (int j = 5; j <= 25; j++)
+	{
+		gotoxy(5, j);
+		cout << "                                                                                                                    ";
+	}
 }
-void VeKhungCauHoi(int Your_index,int Answer_index,int option)
+void VeKhungCauHoi(int Your_index, int Answer_index, int option)
 {
-	Sleep(200);//để chờ in thời gian thi
+	Sleep(200); // để chờ in thời gian thi
 	XoaVungThi();
 	VeKhung(5, 5, 115, 25);
 	int x = 5, y = 9;
@@ -482,82 +498,153 @@ void VeKhungCauHoi(int Your_index,int Answer_index,int option)
 			cout << DOC;
 		y++;
 	}
-	if(option==0)//thi
+	if (option == 0) // thi
 	{
-		if(Your_index==0)Your_index=10;
+		if (Your_index == 0)
+			Your_index = 10;
 		SetColor(2, 0);
-		gotoxy(6, Your_index);cout << "         ";
-		gotoxy(6, Your_index+1);cout << "         ";
-		gotoxy(6, Your_index+2);cout << "         ";
+		gotoxy(6, Your_index);
+		cout << "         ";
+		gotoxy(6, Your_index + 1);
+		cout << "         ";
+		gotoxy(6, Your_index + 2);
+		cout << "         ";
 	}
-	else //chế độ xem câu hỏi đã thi
+	else // chế độ xem câu hỏi đã thi
 	{
-		if(Your_index!=0)
+		if (Your_index != 0)
 		{
-			if(Your_index!=Answer_index)
+			if (Your_index != Answer_index)
 			{
-				//tô đáp án bạn chon
+				// tô đáp án bạn chon
 				SetColor(4, 0);
-				gotoxy(6, Your_index);cout << "         ";
-				gotoxy(6, Your_index+1);cout << "         ";
-				gotoxy(6, Your_index+2);cout << "         ";
+				gotoxy(6, Your_index);
+				cout << "         ";
+				gotoxy(6, Your_index + 1);
+				cout << "         ";
+				gotoxy(6, Your_index + 2);
+				cout << "         ";
 			}
 		}
-		//tô đáp án đúng
+		// tô đáp án đúng
 		SetColor(2, 0);
-		gotoxy(6, Answer_index);cout << "         ";
-		gotoxy(6, Answer_index+1);cout << "         ";
-		gotoxy(6, Answer_index+2);cout << "         ";
-		
+		gotoxy(6, Answer_index);
+		cout << "         ";
+		gotoxy(6, Answer_index + 1);
+		cout << "         ";
+		gotoxy(6, Answer_index + 2);
+		cout << "         ";
 	}
 	SetColor(0, 7);
-	gotoxy(10, 10);cout << "A";
-	gotoxy(10, 14);cout << "B";
-	gotoxy(10, 18);cout << "C";
-	gotoxy(10, 22);cout << "D";
-	if(option==0)
+	gotoxy(10, 10);
+	cout << "A";
+	gotoxy(10, 14);
+	cout << "B";
+	gotoxy(10, 18);
+	cout << "C";
+	gotoxy(10, 22);
+	cout << "D";
+	if (option == 0)
 	{
 		SetColor(2, 0);
-		switch(Your_index)
+		switch (Your_index)
 		{
-			case 10:{gotoxy(10, 10);cout << "A";break;}
-			case 14:{gotoxy(10, 14);cout << "B";break;}
-			case 18:{gotoxy(10, 18);cout << "C";break;}
-			case 22:{gotoxy(10, 22);cout << "D";break;}
+		case 10:
+		{
+			gotoxy(10, 10);
+			cout << "A";
+			break;
+		}
+		case 14:
+		{
+			gotoxy(10, 14);
+			cout << "B";
+			break;
+		}
+		case 18:
+		{
+			gotoxy(10, 18);
+			cout << "C";
+			break;
+		}
+		case 22:
+		{
+			gotoxy(10, 22);
+			cout << "D";
+			break;
+		}
 		}
 	}
-	else 
+	else
 	{
-		if(Your_index!=0)
+		if (Your_index != 0&&Your_index != Answer_index)// TRƯỜNG HỢP CÓ CHỌN VÀ KHÁC KẾT QUẢ
 		{
-			if(Your_index!=Answer_index)
+			// if (Your_index != Answer_index)
+			// {
+			SetColor(4, 0);
+			switch (Your_index)
 			{
-				SetColor(4,0);
-				switch(Your_index)
-				{
-					case 10:{gotoxy(10, 10);cout << "A";break;}
-					case 14:{gotoxy(10, 14);cout << "B";break;}
-					case 18:{gotoxy(10, 18);cout << "C";break;}
-					case 22:{gotoxy(10, 22);cout << "D";break;}
-				}
+			case 10:
+			{
+				gotoxy(10, 10);
+				cout << "A";
+				break;
+			}
+			case 14:
+			{
+				gotoxy(10, 14);
+				cout << "B";
+				break;
+			}
+			case 18:
+			{
+				gotoxy(10, 18);
+				cout << "C";
+				break;
+			}
+			case 22:
+			{
+				gotoxy(10, 22);
+				cout << "D";
+				break;
+			}
+				//}
 			}
 		}
-			SetColor(2,0);
-			switch(Answer_index)
-			{
-				case 10:{gotoxy(10, 10);cout << "A";break;}
-				case 14:{gotoxy(10, 14);cout << "B";break;}
-				case 18:{gotoxy(10, 18);cout << "C";break;}
-				case 22:{gotoxy(10, 22);cout << "D";break;}
-			}
-			
-			
+		SetColor(2, 0);
+		switch (Answer_index)
+		{
+		case 10:
+		{
+			gotoxy(10, 10);
+			cout << "A";
+			break;
+		}
+		case 14:
+		{
+			gotoxy(10, 14);
+			cout << "B";
+			break;
+		}
+		case 18:
+		{
+			gotoxy(10, 18);
+			cout << "C";
+			break;
+		}
+		case 22:
+		{
+			gotoxy(10, 22);
+			cout << "D";
+			break;
+		}
+		}
 	}
 	SetColor(0, 7);
 }
 void VeKhungCauHoi1(char tenMH[], int ID)
 {
-	//DÙNG CHO THÊM CÂU HỎI VÀ XEM CÂU HỎI BÌNH THƯỜNG
+	// DÙNG CHO THÊM CÂU HỎI VÀ XEM CÂU HỎI BÌNH THƯỜNG
 	system("cls");
 	VeKhung(5, 5, 115, 27);
 	int x = 5, y = 7;
@@ -596,7 +683,8 @@ void VeKhungCauHoi1(char tenMH[], int ID)
 	}
 	gotoxy(45, 6);
 	cout << "NOI DUNG CAU HOI";
-	if(ID>0)cout << " - "<<ID;
+	if (ID > 0)
+		cout << " - " << ID;
 	gotoxy(45, 8);
 	cout << tenMH;
 	gotoxy(6, 8);
@@ -770,12 +858,12 @@ void ThanhChucNang(int option)
 	}
 	case 7: // menu_dssv_gv
 	{
-		cout << "ESC:THOAT  F1:TIM SV  F2:SAP XEP  F5: TAI LAI  PgUp/PgDn:DOI TRANG   < / > / " << char(30) << " / " << char(31) << ":DI CHUYEN   ENTER: XEM DIEM";
+		cout << "ESC:THOAT  F1:TIM SV  F2:SAP XEP  F5: TAI LAI  PgUp/PgDn:DOI TRANG  < / > / " << char(30) << " / " << char(31) << ":DI CHUYEN   ENTER: XEM DIEM";
 		break;
 	}
 	case 8: // menu_dssv_gv (selection mode)
 	{
-		cout << "ESC: THOAT   F1: TIM SV   F2: SAP XEP   F5: TAI LAI   PgUp/PgDn: DOI TRANG     " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: CHON";
+		cout << "ESC: THOAT   F1: TIM SV   F2: SAP XEP   F5: TAI LAI   PgUp/PgDn: DOI TRANG    " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: CHON";
 		break;
 	}
 	case 9: // menu_dsmh_gv
@@ -821,8 +909,8 @@ void ThanhChucNang(int option)
 		break;
 	}
 	case 15: // menu_GV // menu_SV
-	{		
-	delete_AreaOnScreen(5, 34, 111, 3);
+	{
+		delete_AreaOnScreen(5, 34, 111, 3);
 		VeKhung(30, 34, 115, 36);
 		gotoxy(31, 35);
 		cout << "ESC: THOAT                       " << char(30) << " / " << char(31) << ": DI CHUYEN                     ENTER: CHON";
@@ -833,7 +921,6 @@ void ThanhChucNang(int option)
 	case 17:
 	{
 		cout << "                              ESC: HUY CAU HOI     HUONG DAN: NHAP DAP AN LA A,B,C,D           ";
-	
 	}
 	}
 }

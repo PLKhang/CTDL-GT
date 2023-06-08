@@ -49,6 +49,7 @@ void SetColor(int backgound_color, int text_color)
     int color_code = backgound_color * 16 + text_color;
     SetConsoleTextAttribute(hStdout, color_code);
 }
+
 //////////////////////////////////////////////////////////////////////////
 int GetKey() // dung để loại bỏ phím mở rộng
 {
@@ -141,6 +142,7 @@ string NhapChuoi(int x, int y, int chieudai, int option) // x va y la dia chi de
 }
 string NhapChuoi1(int x, int y, int length, string &input) // x va y la dia chi de hien ki tu vua nhap
 {
+    setCursorVisibility(1);
     int index, ki_tu;
     // cập nhật vị trí hiện tại
     index = input.size();
@@ -232,6 +234,7 @@ string NhapChuoi1(int x, int y, int length, string &input) // x va y la dia chi 
 }
 string NhapDapAn(int x, int y, char &Answer)
 {
+    setCursorVisibility(1);
     int index = 0, ki_tu;
     if (Answer >= 'A' && Answer <= 'D')
         index = 1;
@@ -239,18 +242,33 @@ string NhapDapAn(int x, int y, char &Answer)
     while ((ki_tu = getch()) != ENTER)
     {
         if (ki_tu == ESC)
+        {
+            setCursorVisibility(0);
             return "EXIT";
+        }
         else if (ki_tu == 0 || ki_tu == 224)
         {
             ki_tu = getch();
             if (ki_tu == UP)
+            {
+                setCursorVisibility(0);
                 return "UP";
+            }
             else if (ki_tu == DOWN)
+            {
+                setCursorVisibility(0);
                 return "DOWN";
+            }
             else if (ki_tu == LEFT)
+            {
+                setCursorVisibility(0);
                 return "LEFT";
+            }
             else if (ki_tu == RIGHT)
+            {
+                setCursorVisibility(0);
                 return "RIGHT";
+            }
             continue;
         }
         // xoa ki tu
@@ -271,6 +289,7 @@ string NhapDapAn(int x, int y, char &Answer)
             index++;
         }
     }
+    setCursorVisibility(0);
     return "DONE";
 }
 string NhapMa(int x, int y, int chieudai, string loai)
@@ -291,14 +310,16 @@ string NhapMa(int x, int y, int chieudai, string loai)
         if (ki_tu == 0 || ki_tu == 224)
         {
             ki_tu = getch(); // bat ki tu con khi nhap phim mo rong
-            setCursorVisibility(0);
             switch (ki_tu)
             {
             case F1:
+                setCursorVisibility(0);
                 return "F1";
             case F2:
+                setCursorVisibility(0);
                 return "F2";
             case F5:
+                setCursorVisibility(0);
                 return "F5";
             }
             continue; // tiep tuc de khong nhap ki tu du
@@ -343,6 +364,7 @@ string NhapMa1(int x, int y, int length, string &input, string loai)
             if (input[index] = '\0' && index != 0)
                 input[--index] = '\0';
             input.resize(index);
+            setCursorVisibility(0);
             return "EXIT";
         }
         if (ki_tu == 0 || ki_tu == 224)
@@ -353,6 +375,7 @@ string NhapMa1(int x, int y, int length, string &input, string loai)
                 if (input[index] = '\0' && index != 0)
                     input[--index] = '\0';
                 input.resize(index);
+                setCursorVisibility(0);
                 return "UP";
             }
             if (ki_tu == DOWN)
@@ -360,7 +383,24 @@ string NhapMa1(int x, int y, int length, string &input, string loai)
                 if (input[index] = '\0' && index != 0)
                     input[--index] = '\0';
                 input.resize(index);
+                setCursorVisibility(0);
                 return "DOWN";
+            }
+            if (ki_tu == LEFT)
+            {
+                if (input[index] = '\0' && index != 0)
+                    input[--index] = '\0';
+                input.resize(index);
+                setCursorVisibility(0);
+                return "LEFT";
+            }
+            if (ki_tu == RIGHT)
+            {
+                if (input[index] = '\0' && index != 0)
+                    input[--index] = '\0';
+                input.resize(index);
+                setCursorVisibility(0);
+                return "RIGHT";
             }
             continue; // tiep tuc de khong nhap ki tu du
         }
@@ -385,11 +425,11 @@ string NhapMa1(int x, int y, int length, string &input, string loai)
                 cout << input[index];
             index++;
         }
-        setCursorVisibility(0);
     }
     if (input[index] = '\0')
         input[--index] = '\0';
     input.resize(index);
+    setCursorVisibility(0);
     return "DONE";
 }
 double NhapSo(int x, int y, int soluong)
