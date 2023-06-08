@@ -847,10 +847,10 @@ int docCauHoiDaThi(STreeCH root, Array<STreeCH> &List, char YourAnswer[], char M
                 docfile >> ID;
                 docfile.ignore(); // bỏ dấu |
                 docfile >> YourAnswer[i];
-                // docfile.ignore();//bỏ dấu xuống dòng
                 List.push(BinarySearch(root, ID));
             }
             docfile.close();
+            Sort(List,0,List.GetIndexLast());
             return 1;
         }
     }

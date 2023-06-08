@@ -1507,6 +1507,7 @@ void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[])
 			case F5:
 			{
 				start = 0, end = NumberQuestion - 1, change = 1;
+				Sort(List,start,end);
 				break;
 			}
 			case LEFT:
