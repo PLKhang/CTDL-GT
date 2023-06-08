@@ -2857,7 +2857,8 @@ bool ThemLopHoc(ListLH &dslh, int check, string maLH)
 			break;
 		case 2: // nhap nien khoa
 			// nK = atoi(nienKhoaM.c_str());
-			temp = NhapSo1(104, 35, 4, nK);
+			temp = NhapSo1(104, 35, 4, nK);s
+			nienKhoaM = to_string(nK);
 			// if (nK <= 2000)
 			// {
 			// 	THONGBAO(1, "NAM HOC: X > 2000");
