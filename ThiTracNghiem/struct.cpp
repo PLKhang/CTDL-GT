@@ -7,9 +7,7 @@ bool is_Empty_MH(ListMH dsmh)
 }
 bool is_Full_MH(ListMH dsmh)
 {
-    if (dsmh.n == MaxOfSubjects - 1)
-        return 1;
-    return 0;
+    return (dsmh.n == MaxOfSubjects);
 }
 bool is_Existed_MaMH_MH(ListMH dsmh, string maMH)
 {
@@ -33,7 +31,7 @@ int insert_MH(ListMH &dsmh, MonHoc info) // ~ insert_Order
 {
     if (is_Full_MH(dsmh))
         return 0;
-    if (is_Existed_MaMH_MH(dsmh, info.maMonHoc))
+    if (is_Existed_MaMH_MH(dsmh, info.maMonHoc) || is_existed_tenMH(dsmh, info.tenMonHoc))
         return -1;
     if (is_Empty_MH(dsmh))
     {
@@ -546,17 +544,6 @@ bool is_Full_DT(PtrDT first)
             return 0;
     return 1;
 }
-bool is_Existed_DT(PtrDT first, string maMon)
-{
-    if (is_Empty_DT(first))
-        return 0;
-    PtrDT p;
-    for (p = first; p != NULL; p = p->next)
-        if (strcmp(p->info.maMonHoc, maMon.c_str()) == 0)
-            if (p->info.diemThi >= 0)
-                return 1;
-    return 0;
-}
 bool is_Existed_MaMH_DT(PtrDT first, string maMon)
 {
     if (is_Empty_DT(first))
@@ -624,32 +611,6 @@ bool delete_List_DT(PtrDT &first)
             return 0;
     return 1;
 }
-bool set_DiemThi_DT(PtrDT p, float x)
-{
-    if (p == NULL)
-        return 0;
-    p->info.diemThi = x;
-    return 1;
-}
-PtrDT pos_MaMH_DT(PtrDT &first, const string &maMH)
-{
-    PtrDT p = first;
-    while (p != NULL && strcmp(p->info.maMonHoc, maMH.c_str()) != 0)
-    {
-        cout << p << '\n';
-        p = p->next;
-    }
-    if (p == NULL) // neu khong co node thi tao node moi va gan cho p
-    {
-        DiemThi score;
-        strcpy(score.maMonHoc, maMH.c_str());
-        insert_Order_DT(first, score);
-        p = first;
-        while (p != NULL && strcmp(p->info.maMonHoc, maMH.c_str()) != 0)
-            p = p->next;
-    }
-    return p;
-}
 //---------------------------SinhVien--------------------------//
 void KhoiTao_PtrSV(PtrSV &first)
 {
@@ -661,17 +622,6 @@ bool is_Empty_SV(PtrSV first)
         return 1;
     return 0;
 }
-// bool is_Existed_MSSV_SV(ListLH dslh, string mssv)
-// {
-//     if (dslh.n == 0)
-//         return 0;
-//     PtrSV p = NULL;
-//     for (int i = 0; i < dslh.n; i++)
-//         for (p = dslh.lh[i]->danhSachSinhVien; p != NULL; p = p->next)
-//             if (strcmp(p->info.MSSV, mssv.c_str()) == 0)
-//                 return 1;
-//     return 0;
-// }
 bool is_Existed_MSSV_SV(ListLH dslh, string MSSV)
 {
     if (is_Empty_LH(dslh))
@@ -746,30 +696,6 @@ bool delete_List_SV(PtrSV &first)
             return 0;
     return 1;
 }
-PtrDT set_Blank_dsDT_SV(ListMH dsmh)
-{
-    if (dsmh.n == 0)
-        return NULL;
-    PtrDT first, cur;
-    KhoiTao_PtrDT(first);
-    DiemThi info;
-    info.diemThi = -1;
-    for (int i = 0; i < dsmh.n; i++)
-    {
-        strcpy(info.maMonHoc, dsmh.nodes[i].maMonHoc);
-        insert_Order_DT(first, info);
-    }
-    return first;
-}
-PtrSV pos_MSSV_SV(PtrSV first, const char *mssv)
-{
-    if (first == NULL)
-        return NULL;
-    for (PtrSV cur = first; cur != NULL; cur = cur->next)
-        if (cur->info.MSSV == mssv)
-            return cur;
-    return NULL;
-}
 // thay doi thong tin cua node thong qua mang con tro(HIEU CHINH SINH VIEN)
 void changeInfoByPtrArray_SV(PtrSV *nodePtrArray, int index, SinhVien newData)
 {
@@ -823,24 +749,23 @@ int XoaLop(ListLH &ListLH, int pos)
 {
     if (pos < 0 || pos >= ListLH.n || ListLH.n == 0)
         return 0;
-    // for(int j = pos; j < ListLH.n - 1; j++)
-    //      ListLH.lh[j] = ListLH.lh[j+1];
-    //      delete_List_SV(ListLH.lh[i]->First);
+
     LopHoc *P = ListLH.lh[pos];
-    for (int i = pos; i < ListLH.n; i++)
+    for (int i = pos; i < ListLH.n - 1; i++)
         ListLH.lh[i] = ListLH.lh[i + 1];
+
     delete_List_SV(P->danhSachSinhVien);
     delete P;
+
     ListLH.n--;
     return 1;
 }
 void Delete_DSLH(ListLH &dslh)
 {
-    for (int i = dslh.n; i > 0; i--)
+    for (int i = dslh.n - 1; i >= 0; i--)
     {
         XoaLop(dslh, i);
     }
-    delete[] dslh.lh;
 }
 void SuaLop(ListLH &ListLH, int i, LopHoc lh)
 {
