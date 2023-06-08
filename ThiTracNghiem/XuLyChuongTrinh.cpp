@@ -2205,47 +2205,96 @@ bool XoaSinhVien(PtrSV &dssv, PtrSV *data, const string &maLH, int index)
 bool HieuChinhSinhVien(ListLH dslh, PtrSV dssv, PtrSV *data, int index)
 {
 	SinhVien tempSV;
-	string gioiTinh = "NAM";
-	tempSV.phai = 0;
-	THONGBAO(1, "NHAP THONG TIN-CUA SINH VIEN MOI");
-	do // cho nhap MSSV truoc khi nhap thong tin khac
-	{
-		strcpy(tempSV.MSSV, NhapMa(10, 9 + (index % 10 + 1) * 2, 10).c_str());
-		if (is_Existed_MSSV_SV(dslh, tempSV.MSSV))
-			THONGBAO(1, "MA SO SINH VIEN-DA TON TAI");
-		else
-			break;
-	} while (1);
-	if (is_Empty_CArray(tempSV.MSSV)) // neu khong nhap MSSV khac -> dung MSSV cu~
-		strcpy(tempSV.MSSV, data[index]->info.MSSV);
-	gotoxy(10, 9 + (index % 10 + 1) * 2);
-	cout << tempSV.MSSV;
-
-	strcpy(tempSV.ho, NhapChuoi(26, 9 + (index % 10 + 1) * 2, 50).c_str()); // nhap ho
-	if (is_Empty_CArray(tempSV.ho))											// neu ENTER khi chua nhap -> dung ho cu~ cua SV
-		strcpy(tempSV.ho, data[index]->info.ho);
-	gotoxy(26, 9 + (index % 10 + 1) * 2);
-	cout << tempSV.ho;
-
-	strcpy(tempSV.ten, NhapChuoi(81, 9 + (index % 10 + 1) * 2, 15).c_str());
-	if (is_Empty_CArray(tempSV.ten)) // tuong tu nhu tren
-		strcpy(tempSV.ten, data[index]->info.ten);
-	gotoxy(81, 9 + (index % 10 + 1) * 2);
-	cout << tempSV.ten;
-
-	gioiTinh = NhapChuoi(107, 9 + (index % 10 + 1) * 2, 3); // gan gioi tinh moi(default: NAM)
-	if (gioiTinh == "NU")
-		tempSV.phai = 1;
+	tempSV.phai = data[index]->info.phai;
+	strcpy(tempSV.MSSV, data[index]->info.MSSV);
 	strcpy(tempSV.password, data[index]->info.password); // cap lai mat khau cu~
 	KhoiTao_PtrDT(tempSV.danhSachDiemThi);
 	tempSV.danhSachDiemThi = data[index]->info.danhSachDiemThi; // cap lai diem thi cu~
+
+	THONGBAO(1, "NHAP THONG TIN SINH VIEN");
+	delete_LineOnScreen(101, 9 + (index % 10 + 1) * 2, 14);
+	gotoxy(102, 9 + (index % 10 + 1) * 2);
+	tempSV.phai == 0 ? SetColor(1, 3) : SetColor(7, 0);
+	cout << " NAM ";
+	gotoxy(109, 9 + (index % 10 + 1) * 2);
+	tempSV.phai == 1 ? SetColor(1, 3) : SetColor(7, 0);
+	cout << " NU  ";
+	SetColor(0, 7);
+	while (1)
+	{
+		strcpy(tempSV.ho, NhapChuoi(26, 9 + (index % 10 + 1) * 2, 50).c_str()); // nhap ho
+		if (is_Empty_CArray(tempSV.ho))											// neu ENTER khi chua nhap -> dung ho cu~ cua SV
+			strcpy(tempSV.ho, data[index]->info.ho);
+		else if (strcmp(tempSV.ho, "EXIT") == 0)
+		{
+			if (THONGBAO(3, "HUY THAO TAC?"))
+				return 0;
+			else
+				continue;
+		}
+		else
+			break;
+		gotoxy(26, 9 + (index % 10 + 1) * 2);
+		cout << tempSV.ho;
+	}
+	while (1)
+	{
+		strcpy(tempSV.ten, NhapChuoi(81, 9 + (index % 10 + 1) * 2, 15).c_str());
+		if (is_Empty_CArray(tempSV.ten)) // tuong tu nhu tren
+			strcpy(tempSV.ten, data[index]->info.ten);
+		else if (strcmp(tempSV.ten, "EXIT") == 0)
+		{
+			if (THONGBAO(3, "HUY THAO TAC?"))
+				return 0;
+			else
+				continue;
+		}
+		else
+			break;
+		gotoxy(81, 9 + (index % 10 + 1) * 2);
+		cout << tempSV.ten;
+	}
+
+	char ch;
+	while ((ch = getch()) != ENTER)
+	{
+		if (ch == -32 || ch == 224)
+		{
+			ch = getch();
+			switch (ch)
+			{
+			case LEFT:
+				tempSV.phai = 0;
+				break;
+			case RIGHT:
+				tempSV.phai = 1;
+				break;
+			}
+		}
+		else if (ch == ESC)
+		{
+			if (THONGBAO(3, "HUY THAO TAC?"))
+				return 0;
+		}
+		gotoxy(102, 9 + (index % 10 + 1) * 2);
+		tempSV.phai == 0 ? SetColor(1, 3) : SetColor(7, 0);
+		cout << " NAM ";
+		gotoxy(109, 9 + (index % 10 + 1) * 2);
+		tempSV.phai == 1 ? SetColor(1, 3) : SetColor(7, 0);
+		cout << " NU  ";
+		SetColor(0, 7);
+	}
 	if (THONGBAO(3, "LUU THAY DOI?"))
 	{
 		changeInfoByPtrArray_SV(data, index, tempSV);
 		THONGBAO(1, "DA THAY DOI THONG TIN");
+		return 1;
 	}
 	else
+	{
 		THONGBAO(1, "DA HUY THAO TAC");
+		return 0;
+	}
 }
 //////////////////////////GV->DANH SACH DIEM THI/////////////////////
 void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
@@ -3919,13 +3968,6 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 					break;
 				case 2:
 				{
-					PtrDT temp[MaxOfSubjects] = {NULL};
-					PtrDT pDT = p->info.danhSachDiemThi;
-					for (int i = 0; pDT != NULL; i++)
-					{
-						temp[i] = pDT;
-						pDT = pDT->next;
-					}
 					MENU_DSDT_GV(p->info, dsmh, root, 1);
 					// cin.ignore();
 					break;
