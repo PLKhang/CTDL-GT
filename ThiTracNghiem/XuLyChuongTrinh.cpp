@@ -2803,7 +2803,7 @@ bool ThemLopHoc(ListLH &dslh, int check, string maLH)
 	string nienKhoaM = "";
 	int nK = 0;
 	nK = atoi(nienKhoaM.c_str());
-	// kiem tra da nhap du 2 noi dung hay chua
+	// kiem tra da nhap du 3 noi dung hay chua
 	int index = 0;
 	int key = 0;
 	string temp = "";
