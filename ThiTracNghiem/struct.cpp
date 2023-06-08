@@ -715,9 +715,22 @@ bool is_Full_LH(ListLH ListLH)
 }
 bool is_Existed_MaLop(ListLH ListLH, const char *maLop)
 {
+    if (is_Empty_LH(ListLH))
+        return 0;
     for (int i = 0; i < ListLH.n; i++)
     {
         if (strcmp(ListLH.lh[i]->maLop, maLop) == 0)
+            return true;
+    }
+    return false;
+}
+bool is_Existed_tenLop(ListLH ListLH, const char *tenLop)
+{
+    if (is_Empty_LH(ListLH))
+        return 0;
+    for (int i = 0; i < ListLH.n; i++)
+    {
+        if (strcmp(ListLH.lh[i]->tenLop, tenLop) == 0)
             return true;
     }
     return false;

@@ -301,6 +301,10 @@ bool KhungThem(int types)
 		cout << "NHAP TEN LOP";
 		gotoxy(101, 33);
 		cout << "NHAP NIEN KHOA";
+		gotoxy(117, 34);
+		SetColor(7, 0);
+		cout << " XONG ";
+		SetColor(0, 7);
 		break;
 	case 2:
 		x1 = 25;

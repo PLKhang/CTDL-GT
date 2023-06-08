@@ -115,16 +115,16 @@ string DANGNHAP()
 	switch (KiemTraTK(Name, Password))
 	{
 	case -1:
-		// THONGBAO(1, "KHONG CO TAI KHOAN");
+		THONGBAO(1, "KHONG CO TAI KHOAN");
 		return "NONE";
 	case 0:
-		// THONGBAO(1, "KHONG DOC DUOC FILE");
+		THONGBAO(1, "KHONG DOC DUOC FILE");
 		return "READ FILE ERROR";
 	case 1:
-		// THONGBAO(1, "LOGIN SV");
+		THONGBAO(1, "LOGIN SV");
 		return Name;
 	case 2:
-		// THONGBAO(1, "LOGIN GV");
+		THONGBAO(1, "LOGIN GV");
 		return "GV";
 	}
 }
@@ -2798,63 +2798,118 @@ int HienOptionLopHoc(bool check)
 bool ThemLopHoc(ListLH &dslh, int check, string maLH)
 {
 	KhungThem(1);
-	LopHoc temp;
-	strcpy(temp.maLop, maLH.c_str());
-	while (check == 0)
+	LopHoc newLH;
+	string maLopM = "", tenLopM = "";
+	string nienKhoaM = "";
+	int nK = 0;
+	nK = atoi(nienKhoaM.c_str());
+	// kiem tra da nhap du 2 noi dung hay chua
+	int index = 0;
+	int key = 0;
+	string temp = "";
+
+	while (1)
 	{
-		strcpy(temp.maLop, NhapMa(8, 35, 11).c_str());
-		if (is_Existed_MaLop(dslh, temp.maLop))
-			THONGBAO(1, "MA LOP DA TON TAI");
-		else if (is_Empty_CArray(temp.maLop))
-			THONGBAO(1, "NHAP MA LOP");
-		else if (strcmp(temp.maLop, "EXIT") == 0)
+		temp = "";
+		switch (key)
 		{
-			if (THONGBAO(3, "HUY QUA TRINH?"))
+		case 0: // nhap ma lop
+			temp = NhapMa1(6, 35, 15, maLopM);
+			if (is_Existed_MaLop(dslh, maLopM.c_str()))
+			{
+				THONGBAO(1, "MA LOP NAY DA TON TAI");
+				delete_LineOnScreen(6, 35, 15);
+				maLopM = "";
+				temp = "";
+				continue;
+			}
+			// else if (is_Empty_CArray(maMon.c_str()))
+			// {
+			// 	THONGBAO(1, "NHAP MA MON HOC");
+			// 	if (check > 0)
+			// 		--check;
+			// 	// continue;
+			// }
+			else if (!is_Empty_CArray(maLopM.c_str()))
+				index++;
+			break;
+		case 1: // nhap ten lop
+			temp = NhapChuoi1(26, 35, 50, tenLopM);
+			if (is_Existed_tenLop(dslh, tenLopM.c_str()))
+			{
+				THONGBAO(1, "TEN LOP NAY DA TON TAI");
+				delete_LineOnScreen(26, 35, 50);
+				tenLopM = "";
+				temp = "";
+				continue;
+			}
+			// else if (is_Empty_CArray(tenLop.c_str()))
+			// {
+			// 	THONGBAO(1, "NHAP TEN LOP HOC");
+			// 	if (check > 0)
+			// 		--check;
+			// 	// continue;
+			// }
+			else if (!is_Empty_CArray(tenLopM.c_str()))
+				index++;
+			break;
+		case 2: // nhap nien khoa
+			// nK = atoi(nienKhoaM.c_str());
+			temp = NhapSo1(104, 35, 4, nK);
+			// if (nK <= 2000)
+			// {
+			// 	THONGBAO(1, "NAM HOC: X > 2000");
+			// 	delete_LineOnScreen(101, 35, 4);
+			// 	continue;
+			// }
+			if (!is_Empty_CArray(nienKhoaM.c_str()))
+				index++;
+			break;
+		case 3: // XONG
+			gotoxy(117, 34);
+			SetColor(1, 3);
+			cout << " XONG ";
+			SetColor(0, 7);
+			char ch = getch();
+			switch (ch)
+			{
+			case LEFT:
+				temp = "LEFT";
+				gotoxy(117, 34);
+				SetColor(7, 0);
+				cout << " XONG ";
+				SetColor(0, 7);
+				break;
+			case ENTER:
+				if (index < 3)
+					THONGBAO(1, "HAY NHAP DU THONG TIN");
+				else if (THONGBAO(3, "LUU LOP HOC?"))
+				{
+					strcpy(newLH.maLop, maLopM.c_str());
+					strcpy(newLH.tenLop, tenLopM.c_str());
+					newLH.nienKhoa = atoi(nienKhoaM.c_str());
+					ThemLop(dslh, newLH);
+					return 1;
+				}
+				else
+					return 0;
+				break;
+			case ESC:
+				if (THONGBAO(3, "HUY QUA TRINH?"))
+					return 0;
+				break;
+			}
+		}
+		if (temp == "LEFT" && key > 0)
+			key--;
+		else if (temp == "RIGHT" || temp == "DONE" && key < 3)
+			key++;
+		else if (temp == "EXIT")
+		{
+			if (THONGBAO(3, "HUY THAO TAC?"))
 				return 0;
 		}
-		else
-			check++;
 	}
-
-	gotoxy(8, 35);
-	cout << temp.maLop;
-
-	while (check == 1)
-	{
-		strcpy(temp.tenLop, NhapChuoi(26, 35, 50).c_str());
-		if (is_Empty_CArray(temp.tenLop))
-			THONGBAO(1, "NHAP TEN LOP");
-		else if (strcmp(temp.tenLop, "EXIT") == 0)
-		{
-			if (THONGBAO(3, "HUY QUA TRINH?"))
-				return 0;
-		}
-		else
-			check++;
-	}
-	while (check == 2)
-	{
-		temp.nienKhoa = NhapSo(101, 35, 4);
-		if (temp.nienKhoa == -1)
-		{
-			if (THONGBAO(3, "HUY QUA TRINH?"))
-				return 0;
-		}
-		else if (temp.nienKhoa <= 2000)
-			THONGBAO(1, "NAM HOC: X > 2000");
-		else
-			check++;
-	}
-
-	if (THONGBAO(3, "LUU LOP HOC?"))
-	{
-		TextColor(0);
-		createLopHocFolder(temp.maLop);
-		TextColor(7);
-		ThemLop(dslh, temp);
-		return 1;
-	}
-	return 0;
 }
 bool XoaLopHoc(ListLH &dslh, LopHoc **lh, int index)
 {

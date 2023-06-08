@@ -399,6 +399,8 @@ bool is_Empty_LH(ListLH ListLH);
 bool is_Full_LH(ListLH ListLH);
 // kiem tra trung maLop
 bool is_Existed_MaLop(ListLH ListLH, const char *maLop);
+// kiem tra trung tenLop
+bool is_Existed_tenLop(ListLH ListLH, const char *tenLop);
 // chuong trinh thuc thi
 int ThemLop(ListLH &ListLH, LopHoc lh); // ham them lop
 // ham tim gia tri vi tri ma lop de gui vao cho ham xoa
