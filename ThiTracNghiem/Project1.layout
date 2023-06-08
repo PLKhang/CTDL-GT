@@ -1,11 +1,11 @@
 [Editors]
 Order=8,5,4,1,2,6
-Focused=8
+Focused=4
 [Editor_8]
 <<<<<<< HEAD
 CursorCol=3
 CursorRow=1544
-TopLine=1516
+TopLine=1515
 =======
 CursorCol=1
 CursorRow=1525
@@ -15,12 +15,12 @@ LeftChar=1
 [Editor_1]
 CursorCol=2
 CursorRow=678
-TopLine=649
+TopLine=1
 LeftChar=1
 [Editor_4]
-CursorCol=23
-CursorRow=357
-TopLine=426
+CursorCol=6
+CursorRow=475
+TopLine=446
 LeftChar=1
 [Editor_5]
 CursorCol=1
