@@ -1,4 +1,9 @@
 #include "ThuVien.h"
+void FullScreen()
+{
+	keybd_event(VK_F11, 0, 0, 0); // Simulate pressing F11 key
+    keybd_event(VK_F11, 0, KEYEVENTF_KEYUP, 0); // Simulate releasing F11 key
+}
 void gotoxy(int x, int y)
 {
     COORD coord;

@@ -15,7 +15,7 @@
 #include "define.h"
 
 using namespace std;
-
+void FullScreen();
 void gotoxy(int x, int y);
 void TextColor(int color);
 void SetBGColor(WORD color);
