@@ -458,7 +458,7 @@ void chuMenuSV(int x, int y)
 }
 void XoaVungThi()
 {
-	gotoxy(81, 2);
+	gotoxy(80, 2);
 	cout << "                                                               ";
 	for (int j = 5; j <= 25; j++)
 	{
@@ -581,23 +581,12 @@ void VeKhungCauHoi(int Your_index, int Answer_index, int option)
 	}
 	else
 	{
-		if (Your_index != 0)
+		if (Your_index != 0&&Your_index != Answer_index)// TRƯỜNG HỢP CÓ CHỌN VÀ KHÁC KẾT QUẢ
 		{
-			if (Your_index != Answer_index)
-			{
-				SetColor(4, 0);
-				switch (Your_index)
-				{
-				case 10:
-				{
-					gotoxy(10, 10);
-					cout << "A";
-					break;
-				}
-				}
-			}
-			SetColor(2, 0);
-			switch (Answer_index)
+			// if (Your_index != Answer_index)
+			// {
+			SetColor(4, 0);
+			switch (Your_index)
 			{
 			case 10:
 			{
@@ -623,10 +612,39 @@ void VeKhungCauHoi(int Your_index, int Answer_index, int option)
 				cout << "D";
 				break;
 			}
+				//}
 			}
 		}
-		SetColor(0, 7);
+		SetColor(2, 0);
+		switch (Answer_index)
+		{
+		case 10:
+		{
+			gotoxy(10, 10);
+			cout << "A";
+			break;
+		}
+		case 14:
+		{
+			gotoxy(10, 14);
+			cout << "B";
+			break;
+		}
+		case 18:
+		{
+			gotoxy(10, 18);
+			cout << "C";
+			break;
+		}
+		case 22:
+		{
+			gotoxy(10, 22);
+			cout << "D";
+			break;
+		}
+		}
 	}
+	SetColor(0, 7);
 }
 void VeKhungCauHoi1(char tenMH[], int ID)
 {

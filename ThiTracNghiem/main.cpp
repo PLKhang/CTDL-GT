@@ -3,6 +3,7 @@ using namespace std;
 
 int main()
 {
+	FullScreen();
 	ListLH dslh;
 	ListMH dsmh;
 	STreeCH root = NULL;

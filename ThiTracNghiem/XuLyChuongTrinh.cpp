@@ -434,13 +434,13 @@ void DongHo(int time)
 			gotoxy(72, 2);
 			cout << right << setw(2) << setfill('0') << giay--;
 			gotoxy(74, 2);
-			cout << ":giay";
+			cout << ":giay|";
 			Sleep(1000);
 			if (stopThi == 1)
 				return;
 		}
 	}
-	THONGBAO(0, "       HET THOI GIAN           NHAN PHIM BAT KI DE THOAT");
+	THONGBAO(0, "       HET THOI GIAN- NHAN PHIM BAT KI DE THOAT");
 	stopThi = 1;
 }
 
@@ -572,36 +572,37 @@ string NhapSC_TG(int &so_cau, int &thoi_gian, int soluongcauhoi, PtrSV &SV)
 		}
 		case 1:
 		{
-			temp = NhapSo1(70, 18, 3, thoi_gian);
-			if (temp.compare("UP") == 0)
-				option = 0;
-			if (temp.compare("EMPTY") == 0)
-			{
-				THONGBAO(1, "THOI GIAN TRONG");
-			}
+			temp = NhapSo1(70, 18, 2, thoi_gian);
+			if (temp.compare("UP") == 0)option = 0;
+			if (temp.compare("EMPTY") == 0)THONGBAO(1, "THOI GIAN TRONG");
 			if (temp.compare("DONE") == 0)
 			{
 				if (check_empty == 1)
 				{
 					THONGBAO(1, "SO CAU TRONG");
+					gotoxy(70,16);cout<<"  ";
+					if(thoi_gian==0){gotoxy(70,18);cout<<"  ";}
 					option = 0;
 					break;
 				}
 				if (so_cau == 0)
 				{
-					THONGBAO(1, "SO CAU PHAI KHAC KHONG");
+					THONGBAO(1, "SO CAU PHAI >0");
+					gotoxy(70,16);cout<<"  ";
 					option = 0;
 					break;
 				}
 				if (so_cau > soluongcauhoi)
 				{
-					THONGBAO(1, "SO CAU NHO HON TONG SO CAU");
+					THONGBAO(1, "SO CAU PHAI <= TONG SO CAU");
 					option = 0;
 					break;
 				}
-				if (thoi_gian == 0)
+				if (thoi_gian == 0||thoi_gian>60)
 				{
-					THONGBAO(1, "THOI GIAN PHAI KHAC KHONG");
+					THONGBAO(1, "THOI GIAN PHAI >0 va<=60 PHUT");
+					gotoxy(70,18);cout<<"  ";
+					thoi_gian=0;
 					option = 1;
 					break;
 				}
@@ -1506,6 +1507,7 @@ void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[])
 			case F5:
 			{
 				start = 0, end = NumberQuestion - 1, change = 1;
+				Sort(List,start,end);
 				break;
 			}
 			case LEFT:

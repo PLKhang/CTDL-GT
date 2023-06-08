@@ -1,4 +1,9 @@
 #include "ThuVien.h"
+void FullScreen()
+{
+	keybd_event(VK_F11, 0, 0, 0); // Simulate pressing F11 key
+    keybd_event(VK_F11, 0, KEYEVENTF_KEYUP, 0); // Simulate releasing F11 key
+}
 void gotoxy(int x, int y)
 {
     COORD coord;
@@ -847,10 +852,10 @@ int docCauHoiDaThi(STreeCH root, Array<STreeCH> &List, char YourAnswer[], char M
                 docfile >> ID;
                 docfile.ignore(); // bỏ dấu |
                 docfile >> YourAnswer[i];
-                // docfile.ignore();//bỏ dấu xuống dòng
                 List.push(BinarySearch(root, ID));
             }
             docfile.close();
+            Sort(List,0,List.GetIndexLast());
             return 1;
         }
     }
