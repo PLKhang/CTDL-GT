@@ -2626,36 +2626,29 @@ void SortDSDT(PtrDT *data, int n, int &check)
 ///////////////////////////GV->DANH SACH LOP HOC/////////////////////
 bool sortDSLH(LopHoc **dslh, int numOfClass, int &index)
 {
-	if (index < 1 || index > 3)
-		return false; // index = 1, 2 ho?c 3 tuong ?ng v?i maLop, tenLop ho?c nienKhoa
+	if (index < 1 || index > 2)
+		return false; // index = 1, 2  tuong ung voi maLop, tenLop 
 	for (int i = 0; i < numOfClass - 1; i++)
 	{
 		for (int j = i + 1; j < numOfClass; j++)
 		{
 			if (index == 1)
-			{ // s?p x?p theo maLop
+			{ // sap xep theo maLop
 				if (strcmp(dslh[i]->maLop, dslh[j]->maLop) > 0)
 				{
 					swap(dslh[i], dslh[j]);
 				}
 			}
 			else if (index == 2)
-			{ // s?p x?p theo tenLop
+			{ // sap xep theo tenLop
 				if (strcmp(dslh[i]->tenLop, dslh[j]->tenLop) > 0)
-				{
-					swap(dslh[i], dslh[j]);
-				}
-			}
-			else
-			{ // s?p x?p theo nienKhoa
-				if (dslh[i]->nienKhoa > dslh[j]->nienKhoa)
 				{
 					swap(dslh[i], dslh[j]);
 				}
 			}
 		}
 	}
-	if (index < 3)
+	if (index < 2)
 		index++;
 	else
 		index = 1;

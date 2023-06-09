@@ -1,12 +1,12 @@
 [Editors]
 <<<<<<< HEAD
-Order=8,5,1,2,6
-Focused=8
+Order=5,1,2,6
+Focused=6
 [Editor_8]
 <<<<<<< HEAD
 CursorCol=3
-CursorRow=1544
-TopLine=1515
+CursorRow=2951
+TopLine=2942
 =======
 Order=8,5,4,1,2,7
 Focused=8
