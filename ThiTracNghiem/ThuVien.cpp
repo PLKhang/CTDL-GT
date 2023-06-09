@@ -498,6 +498,7 @@ string NhapSo1(int x, int y, int soluong, int &num)
         setCursorVisibility(1);
         if (ch >= '0' && ch <= '9' && index < soluong)
         {
+            num = (num < 0 ? 0 : num);
             num = num * 10 + (ch - '0');
             gotoxy(x + index++, y);
             cout << ch - '0';

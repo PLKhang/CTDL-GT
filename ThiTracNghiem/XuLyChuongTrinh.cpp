@@ -573,22 +573,30 @@ string NhapSC_TG(int &so_cau, int &thoi_gian, int soluongcauhoi, PtrSV &SV)
 		case 1:
 		{
 			temp = NhapSo1(70, 18, 2, thoi_gian);
-			if (temp.compare("UP") == 0)option = 0;
-			if (temp.compare("EMPTY") == 0)THONGBAO(1, "THOI GIAN TRONG");
+			if (temp.compare("UP") == 0)
+				option = 0;
+			if (temp.compare("EMPTY") == 0)
+				THONGBAO(1, "THOI GIAN TRONG");
 			if (temp.compare("DONE") == 0)
 			{
 				if (check_empty == 1)
 				{
 					THONGBAO(1, "SO CAU TRONG");
-					gotoxy(70,16);cout<<"  ";
-					if(thoi_gian==0){gotoxy(70,18);cout<<"  ";}
+					gotoxy(70, 16);
+					cout << "  ";
+					if (thoi_gian == 0)
+					{
+						gotoxy(70, 18);
+						cout << "  ";
+					}
 					option = 0;
 					break;
 				}
 				if (so_cau == 0)
 				{
 					THONGBAO(1, "SO CAU PHAI >0");
-					gotoxy(70,16);cout<<"  ";
+					gotoxy(70, 16);
+					cout << "  ";
 					option = 0;
 					break;
 				}
@@ -598,11 +606,12 @@ string NhapSC_TG(int &so_cau, int &thoi_gian, int soluongcauhoi, PtrSV &SV)
 					option = 0;
 					break;
 				}
-				if (thoi_gian == 0||thoi_gian>60)
+				if (thoi_gian == 0 || thoi_gian > 60)
 				{
 					THONGBAO(1, "THOI GIAN PHAI >0 va<=60 PHUT");
-					gotoxy(70,18);cout<<"  ";
-					thoi_gian=0;
+					gotoxy(70, 18);
+					cout << "  ";
+					thoi_gian = 0;
 					option = 1;
 					break;
 				}
@@ -1507,7 +1516,7 @@ void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[])
 			case F5:
 			{
 				start = 0, end = NumberQuestion - 1, change = 1;
-				Sort(List,start,end);
+				Sort(List, start, end);
 				break;
 			}
 			case LEFT:
@@ -2802,9 +2811,9 @@ bool ThemLopHoc(ListLH &dslh, int check, string maLH)
 	KhungThem(1);
 	LopHoc newLH;
 	string maLopM = "", tenLopM = "";
-	string nienKhoaM = "";
-	int nK = 0;
-	nK = atoi(nienKhoaM.c_str());
+	// string nienKhoaM = "";
+	int nK = -1;
+	// nK = atoi(nienKhoaM.c_str());
 	// kiem tra da nhap du 3 noi dung hay chua
 	int index = 0;
 	int key = 0;
@@ -2832,7 +2841,7 @@ bool ThemLopHoc(ListLH &dslh, int check, string maLH)
 			// 		--check;
 			// 	// continue;
 			// }
-			else if (!is_Empty_CArray(maLopM.c_str()))
+			else if (!is_Empty_CArray(maLopM.c_str()) && index < 1)
 				index++;
 			break;
 		case 1: // nhap ten lop
@@ -2852,21 +2861,26 @@ bool ThemLopHoc(ListLH &dslh, int check, string maLH)
 			// 		--check;
 			// 	// continue;
 			// }
-			else if (!is_Empty_CArray(tenLopM.c_str()))
+			else if (!is_Empty_CArray(tenLopM.c_str()) && index < 2)
 				index++;
 			break;
 		case 2: // nhap nien khoa
 			// nK = atoi(nienKhoaM.c_str());
-			temp = NhapSo1(104, 35, 4, nK);s
-			nienKhoaM = to_string(nK);
-			// if (nK <= 2000)
-			// {
-			// 	THONGBAO(1, "NAM HOC: X > 2000");
-			// 	delete_LineOnScreen(101, 35, 4);
-			// 	continue;
-			// }
-			if (!is_Empty_CArray(nienKhoaM.c_str()))
+			temp = NhapSo1(106, 35, 4, nK);
+			// nienKhoaM = to_string(nK);
+			if (nK <= 2000 && nK >= 0 || nK > 2023)
+			{
+				THONGBAO(1, "NAM HOC: 2000 < X < 2024");
+				delete_LineOnScreen(106, 35, 4);
+				nK = -1;
+				continue;
+			}
+			else if (nK > 2000 && nK <= 2023 && index < 3)
 				index++;
+			else if (nK < 0)
+				THONGBAO(1, "HAY NHAP NIEN KHOA");
+			// if (!is_Empty_CArray(nienKhoaM.c_str()))
+			// 	index++;
 			break;
 		case 3: // XONG
 			gotoxy(117, 34);
@@ -2890,7 +2904,8 @@ bool ThemLopHoc(ListLH &dslh, int check, string maLH)
 				{
 					strcpy(newLH.maLop, maLopM.c_str());
 					strcpy(newLH.tenLop, tenLopM.c_str());
-					newLH.nienKhoa = atoi(nienKhoaM.c_str());
+					// newLH.nienKhoa = atoi(nienKhoaM.c_str());
+					newLH.nienKhoa = nK;
 					ThemLop(dslh, newLH);
 					return 1;
 				}
@@ -2905,7 +2920,7 @@ bool ThemLopHoc(ListLH &dslh, int check, string maLH)
 		}
 		if (temp == "LEFT" && key > 0)
 			key--;
-		else if (temp == "RIGHT" || temp == "DONE" && key < 3)
+		else if ((temp == "RIGHT" || temp == "DONE") && key < 3)
 			key++;
 		else if (temp == "EXIT")
 		{
@@ -2931,29 +2946,51 @@ bool HieuChinhLopHoc(ListLH dslh, LopHoc **data, int index)
 {
 	LopHoc tempLH;
 	strcpy(tempLH.maLop, data[index]->maLop);
-	THONGBAO(1, "NHAP THONG TIN-LOP HOC MOI");
-	strcpy(tempLH.tenLop, NhapChuoi(26, 9 + (index % 10 + 1) * 2, 50).c_str()); // nhap ten lop
-	if (is_Empty_CArray(tempLH.tenLop))											// neu ENTER khi chua nhap -> dung ten lop cu~
-		strcpy(tempLH.tenLop, data[index]->tenLop);
-	else if (strcmp(tempLH.tenLop, "EXIT") == 0)
+	THONGBAO(1, "NHAP THONG TIN LOP HOC MOI");
+	while (1)
 	{
-		if (THONGBAO(3, "HUY THAO TAC?"))
-			return 0;
+		strcpy(tempLH.tenLop, NhapChuoi(26, 9 + (index % 10 + 1) * 2, 50).c_str()); // nhap ten lop
+		if (is_Empty_CArray(tempLH.tenLop))											// neu ENTER khi chua nhap -> dung ten lop cu~
+		{
+			strcpy(tempLH.tenLop, data[index]->tenLop);
+			break;
+		}
+		else if (is_Existed_tenLop(dslh, tempLH.tenLop) && strcmp(tempLH.tenLop, data[index]->tenLop) != 0)
+		{
+			THONGBAO(1, "TEN LOP NAY DA TON TAI");
+			delete_LineOnScreen(26, 9 + (index % 10 + 1) * 2, 50);
+		}
+		else if (strcmp(tempLH.tenLop, "EXIT") == 0)
+		{
+			if (THONGBAO(3, "HUY THAO TAC?"))
+				return 0;
+		}
+		else
+			break;
 	}
 	gotoxy(26, 9 + (index % 10 + 1) * 2);
 	cout << tempLH.tenLop;
 
 	// xu ly nienKhoa
-	tempLH.nienKhoa = NhapSo(106, 9 + (index % 10 + 1) * 2, 4);
-	if (tempLH.nienKhoa == -2)
-		tempLH.nienKhoa = data[index]->nienKhoa;
-	else if (tempLH.nienKhoa == -1)
+	while (1)
 	{
-		if (THONGBAO(3, "HUY THAO TAC?"))
-			return 0;
+		tempLH.nienKhoa = NhapSo(106, 9 + (index % 10 + 1) * 2, 4);
+		if (tempLH.nienKhoa == -2)
+		{
+			tempLH.nienKhoa = data[index]->nienKhoa;
+			break;
+		}
+		else if (tempLH.nienKhoa < 2000 || tempLH.nienKhoa > 2023)
+			THONGBAO(1, "NIEN KHOA: 2000 < X < 2024");
+		else if (tempLH.nienKhoa == -1)
+		{
+			if (THONGBAO(3, "HUY THAO TAC?"))
+				return 0;
+		}
+		else
+			break;
 	}
-
-	gotoxy(101, 9 + (index % 10 + 1) * 2);
+	gotoxy(106, 9 + (index % 10 + 1) * 2);
 	cout << tempLH.nienKhoa;
 	if (THONGBAO(3, "LUU THAY DOI?"))
 	{
@@ -2963,7 +3000,10 @@ bool HieuChinhLopHoc(ListLH dslh, LopHoc **data, int index)
 		return 1;
 	}
 	else
+	{
 		THONGBAO(1, "DA HUY THAO TAC");
+		return 0;
+	}
 }
 void HienDanhSachLopHoc(LopHoc **data, int numOfClasses, int page, int maxPage, bool types)
 {
