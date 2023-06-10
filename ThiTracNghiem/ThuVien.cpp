@@ -1,7 +1,7 @@
 #include "ThuVien.h"
 void FullScreen()
 {
-	keybd_event(VK_F11, 0, 0, 0); // Simulate pressing F11 key
+    keybd_event(VK_F11, 0, 0, 0);               // Simulate pressing F11 key
     keybd_event(VK_F11, 0, KEYEVENTF_KEYUP, 0); // Simulate releasing F11 key
 }
 void gotoxy(int x, int y)
@@ -490,12 +490,12 @@ int Dem(int num)
 }
 string NhapSo1(int x, int y, int soluong, int &num)
 {
+    setCursorVisibility(1);
     int index, ch;
     index = Dem(num);
     gotoxy(x + index, y);
     while ((ch = getch()) != ENTER)
     {
-        setCursorVisibility(1);
         if (ch >= '0' && ch <= '9' && index < soluong)
         {
             num = (num < 0 ? 0 : num);
@@ -856,7 +856,7 @@ int docCauHoiDaThi(STreeCH root, Array<STreeCH> &List, char YourAnswer[], char M
                 List.push(BinarySearch(root, ID));
             }
             docfile.close();
-            Sort(List,0,List.GetIndexLast());
+            Sort(List, 0, List.GetIndexLast());
             return 1;
         }
     }
