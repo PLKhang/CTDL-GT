@@ -2071,28 +2071,36 @@ bool ThemSinhVien(ListLH dslh, PtrSV &dssv, ListMH dsmh)
 			temp = NhapMa1(8, 35, 10, mssv);
 			if (is_Existed_MSSV_SV(dslh, mssv))
 			{
-				THONGBAO(1, "MA SO SINH VIEN-DA TON TAI-NHAP MA MOI");
+				THONGBAO(1, "MA SO SINH VIEN-DA TON TAI-HAY NHAP MA MOI");
 				delete_LineOnScreen(8, 35, 10);
 				mssv = "";
 				temp = "";
 			}
-			else if (mssv != "")
+			else if (!is_Empty_CArray(mssv.c_str()))
 				check++;
+			else if (is_Empty_CArray(mssv.c_str()) && check > 0)
+				check--;
 			break;
 		case 1: // nhap ho
 			temp = NhapChuoi1(26, 35, 50, ho);
-			if (ho != "")
+			if (!is_Empty_CArray(ho.c_str()))
 				check++;
+			else if (is_Empty_CArray(ho.c_str()) && check > 1)
+				check--;
 			break;
 		case 2: // nhap ten
 			temp = NhapChuoi1(81, 35, 15, ten);
-			if (ten != "")
+			if (!is_Empty_CArray(ten.c_str()))
 				check++;
+			else if (is_Empty_CArray(ten.c_str()) && check > 2)
+				check--;
 			break;
 		case 3: // nhap password
 			temp = NhapMa1(101, 35, 11, password);
-			if (password != "")
+			if (!is_Empty_CArray(password.c_str()))
 				check++;
+			else if (is_Empty_CArray(password.c_str()) && check > 3)
+				check--;
 			break;
 		case 4: // gioi tinh
 		{
@@ -2110,6 +2118,7 @@ bool ThemSinhVien(ListLH dslh, PtrSV &dssv, ListMH dsmh)
 			}
 			SetColor(0, 7);
 			char ch;
+			bool move = false;
 			while (1)
 			{
 				ch = getch();
@@ -2126,9 +2135,11 @@ bool ThemSinhVien(ListLH dslh, PtrSV &dssv, ListMH dsmh)
 						break;
 					case LEFT:
 						temp = "LEFT";
+						move = true;
 						break;
 					case RIGHT:
 						temp = "RIGHT";
+						move = true;
 						break;
 					}
 					gotoxy(116, 33);
@@ -2144,7 +2155,7 @@ bool ThemSinhVien(ListLH dslh, PtrSV &dssv, ListMH dsmh)
 					temp = "DONE";
 					break;
 				}
-				else if (temp != "")
+				if (move)
 					break;
 			}
 			break;
@@ -2196,22 +2207,27 @@ bool ThemSinhVien(ListLH dslh, PtrSV &dssv, ListMH dsmh)
 }
 bool XoaSinhVien(PtrSV &dssv, PtrSV *data, const string &maLH, int index)
 {
+	bool check = false;
 	removeSinhVienFile(maLH, data[index]->info.MSSV);
 	if (data[index] == dssv)
-		delete_First_SV(dssv);
+	{
+		if (delete_First_SV(dssv))
+			check = true;
+	}
 	else
 	{
 		PtrSV p = NULL;
 		for (p = dssv; p->next != NULL; p = p->next)
 			if (data[index] == p->next)
 			{
-				delete_After_SV(p);
+				if (delete_After_SV(p))
+					check = true;
 				break;
 			}
 	}
 	for (int i = index; i < 99; i++)
 		data[i] = data[i + 1];
-	return 1;
+	return check;
 }
 bool HieuChinhSinhVien(ListLH dslh, PtrSV dssv, PtrSV *data, int index)
 {
@@ -2627,7 +2643,7 @@ void SortDSDT(PtrDT *data, int n, int &check)
 bool sortDSLH(LopHoc **dslh, int numOfClass, int &index)
 {
 	if (index < 1 || index > 2)
-		return false; // index = 1, 2  tuong ung voi maLop, tenLop 
+		return false; // index = 1, 2  tuong ung voi maLop, tenLop
 	for (int i = 0; i < numOfClass - 1; i++)
 	{
 		for (int j = i + 1; j < numOfClass; j++)
