@@ -1732,7 +1732,7 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 				return NULL;
 			case F1: // tim kiem sv theo ten
 			{
-				if(types == 1)
+				if (types == 1)
 					break;
 				VeKhung(5, 31, 115, 33);
 				gotoxy(6, 32);
@@ -1770,7 +1770,7 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 				index = 0;
 				break;
 			case F5: // tai lai danh sach ban dau
-				if(types == 1)
+				if (types == 1)
 					break;
 				check_Delete = false;
 				check_Edit = false;
@@ -2858,7 +2858,7 @@ bool ThemLopHoc(ListLH &dslh, int check, string maLH)
 			// }
 			else if (!is_Empty_CArray(maLopM.c_str()) && index < 1)
 				index++;
-			else if(is_Empty_CArray(maLopM.c_str()) && index > 0)
+			else if (is_Empty_CArray(maLopM.c_str()) && index > 0)
 				index--;
 			break;
 		case 1: // nhap ten lop
@@ -2880,7 +2880,7 @@ bool ThemLopHoc(ListLH &dslh, int check, string maLH)
 			// }
 			else if (!is_Empty_CArray(tenLopM.c_str()) && index < 2)
 				index++;
-			else if(is_Empty_CArray(tenLopM.c_str()) && index > 1)
+			else if (is_Empty_CArray(tenLopM.c_str()) && index > 1)
 				index--;
 			break;
 		case 2: // nhap nien khoa
@@ -3201,12 +3201,17 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 					if (maLop == "EXIT") // bam ESC khi chon ma lop
 						break;
 					THONGBAO(1, "CHON MON HOC");
-					string maMon = MENU_DSMH_GV(root, dsmh, 1);
-					int index;
-					for (index = 0; index < dslh.n; index++)
-						if (strcmp(dslh.lh[index]->maLop, maLop.c_str()) == 0)
+					while (1)
+					{
+						string maMon = MENU_DSMH_GV(root, dsmh, 1);
+						if (maMon == "EXIT")
 							break;
-					MENU_DSSV_GV(dslh, index, dsmh, root, 1, maMon);
+						int index;
+						for (index = 0; index < dslh.n; index++)
+							if (strcmp(dslh.lh[index]->maLop, maLop.c_str()) == 0)
+								break;
+						MENU_DSSV_GV(dslh, index, dsmh, root, 1, maMon);
+					}
 					HienDanhSachLopHoc(temp, numOfClasses, page, maxPage, 1);
 
 					// gotoxy(2, 9 + (index % 10 + 1) * 2);
@@ -3256,9 +3261,7 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 						temp[numOfResults++] = dslh.lh[i];
 				}
 				if (numOfResults == 0)
-				{
 					THONGBAO(1, "KHONG TIM THAY KET QUA");
-				}
 				else
 				{
 					// Cập nhật thông tin sau khi tìm kiếm thành công
@@ -3442,6 +3445,7 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 				}
 				break;
 			case RIGHT:
+			{
 				if (check_Delete || check_Edit || selectMode)
 					break;
 
@@ -3484,104 +3488,118 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 				gotoxy(2, 9 + (index % 10 + 1) * 2);
 				cout << ">>";
 			}
+			break;
+			}
 		}
-		else if (ch == ESC)
-			return "EXIT";
-		else if (ch == F1)
+		else
 		{
-			VeKhung(5, 31, 115, 33);
-			gotoxy(6, 32);
-			cout << "NHAP TEN MON HOC: ";
-			string content = NhapChuoi(27, 32, 94);
-			int numOfResults = 0;
-			for (int i = 0; i < dsmh.n; i++)
+			switch (ch)
 			{
-				if (strstr(dsmh.nodes[i].tenMonHoc, content.data()) != NULL && !is_Existed_MaMH_DT(SV->info.danhSachDiemThi, dsmh.nodes[i].maMonHoc))
-					temp[numOfResults++] = &dsmh.nodes[i];
+			case ESC:
+				return "EXIT";
+			case F1: // tim kiem theo ten mon
+			{
+				VeKhung(5, 31, 115, 33);
+				gotoxy(6, 32);
+				cout << "NHAP TEN MON HOC: ";
+				string content = NhapChuoi(27, 32, 94);
+				int numOfResults = 0;
+				for (int i = 0; i < dsmh.n; i++)
+				{
+					if (strstr(dsmh.nodes[i].tenMonHoc, content.data()) != NULL)
+					{
+						if (selectMode != 2) // khong thi
+							temp[numOfResults++] = &dsmh.nodes[i];
+						else if (!is_Existed_MaMH_DT(SV->info.danhSachDiemThi, dsmh.nodes[i].maMonHoc)) // thi -> da co diem thi khong hien mon
+							temp[numOfResults++] = &dsmh.nodes[i];
+					}
+				}
+				if (numOfResults == 0)
+					THONGBAO(1, "KHONG TIM THAY KET QUA");
+				else
+				{
+					// Cập nhật thông tin sau khi tìm kiếm thành công
+					numOfSubjects = numOfResults;
+					maxPage = (numOfSubjects - 1) / 10 + 1;
+					index = 0;
+					page = 1;
+					HienDanhSachMonHoc(temp, numOfSubjects, page, maxPage, selectMode);
+					gotoxy(2, 9 + (index % 10 + 1) * 2);
+					cout << ">>";
+					// TODO: Xử lý hiển thị kết quả tìm kiếm
+				}
 			}
-			if (numOfResults == 0)
+			break;
+			case F5:
 			{
-				THONGBAO(1, "KHONG TIM THAY KET QUA");
-			}
-			else
-			{
-				// Cập nhật thông tin sau khi tìm kiếm thành công
-				numOfSubjects = numOfResults;
+				if (selectMode != 2)
+				{
+					for (int i = 0; i < dsmh.n; i++)
+						temp[i] = &dsmh.nodes[i];
+					numOfSubjects = dsmh.n;
+				}
+				else
+				{
+					int pos = 0;
+					int numOfScores = 0;
+					for (PtrDT p = SV->info.danhSachDiemThi; p != NULL; p = p->next)
+						numOfScores++;
+					numOfSubjects = dsmh.n - numOfScores;
+					for (int i = 0; i < dsmh.n; i++)
+						if (!(is_Existed_MaMH_DT(SV->info.danhSachDiemThi, dsmh.nodes[i].maMonHoc)))
+							temp[pos++] = &dsmh.nodes[i];
+				}
 				maxPage = (numOfSubjects - 1) / 10 + 1;
 				index = 0;
 				page = 1;
+				check_Delete = false;
+				check_Edit = false;
 				HienDanhSachMonHoc(temp, numOfSubjects, page, maxPage, selectMode);
 				gotoxy(2, 9 + (index % 10 + 1) * 2);
 				cout << ">>";
-				// TODO: Xử lý hiển thị kết quả tìm kiếm
 			}
-		}
-		else if (ch == F5)
-		{
-			if (selectMode != 2)
+			break;
+			case ENTER:
 			{
-				for (int i = 0; i < dsmh.n; i++)
-					temp[i] = &dsmh.nodes[i];
-				numOfSubjects = dsmh.n;
-			}
-			else
-			{
-				int pos = 0;
-				int numOfScores = 0;
-				for (PtrDT p = SV->info.danhSachDiemThi; p != NULL; p = p->next)
-					numOfScores++;
-				numOfSubjects = dsmh.n - numOfScores;
-				for (int i = 0; i < dsmh.n; i++)
-					if (!(is_Existed_MaMH_DT(SV->info.danhSachDiemThi, dsmh.nodes[i].maMonHoc)))
-						temp[pos++] = &dsmh.nodes[i];
-			}
-			maxPage = (numOfSubjects - 1) / 10 + 1;
-			index = 0;
-			page = 1;
-			check_Delete = false;
-			check_Edit = false;
-			HienDanhSachMonHoc(temp, numOfSubjects, page, maxPage, selectMode);
-			gotoxy(2, 9 + (index % 10 + 1) * 2);
-			cout << ">>";
-		}
-		else if (ch == ENTER)
-		{
-			if (selectMode)
-			{
-				temp[index]->is_used = true;
-				return temp[index]->maMonHoc;
-			}
-			if (check_Delete)
-			{
-				if (temp[index]->is_used)
-					THONGBAO(1, "KHONG THE XOA-MON HOC DA DUOC SU DUNG");
-				else if (THONGBAO(3, "XOA MON HOC?"))
+				if (selectMode)
 				{
-					if (XoaMonHoc(dsmh, temp, index))
-					{
-						maxPage = (dsmh.n - 1) / 10 + 1;
-						page = 1;
-						index = 0;
-					}
-					check_Delete = 0;
+					temp[index]->is_used = true;
+					return temp[index]->maMonHoc;
 				}
-			}
-			else if (check_Edit)
-			{
-				if (!HieuChinhMonHoc(dsmh, *temp[index], index % 10 + 1))
-					THONGBAO(1, "DA HUY-THAO TAC HIEU CHINH");
+				if (check_Delete)
+				{
+					if (temp[index]->is_used)
+						THONGBAO(1, "KHONG THE XOA-MON HOC DA DUOC SU DUNG");
+					else if (THONGBAO(3, "XOA MON HOC?"))
+					{
+						if (XoaMonHoc(dsmh, temp, index))
+						{
+							maxPage = (dsmh.n - 1) / 10 + 1;
+							page = 1;
+							index = 0;
+						}
+						check_Delete = 0;
+					}
+				}
+				else if (check_Edit)
+				{
+					if (!HieuChinhMonHoc(dsmh, *temp[index], index % 10 + 1))
+						THONGBAO(1, "DA HUY-THAO TAC HIEU CHINH");
+					else
+						THONGBAO(1, "THAO TAC HOAN TAT");
+					check_Edit = 0;
+				}
 				else
-					THONGBAO(1, "THAO TAC HOAN TAT");
-				check_Edit = 0;
+					MENU_DSCH_GV(root, *temp[index]);
 			}
-			else
-				MENU_DSCH_GV(root, *temp[index]);
+			break;
+			}
 			HienDanhSachMonHoc(temp, numOfSubjects, page, maxPage, selectMode);
 			gotoxy(2, 9 + (index % 10 + 1) * 2);
 			cout << ">>";
 		}
 	}
-	return "";
+	// return "";
 }
 void HienDanhSachMonHoc(MonHoc *dsmh[], int numOfSubs, int page, int maxPage, bool selectMode)
 {
