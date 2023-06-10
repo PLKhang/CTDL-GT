@@ -1732,6 +1732,8 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 				return NULL;
 			case F1: // tim kiem sv theo ten
 			{
+				if(types == 1)
+					break;
 				VeKhung(5, 31, 115, 33);
 				gotoxy(6, 32);
 				cout << "NHAP TEN SINH VIEN: ";
@@ -1768,6 +1770,10 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 				index = 0;
 				break;
 			case F5: // tai lai danh sach ban dau
+				if(types == 1)
+					break;
+				check_Delete = false;
+				check_Edit = false;
 				p = dslh.lh[classIndex]->danhSachSinhVien;
 				for (int i = 0; p != NULL; i++)
 					temp[i] = p;
@@ -2852,6 +2858,8 @@ bool ThemLopHoc(ListLH &dslh, int check, string maLH)
 			// }
 			else if (!is_Empty_CArray(maLopM.c_str()) && index < 1)
 				index++;
+			else if(is_Empty_CArray(maLopM.c_str()) && index > 0)
+				index--;
 			break;
 		case 1: // nhap ten lop
 			temp = NhapChuoi1(26, 35, 50, tenLopM);
@@ -2872,6 +2880,8 @@ bool ThemLopHoc(ListLH &dslh, int check, string maLH)
 			// }
 			else if (!is_Empty_CArray(tenLopM.c_str()) && index < 2)
 				index++;
+			else if(is_Empty_CArray(tenLopM.c_str()) && index > 1)
+				index--;
 			break;
 		case 2: // nhap nien khoa
 			// nK = atoi(nienKhoaM.c_str());
@@ -2886,8 +2896,10 @@ bool ThemLopHoc(ListLH &dslh, int check, string maLH)
 			}
 			else if (nK > 2000 && nK <= 2023 && index < 3)
 				index++;
-			else if (nK < 0)
-				THONGBAO(1, "HAY NHAP NIEN KHOA");
+			else if (nK == -1 && index > 2)
+				index--;
+			// else if (nK < 0)
+			// 	THONGBAO(1, "HAY NHAP NIEN KHOA");
 			// if (!is_Empty_CArray(nienKhoaM.c_str()))
 			// 	index++;
 			break;
@@ -2918,8 +2930,6 @@ bool ThemLopHoc(ListLH &dslh, int check, string maLH)
 					ThemLop(dslh, newLH);
 					return 1;
 				}
-				else
-					return 0;
 				break;
 			case ESC:
 				if (THONGBAO(3, "HUY QUA TRINH?"))
