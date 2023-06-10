@@ -4043,23 +4043,26 @@ void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
 					break;
 				case 4: // BANG DIEM
 				{
-					// chon lop
-					string maLop = MENU_DSLH_GV(dslh, dsmh, root, 1);
-					if (maLop == "EXIT") // bam ESC khi chon lop -> return "EXIT"
-						break;
+					string maLop;
 					int index;
-					for (index = 0; index < dslh.n; index++) // lay lop hoc da chon
-						if (strcmp(dslh.lh[index]->maLop, maLop.c_str()) == 0)
-							break;
-					PtrSV pSV = MENU_DSSV_GV(dslh, index, dsmh, root, 2);
-					if (pSV == NULL) // bam ESC khi chon sinh vien -> return NULL
-						break;
-					MENU_DSDT_GV(pSV->info, dsmh, root, 0);
+					PtrSV pSV = NULL;
+					// chon lop
+					while ((maLop = MENU_DSLH_GV(dslh, dsmh, root, 1)) != "EXIT")
+					{
+						for (index = 0; index < dslh.n; index++) // lay lop hoc da chon
+							if (strcmp(dslh.lh[index]->maLop, maLop.c_str()) == 0)
+								break;
+						while ((pSV = MENU_DSSV_GV(dslh, index, dsmh, root, 2)) != NULL)
+						{
+							MENU_DSDT_GV(pSV->info, dsmh, root, 0);
+						}
+					}
 				}
 				break;
 				case 5: // THI THU
 				{
 					Thi(root, p, dsmh);
+					delete_First_DT(p->info.danhSachDiemThi);
 					break;
 				}
 				case 6: // THOAT
