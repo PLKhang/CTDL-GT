@@ -30,24 +30,26 @@ string DANGNHAP()
 	string Name = "", Password = "", temp;
 	int option = 0, stop = 0;
 	chuThiTracNghiem(18, 2);
-	gotoxy(60, 15);
+	VeKhung(45,10,110,28);
+	gotoxy(54, 15);
 	cout << "ACCOUNT";
-	VeKhung(68, 14, 90, 16);
-	gotoxy(60, 18);
+	VeKhung(62, 14, 84, 16);
+	gotoxy(54, 18);
 	cout << "PASSWORD";
-	VeKhung(68, 17, 90, 19);
-	VeKhung(74, 21, 84, 23);
-	gotoxy(75, 22);
+	VeKhung(62, 17, 84, 19);
+	VeKhung(68, 21, 78, 23);
+	gotoxy(69, 22);
 	cout << "DANG NHAP";
-	delete_LineOnScreen(69, 15, 21);
-	delete_LineOnScreen(69, 18, 21);
+	delete_LineOnScreen(63, 15, 21);
+	delete_LineOnScreen(63, 18, 21);
+	ThanhChucNang(16);
 	while (stop == 0)
 	{
 		switch (option)
 		{
 		case 0:
 		{
-			temp = NhapMa1(69, 15, 20, Name);
+			temp = NhapMa1(63, 15, 20, Name);
 			if (temp == "DOWN" || temp == "DONE")
 				option = 1;
 			if (temp == "EXIT")
@@ -56,7 +58,7 @@ string DANGNHAP()
 		}
 		case 1:
 		{
-			temp = NhapMa1(69, 18, 20, Password, "MATKHAU");
+			temp = NhapMa1(63, 18, 20, Password, "MATKHAU");
 			if (temp == "UP")
 				option = 0;
 			if (temp == "DOWN" || temp == "DONE")
@@ -67,7 +69,7 @@ string DANGNHAP()
 		}
 		case 2:
 		{
-			gotoxy(75, 22);
+			gotoxy(69, 22);
 			SetBGColor(9);
 			cout << "DANG NHAP";
 			while (option = getch())
@@ -88,7 +90,7 @@ string DANGNHAP()
 					}
 					else
 						stop = 1;
-					gotoxy(75, 22);
+					gotoxy(69, 22);
 					SetBGColor(0);
 					cout << "DANG NHAP";
 					break;
@@ -99,7 +101,7 @@ string DANGNHAP()
 					if (option == UP)
 					{
 						option = 1;
-						gotoxy(75, 22);
+						gotoxy(69, 22);
 						SetBGColor(0);
 						cout << "DANG NHAP";
 						break;
