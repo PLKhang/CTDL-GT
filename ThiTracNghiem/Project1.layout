@@ -56,9 +56,15 @@ CursorRow=29
 TopLine=1
 LeftChar=1
 [Editor_6]
+<<<<<<< HEAD
 CursorCol=2
 CursorRow=6
 TopLine=1
+=======
+CursorCol=1
+CursorRow=1
+TopLine=10
+>>>>>>> d43acfc42faa2d34ef396ead1577c375a9a3e343
 LeftChar=1
 [Editor_7]
 CursorCol=1

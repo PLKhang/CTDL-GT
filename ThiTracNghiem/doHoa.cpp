@@ -426,7 +426,7 @@ void chuMenuGV(int x, int y)
 }
 void chuThiTracNghiem(int x, int y)
 {
-	TextColor(5);
+	TextColor(10);
 	gotoxy(x, y++);
 	cout << " _______  _    _  _____   _______  _____             _____   _   _   _____  _    _  _____  ______  __  __ " << endl;
 	gotoxy(x, y++);
@@ -821,6 +821,7 @@ string VeKhungNhapThi(int tong_so_cau, int &so_cau, int &thoi_gian)
 }
 void ThanhChucNang(int option)
 {
+	SetColor(14,15);
 	VeKhung(5, 34, 115, 36);
 	gotoxy(6, 35);
 	switch (option)
@@ -931,4 +932,5 @@ void ThanhChucNang(int option)
 		cout << "                              ESC: HUY CAU HOI     HUONG DAN: NHAP DAP AN LA A,B,C,D           ";
 	}
 	}
+	SetColor(0,7);
 }
