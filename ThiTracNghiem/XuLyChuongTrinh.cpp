@@ -30,14 +30,27 @@ string DANGNHAP()
 	string Name = "", Password = "", temp;
 	int option = 0, stop = 0;
 	chuThiTracNghiem(18, 2);
-	VeKhung(45,10,110,28);
+	VeKhung(40,10,105,28);
+	// VeKhung(41,11,104,27);
+	SetBGColor(3);
+	gotoxy(40,10);cout<<"                                                                  ";
+	gotoxy(40,28);cout<<"                                                                  ";
+	for (int i = 11; i <= 27; i++)
+	{
+		gotoxy(40,i);
+		cout << "  ";
+		gotoxy(104,i);
+		cout << "  ";
+	}
+	SetBGColor(0);
 	gotoxy(54, 15);
+	TextColor(13);
 	cout << "ACCOUNT";
 	VeKhung(62, 14, 84, 16);
 	gotoxy(54, 18);
 	cout << "PASSWORD";
 	VeKhung(62, 17, 84, 19);
-	VeKhung(68, 21, 78, 23);
+	// VeKhung(68, 21, 78, 23);
 	gotoxy(69, 22);
 	cout << "DANG NHAP";
 	delete_LineOnScreen(63, 15, 21);
@@ -70,7 +83,7 @@ string DANGNHAP()
 		case 2:
 		{
 			gotoxy(69, 22);
-			SetBGColor(9);
+			SetBGColor(15);
 			cout << "DANG NHAP";
 			while (option = getch())
 			{
