@@ -1579,7 +1579,7 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 
 	p = dslh.lh[classIndex]->danhSachSinhVien;
 	// lay dia chi cua cac SV cho mang con tro
-	for (int i = 0; p != NULL && i < 100; i++)
+	for (int i = 0; p != NULL && i < numOfStudents; i++)
 	{
 		temp[i] = p;
 		p = p->next;
@@ -1671,8 +1671,9 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 				check_Edit = false;
 				check_Question = false;
 				p = dslh.lh[classIndex]->danhSachSinhVien;
-				for (int i = 0; p != NULL; i++)
+				for (int i = 0, numOfStudents = 0; p != NULL; i++)
 				{
+					numOfStudents++; 
 					temp[i] = p;
 					p = p->next;
 				}
