@@ -921,6 +921,10 @@ void ThanhChucNang(int option)
 		break;
 	}
 	case 16: // login
+		delete_AreaOnScreen(5, 34, 111, 3);
+		VeKhung(30, 34, 115, 36);
+		gotoxy(31, 35);
+		cout << "ESC: THOAT                       " << char(30) << " / " << char(31) << ": DI CHUYEN                     ENTER: XONG";
 		break;
 	case 17:
 	{
