@@ -3357,6 +3357,7 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 			temp[i] = &dsmh.nodes[i];
 		numOfSubjects = dsmh.n;
 	}
+	// trong che do dang thi cua sv: ktra so mon chua co diem de hien thi ds mon 
 	else
 	{
 		int pos = 0;
