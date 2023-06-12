@@ -426,7 +426,7 @@ void chuMenuGV(int x, int y)
 }
 void chuThiTracNghiem(int x, int y)
 {
-	TextColor(5);
+	TextColor(10);
 	gotoxy(x, y++);
 	cout << " _______  _    _  _____   _______  _____             _____   _   _   _____  _    _  _____  ______  __  __ " << endl;
 	gotoxy(x, y++);

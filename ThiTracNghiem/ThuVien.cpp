@@ -142,7 +142,9 @@ string NhapChuoi(int x, int y, int chieudai, int option) // x va y la dia chi de
         }
     }
     setCursorVisibility(0);
-    chuoi[index] = '\0';
+    // chuoi[index] = '\0';
+    if (chuoi[index - 1] == ' ' && index != 0)
+        chuoi[--index] = '\0';
     return chuoi;
 }
 string NhapChuoi1(int x, int y, int length, string &input) // x va y la dia chi de hien ki tu vua nhap

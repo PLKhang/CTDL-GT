@@ -30,14 +30,29 @@ string DANGNHAP()
 	string Name = "", Password = "", temp;
 	int option = 0, stop = 0;
 	chuThiTracNghiem(18, 2);
-	VeKhung(45,10,110,28);
+	VeKhung(40, 10, 105, 28);
+	// VeKhung(41,11,104,27);
+	SetBGColor(3);
+	gotoxy(40, 10);
+	cout << "                                                                  ";
+	gotoxy(40, 28);
+	cout << "                                                                  ";
+	for (int i = 11; i <= 27; i++)
+	{
+		gotoxy(40, i);
+		cout << "  ";
+		gotoxy(104, i);
+		cout << "  ";
+	}
+	SetBGColor(0);
 	gotoxy(54, 15);
+	TextColor(13);
 	cout << "ACCOUNT";
 	VeKhung(62, 14, 84, 16);
 	gotoxy(54, 18);
 	cout << "PASSWORD";
 	VeKhung(62, 17, 84, 19);
-	VeKhung(68, 21, 78, 23);
+	// VeKhung(68, 21, 78, 23);
 	gotoxy(69, 22);
 	cout << "DANG NHAP";
 	delete_LineOnScreen(63, 15, 21);
@@ -70,7 +85,7 @@ string DANGNHAP()
 		case 2:
 		{
 			gotoxy(69, 22);
-			SetBGColor(9);
+			SetBGColor(15);
 			cout << "DANG NHAP";
 			while (option = getch())
 			{
@@ -3092,11 +3107,65 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 	char ch;
 	while (1)
 	{
-		if ((ch = getch()) == -32)
+		ch = getch();
+		if (ch == -32 || ch == 0)
 		{
 			ch = getch();
 			switch (ch)
 			{
+			case F1: // Tim kiem theo ten lop hoc
+			{
+				VeKhung(5, 31, 115, 33);
+				gotoxy(6, 32);
+				cout << "NHAP TEN LOP HOC: ";
+				string content = NhapChuoi(27, 32, 94);
+				int numOfResults = 0;
+				if (content == "EXIT")
+				{
+					delete_AreaOnScreen(5, 31, 115, 3);
+					break;
+				}
+				for (int i = 0; i < dslh.n; i++)
+				{
+					if (strstr(dslh.lh[i]->tenLop, content.data()) != NULL)
+						temp[numOfResults++] = dslh.lh[i];
+				}
+				if (numOfResults == 0)
+					THONGBAO(1, "KHONG TIM THAY KET QUA");
+				else
+				{
+					// Cập nhật thông tin sau khi tìm kiếm thành công
+					numOfClasses = numOfResults;
+					maxPage = (numOfClasses - 1) / 10 + 1;
+					index = 0;
+					page = 1;
+					// TODO: Xử lý hiển thị kết quả tìm kiếm
+				}
+				break;
+			}
+			case F2: // sap xep theo ho <-> ten(mssv)
+			{
+				sortDSLH(temp, dslh.n, check_List);
+
+				index = 0;
+				page = 1;
+				break;
+			}
+			case F5: // tai lai danh sach ban dau
+			{
+				check_Delete = false;
+				check_Edit = false;
+				numOfClasses = dslh.n;
+				maxPage = (numOfClasses - 1) / 10 + 1;
+				index = 0;
+				page = 1;
+				for (int i = 0; i < dslh.n; i++)
+					temp[i] = dslh.lh[i];
+				HienDanhSachLopHoc(temp, numOfClasses, page, maxPage, types);
+				gotoxy(2, 9 + (index % 10 + 1) * 2);
+				cout << ">>";
+				break;
+			}
 			case UP:
 			{
 				if (index % 10 == 0 && page > 1) // dang o vi tri dau trang -> PgUp
@@ -3250,49 +3319,6 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 		{
 			switch (ch)
 			{
-			case F1: // Tim kiem theo ten lop hoc
-			{
-				VeKhung(5, 31, 115, 33);
-				gotoxy(6, 32);
-				cout << "NHAP TEN LOP HOC: ";
-				string content = NhapChuoi(27, 32, 94);
-				int numOfResults = 0;
-				for (int i = 0; i < dslh.n; i++)
-				{
-					if (strstr(dslh.lh[i]->tenLop, content.data()) != NULL)
-						temp[numOfResults++] = dslh.lh[i];
-				}
-				if (numOfResults == 0)
-					THONGBAO(1, "KHONG TIM THAY KET QUA");
-				else
-				{
-					// Cập nhật thông tin sau khi tìm kiếm thành công
-					numOfClasses = numOfResults;
-					maxPage = (numOfClasses - 1) / 10 + 1;
-					index = 0;
-					page = 1;
-					// TODO: Xử lý hiển thị kết quả tìm kiếm
-				}
-			}
-			break;
-			case F2: // sap xep theo ho <-> ten(mssv)
-			{
-				sortDSLH(temp, dslh.n, check_List);
-
-				index = 0;
-				page = 1;
-			}
-			break;
-			case F5: // tai lai danh sach ban dau
-				check_Delete = false;
-				check_Edit = false;
-				numOfClasses = dslh.n;
-				maxPage = (numOfClasses - 1) / 10 + 1;
-				index = 0;
-				page = 1;
-				for (int i = 0; i < dslh.n; i++)
-					temp[i] = dslh.lh[i];
-				break;
 			case ESC:
 				return "EXIT";
 			case ENTER:
@@ -3353,7 +3379,7 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 			temp[i] = &dsmh.nodes[i];
 		numOfSubjects = dsmh.n;
 	}
-	// trong che do dang thi cua sv: ktra so mon chua co diem de hien thi ds mon 
+	// trong che do dang thi cua sv: ktra so mon chua co diem de hien thi ds mon
 	else
 	{
 		int pos = 0;
@@ -3381,12 +3407,81 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 	char ch;
 	while (1)
 	{
-		if ((ch = getch()) == -32)
+		ch = getch();
+		if (ch == -32 || ch == 0)
 		{
 			ch = getch();
 			switch (ch)
 			{
+			case F1: // tim kiem theo ten mon
+			{
+				VeKhung(5, 31, 90, 33);
+				gotoxy(6, 32);
+				cout << "NHAP TEN MON HOC: ";
+				string content = NhapChuoi(25, 32, 50);
+				int numOfResults = 0;
+				if (content == "EXIT")
+				{
+					delete_AreaOnScreen(5, 31, 95, 3);
+					break;
+				}
+				for (int i = 0; i < dsmh.n; i++)
+				{
+					if (strstr(dsmh.nodes[i].tenMonHoc, content.data()) != NULL)
+					{
+						if (selectMode != 2) // khong thi
+							temp[numOfResults++] = &dsmh.nodes[i];
+						else if (!is_Existed_MaMH_DT(SV->info.danhSachDiemThi, dsmh.nodes[i].maMonHoc)) // thi -> da co diem thi khong hien mon
+							temp[numOfResults++] = &dsmh.nodes[i];
+					}
+				}
+				if (numOfResults == 0)
+					THONGBAO(1, "KHONG TIM THAY KET QUA");
+				else
+				{
+					// Cập nhật thông tin sau khi tìm kiếm thành công
+					numOfSubjects = numOfResults;
+					maxPage = (numOfSubjects - 1) / 10 + 1;
+					index = 0;
+					page = 1;
+					HienDanhSachMonHoc(temp, numOfSubjects, page, maxPage, selectMode);
+					gotoxy(2, 9 + (index % 10 + 1) * 2);
+					cout << ">>";
+					// TODO: Xử lý hiển thị kết quả tìm kiếm
+				}
+				break;
+			}
+			case F5:
+			{
+				if (selectMode != 2)
+				{
+					for (int i = 0; i < dsmh.n; i++)
+						temp[i] = &dsmh.nodes[i];
+					numOfSubjects = dsmh.n;
+				}
+				else
+				{
+					int pos = 0;
+					int numOfScores = 0;
+					for (PtrDT p = SV->info.danhSachDiemThi; p != NULL; p = p->next)
+						numOfScores++;
+					numOfSubjects = dsmh.n - numOfScores;
+					for (int i = 0; i < dsmh.n; i++)
+						if (!(is_Existed_MaMH_DT(SV->info.danhSachDiemThi, dsmh.nodes[i].maMonHoc)))
+							temp[pos++] = &dsmh.nodes[i];
+				}
+				maxPage = (numOfSubjects - 1) / 10 + 1;
+				index = 0;
+				page = 1;
+				check_Delete = false;
+				check_Edit = false;
+				HienDanhSachMonHoc(temp, numOfSubjects, page, maxPage, selectMode);
+				gotoxy(2, 9 + (index % 10 + 1) * 2);
+				cout << ">>";
+				break;
+			}
 			case UP:
+			{
 				if (index % 10 == 0 && page > 1)
 				{
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
@@ -3405,7 +3500,9 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 					cout << ">>";
 				}
 				break;
+			}
 			case DOWN:
+			{
 				if (index % 10 == 9 && index < numOfSubjects - 1)
 				{
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
@@ -3424,7 +3521,9 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 					cout << ">>";
 				}
 				break;
+			}
 			case PAGEUP:
+			{
 				if (page > 1)
 				{
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
@@ -3436,7 +3535,9 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 					cout << ">>";
 				}
 				break;
+			}
 			case PAGEDOWN:
+			{
 				if (page < maxPage)
 				{
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
@@ -3447,6 +3548,7 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 					cout << ">>";
 				}
 				break;
+			}
 			case RIGHT:
 			{
 				if (check_Delete || check_Edit || selectMode)
@@ -3490,8 +3592,8 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 				HienOptionMonHoc(1);
 				gotoxy(2, 9 + (index % 10 + 1) * 2);
 				cout << ">>";
+				break;
 			}
-			break;
 			}
 		}
 		else
@@ -3500,68 +3602,6 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 			{
 			case ESC:
 				return "EXIT";
-			case F1: // tim kiem theo ten mon
-			{
-				VeKhung(5, 31, 115, 33);
-				gotoxy(6, 32);
-				cout << "NHAP TEN MON HOC: ";
-				string content = NhapChuoi(27, 32, 94);
-				int numOfResults = 0;
-				for (int i = 0; i < dsmh.n; i++)
-				{
-					if (strstr(dsmh.nodes[i].tenMonHoc, content.data()) != NULL)
-					{
-						if (selectMode != 2) // khong thi
-							temp[numOfResults++] = &dsmh.nodes[i];
-						else if (!is_Existed_MaMH_DT(SV->info.danhSachDiemThi, dsmh.nodes[i].maMonHoc)) // thi -> da co diem thi khong hien mon
-							temp[numOfResults++] = &dsmh.nodes[i];
-					}
-				}
-				if (numOfResults == 0)
-					THONGBAO(1, "KHONG TIM THAY KET QUA");
-				else
-				{
-					// Cập nhật thông tin sau khi tìm kiếm thành công
-					numOfSubjects = numOfResults;
-					maxPage = (numOfSubjects - 1) / 10 + 1;
-					index = 0;
-					page = 1;
-					HienDanhSachMonHoc(temp, numOfSubjects, page, maxPage, selectMode);
-					gotoxy(2, 9 + (index % 10 + 1) * 2);
-					cout << ">>";
-					// TODO: Xử lý hiển thị kết quả tìm kiếm
-				}
-			}
-			break;
-			case F5:
-			{
-				if (selectMode != 2)
-				{
-					for (int i = 0; i < dsmh.n; i++)
-						temp[i] = &dsmh.nodes[i];
-					numOfSubjects = dsmh.n;
-				}
-				else
-				{
-					int pos = 0;
-					int numOfScores = 0;
-					for (PtrDT p = SV->info.danhSachDiemThi; p != NULL; p = p->next)
-						numOfScores++;
-					numOfSubjects = dsmh.n - numOfScores;
-					for (int i = 0; i < dsmh.n; i++)
-						if (!(is_Existed_MaMH_DT(SV->info.danhSachDiemThi, dsmh.nodes[i].maMonHoc)))
-							temp[pos++] = &dsmh.nodes[i];
-				}
-				maxPage = (numOfSubjects - 1) / 10 + 1;
-				index = 0;
-				page = 1;
-				check_Delete = false;
-				check_Edit = false;
-				HienDanhSachMonHoc(temp, numOfSubjects, page, maxPage, selectMode);
-				gotoxy(2, 9 + (index % 10 + 1) * 2);
-				cout << ">>";
-			}
-			break;
 			case ENTER:
 			{
 				if (selectMode)
@@ -3594,8 +3634,8 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 				}
 				else
 					MENU_DSCH_GV(root, *temp[index]);
+				break;
 			}
-			break;
 			}
 			HienDanhSachMonHoc(temp, numOfSubjects, page, maxPage, selectMode);
 			gotoxy(2, 9 + (index % 10 + 1) * 2);
