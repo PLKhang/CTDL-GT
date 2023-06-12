@@ -1777,7 +1777,7 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 				check_Delete = false;
 				check_Edit = false;
 				p = dslh.lh[classIndex]->danhSachSinhVien;
-				for (int i = 0; p != NULL; i++)
+				for (int i = 0; p != NULL; i++, p = p->next)
 					temp[i] = p;
 				break;
 			case ENTER:
