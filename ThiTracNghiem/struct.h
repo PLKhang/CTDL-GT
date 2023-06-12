@@ -345,7 +345,6 @@ int SoNode(STreeCH root);
 void DeleteRoot(STreeCH &root);
 // duyet tim cau hoi theo ma mon
 void InTraversal(Array<STreeCH>&AllQuestions, STreeCH root, char maMH[]);
-void PreTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count);
 // random cau hoi va tra ve con tro streech
 STreeCH *GetQuestion(STreeCH &root, char maMH[], int number_question, int tong_so_cau_hoi);
 // dem so cau hoi cua mon do

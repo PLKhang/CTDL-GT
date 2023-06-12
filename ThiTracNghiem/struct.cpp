@@ -210,6 +210,7 @@ int ReadID(int &ExistID, int option)
     {
 
         FileNewID.read(reinterpret_cast<char *>(&number), sizeof(int));
+        if(number==16384)return -1;
         FileNewID.seekg(number * sizeof(int), ios::beg);
         FileNewID.read(reinterpret_cast<char *>(&ID), sizeof(int));
         if (option == 0)

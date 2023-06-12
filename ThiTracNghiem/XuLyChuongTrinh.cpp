@@ -829,7 +829,11 @@ STreeCH ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 	char answer = '\0';
 	string temp, question = "", ans1 = "", ans2 = "", ans3 = "", ans4 = "";
 	STreeCH NewQuestion = newnode();
-	ReadID(NewQuestion->info.ID, 1);
+	if(ReadID(NewQuestion->info.ID, 1)==-1)
+	{
+		THONGBAO(1,"DA DAT SO LUONG CAU HOI-TOI DA KHONG THE THEM CAU HOI");
+		return NULL;
+	}
 	VeKhungCauHoi1(tenMH, NewQuestion->info.ID);
 	ThanhChucNang(17);
 	while (stop == 0)
