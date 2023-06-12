@@ -831,11 +831,7 @@ STreeCH ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 	char answer = '\0';
 	string temp, question = "", ans1 = "", ans2 = "", ans3 = "", ans4 = "";
 	STreeCH NewQuestion = newnode();
-	if(ReadID(NewQuestion->info.ID, 1)==-1)
-	{
-		THONGBAO(1,"DA DAT SO LUONG CAU HOI-TOI DA KHONG THE THEM CAU HOI");
-		return NULL;
-	}
+	ReadID(NewQuestion->info.ID, 1);
 	VeKhungCauHoi1(tenMH, NewQuestion->info.ID);
 	ThanhChucNang(17);
 	while (stop == 0)
@@ -3357,6 +3353,7 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 			temp[i] = &dsmh.nodes[i];
 		numOfSubjects = dsmh.n;
 	}
+	// trong che do dang thi cua sv: ktra so mon chua co diem de hien thi ds mon 
 	else
 	{
 		int pos = 0;
