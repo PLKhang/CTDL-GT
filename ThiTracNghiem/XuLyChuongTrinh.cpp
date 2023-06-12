@@ -1616,7 +1616,8 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 			switch (ch)
 			{
 			case F1: // tim kiem sv theo ten
-			{
+			{ 
+				//lỗi hiện danh sách khi tìm vì trong hàm in tìm NULL để dừng
 				if (types == 1)
 					break;
 				VeKhung(5, 31, 115, 33);
@@ -1633,9 +1634,7 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 				while (p != NULL)
 				{
 					if ((strstr(p->info.ten, content.data()) != NULL) || (strstr(p->info.ho, content.data()) != NULL))
-					{
 						temp[numOfResults++] = p;
-					}
 					p = p->next;
 				}
 				if (numOfResults == 0)
@@ -1649,6 +1648,9 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 					maxPage = (numOfStudents - 1) / 10 + 1;
 					index = 0;
 					page = 1;
+					HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, page, maxPage, types, maMon);
+					gotoxy(2, 9 + (index % 10 + 1) * 2); // di chuyen toi vi tri hien con tro vi tri
+					cout << ">>";
 					// TODO: Xử lý hiển thị kết quả tìm kiếm
 				}
 				break;
@@ -1876,6 +1878,7 @@ void HienDanhSachSinhVien(PtrSV *data, string tenLop, int page, int maxPage, int
 // void HienDanhSachSinhVien(PtrSV *data, string tenLop, int numOfClasses, int page, int maxPage, int types = 0, string maMon = "")
 {
 	system("cls");
+	cout<<"cos";
 	TextColor(7);
 	VeHeader(2, "DANH SACH SINH VIEN", tenLop);
 	VeDanhSach(2);
@@ -3353,7 +3356,7 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 				{
 					if (temp[index]->danhSachSinhVien != NULL)
 					{
-						THONGBAO(1, "KHONG THE XOA LOP HOC");
+						THONGBAO(1, "LOP DA TON TAI SV-KHONG THE XOA");
 					}
 					else if (THONGBAO(3, "XAC NHAN XOA LOP HOC?"))
 					{
