@@ -1648,12 +1648,12 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 					maxPage = (numOfStudents - 1) / 10 + 1;
 					index = 0;
 					page = 1;
-					delete_AreaOnScreen(5, 31, 115, 3);
 					HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, numOfStudents, page, maxPage, types, maMon);
 					gotoxy(2, 9 + (index % 10 + 1) * 2); // di chuyen toi vi tri hien con tro vi tri
 					cout << ">>";
 					// TODO: Xử lý hiển thị kết quả tìm kiếm
 				}
+				delete_AreaOnScreen(5, 31, 115, 3);
 				break;
 			}
 			case F2:												 // sap xep theo ho <-> ten(mssv)
@@ -2301,7 +2301,10 @@ bool HieuChinhSinhVien(ListLH dslh, PtrSV dssv, PtrSV *data, int index)
 	{
 		strcpy(tempSV.ho, NhapChuoi(26, 9 + (index % 10 + 1) * 2, 50).c_str()); // nhap ho
 		if (is_Empty_CArray(tempSV.ho))											// neu ENTER khi chua nhap -> dung ho cu~ cua SV
+		{
 			strcpy(tempSV.ho, data[index]->info.ho);
+			break;
+		}
 		else if (strcmp(tempSV.ho, "EXIT") == 0)
 		{
 			if (THONGBAO(3, "HUY THAO TAC?"))
@@ -2311,14 +2314,17 @@ bool HieuChinhSinhVien(ListLH dslh, PtrSV dssv, PtrSV *data, int index)
 		}
 		else
 			break;
-		gotoxy(26, 9 + (index % 10 + 1) * 2);
-		cout << tempSV.ho;
 	}
+	gotoxy(26, 9 + (index % 10 + 1) * 2);
+	cout << tempSV.ho;
 	while (1)
 	{
 		strcpy(tempSV.ten, NhapChuoi(81, 9 + (index % 10 + 1) * 2, 15).c_str());
 		if (is_Empty_CArray(tempSV.ten)) // tuong tu nhu tren
+		{
 			strcpy(tempSV.ten, data[index]->info.ten);
+			break;
+		}
 		else if (strcmp(tempSV.ten, "EXIT") == 0)
 		{
 			if (THONGBAO(3, "HUY THAO TAC?"))
@@ -2328,9 +2334,9 @@ bool HieuChinhSinhVien(ListLH dslh, PtrSV dssv, PtrSV *data, int index)
 		}
 		else
 			break;
-		gotoxy(81, 9 + (index % 10 + 1) * 2);
-		cout << tempSV.ten;
 	}
+	gotoxy(81, 9 + (index % 10 + 1) * 2);
+	cout << tempSV.ten;
 
 	char ch;
 	while ((ch = getch()) != ENTER)
