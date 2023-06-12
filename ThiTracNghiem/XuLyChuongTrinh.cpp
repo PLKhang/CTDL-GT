@@ -1254,7 +1254,7 @@ void MENU_DSCH_GV(STreeCH &root, MonHoc monHoc)
 		else
 		{
 			InDanhSachCH(ListQuestion, monHoc.maMonHoc, (Page - 1) * 10, (Page * 10 < NumberQuestion ? Page * 10 - 1 : NumberQuestion - 1), Page, MaxPage);
-		} // tim end
+		}
 		TextColor(20);
 		gotoxy(120, 16);
 		cout << "     THEM CAU HOI       ";
@@ -1667,6 +1667,7 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 					break;
 				check_Delete = false;
 				check_Edit = false;
+				check_Question = false;
 				p = dslh.lh[classIndex]->danhSachSinhVien;
 				for (int i = 0; p != NULL; i++)
 				{
@@ -1793,7 +1794,7 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 					THONGBAO(1, "CHON SINH VIEN MUON XEM DIEM");
 					break;
 				case 5: // option5: thuc hien chuc nang in ds CAUHOI da thi cua 1 sinh vien
-					THONGBAO(1, "HIEN DSCH DA THI");
+					THONGBAO(1, "CHON SINH VIEN DE XEM");
 					check_Question = 1;
 					break;
 				}
@@ -1836,7 +1837,7 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 						numOfStudents--;
 						students_Added--;
 						maxPage = (numOfStudents - 1) / 10 + 1;
-						XoaSinhVien(dslh.lh[classIndex]->danhSachSinhVien, temp, dslh.lh[classIndex]->maLop, index);
+						XoaSinhVien(dslh.lh[classIndex]->danhSachSinhVien, temp, numOfStudents, dslh.lh[classIndex]->maLop, index);
 						page = 1;
 						index = 0;
 					}
@@ -2243,10 +2244,11 @@ bool ThemSinhVien(ListLH dslh, PtrSV &dssv, ListMH dsmh)
 		}
 	}
 }
-bool XoaSinhVien(PtrSV &dssv, PtrSV *data, const string &maLH, int index)
+bool XoaSinhVien(PtrSV &dssv, PtrSV *data, int numOfStudents, const string &maLH, int index)
 {
 	bool check = false;
 	removeSinhVienFile(maLH, data[index]->info.MSSV);
+	PtrSV p = NULL;
 	if (data[index] == dssv)
 	{
 		if (delete_First_SV(dssv))
@@ -2254,7 +2256,7 @@ bool XoaSinhVien(PtrSV &dssv, PtrSV *data, const string &maLH, int index)
 	}
 	else
 	{
-		PtrSV p = NULL;
+		p = NULL;
 		for (p = dssv; p->next != NULL; p = p->next)
 			if (data[index] == p->next)
 			{
@@ -2263,7 +2265,7 @@ bool XoaSinhVien(PtrSV &dssv, PtrSV *data, const string &maLH, int index)
 				break;
 			}
 	}
-	for (int i = index; i < 99; i++)
+	for (int i = index; i < numOfStudents; i++)
 		data[i] = data[i + 1];
 	return check;
 }
@@ -3157,6 +3159,9 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 					page = 1;
 					// TODO: Xử lý hiển thị kết quả tìm kiếm
 				}
+				HienDanhSachLopHoc(temp, numOfClasses, page, maxPage, types);
+				gotoxy(2, 9 + (index % 10 + 1) * 2);
+				cout << ">>";
 				break;
 			}
 			case F2: // sap xep theo ho <-> ten(mssv)

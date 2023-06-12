@@ -37,7 +37,7 @@ bool THEMSINHVIEN(ListLH &dslh, ListMH dsmh, STreeCH root);
 // types: 0->chuc nang quan ly sinh vien, 1->xem dsdt theo mon, 2->lay mssv
 PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int types = 0, string maMon = "");
 bool ThemSinhVien(ListLH dslh, PtrSV &dssv, ListMH dsmh);
-bool XoaSinhVien(PtrSV &dssv, PtrSV *data, const string &maLH, int index);
+bool XoaSinhVien(PtrSV &dssv, PtrSV *data, int numOfStudents, const string &maLH, int index);
 bool HieuChinhSinhVien(ListLH dslh, PtrSV dssv, PtrSV *data, int index);
 
 void HienDanhSachSinhVien(PtrSV *data, string tenLop, int page, int maxPage, int types = 0, string maMon = "");

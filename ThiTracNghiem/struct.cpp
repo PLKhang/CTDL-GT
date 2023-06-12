@@ -86,56 +86,57 @@ int NumberOfNode(ID *root)
     else
         return 1 + NumberOfNode(root->left) + NumberOfNode(root->right);
 }
-void InsertID(ID*& tree, int data)
+void InsertID(ID *&tree, int data)
 {
     if (tree == NULL)
     {
         createID p = new ID;
         p->id = data;
-        p->left=NULL;
-        p->right=NULL;
+        p->left = NULL;
+        p->right = NULL;
         tree = p;
         return;
     }
     else
     {
-        ID* temp=tree;
-        while(1)
+        ID *temp = tree;
+        while (1)
         {
-            if(temp->id>data)
+            if (temp->id > data)
             {
-                if(temp->left==NULL)
+                if (temp->left == NULL)
                 {
                     createID p = new ID;
                     p->id = data;
-                    p->left=NULL;
-                    p->right=NULL;
+                    p->left = NULL;
+                    p->right = NULL;
                     temp->left = p;
-                    return ;
+                    return;
                 }
-                temp=temp->left;
+                temp = temp->left;
             }
-            else if(temp->id<data)
+            else if (temp->id < data)
             {
-                if(temp->right==NULL)
+                if (temp->right == NULL)
                 {
                     createID p = new ID;
                     p->id = data;
-                    p->left=NULL;
-                    p->right=NULL;
+                    p->left = NULL;
+                    p->right = NULL;
                     temp->right = p;
-                    return ;
+                    return;
                 }
-                temp=temp->right;
+                temp = temp->right;
             }
-            else return ;
+            else
+                return;
         }
     }
 }
 int InsertToBalance(ID *&root, int min, int max, int &temp, ofstream &file)
 {
     if (root == NULL)
-    {
+    { //
         InsertID(root, (min + max) / 2);
         temp = (min + max) / 2;
         file.write(reinterpret_cast<char *>(&temp), sizeof(int));
@@ -183,7 +184,7 @@ void TaoFileID()
 }
 int ReadID(int &ExistID, int option)
 {
-    //option =0 lay ID de chen ID !=0 Lay ID de xem
+    // option =0 lay ID de chen ID !=0 Lay ID de xem
     int number, ID;
     fstream FileOldID("Data/FileOldID.bin", ios::binary | ios::in | ios::out);
     fstream FileNewID("Data/FileNewID.bin", ios::binary | ios::in | ios::out);
@@ -208,9 +209,9 @@ int ReadID(int &ExistID, int option)
     }
     else
     {
-
         FileNewID.read(reinterpret_cast<char *>(&number), sizeof(int));
-        if(number==16384)return -1;
+        if (number == 16384)
+            return -1;
         FileNewID.seekg(number * sizeof(int), ios::beg);
         FileNewID.read(reinterpret_cast<char *>(&ID), sizeof(int));
         if (option == 0)
@@ -276,7 +277,7 @@ int Insert(STreeCH &root, STreeCH &question)
     }
 }
 //---------can bang cay------
-void Store(STreeCH root, Array<STreeCH> &nodes)// chua cay trong arr theo thu tu tang dan
+void Store(STreeCH root, Array<STreeCH> &nodes) // chua cay trong arr theo thu tu tang dan
 {
     if (root != NULL)
     {
@@ -285,7 +286,7 @@ void Store(STreeCH root, Array<STreeCH> &nodes)// chua cay trong arr theo thu tu
         Store(root->right, nodes);
     }
 }
-STreeCH Convert(Array<STreeCH> &nodes, int max, int min)// tao cay can bang
+STreeCH Convert(Array<STreeCH> &nodes, int max, int min) // tao cay can bang
 {
     if (max < min)
         return NULL;
@@ -295,7 +296,7 @@ STreeCH Convert(Array<STreeCH> &nodes, int max, int min)// tao cay can bang
     root->right = Convert(nodes, max, mid + 1);
     return root;
 }
-STreeCH Balance(STreeCH root)//tra ve cay can bang
+STreeCH Balance(STreeCH root) // tra ve cay can bang
 {
     Array<STreeCH> nodes;
     STreeCH NewRoot;
@@ -356,7 +357,7 @@ STreeCH newnode()
 }
 int InsertNewQuestion(STreeCH &root, STreeCH &question)
 {
-    int check = ReadID(question->info.ID);//lay ID trong file
+    int check = ReadID(question->info.ID); // lay ID trong file
     if (Insert(root, question) == 0)
         return 0;
     if (check == 2) // cân bằng lại cây
@@ -389,11 +390,11 @@ int Delete(STreeCH &root, int ID)
         else
         {
             rp = root;
-            if (root->right == NULL)//Nút phải NULL nên nối nút trái
+            if (root->right == NULL) // Nút phải NULL nên nối nút trái
                 root = rp->left;
-            else if (root->left == NULL)//nút trái NULL nên nối nút phải
+            else if (root->left == NULL) // nút trái NULL nên nối nút phải
                 root = rp->right;
-            else// hai nút ko NULL nên tìm nút trái cùng của cây bên phải
+            else // hai nút ko NULL nên tìm nút trái cùng của cây bên phải
                 SubDelete(rp->right);
             delete rp;
             return 1;
@@ -407,7 +408,7 @@ int DeleteQuestion(STreeCH &root, STreeCH &Question)
         return 0;
     Delete(root, Question->info.ID);
     root = Balance(root);
-    //cất ID vừa xóa vào file old ID
+    // cất ID vừa xóa vào file old ID
     fstream FileOldKey("Data/FileOldID.bin", ios::binary | ios::in | ios::out);
     FileOldKey.read(reinterpret_cast<char *>(&number), sizeof(int));
     number++;
@@ -444,33 +445,36 @@ void DeleteRoot(STreeCH &root)
 //--------LAY CAU HOI--------
 void InTraversal(Array<STreeCH> &AllQuestions, STreeCH root, char maMH[])
 {
-    STreeCH temp=root;
-    Stack<STreeCH>stack;
-    do 
+    STreeCH temp = root;
+    Stack<STreeCH> stack;
+    do
     {
-        while(temp!=NULL)
+        while (temp != NULL)
         {
             stack.Push(temp);
-            temp=temp->left;
+            temp = temp->left;
         }
-        if(!stack.Empty())
+        if (!stack.Empty())
         {
-            temp=stack.Pop();
-            if(strcmp(temp->info.maMonHoc,maMH)==0)AllQuestions.push(temp);
-            temp=temp->right;
-        }else break;
-    }while(1);
+            temp = stack.Pop();
+            if (strcmp(temp->info.maMonHoc, maMH) == 0)
+                AllQuestions.push(temp);
+            temp = temp->right;
+        }
+        else
+            break;
+    } while (1);
 }
 
 STreeCH *GetQuestion(STreeCH &root, char maMH[], int number_question, int tong_so_cau_hoi)
 {
-    Array<STreeCH>AllQuestions(tong_so_cau_hoi);
+    Array<STreeCH> AllQuestions(tong_so_cau_hoi);
     STreeCH *Questions = new STreeCH[number_question];
-    InTraversal(AllQuestions,root,maMH);
+    InTraversal(AllQuestions, root, maMH);
     srand(time(0));
-    for (int i = 0,index; i < number_question; i++)
+    for (int i = 0, index; i < number_question; i++)
     {
-        index = rand() % (tong_so_cau_hoi - i) + i;// random từ i đến number_question-1
+        index = rand() % (tong_so_cau_hoi - i) + i; // random từ i đến number_question-1
         swap(AllQuestions[i], AllQuestions[index]);
         Questions[i] = AllQuestions[i];
     }
@@ -530,15 +534,12 @@ PtrDT create_Node_DT(DiemThi info)
 }
 bool is_Empty_DT(PtrDT first)
 {
-    if (first == NULL)
-        return 1;
-    return 0;
+    return first == NULL;
 }
 bool is_Full_DT(PtrDT first)
 {
     if (is_Empty_DT(first))
         return 0;
-    int count = 0;
     PtrDT p;
     for (p = first; p != NULL; p = p->next)
         if (p->info.diemThi < 0)
@@ -619,9 +620,7 @@ void KhoiTao_PtrSV(PtrSV &first)
 }
 bool is_Empty_SV(PtrSV first)
 {
-    if (first == NULL)
-        return 1;
-    return 0;
+    return first == NULL;
 }
 bool is_Existed_MSSV_SV(ListLH dslh, string MSSV)
 {
