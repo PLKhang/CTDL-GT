@@ -1592,7 +1592,7 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 	int page = 1;
 	int maxPage = (numOfStudents - 1) / 10 + 1;
 
-	HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, page, maxPage, types, maMon);
+	HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, numOfStudents, page, maxPage, types, maMon);
 	gotoxy(2, 9 + (index % 10 + 1) * 2);
 	cout << ">>";
 
@@ -1616,8 +1616,8 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 			switch (ch)
 			{
 			case F1: // tim kiem sv theo ten
-			{ 
-				//lỗi hiện danh sách khi tìm vì trong hàm in tìm NULL để dừng
+			{
+				// lỗi hiện danh sách khi tìm vì trong hàm in tìm NULL để dừng
 				if (types == 1)
 					break;
 				VeKhung(5, 31, 115, 33);
@@ -1648,7 +1648,8 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 					maxPage = (numOfStudents - 1) / 10 + 1;
 					index = 0;
 					page = 1;
-					HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, page, maxPage, types, maMon);
+					delete_AreaOnScreen(5, 31, 115, 3);
+					HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, numOfStudents, page, maxPage, types, maMon);
 					gotoxy(2, 9 + (index % 10 + 1) * 2); // di chuyen toi vi tri hien con tro vi tri
 					cout << ">>";
 					// TODO: Xử lý hiển thị kết quả tìm kiếm
@@ -1660,7 +1661,7 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 				SortDSSV(temp, numOfStudents, checkList);			 // sap xep lai dssv tuy theo nhu cau
 				page = 1;											 // thao tac di chuyen ve dau dssv
 				index = 0;
-				HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, page, maxPage, types, maMon);
+				HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, numOfStudents, page, maxPage, types, maMon);
 				gotoxy(2, 9 + (index % 10 + 1) * 2); // di chuyen toi vi tri hien con tro vi tri
 				cout << ">>";
 				break;
@@ -1670,14 +1671,18 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 				check_Delete = false;
 				check_Edit = false;
 				check_Question = false;
+				numOfStudents = 0;
 				p = dslh.lh[classIndex]->danhSachSinhVien;
-				for (int i = 0, numOfStudents = 0; p != NULL; i++)
+				for (int i = 0; p != NULL; i++)
 				{
-					numOfStudents++; 
+					numOfStudents++;
 					temp[i] = p;
 					p = p->next;
 				}
-				HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, page, maxPage, types, maMon);
+				maxPage = (numOfStudents - 1) / 10 + 1;
+				index = 0;
+				page = 1;
+				HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, numOfStudents, page, maxPage, types, maMon);
 				gotoxy(2, 9 + (index % 10 + 1) * 2); // di chuyen toi vi tri hien con tro vi tri
 				cout << ">>";
 				break;
@@ -1688,7 +1693,7 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
 					page--;
 					index--;
-					HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, page, maxPage, types, maMon);
+					HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, numOfStudents, page, maxPage, types, maMon);
 					gotoxy(2, 9 + (index % 10 + 1) * 2); // di chuyen toi vi tri hien con tro vi tri
 					cout << ">>";
 				}
@@ -1708,7 +1713,7 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
 					page++;
 					index++;
-					HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, page, maxPage, types, maMon);
+					HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, numOfStudents, page, maxPage, types, maMon);
 					gotoxy(2, 9 + (index % 10 + 1) * 2); // di chuyen toi vi tri hien con tro vi tri
 					cout << ">>";
 				}
@@ -1729,7 +1734,7 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 					index = (index / 10) * 10 - 1;
 					page--;
 
-					HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, page, maxPage, types, maMon);
+					HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, numOfStudents, page, maxPage, types, maMon);
 					gotoxy(2, 9 + (index % 10 + 1) * 2); // di chuyen toi vi tri hien con tro vi tri
 					cout << ">>";
 				}
@@ -1742,7 +1747,7 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
 					index = (index / 10 + 1) * 10;
 					page++;
-					HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, page, maxPage, types, maMon);
+					HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, numOfStudents, page, maxPage, types, maMon);
 					gotoxy(2, 9 + (index % 10 + 1) * 2); // di chuyen toi vi tri hien con tro vi tri
 					cout << ">>";
 				}
@@ -1767,11 +1772,11 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 					{
 						THONGBAO(1, "DA THEM SINH VIEN");
 						p = dslh.lh[classIndex]->danhSachSinhVien;
-						numOfStudents++;
+						numOfStudents = 0;
 						students_Added++;
-						maxPage = (numOfStudents - 1) / 10 + 1;
 						for (int i = 0; p != NULL; i++)
 						{
+							numOfStudents++;
 							temp[i] = p;
 							p = p->next;
 						}
@@ -1779,9 +1784,10 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 					else
 						THONGBAO(1, "DA HUY QUA TRINH");
 
+					maxPage = (numOfStudents - 1) / 10 + 1;
 					page = 1;
 					index = 0;
-					HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, page, maxPage, types, maMon);
+					HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, numOfStudents, page, maxPage, types, maMon);
 					gotoxy(2, 9 + (index % 10 + 1) * 2); // di chuyen toi vi tri hien con tro vi tri
 					cout << ">>";
 					break;
@@ -1868,18 +1874,18 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 					MENU_DSDT_GV(temp[index]->info, dsmh, root, 0);
 			}
 			}
-			HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, page, maxPage, types, maMon);
+			HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, numOfStudents, page, maxPage, types, maMon);
 			gotoxy(2, 9 + (index % 10 + 1) * 2); // di chuyen toi vi tri hien con tro vi tri
 			cout << ">>";
 		}
 	}
 }
 // types: 0-> hien dssv co options, 1->hien dsDT theo mon, 2-> hien dssv khong option
-void HienDanhSachSinhVien(PtrSV *data, string tenLop, int page, int maxPage, int types, string maMon)
+void HienDanhSachSinhVien(PtrSV *data, string tenLop, int numOfStudents, int page, int maxPage, int types, string maMon)
 // void HienDanhSachSinhVien(PtrSV *data, string tenLop, int numOfClasses, int page, int maxPage, int types = 0, string maMon = "")
 {
 	system("cls");
-	cout<<"cos";
+	cout << "cos";
 	TextColor(7);
 	VeHeader(2, "DANH SACH SINH VIEN", tenLop);
 	VeDanhSach(2);
@@ -1895,7 +1901,7 @@ void HienDanhSachSinhVien(PtrSV *data, string tenLop, int page, int maxPage, int
 	// con tro -> dsdt cua tung sv -> in dsdt theo monhoc
 	PtrDT p = NULL;
 
-	for (int i = (page - 1) * 10; (i < page * 10) && (data[i] != NULL); i++)
+	for (int i = (page - 1) * 10; (i < page * 10) && (i < numOfStudents); i++)
 	{
 		gotoxy(10, 11 + 2 * count);
 		cout << data[i]->info.MSSV;

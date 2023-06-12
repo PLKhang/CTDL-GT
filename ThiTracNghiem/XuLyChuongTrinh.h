@@ -40,7 +40,7 @@ bool ThemSinhVien(ListLH dslh, PtrSV &dssv, ListMH dsmh);
 bool XoaSinhVien(PtrSV &dssv, PtrSV *data, int numOfStudents, const string &maLH, int index);
 bool HieuChinhSinhVien(ListLH dslh, PtrSV dssv, PtrSV *data, int index);
 
-void HienDanhSachSinhVien(PtrSV *data, string tenLop, int page, int maxPage, int types = 0, string maMon = "");
+void HienDanhSachSinhVien(PtrSV *data, string tenLop, int numOfStudents, int page, int maxPage, int types = 0, string maMon = "");
 int HienOptionSinhVien(bool check = 0);
 // sap xep theo mssv <-> sap xep theo ho
 void SortDSSV(PtrSV *data, int n, bool &check);
