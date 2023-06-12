@@ -1609,11 +1609,74 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 	char ch;
 	while (1)
 	{
-		if ((ch = getch()) == -32)
+		ch = getch();
+		if (ch == -32 || ch == 0)
 		{
 			ch = getch();
 			switch (ch)
 			{
+			case F1: // tim kiem sv theo ten
+			{
+				if (types == 1)
+					break;
+				VeKhung(5, 31, 115, 33);
+				gotoxy(6, 32);
+				cout << "NHAP TEN SINH VIEN: ";
+				string content = NhapChuoi(27, 32, 65);
+				int numOfResults = 0;
+				if (content == "EXIT")
+				{
+					delete_AreaOnScreen(5, 31, 115, 3);
+					break;
+				}
+				p = dslh.lh[classIndex]->danhSachSinhVien;
+				while (p != NULL)
+				{
+					if ((strstr(p->info.ten, content.data()) != NULL) || (strstr(p->info.ho, content.data()) != NULL))
+					{
+						temp[numOfResults++] = p;
+					}
+					p = p->next;
+				}
+				if (numOfResults == 0)
+				{
+					THONGBAO(1, "KHONG TIM THAY KET QUA");
+				}
+				else
+				{
+					// Cập nhật thông tin sau khi tìm kiếm thành công
+					numOfStudents = numOfResults;
+					maxPage = (numOfStudents - 1) / 10 + 1;
+					index = 0;
+					page = 1;
+					// TODO: Xử lý hiển thị kết quả tìm kiếm
+				}
+				break;
+			}
+			case F2:												 // sap xep theo ho <-> ten(mssv)
+				delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2); // di chuyen toi vi tri xoa con tro vi tri
+				SortDSSV(temp, numOfStudents, checkList);			 // sap xep lai dssv tuy theo nhu cau
+				page = 1;											 // thao tac di chuyen ve dau dssv
+				index = 0;
+				HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, page, maxPage, types, maMon);
+				gotoxy(2, 9 + (index % 10 + 1) * 2); // di chuyen toi vi tri hien con tro vi tri
+				cout << ">>";
+				break;
+			case F5: // tai lai danh sach ban dau
+				if (types == 1)
+					break;
+				check_Delete = false;
+				check_Edit = false;
+				p = dslh.lh[classIndex]->danhSachSinhVien;
+				for (int i = 0; p != NULL; i++)
+				{
+					temp[i] = p;
+					p = p->next;
+				}
+				HienDanhSachSinhVien(temp, dslh.lh[classIndex]->tenLop, page, maxPage, types, maMon);
+				gotoxy(2, 9 + (index % 10 + 1) * 2); // di chuyen toi vi tri hien con tro vi tri
+				cout << ">>";
+				break;
 			case UP:
 			{
 				if (index % 10 == 0 && page > 1)
@@ -1747,54 +1810,6 @@ PtrSV MENU_DSSV_GV(ListLH dslh, int classIndex, ListMH dsmh, STreeCH root, int t
 			{
 			case ESC:
 				return NULL;
-			case F1: // tim kiem sv theo ten
-			{
-				if (types == 1)
-					break;
-				VeKhung(5, 31, 115, 33);
-				gotoxy(6, 32);
-				cout << "NHAP TEN SINH VIEN: ";
-				string content = NhapChuoi(27, 32, 94);
-				int numOfResults = 0;
-				p = dslh.lh[classIndex]->danhSachSinhVien;
-				while (p != NULL)
-				{
-					if ((strstr(p->info.ten, content.data()) != NULL) || (strstr(p->info.ho, content.data()) != NULL))
-					{
-						temp[numOfResults++] = p;
-					}
-					p = p->next;
-				}
-				if (numOfResults == 0)
-				{
-					THONGBAO(1, "KHONG TIM THAY KET QUA");
-				}
-				else
-				{
-					// Cập nhật thông tin sau khi tìm kiếm thành công
-					numOfStudents = numOfResults;
-					maxPage = (numOfStudents - 1) / 10 + 1;
-					index = 0;
-					page = 1;
-					// TODO: Xử lý hiển thị kết quả tìm kiếm
-				}
-			}
-			break;
-			case F2:												 // sap xep theo ho <-> ten(mssv)
-				delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2); // di chuyen toi vi tri xoa con tro vi tri
-				SortDSSV(temp, numOfStudents, checkList);			 // sap xep lai dssv tuy theo nhu cau
-				page = 1;											 // thao tac di chuyen ve dau dssv
-				index = 0;
-				break;
-			case F5: // tai lai danh sach ban dau
-				if (types == 1)
-					break;
-				check_Delete = false;
-				check_Edit = false;
-				p = dslh.lh[classIndex]->danhSachSinhVien;
-				for (int i = 0; p != NULL; i++)
-					temp[i] = p;
-				break;
 			case ENTER:
 			{
 				if (numOfStudents == 0)
@@ -2945,6 +2960,7 @@ bool ThemLopHoc(ListLH &dslh, int check, string maLH)
 					// newLH.nienKhoa = atoi(nienKhoaM.c_str());
 					newLH.nienKhoa = nK;
 					ThemLop(dslh, newLH);
+					createLopHocFolder(newLH.maLop);
 					return 1;
 				}
 				break;
@@ -3149,6 +3165,9 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 
 				index = 0;
 				page = 1;
+				HienDanhSachLopHoc(temp, numOfClasses, page, maxPage, types);
+				gotoxy(2, 9 + (index % 10 + 1) * 2);
+				cout << ">>";
 				break;
 			}
 			case F5: // tai lai danh sach ban dau

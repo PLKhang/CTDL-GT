@@ -22,9 +22,19 @@ CursorRow=1
 TopLine=1
 LeftChar=1
 [Editor_6]
+<<<<<<< HEAD
+CursorCol=2
+CursorRow=6
+TopLine=1
+=======
 CursorCol=1
 CursorRow=1
+<<<<<<< HEAD
 TopLine=1
+=======
+TopLine=10
+>>>>>>> d43acfc42faa2d34ef396ead1577c375a9a3e343
+>>>>>>> 916ebb5439a12a80ef36fecd920609b542bd678e
 LeftChar=1
 [Editor_8]
 CursorCol=1
