@@ -31,6 +31,8 @@ int THONGBAO(int option, string thongbao)
 	}
 	else if (option == 2) // Tat thong bao khi an phim bat ky
 	{
+		gotoxy(126, 9);
+		cout << "   AN PHIM BAT KY DE THOAT  ";
 		getch();
 		for (int i = 3; i <= 9; i++)
 		{
