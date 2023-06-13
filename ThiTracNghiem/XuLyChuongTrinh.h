@@ -49,6 +49,7 @@ void SortDSSV(PtrSV *data, int n, bool &check);
 // types:  0->co the chinh sua diem thi, 1->chi xem diem
 void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool types = 0);
 void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, string ten, int numOfSubs, int page, int maxPage);
+void SortDSDT(PtrDT *data, int n, int &check);
 //--------------------------MON HOC---------------------------
 // types: 0-> chuc nang quan ly mon hoc
 // types: 1-> chon mon hoc
