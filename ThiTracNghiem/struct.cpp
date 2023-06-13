@@ -86,58 +86,15 @@ int NumberOfNode(ID *root)
     else
         return 1 + NumberOfNode(root->left) + NumberOfNode(root->right);
 }
-void InsertID(ID *&tree, int data)
-{
-    if (tree == NULL)
-    {
-        createID p = new ID;
-        p->id = data;
-        p->left = NULL;
-        p->right = NULL;
-        tree = p;
-        return;
-    }
-    else
-    {
-        ID *temp = tree;
-        while (1)
-        {
-            if (temp->id > data)
-            {
-                if (temp->left == NULL)
-                {
-                    createID p = new ID;
-                    p->id = data;
-                    p->left = NULL;
-                    p->right = NULL;
-                    temp->left = p;
-                    return;
-                }
-                temp = temp->left;
-            }
-            else if (temp->id < data)
-            {
-                if (temp->right == NULL)
-                {
-                    createID p = new ID;
-                    p->id = data;
-                    p->left = NULL;
-                    p->right = NULL;
-                    temp->right = p;
-                    return;
-                }
-                temp = temp->right;
-            }
-            else
-                return;
-        }
-    }
-}
+
 int InsertToBalance(ID *&root, int min, int max, int &temp, ofstream &file)
 {
     if (root == NULL)
     { //
-        InsertID(root, (min + max) / 2);
+        root =new ID;
+        root->id=(min+max)/2;
+        root->left=root->right=NULL;
+        //InsertID(root, (min + max) / 2);
         temp = (min + max) / 2;
         file.write(reinterpret_cast<char *>(&temp), sizeof(int));
     }
