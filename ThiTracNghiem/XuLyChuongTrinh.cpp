@@ -903,37 +903,37 @@ STreeCH ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 			{
 				if (question.compare("") == 0)
 				{
-					THONGBAO(1, "CAU HOI RONG!");
+					THONGBAO(1, "NOI DUNG TRONG!");
 					option = 0;
 					break;
 				}
 				if (ans1.compare("") == 0)
 				{
-					THONGBAO(1, "CAU HOI 1 RONG");
+					THONGBAO(1, "LUA CHON 1 TRONG");
 					option = 1;
 					break;
 				}
 				if (ans2.compare("") == 0)
 				{
-					THONGBAO(1, "CAU HOI 2 RONG");
+					THONGBAO(1, "LUA CHON 2 TRONG");
 					option = 2;
 					break;
 				}
 				if (ans3.compare("") == 0)
 				{
-					THONGBAO(1, "CAU HOI 3 RONG");
+					THONGBAO(1, "LUA CHON 3 TRONG");
 					option = 3;
 					break;
 				}
 				if (ans4.compare("") == 0)
 				{
-					THONGBAO(1, "CAU HOI 4 RONG");
+					THONGBAO(1, "LUA CHON 4 TRONG");
 					option = 4;
 					break;
 				}
 				if (answer == '\0')
 				{
-					THONGBAO(1, "DAP AN RONG");
+					THONGBAO(1, "DAP AN TRONG");
 					option = 5;
 					break;
 				}
@@ -1201,7 +1201,8 @@ void InDanhSachCH(Array<STreeCH> &ListQuestion, char maMH[], int start, int end,
 		wherey += 2;
 	}
 }
-bool TimCauHoi1(Array<STreeCH> &List, int &NumberQuestion)
+
+bool TimCauHoi(Array<STreeCH> &List, int &NumberQuestion,char *YourAnswer)
 {
 	string content;
 	char *address = NULL;
@@ -1210,7 +1211,7 @@ bool TimCauHoi1(Array<STreeCH> &List, int &NumberQuestion)
 	cout << "NHAP NOI DUNG |";
 	gotoxy(6, 32);
 	cout << "  CAN TIM     |";
-	content = NhapChuoi(21, 31, 188);
+	content = NhapChuoi(21, 31, 188,2);
 	STreeCH ptr;
 	int temp = 0;
 	for (int i = 0; i < NumberQuestion; i++)
@@ -1223,8 +1224,13 @@ bool TimCauHoi1(Array<STreeCH> &List, int &NumberQuestion)
 			List[temp] = List[i];
 			List[i] = ptr;
 			temp++;
+			if(YourAnswer!=NULL)swap(YourAnswer[i], YourAnswer[temp]);
 		}
 	}
+	// delete_LineOnScreen(5, 30, 112);
+	// delete_LineOnScreen(5, 31, 112);
+	// delete_LineOnScreen(5, 32, 112);
+	// delete_LineOnScreen(5, 33, 112);
 	if (temp == 0)
 		return false;
 	else
@@ -1354,7 +1360,7 @@ void MENU_DSCH_GV(STreeCH &root, MonHoc &monHoc)
 				{
 				case F1:
 				{
-					if (TimCauHoi1(ListQuestion, NumberQuestion) == false)
+					if (TimCauHoi(ListQuestion, NumberQuestion) == false)
 					{
 						THONGBAO(1, "KHONG TIM THAY CAU HOI");
 						break;
@@ -1366,8 +1372,6 @@ void MENU_DSCH_GV(STreeCH &root, MonHoc &monHoc)
 				case F5:
 				{
 					NumberQuestion = ListQuestion.GetIndexLast() + 1;
-					gotoxy(0, 0);
-					cout << NumberQuestion;
 					if (NumberQuestion > 0)
 						Sort(ListQuestion, 0, NumberQuestion - 1);
 					MaxPage = (NumberQuestion - 1) / 10 + 1, Page = 1;
@@ -1436,55 +1440,7 @@ void MENU_DSCH_GV(STreeCH &root, MonHoc &monHoc)
 		}
 	}
 }
-void Tim_End_Start(int NOE[], int &start, int &end, int lanthi, int NumberQuestion, int NumberofExams)
-{
-	start = NOE[lanthi - 1]; // vi tri dau tien trong mang
-	if (lanthi == NumberofExams)
-	{
-		end = NumberQuestion - 1; // vi tri cuoi trong mang+1
-	}
-	else
-	{
-		end = NOE[lanthi] - 1;
-	}
-}
-bool TimCauHoi2(Array<STreeCH> List, char YourAnswer[], int &end)
-{
-	string content;
-	char *address = NULL;
-	VeKhung(5, 30, 115, 33);
-	gotoxy(6, 31);
-	cout << "NHAP NOI DUNG |";
-	gotoxy(6, 32);
-	cout << "  CAN TIM     |";
-	content = NhapChuoi(21, 31, 94);
-	STreeCH ptr;
-	int temp = 0;
-	for (int i = 0; i <= end; i++)
-	{
-		address = strstr(List[i]->info.question, content.data());
 
-		if (address != NULL)
-		{
-			ptr = List[temp];
-			List[temp] = List[i];
-			List[i] = ptr;
-			swap(YourAnswer[i], YourAnswer[temp]);
-			temp++;
-		}
-	}
-	delete_LineOnScreen(5, 30, 112);
-	delete_LineOnScreen(5, 31, 112);
-	delete_LineOnScreen(5, 32, 112);
-	delete_LineOnScreen(5, 33, 112);
-	if (temp == 0)
-		return false;
-	else
-	{
-		end = temp - 1;
-		return true;
-	}
-}
 void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[])
 {
 	int NumberQuestion, chon, change = 0;
@@ -1523,18 +1479,18 @@ void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[])
 			{
 			case F1:
 			{
-				if (TimCauHoi2(List, YourAnswer, end) == false)
+				if (TimCauHoi(List,end,YourAnswer) == false)
 				{
 					THONGBAO(1, "KHONG TIM THAY CAU HOI");
 					break;
 				}
-				start = 0, change = 1;
+				start = 0,end-=1, change = 1;
 				break;
 			}
 			case F5:
 			{
 				start = 0, end = NumberQuestion - 1, change = 1;
-				Sort(List, start, end);
+				//Sort(List, start, end);
 				break;
 			}
 			case LEFT:
