@@ -389,7 +389,7 @@ bool delete_List_SV(PtrSV &first);
 
 // tra ve dia chi nam ngay truoc node co MSSV == mssv(kiem tra vi tri = first rieng)
 PtrSV pos_MSSV_SV(PtrSV first, string mssv);
-void changeInfoByPtrArray_SV(PtrSV *nodePtrArray, int index, SinhVien newData);
+void changeInfoByPtrArray_SV(PtrSV &first, string mssv, SinhVien newData);
 
 //-------------------LopHoc------------------//
 

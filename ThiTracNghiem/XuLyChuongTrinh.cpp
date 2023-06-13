@@ -132,16 +132,16 @@ string DANGNHAP()
 	switch (KiemTraTK(Name, Password))
 	{
 	case -1:
-		THONGBAO(1, "KHONG CO TAI KHOAN");
+		THONGBAO(2, "KHONG CO TAI KHOAN");
 		return "NONE";
 	case 0:
-		THONGBAO(1, "KHONG DOC DUOC FILE");
+		THONGBAO(2, "KHONG DOC DUOC FILE");
 		return "READ FILE ERROR";
 	case 1:
-		THONGBAO(1, "LOGIN SV");
+		// THONGBAO(1, "LOGIN SV");
 		return Name;
 	case 2:
-		THONGBAO(1, "LOGIN GV");
+		// THONGBAO(2, "LOGIN GV");
 		return "GV";
 	}
 }
@@ -2369,7 +2369,7 @@ bool HieuChinhSinhVien(ListLH dslh, PtrSV dssv, PtrSV *data, int index)
 	}
 	if (THONGBAO(3, "LUU THAY DOI?"))
 	{
-		changeInfoByPtrArray_SV(data, index, tempSV);
+		changeInfoByPtrArray_SV(dssv, data[index]->info.MSSV, tempSV);
 		THONGBAO(1, "DA THAY DOI THONG TIN");
 		return 1;
 	}

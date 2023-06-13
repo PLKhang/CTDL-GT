@@ -696,12 +696,23 @@ bool delete_List_SV(PtrSV &first)
             return 0;
     return 1;
 }
-// thay doi thong tin cua node thong qua mang con tro(HIEU CHINH SINH VIEN)
-void changeInfoByPtrArray_SV(PtrSV *nodePtrArray, int index, SinhVien newData)
+PtrSV pos_MSSV_SV(PtrSV first, string mssv)
 {
-    PtrSV cur = nodePtrArray[index];
+    PtrSV p = first;
+    while(p != NULL)
+    {
+        if(strcmp(p->info.MSSV, mssv.c_str()) == 0)
+            return p;
+        p = p->next;
+    }
+    return p;
+}
+// thay doi thong tin cua node thong qua mang con tro(HIEU CHINH SINH VIEN)
+void changeInfoByPtrArray_SV(PtrSV &first, string mssv, SinhVien newData)
+{
+    PtrSV p  = pos_MSSV_SV(first, mssv);
 
-    cur->info = newData;
+    p->info = newData;
 }
 
 //---------------------------LopHoc--------------------------//
