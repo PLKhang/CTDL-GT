@@ -314,9 +314,7 @@ string FindName(ListMH dsmh, char maMH[]);
 // ****************Cau hoi**********************************//
 //so luong nut
 int NumberOfNode(ID *root);
-//chen nut vao cay
-void InsertID(ID *&tree, int data);
-//tim vi tri de in
+//tim vi tri de chen
 int InsertToBalance(ID *&root, int min, int max,int&temp, ofstream &file);
 //giai phong vung nho
 void DeleteAllID(ID*root);
