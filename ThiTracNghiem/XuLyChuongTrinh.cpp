@@ -1233,7 +1233,7 @@ bool TimCauHoi1(Array<STreeCH> &List, int &NumberQuestion)
 		return true;
 	}
 }
-void MENU_DSCH_GV(STreeCH &root, MonHoc monHoc)
+void MENU_DSCH_GV(STreeCH &root, MonHoc &monHoc)
 {
 	int NumberQuestion, vi_tri_contro, wherey, chon, MaxPage, Page, stop;
 	char chuoi[90];
@@ -1281,6 +1281,7 @@ void MENU_DSCH_GV(STreeCH &root, MonHoc monHoc)
 						stop = 1;
 						break;
 					}
+					monHoc.is_used = true;
 					ListQuestion.push(temp);
 					NumberQuestion++;
 					stop = 1, MaxPage = (NumberQuestion - 1) / 10 + 1;

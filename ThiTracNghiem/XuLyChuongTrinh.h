@@ -71,7 +71,7 @@ STreeCH ThemCauHoi(STreeCH &root, char maMH[], char tenMH[]);
 int XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[]);
 void InDanhSachCH(Array<STreeCH> &ListQuestion, char maMH[], int start, int end, int Page, int MaxPage);
 bool TimCauHoi1(Array<STreeCH> &List, int &NumberQuestion);
-void MENU_DSCH_GV(STreeCH &root, MonHoc monHoc);
+void MENU_DSCH_GV(STreeCH &root, MonHoc &monHoc);
 void Tim_End_Start(int NOE[], int &start, int &end, int lanthi, int NumberQuestion, int NumberofExams);
 bool TimCauHoi2(Array<STreeCH> List, char YourAnswer[], int &end);
 void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[]);
