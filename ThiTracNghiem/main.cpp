@@ -9,7 +9,7 @@ int main()
 	STreeCH root = NULL;
 	MainProcessing(dsmh, dslh, root);
 	
-	DeleteRoot(root);
+	ReleaseMemoryRoot(root);
 	Delete_DSLH(dslh);
 	
 	gotoxy(0, 40);
