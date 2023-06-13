@@ -3226,8 +3226,8 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
 				}
+				break;
 			}
-			break;
 			case DOWN:
 			{
 				if (index % 10 == 9 && index < numOfClasses - 1) // dang o vi tri cuoi trang -> PgDn
@@ -3243,23 +3243,27 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
 				}
+				break;
 			}
-			break;
 			case PAGEUP:
 			{
 				if (page > 1)
 				{
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+					page--;
 					index = (index / 10) * 10 - 1;
 					HienDanhSachLopHoc(temp, numOfClasses, --page, maxPage, types);
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
 				}
 				break;
+			}
 			case PAGEDOWN:
+			{
 				if (page < maxPage)
 				{
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+					page++;
 					index = (index % 10 + 1) * 10;
 					HienDanhSachLopHoc(temp, numOfClasses, ++page, maxPage, types);
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
@@ -3278,7 +3282,7 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 				// switch (option)
 				switch (HienOptionLopHoc())
 				{
-				case 1:
+				case 1: // chon che do them lop
 				{
 					if (is_Full_LH(dslh))
 						THONGBAO(2, "SO LUONG LOP DA DAY");
@@ -3296,57 +3300,85 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 					HienDanhSachLopHoc(temp, numOfClasses, page, maxPage, types);
 					// gotoxy(2, 9 + (index % 10 + 1) * 2);
 					// cout << ">>";
+					break;
 				}
-				break;
-				case 2:
+				case 2: // chon che do xoa lop
 				{
-					THONGBAO(2, "CHON LOP MUON XOA---AN F5 DE HUY CHON");
-					check_Delete = 1; // bat che do xoa lop duoc chon
-				}
-				break;
-				case 3:
-				{
-					THONGBAO(2, "CHON LOP HIEU CHINH---AN F5 DE HUY CHON");
-					check_Edit = 1; // bat che do chinh sua lop duoc chon
-				}
-				break;
-				case 4:
-				{
-					THONGBAO(2, "CHON LOP---AN F5 DE HUY CHON");
-					string maLop = MENU_DSLH_GV(dslh, dsmh, root, 1);
-					if (maLop == "EXIT") // bam ESC khi chon ma lop
-						break;
-					while (1)
+					if (is_Empty_LH(dslh))
 					{
-						string maMon = MENU_DSMH_GV(root, dsmh, 1);
-						if (maMon == "EXIT")
-							break;
-						int index;
-						for (index = 0; index < dslh.n; index++)
-							if (strcmp(dslh.lh[index]->maLop, maLop.c_str()) == 0)
-								break;
-						MENU_DSSV_GV(dslh, index, dsmh, root, 1, maMon);
+						THONGBAO(1, "KHONG CO LOP TRONG DANH SACH");
 					}
-					HienDanhSachLopHoc(temp, numOfClasses, page, maxPage, 1);
+					else
+					{
+						THONGBAO(2, "CHON LOP MUON XOA---AN F5 DE HUY CHON");
+						check_Delete = 1; // bat che do xoa lop duoc chon
+					}
+					break;
+				}
+				case 3: // chon che do hieu chinh
+				{
+					if (is_Empty_LH(dslh))
+					{
+						THONGBAO(1, "KHONG CO LOP TRONG DANH SACH");
+					}
+					else
+					{
+						THONGBAO(2, "CHON LOP HIEU CHINH---AN F5 DE HUY CHON");
+						check_Edit = 1; // bat che do chinh sua lop duoc chon
+					}
+					break;
+				}
+				case 4: // chon che do in ds diem theolop
+				{
+					if (is_Empty_LH(dslh))
+					{
+						THONGBAO(1, "KHONG CO LOP TRONG DANH SACH");
+					}
+					else
+					{
+						THONGBAO(2, "CHON LOP---AN F5 DE HUY CHON");
+						string maLop = MENU_DSLH_GV(dslh, dsmh, root, 1);
+						if (maLop == "EXIT") // bam ESC khi chon ma lop
+							break;
+						while (1)
+						{
+							string maMon = MENU_DSMH_GV(root, dsmh, 1);
+							if (maMon == "EXIT")
+								break;
+							int index;
+							for (index = 0; index < dslh.n; index++)
+								if (strcmp(dslh.lh[index]->maLop, maLop.c_str()) == 0)
+									break;
+							MENU_DSSV_GV(dslh, index, dsmh, root, 1, maMon);
+						}
+						HienDanhSachLopHoc(temp, numOfClasses, page, maxPage, 1);
+					}
 
 					// gotoxy(2, 9 + (index % 10 + 1) * 2);
 					// cout << ">>";
+					break;
 				}
-				break;
-				case 5:
+				case 5: // chon che do in sd theo nK
 				{
-					THONGBAO(2, "NHAP NIEN KHOA");
-					delete_AreaOnScreen(120, 15, 26, 11);
-					VeKhung(120, 16, 145, 18);
-					int year;
-					year = NhapSo(121, 17, 4); // nhap nien khoa can xem
-					DanhSachTheoNienKhoa(dslh, temp, year, numOfClasses);
+					if (is_Empty_LH(dslh))
+					{
+						THONGBAO(1, "KHONG CO LOP TRONG DANH SACH");
+					}
+					else
+					{
+						THONGBAO(2, "NHAP NIEN KHOA");
+						delete_AreaOnScreen(120, 15, 26, 11);
+						VeKhung(120, 16, 145, 18);
+						int year;
+						year = NhapSo(121, 17, 4); // nhap nien khoa can xem
+						DanhSachTheoNienKhoa(dslh, temp, year, numOfClasses);
 
-					maxPage = (numOfClasses - 1) / 10 + 1;
-					index = 0;
-					page = 1;
-					HienDanhSachLopHoc(temp, numOfClasses, page, maxPage, types);
-
+						maxPage = (numOfClasses - 1) / 10 + 1;
+						index = 0;
+						page = 1;
+						HienDanhSachLopHoc(temp, numOfClasses, page, maxPage, types);
+					}
+					break;
 					// gotoxy(2, 9 + (index % 10 + 1) * 2);
 					// cout << ">>";
 				}
@@ -3369,7 +3401,7 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 			{
 				if (types)
 					return temp[index]->maLop;
-				if (check_Delete)
+				if (check_Delete) // ktra che do xoa lop
 				{
 					if (temp[index]->danhSachSinhVien != NULL)
 					{
@@ -3387,7 +3419,7 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 					}
 					check_Delete = 0;
 				}
-				else if (check_Edit)
+				else if (check_Edit) // ktra che do hieu chinh
 				{
 					HieuChinhLopHoc(dslh, temp, index);
 					check_Edit = 0;
@@ -3595,15 +3627,19 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 			}
 			case RIGHT:
 			{
+				// dang o che do khong thao tac voi option
 				if (check_Delete || check_Edit || selectMode)
 					break;
 
 				delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+				// option = HienOptionMonHoc();
+				// switch (option)
 				switch (HienOptionMonHoc())
 				{
 				case 0:
 					break;
-				case 1:
+				case 1: // chon che do them mon
+				{
 					if (is_Full_MH(dsmh))
 						THONGBAO(2, "SO LUONG MON HOC DA DAY");
 					else if (ThemMonHoc(dsmh))
@@ -3621,17 +3657,43 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
 					break;
-				case 2:
-					THONGBAO(2, "CHON MON HOC MUON XOA---AN F5 DE HUY CHON");
-					check_Delete = 1;
+				}
+				case 2: // chon che do xoa mon
+				{
+					if (is_Empty_MH(dsmh))
+					{
+						THONGBAO(1, "KHONG CO LOP TRONG DANH SACH");
+					}
+					else
+					{
+						THONGBAO(2, "CHON MON HOC MUON XOA---AN F5 DE HUY CHON");
+						check_Delete = 1;
+					}
 					break;
-				case 3:
-					THONGBAO(2, "CHON MON HOC HIEU CHINH---AN F5 DE HUY CHON");
-					check_Edit = 1;
+				}
+				case 3: // chon che do hieu chinh
+				{
+					if (is_Empty_MH(dsmh))
+					{
+						THONGBAO(1, "KHONG CO LOP TRONG DANH SACH");
+					}
+					else
+					{
+						THONGBAO(2, "CHON MON HOC HIEU CHINH---AN F5 DE HUY CHON");
+						check_Edit = 1;
+					}
 					break;
-				case 4:
-					THONGBAO(2, "CHON MON HOC DE XEM-DANH SACH CAU HOI---AN F5 DE HUY CHON");
+				}
+				case 4: // chon che do xem cau hoi
+				{
+					if (is_Empty_MH(dsmh))
+					{
+						THONGBAO(1, "KHONG CO LOP TRONG DANH SACH");
+					}
+					else
+						THONGBAO(2, "CHON MON HOC DE XEM-DANH SACH CAU HOI---AN F5 DE HUY CHON");
 					break;
+				}
 				}
 				HienOptionMonHoc(1);
 				gotoxy(2, 9 + (index % 10 + 1) * 2);
@@ -3653,7 +3715,7 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 					temp[index]->is_used = true;
 					return temp[index]->maMonHoc;
 				}
-				if (check_Delete)
+				if (check_Delete)// ktra che do xoa
 				{
 					if (temp[index]->is_used)
 						THONGBAO(2, "KHONG THE XOA-MON HOC DA DUOC SU DUNG");
@@ -3668,7 +3730,7 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 						check_Delete = 0;
 					}
 				}
-				else if (check_Edit)
+				else if (check_Edit)// ktra che do hieu chinh
 				{
 					if (!HieuChinhMonHoc(dsmh, *temp[index], index % 10 + 1))
 						THONGBAO(2, "DA HUY-THAO TAC HIEU CHINH");
