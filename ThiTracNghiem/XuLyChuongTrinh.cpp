@@ -3090,8 +3090,8 @@ void HienDanhSachLopHoc(LopHoc **data, int numOfClasses, int page, int maxPage, 
 	if (!types)
 		HienOptionLopHoc(1);
 	int count = 1;
-
-	for (int index = (page - 1) * 10; (index < page * 10) && (data[index] != NULL) && ((page - 1) * 10 + index % 10 < numOfClasses); index++)
+									//(index < page * 10) && (data[index] != NULL) && ((page - 1) * 10 + index % 10 < numOfClasses)
+	for (int index = (page - 1) * 10; index <= (page - 1) * 10 + 9 && index < numOfClasses; index++)
 	{
 		gotoxy(10, 9 + 2 * count);
 		cout << data[index]->maLop;
@@ -3216,14 +3216,18 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 			{
 				if (index % 10 == 0 && page > 1) // dang o vi tri dau trang -> PgUp
 				{
-					HienDanhSachLopHoc(temp, numOfClasses, --page, maxPage, types);
-					delete_LineOnScreen(2, 9 + (index-- % 10 + 1) * 2, 2);
+					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+					page--;
+					index--;
+
+					HienDanhSachLopHoc(temp, numOfClasses, page, maxPage, types);
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
 				}
 				else if (index % 10 > 0) // vi tri khong phai dau trang -> giam di 1
 				{
-					delete_LineOnScreen(2, 9 + (index-- % 10 + 1) * 2, 2);
+					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+					index--;
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
 				}
@@ -3233,14 +3237,18 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 			{
 				if (index % 10 == 9 && index < numOfClasses - 1) // dang o vi tri cuoi trang -> PgDn
 				{
-					HienDanhSachLopHoc(temp, numOfClasses, ++page, maxPage, types);
-					delete_LineOnScreen(2, 9 + (index++ % 10 + 1) * 2, 2);
+					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+					page++;
+					index++;
+
+					HienDanhSachLopHoc(temp, numOfClasses, page, maxPage, types);
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
 				}
 				else if (index % 10 < 9 && index < numOfClasses - 1) // vi tri khong phai cuoi trang -> tang len 1
 				{
-					delete_LineOnScreen(2, 9 + (index++ % 10 + 1) * 2, 2);
+					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+					index++;
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
 				}
@@ -3253,7 +3261,8 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
 					page--;
 					index = (index / 10) * 10 - 1;
-					HienDanhSachLopHoc(temp, numOfClasses, --page, maxPage, types);
+
+					HienDanhSachLopHoc(temp, numOfClasses, page, maxPage, types);
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
 				}
@@ -3265,8 +3274,9 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 				{
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
 					page++;
-					index = (index % 10 + 1) * 10;
-					HienDanhSachLopHoc(temp, numOfClasses, ++page, maxPage, types);
+					index = (index / 10 + 1) * 10;
+
+					HienDanhSachLopHoc(temp, numOfClasses, page, maxPage, types);
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
 				}
