@@ -32,12 +32,12 @@ int THONGBAO(int option, string thongbao)
 	else if (option == 2) // Tat thong bao khi an phim bat ky
 	{
 		gotoxy(126, 9);
-		cout << "   AN PHIM BAT KY DE THOAT  ";
+		cout << "   (An phim bat ky de tat)   ";
 		getch();
-		for (int i = 3; i <= 9; i++)
+		for (int i = 0; i <= 10; i++)
 		{
-			gotoxy(126, i);
-			cout << "                              ";
+			gotoxy(125, i);
+			cout << "                               ";
 		}
 	}
 	else if (option == 3) // hien yes no
