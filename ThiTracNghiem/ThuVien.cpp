@@ -72,7 +72,7 @@ string NhapChuoi(int x, int y, int chieudai, int option) // x va y la dia chi de
     int ki_tu;
     if (option == 0)
         delete_LineOnScreen(x, y, chieudai);
-    else
+    else if(option==1)
     {
         gotoxy(21, 10);
         cout << "                                                                                              ";
@@ -858,7 +858,7 @@ int docCauHoiDaThi(STreeCH root, Array<STreeCH> &List, char YourAnswer[], char M
                 List.push(BinarySearch(root, ID));
             }
             docfile.close();
-            Sort(List, 0, List.GetIndexLast());
+            //Sort(List, 0, List.GetIndexLast());
             return 1;
         }
     }
