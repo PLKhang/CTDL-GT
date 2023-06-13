@@ -79,12 +79,12 @@ string FindName(ListMH dsmh, char maMH[])
 //---------------------------CauHoi--------------------------//
 
 //-----TAO ID---------//
-int NumberOfNode(ID *root)
+int NumberOfID(ID *root)
 {
     if (root == NULL)
         return 0;
     else
-        return 1 + NumberOfNode(root->left) + NumberOfNode(root->right);
+        return 1 + NumberOfID(root->left) + NumberOfID(root->right);
 }
 
 int InsertToBalance(ID *&root, int min, int max, int &temp, ofstream &file)
@@ -100,7 +100,7 @@ int InsertToBalance(ID *&root, int min, int max, int &temp, ofstream &file)
     }
     else
     {
-        if (NumberOfNode(root->left) == NumberOfNode(root->right))
+        if (NumberOfID(root->left) == NumberOfID(root->right))
         {
             max = root->id;
             InsertToBalance(root->left, min, max, temp, file);
@@ -112,20 +112,20 @@ int InsertToBalance(ID *&root, int min, int max, int &temp, ofstream &file)
         }
     }
 }
-void DeleteAllID(ID *root)
+void ReleaseMemoryID(ID *root)
 {
     if (root != NULL)
     {
-        DeleteAllID(root->left);
-        DeleteAllID(root->right);
+        ReleaseMemoryID(root->left);
+        ReleaseMemoryID(root->right);
         delete root;
     }
 }
-void TaoFileID()
+int TaoFileID()
 {
     ifstream check("Data/FileOldID.bin", ios::binary);
     if (check.is_open())
-        return;
+        return 0;
     int n = 14, temp = 0;
     createID root = NULL;
     ofstream FileOldKey("Data/FileOldID.bin", ios::binary);
@@ -136,8 +136,9 @@ void TaoFileID()
     FileNewID.write(reinterpret_cast<char *>(&temp), sizeof(int));
     for (int i = 1; i <= pow(2, n) - 1; i++)
         InsertToBalance(root, 1, pow(2, n), temp, FileNewID); // lay can duoi
-    DeleteAllID(root);
+    ReleaseMemoryID(root);
     FileNewID.close();
+    return 1;
 }
 int ReadID(int &ExistID, int option)
 {
@@ -183,17 +184,7 @@ int ReadID(int &ExistID, int option)
         return 0; // không cần cân bằng lại cây
     }
 }
-
-void RestoreID()
-{
-    int number;
-    fstream FileID("Data/FileNewID.bin", ios::in | ios::out);
-    FileID.read(reinterpret_cast<char *>(&number), sizeof(int));
-    FileID.seekp(ios::beg);
-    --number;
-    FileID.write(reinterpret_cast<char *>(&number), sizeof(int));
-    FileID.close();
-}
+//**************Cau Hoi*************************//
 int Insert(STreeCH &root, STreeCH &question)
 {
     if (root == NULL)
@@ -233,7 +224,7 @@ int Insert(STreeCH &root, STreeCH &question)
         }
     }
 }
-//---------can bang cay------
+//---------can bang cay------//
 void Store(STreeCH root, Array<STreeCH> &nodes) // chua cay trong arr theo thu tu tang dan
 {
     if (root != NULL)
@@ -381,7 +372,7 @@ int SoNode(STreeCH root)
         return 0;
     return 1 + SoNode(root->left) + SoNode(root->right);
 }
-void DeleteRoot(STreeCH &root)
+void  ReleaseMemoryRoot(STreeCH &root)
 {
     if (root == NULL)
         return;
@@ -421,6 +412,7 @@ void InTraversal(Array<STreeCH> &AllQuestions, STreeCH root, char maMH[])
         else
             break;
     } while (1);
+    stack.Destroy();
 }
 
 STreeCH *GetQuestion(STreeCH &root, char maMH[], int number_question, int tong_so_cau_hoi)

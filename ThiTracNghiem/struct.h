@@ -23,13 +23,11 @@ template <typename T>
 class Stack
 {
 private:
-    int size;
     node<T> *top;
 
 public:
     Stack()
     {
-        size = 0;
         top = NULL;
     }
     void Push(T data)
@@ -38,7 +36,6 @@ public:
         temp->info = data;
         temp->next = top;
         top = temp;
-        size++;
     }
     T Pop()
     {
@@ -48,7 +45,6 @@ public:
             T data = top->info;
             top = top->next;
             delete temp;
-            size--;
             return data;
         }
     }
@@ -56,7 +52,6 @@ public:
     {
         return (top == NULL);
     }
-    int GetSize() { return size; }
     void Destroy()
     {
         if (top == NULL)
@@ -69,21 +64,18 @@ public:
             delete temp;
         }
         top = NULL;
-        size = 0;
     }
 };
 template <typename T>
 class Queue
 {
 private:
-    int number;
     node<T> *front;
     node<T> *rear;
 
 public:
     Queue()
     {
-        number = 0;
         front = NULL;
         rear = NULL;
     }
@@ -97,20 +89,18 @@ public:
         else
             rear->next = temp;
         rear = temp;
-        number++;
     }
     T pop()
     {
         if (!this->empty())
         {
-            node<T> *run = front;
+            node<T> *temp = front;
             T data = front->info;
             if (front == rear && front != NULL)
                 front = rear = NULL;
             else
                 front = front->next;
-            delete run;
-            number--;
+            delete temp;
             return data;
         }
     }
@@ -121,7 +111,6 @@ public:
         else
             return false;
     }
-    int GetNumber() { return number; }
     void Destroy()
     {
         if(front==NULL)return;
@@ -133,7 +122,6 @@ public:
             delete temp;
         }
         rear=front=NULL;
-        number=0;
     }
 };
 template<typename T>struct Array
@@ -313,18 +301,15 @@ int pos_MaMH_MH(ListMH dsmh, string maMH);
 string FindName(ListMH dsmh, char maMH[]);
 // ****************Cau hoi**********************************//
 //so luong nut
-int NumberOfNode(ID *root);
+int NumberOfID(ID *root);
 //tim vi tri de chen
 int InsertToBalance(ID *&root, int min, int max,int&temp, ofstream &file);
 //giai phong vung nho
-void DeleteAllID(ID*root);
+void ReleaseMemoryID(ID*root);
 // tao file ID
-void TaoFileID();
+int TaoFileID();
 // doc lay id
 int ReadID(int&ExistID,int option=0);
-
-// Phuc hoi lai ID
-void RestoreID();
 // tao node moi
 STreeCH newnode();
 void store(STreeCH,vector<STreeCH>&);
@@ -332,18 +317,19 @@ STreeCH Convert(Array<STreeCH>&,int max,int min);
 STreeCH Balance(STreeCH root);
 STreeCH BinarySearch(STreeCH root,int ID);
 STreeCH OriginRoot(STreeCH);
-// in cau hoi
+// Chen cau hoi
 int Insert(STreeCH &root, STreeCH &question);
 int InsertNewQuestion(STreeCH &root, STreeCH &question);
 void SubDelete(STreeCH&root);
 int Delete(STreeCH&root,int ID);
 // xoa cau hoi
 int DeleteQuestion(STreeCH &root, STreeCH &Quetion);
+//dem so nut
 int SoNode(STreeCH root);
-void DeleteRoot(STreeCH &root);
+//xoa cay giai phong bo nho
+void ReleaseMemoryRoot(STreeCH &root);
 // duyet tim cau hoi theo ma mon
 void InTraversal(Array<STreeCH>&AllQuestions, STreeCH root, char maMH[]);
-void PreTraversal(STreeCH *AllQuestions, STreeCH root, char maMH[], int &count);
 // random cau hoi va tra ve con tro streech
 STreeCH *GetQuestion(STreeCH &root, char maMH[], int number_question, int tong_so_cau_hoi);
 // dem so cau hoi cua mon do
