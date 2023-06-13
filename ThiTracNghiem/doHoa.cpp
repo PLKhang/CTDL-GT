@@ -893,15 +893,12 @@ void ThanhChucNang(int option)
 	}
 	case 12: // menu_dsdt_gv
 	{
-		delete_AreaOnScreen(5, 34, 111, 3);
-		VeKhung(5, 34, 90, 36);
-		gotoxy(6, 35);
-		cout << "ESC: THOAT        PgUp/PgDn: DOI TRANG        " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: XEM CHI TIET";
+		cout << "ESC:THOAT  F1:TIM MON  F5:TAI LAI   PgUp/PgDn:DOI TRANG    < / > / " << char(30) << " / " << char(31) << ": DI CHUYEN   ENTER: XEM DSCH DA THI";
 		break;
 	}
 	case 13: // menu_dsdt_gv (case: SV)
 	{
-		cout << "ESC: THOAT                                PgUp/PgDn: DOI TRANG                               " << char(30) << " / " << char(31) << ": DI CHUYEN";
+		cout << "ESC: THOAT   F1: TIM MON   F2: SAP XEP   F5: TAI LAI            PgUp/PgDn: DOI TRANG         " << char(30) << " / " << char(31) << ": DI CHUYEN";
 		break;
 	}
 	case 14: // dsdt theo lan thi

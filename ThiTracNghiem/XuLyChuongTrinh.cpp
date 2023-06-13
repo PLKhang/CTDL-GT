@@ -2410,7 +2410,7 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 	int page = 1;
 	int index = 0; // vi tri trong mang con tro
 	int maxPage = (numOfSubs - 1) / 10 + 1;
-	HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage);
+	HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage, is_SV);
 	gotoxy(2, 9 + (index % 10 + 1) * 2);
 	cout << ">>";
 
@@ -2451,7 +2451,7 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 					numOfSubs = numOfResults;
 					int page = 1;
 					int maxPage = (numOfSubs - 1) / 10 + 1;
-					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage);
+					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage, is_SV);
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
 				}
@@ -2464,7 +2464,7 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 				SortDSDT(temp, numOfSubs, check_List);
 				page = 1;
 				index = 0;
-				HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage);
+				HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage, is_SV);
 				gotoxy(2, 9 + (index % 10 + 1) * 2);
 				cout << ">>";
 				break;
@@ -2482,7 +2482,7 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 				int page = 1;
 				index = 0;
 				int maxPage = (numOfSubs - 1) / 10 + 1;
-				HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage);
+				HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage, is_SV);
 				gotoxy(2, 9 + (index % 10 + 1) * 2);
 				cout << ">>";
 
@@ -2495,7 +2495,7 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
 					page--;
 					index--;
-					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage);
+					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage, is_SV);
 
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
@@ -2516,7 +2516,7 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
 					page++;
 					index++;
-					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage);
+					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage, is_SV);
 
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
@@ -2537,7 +2537,7 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
 					page--;
 					index = (index / 10) * 10 - 1;
-					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage);
+					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage, is_SV);
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
 				}
@@ -2550,7 +2550,7 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
 					page++;
 					index = (index / 10 + 1) * 10;
-					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage);
+					HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage, is_SV);
 					gotoxy(2, 9 + (index % 10 + 1) * 2);
 					cout << ">>";
 				}
@@ -2573,14 +2573,14 @@ void MENU_DSDT_GV(SinhVien &data, ListMH dsmh, STreeCH root, bool is_SV)
 				strcpy(selectedSub.tenMonHoc, FindName(dsmh, selectedSub.maMonHoc).c_str());
 				InCauHoiDaThi(root, selectedSub, data.MSSV);
 			}
-				HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage);
+				HienDanhSachDiemThi(dsmh, temp, data.MSSV, data.ho, data.ten, numOfSubs, page, maxPage, is_SV);
 				gotoxy(2, 9 + (index % 10 + 1) * 2);
 				cout << ">>";
 			}
 		}
 	}
 }
-void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, string ten, int numOfSubs, int page, int maxPage)
+void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, string ten, int numOfSubs, int page, int maxPage, bool is_SV)
 {
 	system("cls");
 	TextColor(7);
@@ -2596,7 +2596,7 @@ void HienDanhSachDiemThi(ListMH dsmh, PtrDT *data, string MSSV, string ho, strin
 		cout << setprecision(2) << fixed << data[i]->info.diemThi;
 		count++;
 	}
-	ThanhChucNang(12);
+	is_SV?ThanhChucNang(13):ThanhChucNang(12);
 	gotoxy(91, 29);
 	cout << "Page " << page << '/' << maxPage;
 }
