@@ -555,6 +555,11 @@ void delete_AreaOnScreen(int x, int y, int width, int height)
     for (int i = 0; i < height; i++)
         delete_LineOnScreen(x, y + i, width);
 }
+void delete_MenuContent(int length)
+{
+    for(int i = 0; i < 10; i++)
+        delete_LineOnScreen(6, 11 + i * 2, length);
+}
 void setCursorVisibility(bool isVisible)
 {
     CONSOLE_CURSOR_INFO cursorInfo;

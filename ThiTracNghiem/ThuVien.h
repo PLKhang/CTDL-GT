@@ -35,6 +35,7 @@ bool is_Empty_CArray(const char *a);
 // xoa 1 dong dang hien thi tren man hinh de tao khoang trong dien thong tin moi
 void delete_LineOnScreen(int x, int y, int length);
 void delete_AreaOnScreen(int x, int y, int width, int height = 1);
+void delete_MenuContent(int length);
 void setCursorVisibility(bool isVisible);
 
 bool createLopHocFolder(string maLH);
