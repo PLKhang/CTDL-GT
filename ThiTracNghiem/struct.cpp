@@ -94,7 +94,6 @@ int InsertToBalance(ID *&root, int min, int max, int &temp, ofstream &file)
         root =new ID;
         root->id=(min+max)/2;
         root->left=root->right=NULL;
-        //InsertID(root, (min + max) / 2);
         temp = (min + max) / 2;
         file.write(reinterpret_cast<char *>(&temp), sizeof(int));
     }
@@ -102,12 +101,12 @@ int InsertToBalance(ID *&root, int min, int max, int &temp, ofstream &file)
     {
         if (NumberOfID(root->left) == NumberOfID(root->right))
         {
-            max = root->id;
+            max = root->id-1;
             InsertToBalance(root->left, min, max, temp, file);
         }
         else
         {
-            min = root->id;
+            min = root->id+1;
             InsertToBalance(root->right, min, max, temp, file);
         }
     }
@@ -135,7 +134,7 @@ int TaoFileID()
     temp = 1;
     FileNewID.write(reinterpret_cast<char *>(&temp), sizeof(int));
     for (int i = 1; i <= pow(2, n) - 1; i++)
-        InsertToBalance(root, 1, pow(2, n), temp, FileNewID); // lay can duoi
+        InsertToBalance(root, 1, pow(2, n)-1, temp, FileNewID); // lay can duoi
     ReleaseMemoryID(root);
     FileNewID.close();
     return 1;
@@ -246,7 +245,8 @@ STreeCH Convert(Array<STreeCH> &nodes, int max, int min) // tao cay can bang
 }
 STreeCH Balance(STreeCH root) // tra ve cay can bang
 {
-    Array<STreeCH> nodes;
+    int SumofObject=SumOfAllObject(root);
+    Array<STreeCH> nodes(SumofObject);
     STreeCH NewRoot;
     Store(root, nodes);
     NewRoot = Convert(nodes, nodes.GetIndexLast(), 0);
@@ -366,11 +366,25 @@ int DeleteQuestion(STreeCH &root, STreeCH &Question)
     FileOldKey.write(reinterpret_cast<char *>(&number), sizeof(int));
     FileOldKey.close();
 }
-int SoNode(STreeCH root)
+int SumOfAllObject(STreeCH root)
 {
     if (root == NULL)
         return 0;
-    return 1 + SoNode(root->left) + SoNode(root->right);
+    int sum=0;
+    Queue<STreeCH> q;
+    STreeCH temp;
+    q.Push(root);
+    while (!q.empty())
+    {
+        temp = q.pop();
+        sum++;
+        if (temp->left != NULL)
+            q.Push(temp->left);
+        if (temp->right != NULL)
+            q.Push(temp->right);
+    }
+    q.Destroy();
+    return sum;
 }
 void  ReleaseMemoryRoot(STreeCH &root)
 {
@@ -444,7 +458,7 @@ int DemSoCauHoi(STreeCH root, char maMH[])
     else
         return 0;
 }
-void Sort(Array<STreeCH> &Arr, int first, int last,char* YourAnswer)
+void Sort(Array<STreeCH> &Arr, int first, int last)
 {
     int mid, i, j;
     STreeCH temp;
@@ -457,7 +471,6 @@ void Sort(Array<STreeCH> &Arr, int first, int last,char* YourAnswer)
             j--;
         if (i <= j)
         {
-            if(YourAnswer!=NULL)swap(YourAnswer[i],YourAnswer[j]);
             temp = Arr[i];
             Arr[i] = Arr[j];
             Arr[j] = temp;
@@ -466,9 +479,9 @@ void Sort(Array<STreeCH> &Arr, int first, int last,char* YourAnswer)
         }
     } while (i <= j);
     if (i < last)
-        Sort(Arr, i, last,YourAnswer);
+        Sort(Arr, i, last);
     if (j > first)
-        Sort(Arr, first, j,YourAnswer);
+        Sort(Arr, first, j);
 }
 //---------------------------DiemThi--------------------------//
 void KhoiTao_PtrDT(PtrDT &first)

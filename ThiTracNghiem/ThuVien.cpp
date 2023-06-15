@@ -847,7 +847,7 @@ int docCauHoiDaThi(STreeCH root, Array<STreeCH> &List, char YourAnswer[], char M
     if (!docfile.is_open())
         return 0;
     string maMH;
-    int temp, count = 0, ID;
+    int temp, ID;
     while (!docfile.eof())
     {
         getline(docfile, maMH);
@@ -862,7 +862,6 @@ int docCauHoiDaThi(STreeCH root, Array<STreeCH> &List, char YourAnswer[], char M
                 List.push(BinarySearch(root, ID));
             }
             docfile.close();
-            Sort(List, 0, List.GetIndexLast(),YourAnswer);
             return 1;
         }
     }

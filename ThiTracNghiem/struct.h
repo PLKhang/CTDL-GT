@@ -325,7 +325,7 @@ int Delete(STreeCH&root,int ID);
 // xoa cau hoi
 int DeleteQuestion(STreeCH &root, STreeCH &Quetion);
 //dem so nut
-int SoNode(STreeCH root);
+int SumOfAllObject(STreeCH root);
 //xoa cay giai phong bo nho
 void ReleaseMemoryRoot(STreeCH &root);
 // duyet tim cau hoi theo ma mon
@@ -336,7 +336,7 @@ STreeCH *GetQuestion(STreeCH &root, char maMH[], int number_question, int tong_s
 int DemSoCauHoi(STreeCH root, char maMH[]);
 // tim cau hoi theo ID
 //sap xep theo id
-void Sort(Array<STreeCH>&Arr,int first,int last,char *YourAnswer=NULL);
+void Sort(Array<STreeCH>&Arr,int first,int last);
 //-------------------DiemThi------------------//
 
 void KhoiTao_PtrDT(PtrDT &First);

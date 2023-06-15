@@ -1492,9 +1492,14 @@ void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[])
 			{
 			case F1:
 			{
-				if (TimCauHoi(List, end, YourAnswer) == false)
+				chon = TimCauHoi(List, end, YourAnswer);
+				if (chon == 0)
 				{
 					THONGBAO(2, "KHONG TIM THAY CAU HOI");
+					break;
+				}else if (chon==27)
+				{
+					THONGBAO(2,"HUY TIM");
 					break;
 				}
 				start = 0, end -= 1, change = 1;
@@ -1502,8 +1507,9 @@ void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[])
 			}
 			case F5:
 			{
+				docCauHoiDaThi(root, List, YourAnswer, MSSV, monHoc);
 				start = 0, end = NumberQuestion - 1, change = 1;
-				Sort(List, start, end, YourAnswer);
+				
 				break;
 			}
 			case LEFT:
