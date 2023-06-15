@@ -707,17 +707,17 @@ int ThemLop(ListLH &ListLH, LopHoc info)
     ListLH.n++;
     return 1;
 }
-int pos_MaLH_LH(ListLH ListLH, int i, char maLop[])
-{
-    if (is_Empty_LH(ListLH))
-        return 0;
-    for (int vitri = i; vitri < ListLH.n; vitri++)
-    {
-        if (strcmp(ListLH.lh[vitri]->maLop, maLop) == 0)
-            return vitri;
-    }
-    return 0;
-}
+// int pos_MaLH_LH(ListLH ListLH, int i, char maLop[])
+// {
+//     if (is_Empty_LH(ListLH))
+//         return 0;
+//     for (int vitri = i; vitri < ListLH.n; vitri++)
+//     {
+//         if (strcmp(ListLH.lh[vitri]->maLop, maLop) == 0)
+//             return vitri;
+//     }
+//     return 0;
+// }
 int XoaLop(ListLH &ListLH, int pos)
 {
     if (pos < 0 || pos >= ListLH.n || ListLH.n == 0)
@@ -740,20 +740,20 @@ void Delete_DSLH(ListLH &dslh)
         XoaLop(dslh, i);
     }
 }
-void SuaLop(ListLH &ListLH, int i, LopHoc lh)
-{
-    if (i < 0 || i >= ListLH.n || ListLH.n == 0)
-    {
-        return; // vị trí i không hợp lệ
-    }
-    for (int j = 0; j < strlen(lh.maLop); j++)
-    {
-        if (lh.maLop[j] != ListLH.lh[i]->maLop[j])
-        {
-            return; // mã lớp không khớp
-        }
-    }
-    // cập nhật thông tin lớp học
-    strcpy(ListLH.lh[i]->tenLop, lh.tenLop);
-    ListLH.lh[i]->nienKhoa = lh.nienKhoa;
-}
+// void SuaLop(ListLH &ListLH, int i, LopHoc lh)
+// {
+//     if (i < 0 || i >= ListLH.n || ListLH.n == 0)
+//     {
+//         return; // vị trí i không hợp lệ
+//     }
+//     for (int j = 0; j < strlen(lh.maLop); j++)
+//     {
+//         if (lh.maLop[j] != ListLH.lh[i]->maLop[j])
+//         {
+//             return; // mã lớp không khớp
+//         }
+//     }
+//     // cập nhật thông tin lớp học
+//     strcpy(ListLH.lh[i]->tenLop, lh.tenLop);
+//     ListLH.lh[i]->nienKhoa = lh.nienKhoa;
+// }
