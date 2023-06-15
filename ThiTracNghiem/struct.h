@@ -336,7 +336,7 @@ STreeCH *GetQuestion(STreeCH &root, char maMH[], int number_question, int tong_s
 int DemSoCauHoi(STreeCH root, char maMH[]);
 // tim cau hoi theo ID
 //sap xep theo id
-void Sort(Array<STreeCH>&Arr,int first,int last);
+void Sort(Array<STreeCH>&Arr,int first,int last,char *YourAnswer=NULL);
 //-------------------DiemThi------------------//
 
 void KhoiTao_PtrDT(PtrDT &First);

@@ -72,13 +72,6 @@ string NhapChuoi(int x, int y, int chieudai, int option) // x va y la dia chi de
     int ki_tu;
     if (option == 0)
         delete_LineOnScreen(x, y, chieudai);
-    else if(option==1)
-    {
-        gotoxy(21, 10);
-        cout << "                                                                                              ";
-        gotoxy(21, 11);
-        cout << "                                                                                              ";
-    }
     gotoxy(x, y);
     setCursorVisibility(1);
     while ((ki_tu = getch()) != ENTER)
@@ -555,6 +548,11 @@ void delete_AreaOnScreen(int x, int y, int width, int height)
     for (int i = 0; i < height; i++)
         delete_LineOnScreen(x, y + i, width);
 }
+void delete_MenuContent(int length)
+{
+    for(int i = 0; i < 10; i++)
+        delete_LineOnScreen(6, 11 + i * 2, length);
+}
 void setCursorVisibility(bool isVisible)
 {
     CONSOLE_CURSOR_INFO cursorInfo;
@@ -858,7 +856,7 @@ int docCauHoiDaThi(STreeCH root, Array<STreeCH> &List, char YourAnswer[], char M
                 List.push(BinarySearch(root, ID));
             }
             docfile.close();
-            //Sort(List, 0, List.GetIndexLast());
+            Sort(List, 0, List.GetIndexLast(),YourAnswer);
             return 1;
         }
     }

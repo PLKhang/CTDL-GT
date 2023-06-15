@@ -70,7 +70,7 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh);
 STreeCH ThemCauHoi(STreeCH &root, char maMH[], char tenMH[]);
 int XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[]);
 void InDanhSachCH(Array<STreeCH> &ListQuestion, char maMH[], int start, int end, int Page, int MaxPage);
-bool TimCauHoi(Array<STreeCH> &List, int &NumberQuestion,char *YourAnswer=NULL);
+int TimCauHoi(Array<STreeCH> &List, int &NumberQuestion,char *YourAnswer=NULL);
 void MENU_DSCH_GV(STreeCH &root, MonHoc &monHoc);
 void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[]);
 
