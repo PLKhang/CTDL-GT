@@ -1214,6 +1214,10 @@ int TimCauHoi(Array<STreeCH> &List, int &NumberQuestion, char *YourAnswer)
 	gotoxy(6, 32);
 	cout << "  CAN TIM     |";
 	content = NhapChuoi(21, 31, 188, 1);
+	delete_LineOnScreen(5, 30, 112);
+	delete_LineOnScreen(5, 31, 112);
+	delete_LineOnScreen(5, 32, 112);
+	delete_LineOnScreen(5, 33, 112);
 	if (content.compare("EXIT") == 0)
 		return 27;
 	STreeCH ptr;
@@ -1221,7 +1225,6 @@ int TimCauHoi(Array<STreeCH> &List, int &NumberQuestion, char *YourAnswer)
 	for (int i = 0; i < NumberQuestion; i++)
 	{
 		address = strstr(List[i]->info.question, content.data());
-
 		if (address != NULL)
 		{
 			ptr = List[temp];
@@ -1232,10 +1235,6 @@ int TimCauHoi(Array<STreeCH> &List, int &NumberQuestion, char *YourAnswer)
 			temp++;
 		}
 	}
-	delete_LineOnScreen(5, 30, 112);
-	delete_LineOnScreen(5, 31, 112);
-	delete_LineOnScreen(5, 32, 112);
-	delete_LineOnScreen(5, 33, 112);
 	if (temp == 0)
 		return 0;
 	else
@@ -1492,24 +1491,25 @@ void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[])
 			{
 			case F1:
 			{
+				end = NumberQuestion;//tìm từ đầu đến cuối mảng
 				chon = TimCauHoi(List, end, YourAnswer);
 				if (chon == 0)
 				{
 					THONGBAO(2, "KHONG TIM THAY CAU HOI");
 					break;
-				}else if (chon==27)
+				}else if (chon==ESC)
 				{
 					THONGBAO(2,"HUY TIM");
 					break;
 				}
-				start = 0, end -= 1, change = 1;
+				start = 0, end--, change = 1;//giảm end đi 1 vì end là chỉ số cuối
 				break;
 			}
 			case F5:
 			{
+				List.clear();
 				docCauHoiDaThi(root, List, YourAnswer, MSSV, monHoc);
 				start = 0, end = NumberQuestion - 1, change = 1;
-				
 				break;
 			}
 			case LEFT:
