@@ -708,6 +708,14 @@ void VeKhungCauHoi1(char tenMH[], int ID)
 	gotoxy(6, 25);
 	cout << "DAP AN";
 }
+void XoaVungDanhSachCauHoi()
+{
+	for (int i = 10; i <= 28; i+=2)
+	{
+		gotoxy(6,i);cout<<"              ";
+		gotoxy(21,i);cout<<"                                                                                              ";
+	}
+}
 void VeBangDanhSachCauHoi(char maMH[], int MaxPage, int Page)
 {
 	system("cls");

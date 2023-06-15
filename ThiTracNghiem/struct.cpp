@@ -444,7 +444,7 @@ int DemSoCauHoi(STreeCH root, char maMH[])
     else
         return 0;
 }
-void Sort(Array<STreeCH> &Arr, int first, int last)
+void Sort(Array<STreeCH> &Arr, int first, int last,char* YourAnswer)
 {
     int mid, i, j;
     STreeCH temp;
@@ -457,6 +457,7 @@ void Sort(Array<STreeCH> &Arr, int first, int last)
             j--;
         if (i <= j)
         {
+            if(YourAnswer!=NULL)swap(YourAnswer[i],YourAnswer[j]);
             temp = Arr[i];
             Arr[i] = Arr[j];
             Arr[j] = temp;
@@ -465,9 +466,9 @@ void Sort(Array<STreeCH> &Arr, int first, int last)
         }
     } while (i <= j);
     if (i < last)
-        Sort(Arr, i, last);
+        Sort(Arr, i, last,YourAnswer);
     if (j > first)
-        Sort(Arr, first, j);
+        Sort(Arr, first, j,YourAnswer);
 }
 //---------------------------DiemThi--------------------------//
 void KhoiTao_PtrDT(PtrDT &first)

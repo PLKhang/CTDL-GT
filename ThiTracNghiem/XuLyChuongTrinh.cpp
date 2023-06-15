@@ -946,8 +946,7 @@ STreeCH ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 		}
 		if (temp.compare("EXIT") == 0 && THONGBAO(3, "BAN CO MUON HUY KHONG"))
 		{
-			THONGBAO(0, "HUY CAU HOI THANH CONG");
-			Sleep(2000);
+			THONGBAO(2, "HUY CAU HOI THANH CONG");
 			delete NewQuestion;
 			return NULL;
 		}
@@ -961,10 +960,9 @@ STreeCH ThemCauHoi(STreeCH &root, char maMH[], char tenMH[])
 	NewQuestion->info.answer = answer;
 	NewQuestion->is_used = false;
 	if (InsertNewQuestion(root, NewQuestion))
-		THONGBAO(0, "THEM CAU HOI-THANH CONG");
+		THONGBAO(2, "THEM CAU HOI-THANH CONG");
 	else
-		THONGBAO(0, "THEM CAU HOI-KHONG THANH CONG");
-	Sleep(2000);
+		THONGBAO(2, "THEM CAU HOI-KHONG THANH CONG");
 	return NewQuestion;
 }
 void InCauHoi(STreeCH &ExsistQuestion, char tenMH[])
@@ -1180,12 +1178,12 @@ int XemCauHoi(STreeCH &root, STreeCH &ExsistQuestion, char tenMH[])
 	}
 	return 0;
 }
-void InDanhSachCH(Array<STreeCH> &ListQuestion, char maMH[], int start, int end, int Page, int MaxPage)
+void InDanhSachCH(Array<STreeCH> &ListQuestion, char maMH[], int NumberQuestion, int Page, int MaxPage)
 {
 	int wherey = 10;
 	char chuoi[90];
-	VeBangDanhSachCauHoi(maMH, MaxPage, Page);
-	for (int i = start; i <= end; i++)
+	XoaVungDanhSachCauHoi();
+	for (int i = (Page - 1) * 10; i <= (Page * 10 < NumberQuestion ? Page * 10 - 1 : NumberQuestion - 1); i++)
 	{
 		gotoxy(6, wherey);
 		cout << ListQuestion[i]->info.ID;
@@ -1199,10 +1197,15 @@ void InDanhSachCH(Array<STreeCH> &ListQuestion, char maMH[], int start, int end,
 		}
 		wherey += 2;
 	}
+	gotoxy(116, 28);
+	SetColor(5, 6);
+	cout << "Page " << Page << '/' << MaxPage;
+	SetColor(0, 7);
 }
 
-bool TimCauHoi(Array<STreeCH> &List, int &NumberQuestion, char *YourAnswer)
+int TimCauHoi(Array<STreeCH> &List, int &NumberQuestion, char *YourAnswer)
 {
+	//0 la ko co|| 1: la co ||27 Ban Muon thoat
 	string content;
 	char *address = NULL;
 	VeKhung(5, 30, 115, 33);
@@ -1211,6 +1214,7 @@ bool TimCauHoi(Array<STreeCH> &List, int &NumberQuestion, char *YourAnswer)
 	gotoxy(6, 32);
 	cout << "  CAN TIM     |";
 	content = NhapChuoi(21, 31, 188, 1);
+	if(content.compare("EXIT")==0)return 27;
 	STreeCH ptr;
 	int temp = 0;
 	for (int i = 0; i < NumberQuestion; i++)
@@ -1222,21 +1226,21 @@ bool TimCauHoi(Array<STreeCH> &List, int &NumberQuestion, char *YourAnswer)
 			ptr = List[temp];
 			List[temp] = List[i];
 			List[i] = ptr;
-			temp++;
 			if (YourAnswer != NULL)
 				swap(YourAnswer[i], YourAnswer[temp]);
+			temp++;
 		}
 	}
-	// delete_LineOnScreen(5, 30, 112);
-	// delete_LineOnScreen(5, 31, 112);
-	// delete_LineOnScreen(5, 32, 112);
-	// delete_LineOnScreen(5, 33, 112);
+	delete_LineOnScreen(5, 30, 112);
+	delete_LineOnScreen(5, 31, 112);
+	delete_LineOnScreen(5, 32, 112);
+	delete_LineOnScreen(5, 33, 112);
 	if (temp == 0)
-		return false;
+		return 0;
 	else
 	{
 		NumberQuestion = temp;
-		return true;
+		return 1;
 	}
 }
 void MENU_DSCH_GV(STreeCH &root, MonHoc &monHoc)
@@ -1248,20 +1252,16 @@ void MENU_DSCH_GV(STreeCH &root, MonHoc &monHoc)
 	Array<STreeCH> ListQuestion(NumberQuestion + 10);
 	InTraversal(ListQuestion, root, monHoc.maMonHoc); // tim cau hoi và sắp câu hỏi theo ID
 	Page = 1, MaxPage = (NumberQuestion - 1) / 10 + 1;
-	system("cls");
+	VeBangDanhSachCauHoi(monHoc.maMonHoc, MaxPage, Page);
 	while (1)
 	{
 		// XUAT NOI DUNG
 		stop = 0, vi_tri_contro = 16;
 		if (NumberQuestion == 0)
-		{
 			THONGBAO(0, "KHONG CO CAU HOI");
-			VeBangDanhSachCauHoi(monHoc.maMonHoc, MaxPage, Page);
-		}
 		else
-		{
-			InDanhSachCH(ListQuestion, monHoc.maMonHoc, (Page - 1) * 10, (Page * 10 < NumberQuestion ? Page * 10 - 1 : NumberQuestion - 1), Page, MaxPage);
-		}
+			InDanhSachCH(ListQuestion, monHoc.maMonHoc, NumberQuestion, Page, MaxPage);
+		
 		TextColor(20);
 		gotoxy(120, 16);
 		cout << "     THEM CAU HOI       ";
@@ -1283,6 +1283,7 @@ void MENU_DSCH_GV(STreeCH &root, MonHoc &monHoc)
 				case 16:
 				{
 					STreeCH temp = ThemCauHoi(root, monHoc.maMonHoc, monHoc.tenMonHoc);
+					VeBangDanhSachCauHoi(monHoc.maMonHoc, MaxPage, Page);
 					if (temp == NULL)
 					{
 						stop = 1;
@@ -1317,6 +1318,7 @@ void MENU_DSCH_GV(STreeCH &root, MonHoc &monHoc)
 								if (Page > MaxPage)
 									Page = MaxPage;
 							}
+							VeBangDanhSachCauHoi(monHoc.maMonHoc, MaxPage, Page);
 							stop = 1;
 							break;
 						}
@@ -1361,9 +1363,15 @@ void MENU_DSCH_GV(STreeCH &root, MonHoc &monHoc)
 				{
 				case F1:
 				{
-					if (TimCauHoi(ListQuestion, NumberQuestion) == false)
+					chon =TimCauHoi(ListQuestion, NumberQuestion);
+					if (chon == 0)
 					{
 						THONGBAO(2, "KHONG TIM THAY CAU HOI");
+						break;
+					}
+					else if(chon==27)
+					{
+						THONGBAO(2, "HUY TIM");
 						break;
 					}
 					MaxPage = (NumberQuestion - 1) / 10 + 1, Page = 1; //?
@@ -1492,7 +1500,7 @@ void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[])
 			case F5:
 			{
 				start = 0, end = NumberQuestion - 1, change = 1;
-				// Sort(List, start, end);
+				Sort(List, start, end,YourAnswer);
 				break;
 			}
 			case LEFT:
