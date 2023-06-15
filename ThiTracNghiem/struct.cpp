@@ -134,7 +134,7 @@ int TaoFileID()
     temp = 1;
     FileNewID.write(reinterpret_cast<char *>(&temp), sizeof(int));
     for (int i = 1; i <= pow(2, n) - 1; i++)
-        InsertToBalance(root, 1, pow(2, n)-1, temp, FileNewID); // lay can duoi
+        InsertToBalance(root, 1, pow(2, n)-1, temp, FileNewID); // khi hai so bang nhau la nut cuoi nen khong trung
     ReleaseMemoryID(root);
     FileNewID.close();
     return 1;
