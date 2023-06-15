@@ -155,6 +155,7 @@ string NhapChuoi1(int x, int y, int length, string &input) // x va y la dia chi 
             if (input[index - 1] == ' ' && index != 0)
                 input[--index] = '\0';
             input.resize(index);
+            setCursorVisibility(0);
             return "EXIT";
         }
         else if (ki_tu == 0 || ki_tu == 224)
@@ -165,6 +166,7 @@ string NhapChuoi1(int x, int y, int length, string &input) // x va y la dia chi 
                 if (input[index - 1] == ' ' && index != 0)
                     input[--index] = '\0';
                 input.resize(index);
+                setCursorVisibility(0);
                 return "UP";
             }
             else if (ki_tu == DOWN)
@@ -172,6 +174,7 @@ string NhapChuoi1(int x, int y, int length, string &input) // x va y la dia chi 
                 if (input[index - 1] == ' ' && index != 0)
                     input[--index] = '\0';
                 input.resize(index);
+                setCursorVisibility(0);
                 return "DOWN";
             }
             else if (ki_tu == LEFT)
@@ -179,6 +182,7 @@ string NhapChuoi1(int x, int y, int length, string &input) // x va y la dia chi 
                 if (input[index - 1] == ' ' && index != 0)
                     input[--index] = '\0';
                 input.resize(index);
+                setCursorVisibility(0);
                 return "LEFT";
             }
             else if (ki_tu == RIGHT)
@@ -186,6 +190,7 @@ string NhapChuoi1(int x, int y, int length, string &input) // x va y la dia chi 
                 if (input[index - 1] == ' ' && index != 0)
                     input[--index] = '\0';
                 input.resize(index);
+                setCursorVisibility(0);
                 return "RIGHT";
             }
             continue;
@@ -230,6 +235,7 @@ string NhapChuoi1(int x, int y, int length, string &input) // x va y la dia chi 
     if (input[index - 1] == ' ')
         input[--index] = '\0'; // bỏ kí tự cuối
     input.resize(index);       // thiết lập kích thước của chuỗi
+    setCursorVisibility(0);
     return "DONE";
 }
 string NhapDapAn(int x, int y, char &Answer)

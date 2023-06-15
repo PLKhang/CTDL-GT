@@ -56,7 +56,7 @@ int delete_MH(ListMH &dsmh, unsigned pos)
         return 0;
     if (pos >= dsmh.n || pos < 0)
         return -1;
-    for (int i = pos; i < dsmh.n; i++)
+    for (int i = pos; i < dsmh.n - 1; i++)
         dsmh.nodes[i] = dsmh.nodes[i + 1];
     dsmh.n--;
     return 1;

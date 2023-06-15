@@ -1205,7 +1205,7 @@ void InDanhSachCH(Array<STreeCH> &ListQuestion, char maMH[], int NumberQuestion,
 
 int TimCauHoi(Array<STreeCH> &List, int &NumberQuestion, char *YourAnswer)
 {
-	//0 la ko co|| 1: la co ||27 Ban Muon thoat
+	// 0 la ko co|| 1: la co ||27 Ban Muon thoat
 	string content;
 	char *address = NULL;
 	VeKhung(5, 30, 115, 33);
@@ -1214,7 +1214,8 @@ int TimCauHoi(Array<STreeCH> &List, int &NumberQuestion, char *YourAnswer)
 	gotoxy(6, 32);
 	cout << "  CAN TIM     |";
 	content = NhapChuoi(21, 31, 188, 1);
-	if(content.compare("EXIT")==0)return 27;
+	if (content.compare("EXIT") == 0)
+		return 27;
 	STreeCH ptr;
 	int temp = 0;
 	for (int i = 0; i < NumberQuestion; i++)
@@ -1261,7 +1262,7 @@ void MENU_DSCH_GV(STreeCH &root, MonHoc &monHoc)
 			THONGBAO(0, "KHONG CO CAU HOI");
 		else
 			InDanhSachCH(ListQuestion, monHoc.maMonHoc, NumberQuestion, Page, MaxPage);
-		
+
 		TextColor(20);
 		gotoxy(120, 16);
 		cout << "     THEM CAU HOI       ";
@@ -1312,8 +1313,10 @@ void MENU_DSCH_GV(STreeCH &root, MonHoc &monHoc)
 						{
 							if (XemCauHoi(root, ListQuestion[i], monHoc.tenMonHoc) == 1)
 							{
+
 								ListQuestion.erase(i);
-								NumberQuestion--;
+								--NumberQuestion;
+								monHoc.is_used = (NumberQuestion == 0 ? false : true);
 								MaxPage = (NumberQuestion - 1) / 10 + 1;
 								if (Page > MaxPage)
 									Page = MaxPage;
@@ -1363,13 +1366,13 @@ void MENU_DSCH_GV(STreeCH &root, MonHoc &monHoc)
 				{
 				case F1:
 				{
-					chon =TimCauHoi(ListQuestion, NumberQuestion);
+					chon = TimCauHoi(ListQuestion, NumberQuestion);
 					if (chon == 0)
 					{
 						THONGBAO(2, "KHONG TIM THAY CAU HOI");
 						break;
 					}
-					else if(chon==27)
+					else if (chon == 27)
 					{
 						THONGBAO(2, "HUY TIM");
 						break;
@@ -1500,7 +1503,7 @@ void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[])
 			case F5:
 			{
 				start = 0, end = NumberQuestion - 1, change = 1;
-				Sort(List, start, end,YourAnswer);
+				Sort(List, start, end, YourAnswer);
 				break;
 			}
 			case LEFT:
@@ -2230,7 +2233,7 @@ bool ThemSinhVien(ListLH dslh, PtrSV &dssv, ListMH dsmh)
 		{
 			if (THONGBAO(3, "HUY THAO TAC?"))
 			{
-				delete_AreaOnScreen(5, 32, 120, 5);
+				delete_AreaOnScreen(5, 32, 125, 5);
 				return 0;
 			}
 		}
@@ -3043,6 +3046,8 @@ bool ThemLopHoc(ListLH &dslh, int check, string maLH)
 }
 bool XoaLopHoc(ListLH &dslh, LopHoc **lh, int index)
 {
+	if (is_Empty_LH(dslh) || index < 0 || index >= dslh.n)
+		return false;
 	int i = 0;
 	for (i = 0; i < dslh.n; i++)
 		if (lh[index] == dslh.lh[i])
@@ -3050,9 +3055,9 @@ bool XoaLopHoc(ListLH &dslh, LopHoc **lh, int index)
 	removeLopHocFolder(lh[index]->maLop);
 	removeLopHocFile(lh[index]->maLop);
 	XoaLop(dslh, i);
-	for (int j = index; j < MaxOfClasses - 1; j++)
+	for (int j = index; j < dslh.n; j++)
 		lh[j] = lh[j + 1];
-	return 1;
+	return true;
 }
 bool HieuChinhLopHoc(ListLH dslh, LopHoc **data, int index)
 {
@@ -3213,6 +3218,7 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 				else
 				{
 					// Cập nhật thông tin sau khi tìm kiếm thành công
+					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
 					numOfClasses = numOfResults;
 					maxPage = (numOfClasses - 1) / 10 + 1;
 					index = 0;
@@ -3227,8 +3233,9 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 			}
 			case F2: // sap xep theo ho <-> ten(mssv)
 			{
-				sortDSLH(temp, dslh.n, check_List);
+				sortDSLH(temp, numOfClasses, check_List);
 
+				delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
 				index = 0;
 				page = 1;
 				HienDanhSachLopHoc(temp, numOfClasses, page, maxPage, types);
@@ -3344,6 +3351,7 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 						numOfClasses = dslh.n;
 						maxPage = (numOfClasses - 1) / 10 + 1;
 						THONGBAO(2, "DA THEM THANH CONG");
+						system("cls");
 					}
 					else
 						THONGBAO(2, "DA HUY THAO TAC");
@@ -3423,12 +3431,8 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 						VeKhung(120, 16, 145, 18);
 						int year;
 						year = NhapSo(121, 17, 4); // nhap nien khoa can xem
+						delete_AreaOnScreen(120, 16, 26, 3);
 						DanhSachTheoNienKhoa(dslh, temp, year, numOfClasses);
-
-						maxPage = (numOfClasses - 1) / 10 + 1;
-						index = 0;
-						page = 1;
-						HienDanhSachLopHoc(temp, numOfClasses, page, maxPage, types);
 
 						maxPage = (numOfClasses - 1) / 10 + 1;
 						index = 0;
@@ -3472,18 +3476,19 @@ string MENU_DSLH_GV(ListLH &dslh, ListMH dsmh, STreeCH root, bool types)
 					{
 						XoaLopHoc(dslh, temp, index);
 
-						numOfClasses--;
+						numOfClasses = dslh.n;
 						maxPage = (numOfClasses - 1) / 10 + 1;
 						index = 0;
 						page = 1;
 						THONGBAO(2, "DA XOA LOP HOC");
+						system("cls");
 					}
-					check_Delete = 0;
+					// check_Delete = 0;
 				}
 				else if (check_Edit) // ktra che do hieu chinh
 				{
 					HieuChinhLopHoc(dslh, temp, index);
-					check_Edit = 0;
+					// check_Edit = 0;
 				}
 				else
 				{
@@ -3520,14 +3525,9 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 	// trong che do dang thi cua sv: ktra so mon chua co diem de hien thi ds mon
 	else
 	{
-		int pos = 0;
-		int numOfScores = 0;
-		for (PtrDT p = SV->info.danhSachDiemThi; p != NULL; p = p->next)
-			numOfScores++;
-		numOfSubjects = dsmh.n - numOfScores;
 		for (int i = 0; i < dsmh.n; i++)
-			if (!(is_Existed_MaMH_DT(SV->info.danhSachDiemThi, dsmh.nodes[i].maMonHoc)))
-				temp[pos++] = &dsmh.nodes[i];
+			if (((!is_Existed_MaMH_DT(SV->info.danhSachDiemThi, dsmh.nodes[i].maMonHoc)) && (dsmh.nodes[i].is_used == true)))
+				temp[numOfSubjects++] = &dsmh.nodes[i];
 	}
 	int index = 0;
 	int page = 1;
@@ -3569,7 +3569,7 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 					{
 						if (selectMode != 2) // khong thi
 							temp[numOfResults++] = &dsmh.nodes[i];
-						else if (!is_Existed_MaMH_DT(SV->info.danhSachDiemThi, dsmh.nodes[i].maMonHoc)) // thi -> da co diem thi khong hien mon
+						else if (((!is_Existed_MaMH_DT(SV->info.danhSachDiemThi, dsmh.nodes[i].maMonHoc)) && (dsmh.nodes[i].is_used == true))) // thi -> da co diem thi khong hien mon
 							temp[numOfResults++] = &dsmh.nodes[i];
 					}
 				}
@@ -3578,6 +3578,7 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 				else
 				{
 					// Cập nhật thông tin sau khi tìm kiếm thành công
+					delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
 					numOfSubjects = numOfResults;
 					maxPage = (numOfSubjects - 1) / 10 + 1;
 					index = 0;
@@ -3606,7 +3607,7 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 						numOfScores++;
 					numOfSubjects = dsmh.n - numOfScores;
 					for (int i = 0; i < dsmh.n; i++)
-						if (!(is_Existed_MaMH_DT(SV->info.danhSachDiemThi, dsmh.nodes[i].maMonHoc)))
+						if (((!is_Existed_MaMH_DT(SV->info.danhSachDiemThi, dsmh.nodes[i].maMonHoc)) && (dsmh.nodes[i].is_used == true)))
 							temp[pos++] = &dsmh.nodes[i];
 				}
 				delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
@@ -3710,7 +3711,8 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 					{
 						for (int i = 0; i < dsmh.n; i++)
 							temp[i] = &dsmh.nodes[i];
-						maxPage = (dsmh.n - 1) / 10 + 1;
+						numOfSubjects = dsmh.n;
+						maxPage = (numOfSubjects - 1) / 10 + 1;
 					}
 					else
 						THONGBAO(2, "DA HUY THAO TAC THEM");
@@ -3789,11 +3791,13 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 					{
 						if (XoaMonHoc(dsmh, temp, index))
 						{
-							maxPage = (dsmh.n - 1) / 10 + 1;
+							delete_LineOnScreen(2, 9 + (index % 10 + 1) * 2, 2);
+							numOfSubjects = dsmh.n;
+							maxPage = (numOfSubjects - 1) / 10 + 1;
 							page = 1;
 							index = 0;
 						}
-						check_Delete = 0;
+						// check_Delete = 0;
 					}
 				}
 				else if (check_Edit) // ktra che do hieu chinh
@@ -3802,7 +3806,7 @@ string MENU_DSMH_GV(STreeCH &root, ListMH &dsmh, int selectMode, PtrSV SV)
 						THONGBAO(2, "DA HUY-THAO TAC HIEU CHINH");
 					else
 						THONGBAO(2, "THAO TAC HOAN TAT");
-					check_Edit = 0;
+					// check_Edit = 0;
 				}
 				else
 					MENU_DSCH_GV(root, *temp[index]);
@@ -3974,9 +3978,9 @@ bool XoaMonHoc(ListMH &dsmh, MonHoc *temp[], int index)
 	for (i = 0; i < dsmh.n; i++)
 		if (strcmp(dsmh.nodes[i].maMonHoc, temp[index]->maMonHoc) == 0)
 			break;
-	for (int j = index; j < dsmh.n - 1; j++)
-		temp[j] = temp[j + 1];
 	delete_MH(dsmh, i);
+	// for (int j = index; j < dsmh.n - 1; j++)
+	// 	temp[j] = temp[j + 1];
 	return true;
 }
 bool ThemMonHoc(ListMH &dsmh)
@@ -4166,11 +4170,11 @@ bool THEMSINHVIEN(ListLH &dslh, ListMH dsmh, STreeCH root)
 		{
 			if (THONGBAO(3, "MA LOP KHONG TON TAI-THEM LOP MOI?"))
 			{
-				delete_AreaOnScreen(5, 32, 120, 5);
+				delete_AreaOnScreen(5, 32, 125, 5);
 				if (ThemLopHoc(dslh, 1, temp.maLop))
 				{
 					check++;
-					delete_AreaOnScreen(5, 32, 120, 5);
+					delete_AreaOnScreen(5, 32, 125, 5);
 					THONGBAO(2, "DA THEM LOP HOC");
 				}
 				else
@@ -4205,7 +4209,7 @@ bool THEMSINHVIEN(ListLH &dslh, ListMH dsmh, STreeCH root)
 		if (!ThemSinhVien(dslh, lopHoc->danhSachSinhVien, dsmh))
 			return 0;
 	}
-	delete_AreaOnScreen(5, 32, 120);
+	delete_AreaOnScreen(5, 32, 125);
 	return 1;
 }
 void MainProcessing(ListMH &dsmh, ListLH &dslh, STreeCH &root)
