@@ -31,7 +31,7 @@ void chuMenuGV(int x, int y);
 void chuThiTracNghiem(int x, int y);
 void chuMenuSV(int x, int y);
 void XoaVungThi();
-void VeKhungCauHoi(int index,int Answer_index=0,int option=0);
+void VeKhungCauHoi();
 void VeKhungCauHoi1(char tenMH[], int ID=0);
 void XoaVungDanhSachCauHoi();
 void VeBangDanhSachCauHoi(char maMH[], int MaxPage, int Page);

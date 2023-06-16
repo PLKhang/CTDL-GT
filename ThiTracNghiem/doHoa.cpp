@@ -460,18 +460,23 @@ void chuMenuSV(int x, int y)
 }
 void XoaVungThi()
 {
-	gotoxy(80, 2);
-	cout << "                                                               ";
-	for (int j = 5; j <= 25; j++)
+	gotoxy(80, 2);cout << "                                                               ";
+	gotoxy(6,6);cout<<"                                                                                                             ";
+	gotoxy(6,7);cout<<"                                                                                                             ";
+	gotoxy(6,8);cout<<"                                                                                                             ";
+	for (int j = 10; j <= 24; j++)
 	{
-		gotoxy(5, j);
-		cout << "                                                                                                                    ";
+		if(j!=13&&j!=17&&j!=21){
+
+			gotoxy(6, j);cout << "         ";
+			gotoxy(21,j);cout<<"                                                                                              ";
+		}
+		
 	}
 }
-void VeKhungCauHoi(int Your_index, int Answer_index, int option)
+void VeKhungCauHoi()
 {
-	Sleep(200); // để chờ in thời gian thi
-	XoaVungThi();
+	
 	VeKhung(5, 5, 115, 25);
 	int x = 5, y = 9;
 	while (y <= 21)
@@ -504,149 +509,7 @@ void VeKhungCauHoi(int Your_index, int Answer_index, int option)
 			cout << DOC;
 		y++;
 	}
-	if (option == 0) // thi
-	{
-		if (Your_index == 0)
-			Your_index = 10;
-		SetColor(2, 0);
-		gotoxy(6, Your_index);
-		cout << "         ";
-		gotoxy(6, Your_index + 1);
-		cout << "         ";
-		gotoxy(6, Your_index + 2);
-		cout << "         ";
-	}
-	else // chế độ xem câu hỏi đã thi
-	{
-		if (Your_index != 0)
-		{
-			if (Your_index != Answer_index)
-			{
-				// tô đáp án bạn chon
-				SetColor(4, 0);
-				gotoxy(6, Your_index);
-				cout << "         ";
-				gotoxy(6, Your_index + 1);
-				cout << "         ";
-				gotoxy(6, Your_index + 2);
-				cout << "         ";
-			}
-		}
-		// tô đáp án đúng
-		SetColor(2, 0);
-		gotoxy(6, Answer_index);
-		cout << "         ";
-		gotoxy(6, Answer_index + 1);
-		cout << "         ";
-		gotoxy(6, Answer_index + 2);
-		cout << "         ";
-	}
-	SetColor(0, 7);
-	gotoxy(10, 10);
-	cout << "A";
-	gotoxy(10, 14);
-	cout << "B";
-	gotoxy(10, 18);
-	cout << "C";
-	gotoxy(10, 22);
-	cout << "D";
-	if (option == 0)
-	{
-		SetColor(2, 0);
-		switch (Your_index)
-		{
-		case 10:
-		{
-			gotoxy(10, 10);
-			cout << "A";
-			break;
-		}
-		case 14:
-		{
-			gotoxy(10, 14);
-			cout << "B";
-			break;
-		}
-		case 18:
-		{
-			gotoxy(10, 18);
-			cout << "C";
-			break;
-		}
-		case 22:
-		{
-			gotoxy(10, 22);
-			cout << "D";
-			break;
-		}
-		}
-	}
-	else
-	{
-		if (Your_index != 0&&Your_index != Answer_index)// TRƯỜNG HỢP CÓ CHỌN VÀ KHÁC KẾT QUẢ
-		{
-			// if (Your_index != Answer_index)
-			// {
-			SetColor(4, 0);
-			switch (Your_index)
-			{
-			case 10:
-			{
-				gotoxy(10, 10);
-				cout << "A";
-				break;
-			}
-			case 14:
-			{
-				gotoxy(10, 14);
-				cout << "B";
-				break;
-			}
-			case 18:
-			{
-				gotoxy(10, 18);
-				cout << "C";
-				break;
-			}
-			case 22:
-			{
-				gotoxy(10, 22);
-				cout << "D";
-				break;
-			}
-				//}
-			}
-		}
-		SetColor(2, 0);
-		switch (Answer_index)
-		{
-		case 10:
-		{
-			gotoxy(10, 10);
-			cout << "A";
-			break;
-		}
-		case 14:
-		{
-			gotoxy(10, 14);
-			cout << "B";
-			break;
-		}
-		case 18:
-		{
-			gotoxy(10, 18);
-			cout << "C";
-			break;
-		}
-		case 22:
-		{
-			gotoxy(10, 22);
-			cout << "D";
-			break;
-		}
-		}
-	}
-	SetColor(0, 7);
+	
 }
 void VeKhungCauHoi1(char tenMH[], int ID)
 {

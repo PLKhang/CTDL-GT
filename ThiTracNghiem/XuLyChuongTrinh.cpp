@@ -464,6 +464,8 @@ void DongHo(int time)
 int InCauHoiThi(STreeCH &Question, char YourAnswer, int current_index, int so_cau, int option)
 {
 	// DUNG CHO IN CAU HOI THI VA DE XEM CAU HOI DA THI
+	Sleep(300);
+	XoaVungThi();
 	char temp[95];
 	int Your_index, Answer_index;
 	switch (YourAnswer)
@@ -520,7 +522,150 @@ int InCauHoiThi(STreeCH &Question, char YourAnswer, int current_index, int so_ca
 		}
 		}
 	}
-	VeKhungCauHoi(Your_index, Answer_index, option);
+	if (option == 0) // thi
+	{
+		if (Your_index == 0)
+			Your_index = 10;
+		SetColor(2, 0);
+		gotoxy(6, Your_index);
+		cout << "         ";
+		gotoxy(6, Your_index + 1);
+		cout << "         ";
+		gotoxy(6, Your_index + 2);
+		cout << "         ";
+	}
+	else // ch? d? xem câu h?i dã thi
+	{
+		if (Your_index != 0)
+		{
+			if (Your_index != Answer_index)
+			{
+				// tô dáp án b?n chon
+				SetColor(4, 0);
+				gotoxy(6, Your_index);
+				cout << "         ";
+				gotoxy(6, Your_index + 1);
+				cout << "         ";
+				gotoxy(6, Your_index + 2);
+				cout << "         ";
+			}
+		}
+		// tô dáp án dúng
+		SetColor(2, 0);
+		gotoxy(6, Answer_index);
+		cout << "         ";
+		gotoxy(6, Answer_index + 1);
+		cout << "         ";
+		gotoxy(6, Answer_index + 2);
+		cout << "         ";
+	}
+	SetColor(0, 7);
+	gotoxy(10, 10);
+	cout << "A";
+	gotoxy(10, 14);
+	cout << "B";
+	gotoxy(10, 18);
+	cout << "C";
+	gotoxy(10, 22);
+	cout << "D";
+	if (option == 0)
+	{
+		SetColor(2, 0);
+		switch (Your_index)
+		{
+		case 10:
+		{
+			gotoxy(10, 10);
+			cout << "A";
+			break;
+		}
+		case 14:
+		{
+			gotoxy(10, 14);
+			cout << "B";
+			break;
+		}
+		case 18:
+		{
+			gotoxy(10, 18);
+			cout << "C";
+			break;
+		}
+		case 22:
+		{
+			gotoxy(10, 22);
+			cout << "D";
+			break;
+		}
+		}
+	}
+	else
+	{
+		if (Your_index != 0&&Your_index != Answer_index)// TRU?NG H?P CÓ CH?N VÀ KHÁC K?T QU?
+		{
+			// if (Your_index != Answer_index)
+			// {
+			SetColor(4, 0);
+			switch (Your_index)
+			{
+			case 10:
+			{
+				gotoxy(10, 10);
+				cout << "A";
+				break;
+			}
+			case 14:
+			{
+				gotoxy(10, 14);
+				cout << "B";
+				break;
+			}
+			case 18:
+			{
+				gotoxy(10, 18);
+				cout << "C";
+				break;
+			}
+			case 22:
+			{
+				gotoxy(10, 22);
+				cout << "D";
+				break;
+			}
+				//}
+			}
+		}
+		SetColor(2, 0);
+		switch (Answer_index)
+		{
+		case 10:
+		{
+			gotoxy(10, 10);
+			cout << "A";
+			break;
+		}
+		case 14:
+		{
+			gotoxy(10, 14);
+			cout << "B";
+			break;
+		}
+		case 18:
+		{
+			gotoxy(10, 18);
+			cout << "C";
+			break;
+		}
+		case 22:
+		{
+			gotoxy(10, 22);
+			cout << "D";
+			break;
+		}
+		}
+	}
+	SetColor(0, 7);
+	//VeKhungCauHoi(Your_index, Answer_index, option);
 	VeKhung(5, 27, 20, 29); // ve khung dap an ban chon
 	if (YourAnswer == '\0')
 	{
@@ -672,6 +817,7 @@ void Thi(STreeCH &root, PtrSV &SV, ListMH &dsmh)
 		YourAnswer[i] = '\0';
 	system("cls");
 	ThanhChucNang(0);
+	VeKhungCauHoi();
 	timer = thread(DongHo, thoi_gian);
 	for (int i = 0; stopThi != 1;)
 	{
@@ -1465,6 +1611,7 @@ void InCauHoiDaThi(STreeCH root, MonHoc monHoc, char MSSV[])
 	char *YourAnswer = new char[NumberQuestion];
 	docCauHoiDaThi(root, List, YourAnswer, MSSV, monHoc);
 	system("cls");
+	VeKhungCauHoi();
 	InCauHoiThi(List[0], YourAnswer[0], 0, NumberQuestion, 1);
 	ThanhChucNang(1);
 	for (int start = 0, end = NumberQuestion - 1; start <= end;)
