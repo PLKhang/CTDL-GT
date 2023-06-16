@@ -90,7 +90,7 @@ int NumberOfID(ID *root)
 int InsertToBalance(ID *&root, int min, int max, int &temp, ofstream &file)
 {
     if (root == NULL)
-    { //
+    { 
         root =new ID;
         root->id=(min+max)/2;
         root->left=root->right=NULL;
@@ -124,7 +124,11 @@ int TaoFileID()
 {
     ifstream check("Data/FileOldID.bin", ios::binary);
     if (check.is_open())
-        return 0;
+	{
+		check.close();
+		return 0;
+	}
+	check.close();
     int n = 14, temp = 0;
     createID root = NULL;
     ofstream FileOldKey("Data/FileOldID.bin", ios::binary);
@@ -160,7 +164,12 @@ int ReadID(int &ExistID, int option)
         FileNewID.close();
         FileOldID.close();
         if (number == 0)
-            return 1; // phục hồi lại cây ban đầu để sử dụng file key
+        {
+        	ofstream ClearFileOldID("Data/FileOldID.bin", ios::binary);
+        	ClearFileOldID.write(reinterpret_cast<char *>(&number), sizeof(int));
+        	ClearFileOldID.close();
+        	return 1; // phục hồi lại cây ban đầu để sử dụng file key
+		}
         else
             return 2; // cần cân bằng lại cây
     }
@@ -291,6 +300,7 @@ STreeCH OriginRoot(STreeCH root)
     }
     for (int i = 1; i < number; i++)
         Insert(p, Arr[i]);
+    Arr.destroy();
     return p;
 }
 // ---------them, xoa,sua cau hoi-----//
@@ -321,6 +331,7 @@ void SubDelete(STreeCH &root)
     else
     {
         rp->info = root->info;
+        rp->is_used=root->is_used;
         rp = root;
         root = rp->right;
     }
@@ -446,17 +457,24 @@ STreeCH *GetQuestion(STreeCH &root, char maMH[], int number_question, int tong_s
 }
 int DemSoCauHoi(STreeCH root, char maMH[])
 {
-    if (root != NULL)
-    {
-        if (strcmp(root->info.maMonHoc, maMH) == 0)
-        {
-            return 1 + DemSoCauHoi(root->left, maMH) + DemSoCauHoi(root->right, maMH);
-        }
-        else
-            return DemSoCauHoi(root->left, maMH) + DemSoCauHoi(root->right, maMH);
-    }
-    else
+    if (root == NULL)
         return 0;
+    int sum=0;
+    Queue<STreeCH> q;
+    STreeCH temp;
+    q.Push(root);
+    while (!q.empty())
+    {
+        temp = q.pop();
+        if (strcmp(temp->info.maMonHoc, maMH) == 0)
+        	sum++;
+        if (temp->left != NULL)
+            q.Push(temp->left);
+        if (temp->right != NULL)
+            q.Push(temp->right);
+    }
+    q.Destroy();
+    return sum;
 }
 void Sort(Array<STreeCH> &Arr, int first, int last)
 {
