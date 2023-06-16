@@ -803,9 +803,9 @@ string VeKhungNhapThi(int tong_so_cau, int &so_cau, int &thoi_gian)
 		cout << "   ";
 		so_cau = NhapSo(69, 14, 3);
 		if (so_cau > tong_so_cau)
-			THONGBAO(1, "NHAP NHIEU HON SO CAU CO SAN"); // in so cau ra nua
+			THONGBAO(2, "NHAP NHIEU HON SO CAU CO SAN"); // in so cau ra nua
 		if (so_cau == 0)
-			THONGBAO(1, "SO CAU =0 KHONG HOP LE");
+			THONGBAO(2, "SO CAU = 0 KHONG HOP LE");
 		if (so_cau == -1)
 		{
 			if (THONGBAO(3, "BAN MUON THOAT KHONG"))
@@ -817,7 +817,7 @@ string VeKhungNhapThi(int tong_so_cau, int &so_cau, int &thoi_gian)
 		thoi_gian = NhapSo(69, 16, 3);
 		if (thoi_gian == 0)
 		{
-			THONGBAO(1, "THOI GIAN PHAI LON HON 0");
+			THONGBAO(2, "THOI GIAN PHAI LON HON 0");
 		}
 		if (thoi_gian == -1)
 		{
